@@ -3,11 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:taskbuddy/util/constants.dart';
+import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
+  // Add a custom splash screen so we can manually remove it
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(const App());
 }
 
@@ -22,7 +27,17 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    
+    // Initialize the app
+    init();
+  }
+
+  void init() async {
+    // Change the status bar and navigation bar colors on Android
     overrideColors();
+    
+    // Remove the splash screen after initialization
+    FlutterNativeSplash.remove();
   }
 
   void overrideColors() {
