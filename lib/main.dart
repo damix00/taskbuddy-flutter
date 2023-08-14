@@ -1,16 +1,50 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taskbuddy/util/constants.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatefulWidget {
+  const App({super.key});
 
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    overrideColors();
+  }
+
+  void overrideColors() {
+    if (Platform.isAndroid) {
+      Brightness brightness =
+          SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+                  Brightness.dark
+              ? Brightness.light
+              : Brightness.dark;
+
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          systemStatusBarContrastEnforced: true,
+          systemNavigationBarColor: Colors.black.withOpacity(0.002),
+          systemNavigationBarDividerColor: Colors.transparent,
+          systemNavigationBarIconBrightness: brightness,
+          statusBarColor: Colors.black.withOpacity(0.002),
+          statusBarIconBrightness: brightness));
+
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
+          overlays: [SystemUiOverlay.top]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,26 +88,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const App(),
-    );
-  }
-}
-
-class App extends StatelessWidget {
-  const App({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text('latinary fanboy', style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-      ),
-      body: Center(
-        child: Text(
-          AppLocalizations.of(context)!.helloWorld,
-        ),
-      ),
+      home: const Scaffold(),
     );
   }
 }
