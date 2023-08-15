@@ -5,6 +5,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/signin/welcome.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -24,10 +26,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  bool _loggedIn = false;
+
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize the app
     init();
   }
@@ -35,7 +39,13 @@ class _AppState extends State<App> {
   void init() async {
     // Change the status bar and navigation bar colors on Android
     overrideColors();
-    
+
+    // Check if logged in
+    _loggedIn = await AccountCache.isLoggedIn();
+
+    // Re-render the UI
+    setState(() {});
+
     // Remove the splash screen after initialization
     FlutterNativeSplash.remove();
   }
@@ -103,7 +113,8 @@ class _AppState extends State<App> {
         ),
         useMaterial3: true,
       ),
-      home: const Scaffold(),
+      // If logged in, show the home screen, otherwise show the welcome screen
+      home: _loggedIn ? const Scaffold() : const WelcomeScreen(),
     );
   }
 }
