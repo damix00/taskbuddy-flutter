@@ -105,7 +105,7 @@ class _AppState extends State<App> {
           brightness: Brightness.dark,
           primary: Constants.primaryColor,
           secondary: Constants.secondaryColor,
-          surface: Constants.secondaryBgColor,
+          surface: Color(0xFFDBDBDB),
           error: Colors.red,
           onPrimary: Colors.black,
           onSecondary: Color(0xff000000),
@@ -116,7 +116,7 @@ class _AppState extends State<App> {
         useMaterial3: true,
       ),
       // If logged in, show the home screen, otherwise show the welcome screen
-      home: _loggedIn ? const Scaffold() : WelcomeScreen(),
+      home: _loggedIn ? const Scaffold() : const WelcomeScreen(),
     );
   }
 }

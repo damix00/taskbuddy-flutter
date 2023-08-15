@@ -45,6 +45,12 @@ class _ButtonState extends State<Button> {
           _duration = const Duration(milliseconds: 100);
         });
       },
+      onTapCancel: () {
+        setState(() {
+          _opacity = 1;
+          _duration = const Duration(milliseconds: 100);
+        });
+      },
       child: AnimatedOpacity(
         opacity: _opacity,
         duration: _duration,
@@ -58,7 +64,7 @@ class _ButtonState extends State<Button> {
               border: Border.all(color: Constants.primaryColor, width: 1),
               borderRadius: BorderRadius.circular(widget.radius)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Center(
               child: widget.child,
             ),
