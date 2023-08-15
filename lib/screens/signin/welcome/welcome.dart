@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:taskbuddy/screens/signin/welcome/first_screen.dart';
@@ -23,15 +24,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
     Timer.periodic(const Duration(seconds: 10), (timer) {
-      // setState(() {
-      //   if (_selectedPage == 2) {
-      //     _selectedPage = 0;
-      //   } else {
-      //     _selectedPage++;
-      //   }
-      // });
-      // _controller.animateToPage(_selectedPage,
-      //     duration: const Duration(seconds: 1), curve: Curves.easeInOutCirc);
+      setState(() {
+        if (_selectedPage == 2) {
+          _selectedPage = 0;
+        } else {
+          _selectedPage++;
+        }
+      });
+      _controller.animateToPage(_selectedPage,
+          duration: const Duration(seconds: 1), curve: Curves.easeInOutCirc);
     });
   }
 
