@@ -1,4 +1,5 @@
 {
     "@@locale": "hr",
-    "helloWorld": "Pozdrav svijete!"
+    "helloWorld": "Pozdrav svijete!",
+    "welcome__s1_desc": "Vaša platforma za jednostavno obavljanje i objavljivanje poslova."
 }

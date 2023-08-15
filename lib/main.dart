@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/signin/welcome.dart';
+import 'package:taskbuddy/screens/signin/welcome/welcome.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -79,6 +80,7 @@ class _AppState extends State<App> {
       supportedLocales: AppLocalizations.supportedLocales,
       title: 'Flutter Demo',
       themeMode: ThemeMode.system,
+      scrollBehavior: Platform.isAndroid ? const MaterialScrollBehavior() : const CupertinoScrollBehavior(),
       darkTheme: ThemeData(
         fontFamily: GoogleFonts.montserrat().fontFamily,
         colorScheme: const ColorScheme(
@@ -114,7 +116,7 @@ class _AppState extends State<App> {
         useMaterial3: true,
       ),
       // If logged in, show the home screen, otherwise show the welcome screen
-      home: _loggedIn ? const Scaffold() : const WelcomeScreen(),
+      home: _loggedIn ? const Scaffold() : WelcomeScreen(),
     );
   }
 }

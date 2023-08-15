@@ -3,5 +3,6 @@
     "helloWorld": "Hello World",
     "@helloWorld": {
         "description": "This is an example description."
-    }
+    },
+    "welcome__s1_desc": "Your platform for easily doing and posting jobs."
 }
