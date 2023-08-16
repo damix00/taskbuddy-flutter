@@ -6,6 +6,7 @@ import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:taskbuddy/screens/signin/welcome/first_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/second_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/third_screen.dart';
+import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -17,27 +18,37 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  final PageController _controller = PageController();
-  int _selectedPage = 0;
+  final PageController _controller =
+      PageController(); // A controller for handling page navigation
+  int _selectedPage = 0; // The currently selected page index
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    // Set up a periodic timer to switch pages every 10 seconds
+    timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       setState(() {
+        // Change the selected page index
         if (_selectedPage == 2) {
           _selectedPage = 0;
         } else {
           _selectedPage++;
         }
       });
-      _controller.animateToPage(_selectedPage,
-          duration: const Duration(seconds: 1), curve: Curves.easeInOutCirc);
+
+      // Animate to the newly selected page using the controller
+      _controller.animateToPage(
+        _selectedPage,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeInOutCirc,
+      );
     });
   }
 
   @override
   void dispose() {
+    // Dispose of the page controller to prevent memory leaks
     _controller.dispose();
     super.dispose();
   }
@@ -45,7 +56,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: ScrollbarSingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: MediaQuery.of(context).size.height,
@@ -53,22 +64,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 600,
-                width: double.infinity,
-                child: PageView(
-                  onPageChanged: (page) {
-                    setState(() {
-                      _selectedPage = page;
-                    });
-                  },
-                  controller: _controller,
-                  pageSnapping: true,
-                  children: const [
-                    WelcomeFirstScreen(),
-                    WelcomeSecondScreen(),
-                    WelcomeThirdScreen(),
-                  ],
+              GestureDetector(
+                onTapDown: (details) {
+                  // Stop the timer when the user taps down
+                  timer.cancel();
+                },
+                child: SizedBox(
+                  height: 600,
+                  width: double.infinity,
+                  child: PageView(
+                    onPageChanged: (page) {
+                      // Update the selected page index when the user manually changes pages
+                      setState(() {
+                        _selectedPage = page;
+                      });
+                    },
+                    controller:
+                        _controller, // Pass the controller for managing page changes
+                    pageSnapping: true,
+                    children: const [
+                      WelcomeFirstScreen(),
+                      WelcomeSecondScreen(),
+                      WelcomeThirdScreen(),
+                    ],
+                  ),
                 ),
               ),
               Column(
@@ -77,9 +96,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     height: 30,
                   ),
                   PageViewDotIndicator(
-                    currentItem: _selectedPage,
+                    currentItem:
+                        _selectedPage, // Current selected page for indicator
                     size: const Size(10, 10),
-                    count: 3,
+                    count: 3, // Total number of pages
                     unselectedColor: Theme.of(context).colorScheme.surface,
                     selectedColor: Theme.of(context).colorScheme.primary,
                   ),
@@ -106,17 +126,22 @@ class _WelcomeButtons extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
+          // Register button
           Button(
               child: Text(
                 AppLocalizations.of(context)!.registerBtn,
                 style: const TextStyle(color: Colors.black),
               ),
               onPressed: () {}),
+          // Add some vertical spacing between the buttons
           const SizedBox(
             height: 15,
           ),
+          // Login button
           Button(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
             type: ButtonType.outlined,
             child: Text(AppLocalizations.of(context)!.loginBtn),
           ),

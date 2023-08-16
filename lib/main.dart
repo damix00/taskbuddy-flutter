@@ -7,7 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/signin/welcome/welcome.dart';
+import 'package:taskbuddy/screens/signin/login/login_screen.dart';
+import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -28,6 +29,32 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   bool _loggedIn = false;
+
+  final TextTheme _textTheme = GoogleFonts.montserratTextTheme().copyWith(
+    titleLarge: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w900,
+      color: Colors.white,
+      // On iOS, the font family is 'SF Pro Display' by default
+      // On Android, the font family is 'Montserrat'
+      fontFamily: Constants.getHeadingFontFamily(),
+    ),
+    titleMedium: TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w900,
+      color: Colors.white,
+      fontFamily: Constants.getHeadingFontFamily(),
+    ),
+    titleSmall: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w900,
+      color: Colors.white,
+      fontFamily: Constants.getHeadingFontFamily(),
+    ),
+    bodyMedium: const TextStyle(
+      color: Colors.white,
+    ),
+  );
 
   @override
   void initState() {
@@ -75,48 +102,73 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      title: 'Flutter Demo',
-      themeMode: ThemeMode.system,
-      scrollBehavior: Platform.isAndroid ? const MaterialScrollBehavior() : const CupertinoScrollBehavior(),
-      darkTheme: ThemeData(
-        fontFamily: GoogleFonts.montserrat().fontFamily,
-        colorScheme: const ColorScheme(
-          background: Constants.bgColor,
-          brightness: Brightness.dark,
-          primary: Constants.primaryColor,
-          secondary: Constants.secondaryColor,
-          surface: Constants.secondaryBgColor,
-          error: Colors.red,
-          onPrimary: Colors.black,
-          onSecondary: Color(0xff000000),
-          onSurface: Colors.white,
-          onBackground: Colors.white,
-          onError: Color(0xff000000),
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        title: 'Flutter Demo',
+        themeMode: ThemeMode.system,
+        scrollBehavior: Platform.isAndroid
+            ? const MaterialScrollBehavior()
+            : const CupertinoScrollBehavior(),
+        darkTheme: ThemeData(
+          textTheme: _textTheme,
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+          colorScheme: ColorScheme(
+            background: Constants.bgColor,
+            brightness: Brightness.dark,
+            primary: Constants.primaryColor,
+            secondary: Constants.secondaryColor,
+            surface: Constants.secondaryBgColor,
+            surfaceVariant: Constants.secondaryBgColor.withOpacity(0.7),
+            error: Colors.red,
+            onPrimary: Colors.white,
+            onSecondary: const Color(0xff000000),
+            onSurface: Colors.white,
+            onBackground: Colors.white,
+            onError: const Color(0xff000000),
+          ),
+          pageTransitionsTheme: const PageTransitionsTheme(builders: {
+            TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          }),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
-      ),
-      theme: ThemeData(
-        fontFamily: GoogleFonts.montserrat().fontFamily,
-        colorScheme: const ColorScheme(
-          background: Colors.white,
-          brightness: Brightness.dark,
-          primary: Constants.primaryColor,
-          secondary: Constants.secondaryColor,
-          surface: Color(0xFFDBDBDB),
-          error: Colors.red,
-          onPrimary: Colors.black,
-          onSecondary: Color(0xff000000),
-          onSurface: Colors.black,
-          onBackground: Colors.black,
-          onError: Color(0xff000000),
+        theme: ThemeData(
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+          colorScheme: const ColorScheme(
+            background: Colors.white,
+            brightness: Brightness.dark,
+            primary: Constants.primaryColor,
+            secondary: Constants.secondaryColor,
+            surface: Color(0xFFDBDBDB),
+            error: Colors.red,
+            onPrimary: Colors.black,
+            onSecondary: Color(0xff000000),
+            onSurface: Colors.black,
+            onBackground: Colors.black,
+            onError: Color(0xff000000),
+          ),
+          textTheme: _textTheme.copyWith(
+            titleLarge: const TextStyle(
+              color: Colors.black,
+            ),
+            titleMedium: const TextStyle(
+              color: Colors.black,
+            ),
+            titleSmall: const TextStyle(
+              color: Colors.black,
+            ),
+            bodyMedium: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
-      ),
-      // If logged in, show the home screen, otherwise show the welcome screen
-      home: _loggedIn ? const Scaffold() : const WelcomeScreen(),
-    );
+        // If logged in, show the home screen, otherwise show the welcome screen
+        home: _loggedIn ? const Scaffold() : const WelcomeScreen(),
+        routes: {
+          '/welcome': (context) => const WelcomeScreen(),
+          '/login': (context) => const LoginScreen(),
+        });
   }
 }

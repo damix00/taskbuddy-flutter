@@ -1,21 +1,27 @@
 {
-    "@@locale": "en",
-    "helloWorld": "Hello World",
-    "@helloWorld": {
-        "description": "This is an example description."
-    },
-    "registerBtn": "Sign up",
-    "loginBtn": "Login",
-    "welcome__s1_title": "Welcome to TaskBuddy.",
-    "@welcome__s1_title": {
-        "description": "This is the title for the first slide of the welcome screen."
-    },
-    "welcome__s1_desc": "Your platform for easily doing and posting jobs.",
-    "@welcome__s1_desc": {
-        "description": "This is the description for the first slide of the welcome screen."
-    },
-    "welcome__s2_title": "Post a job.",
-    "welcome__s2_desc": "Our powerful algorithm and magical search will find the perfect TaskBuddy for your job. Post a job and witness a wonder of the world!",
-    "welcome__s3_title": "Discover jobs",
-    "welcome__s3_desc": "1. Scroll through an endless number of jobs.\n2. Do amazing jobs and earn money.\n3. ???\n4. PROFIT!"
+  "@@locale": "en",
+  "helloWorld": "Hello World",
+  "@helloWorld": {
+    "description": "This is an example description."
+  },
+  "registerBtn": "Sign up",
+  "loginBtn": "Login",
+  "welcome__s1_title": "Welcome to TaskBuddy.",
+  "@welcome__s1_title": {
+    "description": "This is the title for the first slide of the welcome screen."
+  },
+  "welcome__s1_desc": "Your platform for easily doing and posting jobs.",
+  "@welcome__s1_desc": {
+    "description": "This is the description for the first slide of the welcome screen."
+  },
+  "welcome__s2_title": "Post a job.",
+  "welcome__s2_desc": "Our powerful algorithm and magical search will find the perfect TaskBuddy for your job. Post a job and witness a wonder of the world!",
+  "welcome__s3_title": "Discover jobs",
+  "welcome__s3_desc": "1. Scroll through an endless number of jobs.\n2. Do amazing jobs and earn money.\n3. ???\n4. PROFIT!",
+  "loginTitle": "Log in",
+  "@loginTitle": {
+    "description": "This is the title for the login screen (shown on the navbar)."
+  },
+  "email": "E-Mail",
+  "password": "Password"
 }
