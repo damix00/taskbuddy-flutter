@@ -25,7 +25,7 @@
   "loginDesc": "Welcome back to TaskBuddy - where your to-do list meets its match.",
   "email": "E-Mail",
   "password": "Password",
-  "dontHaveAccount": "Don't have an account?",
+  "dontHaveAccount": "Don''t have an account?",
   "alreadyHaveAccount": "Already have an account?",
   "forgotPassword": "Forgot password?"
 }

@@ -65,31 +65,70 @@ class _ScreenTitle extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatelessWidget {
+class _LoginForm extends StatefulWidget {
   const _LoginForm({Key? key}) : super(key: key);
+
+  @override
+  State<_LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<_LoginForm> {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
-          TextInput(label: AppLocalizations.of(context)!.email, hint: 'latinary@example.com'),
-          const SizedBox(height: 12,),
-          TextInput(label: AppLocalizations.of(context)!.password, hint: 'coolpassword123', obscureText: true,),
+          TextInput(
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            label: AppLocalizations.of(context)!.email,
+            hint: 'latinary@example.com',
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'test email';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          TextInput(
+            label: AppLocalizations.of(context)!.password,
+            hint: 'coolpassword123',
+            obscureText: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'test password';
+              }
+              return null;
+            },
+          ),
           const SizedBox(height: 26),
           Button(
-            child: Text(
-              AppLocalizations.of(context)!.loginBtn,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
+              child: Text(
+                AppLocalizations.of(context)!.loginBtn,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
-            ),
-            onPressed: () {}
+              onPressed: () {
+                _formKey.currentState?.validate();
+              }),
+          const SizedBox(
+            height: 12,
           ),
-          const SizedBox(height: 12,),
-          LinkText(text: 'Forgot password?', onTap: () {}),
-          const SizedBox(height: 6,),
-          LinkText(text: "Don't have an account?", onTap: () {}),
+          LinkText(
+              text: AppLocalizations.of(context)!.forgotPassword, onTap: () {}),
+          const SizedBox(
+            height: 6,
+          ),
+          LinkText(
+              text: AppLocalizations.of(context)!.dontHaveAccount,
+              onTap: () {}),
         ],
       ),
     );

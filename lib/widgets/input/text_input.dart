@@ -7,8 +7,21 @@ class TextInput extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final double borderRadius;
+  final String? Function(String?) validator;
+  final TextInputAction textInputAction;
+  final TextInputType keyboardType;
 
-  const TextInput({Key? key, required this.label, required this.hint, this.obscureText = false, this.borderRadius = 4, this.controller}) : super(key: key);
+  const TextInput(
+      {Key? key,
+      required this.label,
+      required this.hint,
+      this.obscureText = false,
+      this.borderRadius = 4,
+      this.controller,
+      this.textInputAction = TextInputAction.done,
+      this.keyboardType = TextInputType.text,
+      required this.validator})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,34 +30,34 @@ class TextInput extends StatelessWidget {
       children: [
         Text(label, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(borderRadius),
+        TextFormField(
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+          controller: controller,
+          validator: validator,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 14,
           ),
-          height: 40,
-          child: TextField(
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 14,
+          obscureText: obscureText,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.surface,
+            hintText: hint,
+            isDense: true,
+            hintStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-            obscureText: obscureText,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              hintText: hint,
-              hintStyle: TextStyle(
-                color: Colors.grey[500],
-              ),
-              // fillColor: Theme.of(context).colorScheme.background,
-              fillColor: Colors.red,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Theme.of(context).colorScheme.outline),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
-              ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.outline),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.primary),
             ),
           ),
         ),
