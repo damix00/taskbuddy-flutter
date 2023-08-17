@@ -1,17 +1,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taskbuddy/providers/preferences.dart';
 
 class BlurAppbar extends StatelessWidget {
   final Widget? child;
   final bool showLeading;
-  final bool blur;
 
   const BlurAppbar({
     Key? key,
     this.child,
     this.showLeading = true,
-    this.blur = true,
   }) : super(key: key);
 
   // Render the child widget with the leading icon
@@ -27,6 +27,7 @@ class BlurAppbar extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
+            color: Theme.of(context).colorScheme.onBackground,
           ),
         // Take up all the space
         Expanded(child: child ?? Container()),
@@ -36,41 +37,48 @@ class BlurAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get the height of the status bar
+    // Calculate the height of the status bar and app bar
     final double statusBarHeight = MediaQuery.of(context).padding.top + 56;
-
-    // Users can disable blur in settings (for performance)
-    if (!blur) {
-      return SizedBox(
-        height: statusBarHeight,
-        child: renderChild(context),
-      );
-    }
 
     return SizedBox(
       height: statusBarHeight,
-      child: ClipRRect(
-        // ClipRRect is used to prevent the blur from overflowing
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(0),
-              color: Theme.of(context).colorScheme.surfaceVariant,
+      child: Consumer<PreferencesModel>(
+        builder: (context, prefs, child) {
+          if (!prefs.uiBlurEnabled) {
+            // If UI blur is disabled, display a non-blurred version with surface color
+            return Container(
+              child: renderChild(context),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+              ),
+            );
+          }
+
+          if (child == null) return renderChild(context);
+
+          return child; // Return the child as it is if available
+        },
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Apply blur effect
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceVariant,
+              ),
+              child: renderChild(context),
             ),
-            child: renderChild(context),
           ),
         ),
-      )
+      ),
     );
   }
 
   static AppBar appBar(
-      {Widget? child, bool showLeading = true, bool blur = true}) {
+      {Widget? child, bool showLeading = true}) {
     return AppBar(
       toolbarHeight: 56,
       flexibleSpace:
-          BlurAppbar(showLeading: showLeading, blur: blur, child: child),
+          BlurAppbar(showLeading: showLeading, child: child),
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,

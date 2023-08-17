@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 
 enum ButtonType { primary, outlined }
@@ -24,7 +25,10 @@ class Button extends StatelessWidget {
     return SizedBox(
       height: 40,
       child: Touchable(
-        onTap: onPressed,
+        onTap: () {
+          HapticFeedback.lightImpact();
+          onPressed();
+        },
         child: Container(
           width: width,
           height: height,

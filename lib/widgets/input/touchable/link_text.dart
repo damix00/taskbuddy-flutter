@@ -11,7 +11,7 @@ class LinkText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Touchable(
       onTap: onTap,
-      child: Text(text, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.primary)),
+      child: Text(text, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.inversePrimary, fontWeight: FontWeight.w900)),
     );
   }
 }

@@ -6,7 +6,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/cache/preferences_config.dart';
+import 'package:taskbuddy/providers/preferences.dart';
 import 'package:taskbuddy/screens/signin/login/login_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/utils/constants.dart';
@@ -17,7 +20,12 @@ void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  runApp(const App());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => PreferencesModel()),
+    ],
+    child: const App(),
+  ));
 }
 
 class App extends StatefulWidget {
@@ -61,8 +69,10 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
 
-    // Initialize the app
-    init();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Initialize the app after the first frame is rendered
+      init();
+    });
   }
 
   void init() async {
@@ -71,6 +81,13 @@ class _AppState extends State<App> {
 
     // Check if logged in
     _loggedIn = await AccountCache.isLoggedIn();
+
+    // Get the preferences context provider
+    PreferencesModel prefs =
+        Provider.of<PreferencesModel>(context, listen: false);
+
+    // Initialize the preferences
+    await prefs.init();
 
     // Re-render the UI
     setState(() {});
@@ -108,6 +125,7 @@ class _AppState extends State<App> {
         supportedLocales: AppLocalizations.supportedLocales,
         title: 'Flutter Demo',
         themeMode: ThemeMode.system,
+        // Set the scroll behavior to the platform default
         scrollBehavior: Platform.isAndroid
             ? const MaterialScrollBehavior()
             : const CupertinoScrollBehavior(),
@@ -118,6 +136,7 @@ class _AppState extends State<App> {
             background: Constants.bgColor,
             brightness: Brightness.dark,
             primary: Constants.primaryColor,
+            inversePrimary: Constants.primaryColor,
             secondary: Constants.secondaryColor,
             surface: Constants.secondaryBgColor,
             surfaceVariant: Constants.secondaryBgColor.withOpacity(0.7),
@@ -142,6 +161,7 @@ class _AppState extends State<App> {
             background: Colors.white,
             brightness: Brightness.dark,
             primary: Constants.primaryColor,
+            inversePrimary: Colors.blue, // This is the link color
             secondary: Constants.secondaryColor,
             surface: const Color(0xFFDBDBDB),
             surfaceVariant: const Color(0xFFC7C7C7).withOpacity(0.7),
@@ -151,7 +171,8 @@ class _AppState extends State<App> {
             onSecondary: Colors.black,
             onSurface: Colors.black,
             onBackground: Colors.black,
-            onError: Colors.black, // Color that is used for error messages (text)
+            onError:
+                Colors.black, // Color that is used for error messages (text)
             outline: const Color(0xFFC2BBD3),
           ),
           textTheme: _textTheme.copyWith(
