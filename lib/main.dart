@@ -53,6 +53,7 @@ class _AppState extends State<App> {
     ),
     bodyMedium: const TextStyle(
       color: Colors.white,
+      fontSize: 14,
     ),
   );
 
@@ -136,18 +137,20 @@ class _AppState extends State<App> {
         ),
         theme: ThemeData(
           fontFamily: GoogleFonts.montserrat().fontFamily,
-          colorScheme: const ColorScheme(
+          colorScheme: ColorScheme(
             background: Colors.white,
             brightness: Brightness.dark,
             primary: Constants.primaryColor,
             secondary: Constants.secondaryColor,
-            surface: Color(0xFFDBDBDB),
+            surface: const Color(0xFFDBDBDB),
+            surfaceVariant: const Color(0xFFC7C7C7).withOpacity(0.7),
             error: Colors.red,
             onPrimary: Colors.black,
-            onSecondary: Color(0xff000000),
+            onSecondary: Colors.black,
             onSurface: Colors.black,
             onBackground: Colors.black,
-            onError: Color(0xff000000),
+            onError: Colors.black, // Color that is used for error messages (text)
+            outline: const Color(0xFFC2BBD3),
           ),
           textTheme: _textTheme.copyWith(
             titleLarge: const TextStyle(

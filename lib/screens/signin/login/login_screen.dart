@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
-import 'package:taskbuddy/widgets/input/button.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
+import 'package:taskbuddy/widgets/input/text_input.dart';
+import 'package:taskbuddy/widgets/input/touchable/button.dart';
+import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/ui/gradient_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -71,19 +73,10 @@ class _LoginForm extends StatelessWidget {
     return Form(
       child: Column(
         children: [
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.email,
-              prefixIcon: const Icon(Icons.email),
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.password,
-              prefixIcon: const Icon(Icons.lock),
-            ),
-          ),
-          const SizedBox(height: 16),
+          TextInput(label: AppLocalizations.of(context)!.email, hint: 'latinary@example.com'),
+          const SizedBox(height: 12,),
+          TextInput(label: AppLocalizations.of(context)!.password, hint: 'coolpassword123', obscureText: true,),
+          const SizedBox(height: 26),
           Button(
             child: Text(
               AppLocalizations.of(context)!.loginBtn,
@@ -92,7 +85,11 @@ class _LoginForm extends StatelessWidget {
               ),
             ),
             onPressed: () {}
-          )
+          ),
+          const SizedBox(height: 12,),
+          LinkText(text: 'Forgot password?', onTap: () {}),
+          const SizedBox(height: 6,),
+          LinkText(text: "Don't have an account?", onTap: () {}),
         ],
       ),
     );

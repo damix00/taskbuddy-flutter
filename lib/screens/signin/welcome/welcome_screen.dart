@@ -7,8 +7,8 @@ import 'package:taskbuddy/screens/signin/welcome/first_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/second_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/third_screen.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
-import 'package:taskbuddy/widgets/input/button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/input/touchable/button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);

@@ -12,5 +12,8 @@
   "loginTitle": "Back in black!",
   "loginDesc": "Dobrodošli natrag u TaskBuddy - gdje vaš popis obveza susreće svog para.",
   "email": "E-Mail",
-  "password": "Lozinka"
+  "password": "Lozinka",
+  "dontHaveAccount": "Nemate račun?",
+  "alreadyHaveAccount": "Već imate račun?",
+  "forgotPassword": "Zaboravili ste lozinku?"
 }
