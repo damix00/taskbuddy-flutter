@@ -8,6 +8,7 @@ class Constants {
   static const Color secondaryColor = Color(0xff2c3f77);
   static const Color bgColor = Color(0xff201A31);
   static const Color secondaryBgColor = Color(0xff38304d);
+  static const Color borderColor = Color(0xff6E618F);
 
   static String? getHeadingFontFamily() {
     return Platform.isIOS

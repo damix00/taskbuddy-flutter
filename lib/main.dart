@@ -121,11 +121,12 @@ class _AppState extends State<App> {
             surface: Constants.secondaryBgColor,
             surfaceVariant: Constants.secondaryBgColor.withOpacity(0.7),
             error: Colors.red,
-            onPrimary: Colors.white,
+            onPrimary: Colors.black,
             onSecondary: const Color(0xff000000),
             onSurface: Colors.white,
             onBackground: Colors.white,
             onError: const Color(0xff000000),
+            outline: Constants.borderColor,
           ),
           pageTransitionsTheme: const PageTransitionsTheme(builders: {
             TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),

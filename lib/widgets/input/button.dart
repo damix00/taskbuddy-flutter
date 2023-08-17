@@ -59,9 +59,9 @@ class _ButtonState extends State<Button> {
           height: widget.height,
           decoration: BoxDecoration(
               color: widget.type == ButtonType.primary
-                  ? Constants.primaryColor
-                  : Colors.transparent,
-              border: Border.all(color: Constants.primaryColor, width: 1),
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.background,
+              border: Border.all(color: Theme.of(context).colorScheme.primary, width: 1),
               borderRadius: BorderRadius.circular(widget.radius)),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
