@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';
@@ -87,9 +88,8 @@ class _LoginFormState extends State<_LoginForm> {
             label: AppLocalizations.of(context)!.email,
             hint: 'latinary@example.com',
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'test email';
-              }
+              if (value == null || value.isEmpty) return "email can't be empty";
+              if (!Validators.isEmailValid(value)) return 'invalid email';
               return null;
             },
           ),

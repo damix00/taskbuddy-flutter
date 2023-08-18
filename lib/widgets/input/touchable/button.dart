@@ -6,42 +6,42 @@ import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 enum ButtonType { primary, outlined }
 
 class Button extends StatelessWidget {
-  Widget child;
-  Function onPressed;
-  ButtonType type;
-  double? width;
-  double? height;
-  double radius = 4;
+  final Widget child;
+  final Function onPressed;
+  final ButtonType type;
+  final double? width;
+  final double height;
+  final double radius;
 
-  Button(
+  const Button(
       {Key? key,
       required this.child,
       required this.onPressed,
+      this.width,
+      this.height = 40,
+      this.radius = 4,
       this.type = ButtonType.primary})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: Touchable(
-        onTap: () {
-          HapticFeedback.lightImpact();
-          onPressed();
-        },
-        child: Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-              color: type == ButtonType.primary
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.background,
-              border: Border.all(
-                  color: Theme.of(context).colorScheme.primary, width: 1),
-              borderRadius: BorderRadius.circular(radius)),
-          child: Center(
-            child: child,
-          ),
+    return Touchable(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onPressed();
+      },
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            color: type == ButtonType.primary
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.background,
+            border: Border.all(
+                color: Theme.of(context).colorScheme.primary, width: 1),
+            borderRadius: BorderRadius.circular(radius)),
+        child: Center(
+          child: child,
         ),
       ),
     );
