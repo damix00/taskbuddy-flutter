@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
@@ -78,6 +79,7 @@ class _LoginFormState extends State<_LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
     return Form(
       key: _formKey,
       child: Column(
@@ -85,11 +87,15 @@ class _LoginFormState extends State<_LoginForm> {
           TextInput(
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            label: AppLocalizations.of(context)!.email,
+            label: l10n.email,
             hint: 'latinary@example.com',
             validator: (value) {
-              if (value == null || value.isEmpty) return "email can't be empty";
-              if (!Validators.isEmailValid(value)) return 'invalid email';
+              if (value == null || value.isEmpty) {
+                return l10n.emptyField(l10n.email);
+              }
+              if (!Validators.isEmailValid(value)) {
+                return l10n.invalidEmail;
+              }
               return null;
             },
           ),
@@ -97,38 +103,40 @@ class _LoginFormState extends State<_LoginForm> {
             height: 12,
           ),
           TextInput(
-            label: AppLocalizations.of(context)!.password,
+            label: l10n.password,
             hint: 'coolpassword123',
             obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'test password';
+                return l10n.emptyField(l10n.password);
               }
+
+              // Client-side validation for the password is not necessary
+              // as the requirements can change on the server-side.
               return null;
             },
           ),
           const SizedBox(height: 26),
           Button(
               child: Text(
-                AppLocalizations.of(context)!.loginBtn,
+                l10n.loginBtn,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
               onPressed: () {
-                _formKey.currentState?.validate();
+                if (_formKey.currentState!.validate()) {
+                  Api.v1.accounts.login();
+                }
               }),
           const SizedBox(
             height: 12,
           ),
-          LinkText(
-              text: AppLocalizations.of(context)!.forgotPassword, onTap: () {}),
+          LinkText(text: l10n.forgotPassword, onTap: () {}),
           const SizedBox(
             height: 6,
           ),
-          LinkText(
-              text: AppLocalizations.of(context)!.dontHaveAccount,
-              onTap: () {}),
+          LinkText(text: l10n.dontHaveAccount, onTap: () {}),
         ],
       ),
     );

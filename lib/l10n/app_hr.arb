@@ -15,5 +15,10 @@
   "password": "Lozinka",
   "dontHaveAccount": "Nemate račun?",
   "alreadyHaveAccount": "Već imate račun?",
-  "forgotPassword": "Zaboravili ste lozinku?"
+  "forgotPassword": "Zaboravili ste lozinku?",
+  "emptyField": "Polje ''{field}'' ne smije biti prazno.",
+  "invalidEmail": "Neispravan E-Mail",
+  "passwordTooShort": "Lozinka mora imati najmanje {minLength} znakova.",
+  "passwordTooLong": "Lozinka ne može imati više od {maxLength} znakova.",
+  "passwordMustContainNumber": "Lozinka mora sadržavati barem jedan broj."
 }

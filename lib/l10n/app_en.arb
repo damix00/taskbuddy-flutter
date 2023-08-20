@@ -27,5 +27,37 @@
   "password": "Password",
   "dontHaveAccount": "Don''t have an account?",
   "alreadyHaveAccount": "Already have an account?",
-  "forgotPassword": "Forgot password?"
+  "forgotPassword": "Forgot password?",
+  "emptyField": "{field} cannot be empty.",
+  "@emptyField": {
+    "description": "This is the error message when a field is empty.",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "email"
+      }
+    }
+  },
+  "invalidEmail": "Invalid E-Mail address",
+  "passwordTooShort": "Password must be at least {minLength} characters long.",
+  "@passwordTooShort": {
+    "description": "This is the error message when the password is too short.",
+    "placeholders": {
+      "minLength": {
+        "type": "int",
+        "example": "8"
+      }
+    }
+  },
+  "passwordTooLong": "Password must be at most {maxLength} characters long.",
+  "@passwordTooLong": {
+    "description": "This is the error message when the password is too long.",
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "example": "64"
+      }
+    }
+  },
+  "passwordMustContainNumber": "Password must contain at least one number."
 }
