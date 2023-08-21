@@ -14,8 +14,85 @@ class BlurAppbar extends StatelessWidget {
     this.showLeading = true,
   }) : super(key: key);
 
-  // Render the child widget with the leading icon
-  Widget renderChild(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    // Calculate the height of the status bar and app bar
+    final double statusBarHeight = MediaQuery.of(context).padding.top + 56;
+
+    return SizedBox(
+      height: statusBarHeight,
+      child: Consumer<PreferencesModel>(
+        builder: (context, prefs, child) {
+          if (!prefs.uiBlurEnabled) {
+            // If UI blur is disabled, display a non-blurred version with surface color
+            return Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              child: _AppbarChildren(
+                context: context,
+                showLeading: showLeading,
+                child: child,
+              ),
+            );
+          }
+
+          if (child == null) {
+            return _AppbarChildren(
+              context: context,
+              showLeading: showLeading,
+              child: child,
+            );
+          }
+
+          return child; // Return the child as it is if available
+        },
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter:
+                ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Apply blur effect
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceVariant,
+              ),
+              child: _AppbarChildren(
+                context: context,
+                showLeading: showLeading,
+                child: child,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static AppBar appBar({Widget? child, bool showLeading = true}) {
+    return AppBar(
+      toolbarHeight: 56,
+      flexibleSpace: BlurAppbar(showLeading: showLeading, child: child),
+      backgroundColor: Colors.transparent,
+      shadowColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      automaticallyImplyLeading: false,
+    );
+  }
+}
+
+class _AppbarChildren extends StatelessWidget {
+  final BuildContext context;
+  final Widget? child;
+  final bool showLeading;
+
+  const _AppbarChildren({
+    Key? key,
+    required this.context,
+    required this.child,
+    this.showLeading = true,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       child: Row(children: [
@@ -32,57 +109,6 @@ class BlurAppbar extends StatelessWidget {
         // Take up all the space
         Expanded(child: child ?? Container()),
       ]),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Calculate the height of the status bar and app bar
-    final double statusBarHeight = MediaQuery.of(context).padding.top + 56;
-
-    return SizedBox(
-      height: statusBarHeight,
-      child: Consumer<PreferencesModel>(
-        builder: (context, prefs, child) {
-          if (!prefs.uiBlurEnabled) {
-            // If UI blur is disabled, display a non-blurred version with surface color
-            return Container(
-              child: renderChild(context),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-              ),
-            );
-          }
-
-          if (child == null) return renderChild(context);
-
-          return child; // Return the child as it is if available
-        },
-        child: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Apply blur effect
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceVariant,
-              ),
-              child: renderChild(context),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  static AppBar appBar(
-      {Widget? child, bool showLeading = true}) {
-    return AppBar(
-      toolbarHeight: 56,
-      flexibleSpace:
-          BlurAppbar(showLeading: showLeading, child: child),
-      backgroundColor: Colors.transparent,
-      shadowColor: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
-      automaticallyImplyLeading: false,
     );
   }
 }

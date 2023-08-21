@@ -76,6 +76,9 @@ class _LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<_LoginForm> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String? _errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +88,12 @@ class _LoginFormState extends State<_LoginForm> {
       child: Column(
         children: [
           TextInput(
+            controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             label: l10n.email,
             hint: 'latinary@example.com',
+            errorText: _errorText,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return l10n.emptyField(l10n.email);
@@ -103,7 +108,9 @@ class _LoginFormState extends State<_LoginForm> {
             height: 12,
           ),
           TextInput(
+            controller: _passwordController,
             label: l10n.password,
+            errorText: _errorText,
             hint: 'coolpassword123',
             obscureText: true,
             validator: (value) {
@@ -126,7 +133,8 @@ class _LoginFormState extends State<_LoginForm> {
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  Api.v1.accounts.login();
+                  Api.v1.accounts.login(_emailController.text,
+                      _passwordController.text);
                 }
               }),
           const SizedBox(

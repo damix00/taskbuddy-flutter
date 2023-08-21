@@ -10,6 +10,7 @@ class TextInput extends StatelessWidget {
   final String? Function(String?) validator;
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
+  final String? errorText;
 
   const TextInput(
       {Key? key,
@@ -20,6 +21,7 @@ class TextInput extends StatelessWidget {
       this.controller,
       this.textInputAction = TextInputAction.done,
       this.keyboardType = TextInputType.text,
+      this.errorText,
       required this.validator})
       : super(key: key);
 
@@ -41,7 +43,9 @@ class TextInput extends StatelessWidget {
           ),
           obscureText: obscureText,
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            errorText: errorText,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             filled: true,
             fillColor: Theme.of(context).colorScheme.surface,
             hintText: hint,

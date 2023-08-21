@@ -123,7 +123,7 @@ class _AppState extends State<App> {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        title: 'Flutter Demo',
+        title: 'TaskBuddy',
         themeMode: ThemeMode.system,
         // Set the scroll behavior to the platform default
         scrollBehavior: Platform.isAndroid
