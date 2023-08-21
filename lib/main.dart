@@ -76,9 +76,6 @@ class _AppState extends State<App> {
   }
 
   void init() async {
-    // Change the status bar and navigation bar colors on Android
-    overrideColors();
-
     // Check if logged in
     _loggedIn = await AccountCache.isLoggedIn();
 
@@ -119,6 +116,9 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    // Change the status bar and navigation bar colors on Android
+    overrideColors();
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
