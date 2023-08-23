@@ -78,28 +78,3 @@ class AccountResponse {
     );
   }
 }
-
-// Define a function similar to `fetch` in TypeScript
-Future<http.Response> fetchEndpoint(String endpoint, dynamic data) async {
-  final response =
-      await http.post(Uri.parse(endpoint), body: json.encode(data));
-  return response;
-}
-
-// Define a function to build the Dart equivalent of `ApiResponse<AccountResponse>`
-Future<ApiResponse> buildAccountResponse(String endpoint, dynamic data) async {
-  final response = await fetchEndpoint(endpoint, data);
-
-  final json = jsonDecode(response.body);
-
-  if (response.statusCode != 200) {
-    return ApiResponse(
-        status: response.statusCode, message: json.message, ok: false);
-  }
-
-  return ApiResponse(
-      status: 200,
-      message: json.message,
-      ok: true,
-      data: AccountResponse.fromJson(json));
-}

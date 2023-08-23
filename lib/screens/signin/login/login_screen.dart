@@ -79,6 +79,7 @@ class _LoginFormState extends State<_LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? _errorText;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -125,18 +126,32 @@ class _LoginFormState extends State<_LoginForm> {
           ),
           const SizedBox(height: 26),
           Button(
-              child: Text(
-                l10n.loginBtn,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
+            loading: loading,
+            child: Text(
+              l10n.loginBtn,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  Api.v1.accounts.login(_emailController.text,
-                      _passwordController.text);
-                }
-              }),
+            ),
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                setState(() {
+                  loading = true;
+                });
+                bool valid = await Api.v1.accounts
+                    .login(_emailController.text, _passwordController.text);
+
+                setState(() {
+                  loading = false;
+                  
+                  if (!valid) {
+                    _errorText = l10n.invalidCredentials;
+                  }
+                });
+
+              }
+            }
+          ),
           const SizedBox(
             height: 12,
           ),

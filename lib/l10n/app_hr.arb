@@ -20,5 +20,6 @@
   "invalidEmail": "Neispravan E-Mail",
   "passwordTooShort": "Lozinka mora imati najmanje {minLength} znakova.",
   "passwordTooLong": "Lozinka ne može imati više od {maxLength} znakova.",
-  "passwordMustContainNumber": "Lozinka mora sadržavati barem jedan broj."
+  "passwordMustContainNumber": "Lozinka mora sadržavati barem jedan broj.",
+  "invalidCredentials": "Neispravan E-Mail ili lozinka."
 }

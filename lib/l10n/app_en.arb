@@ -59,5 +59,6 @@
       }
     }
   },
-  "passwordMustContainNumber": "Password must contain at least one number."
+  "passwordMustContainNumber": "Password must contain at least one number.",
+  "invalidCredentials": "Invalid E-Mail address or password."
 }
