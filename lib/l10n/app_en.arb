@@ -60,5 +60,7 @@
     }
   },
   "passwordMustContainNumber": "Password must contain at least one number.",
-  "invalidCredentials": "Invalid E-Mail address or password."
+  "invalidCredentials": "Invalid E-Mail address or password.",
+  "internalServerError": "Internal server error.",
+  "requestTimedOut": "Request timed out."
 }

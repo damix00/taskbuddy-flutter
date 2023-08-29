@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 
 // Define Dart equivalent classes for the TypeScript interfaces
@@ -76,5 +75,41 @@ class AccountResponse {
           AccountResponseRequiredActions.fromJson(json['required_actions']),
       token: json['token'],
     );
+  }
+
+  static Future<ApiResponse<AccountResponse?>> buildAccountResponse(
+      String endpoint,
+      {dynamic data,
+      Map<String, String>? headers,
+      String method = "GET"}) async {
+    final response =
+        await Requests.fetchEndpoint(endpoint, data: data, headers: headers, method: method);
+
+    if (response == null) {
+      return ApiResponse(
+          status: 500, message: 'Something went wrong', ok: false);
+    }
+
+    if (response.timedOut) {
+      return ApiResponse(
+          status: 408, message: 'Request timed out', ok: false, timedOut: true);
+    }
+
+    final json = response.response!.data;
+
+    if (response.response!.statusCode != 200) {
+      return ApiResponse(
+          status: response.response!.statusCode ?? 500,
+          message: json["message"],
+          ok: false);
+    }
+
+    return ApiResponse(
+        status: 200,
+        message: json["message"],
+        ok: true,
+        data: AccountResponse.fromJson(json),
+        response: response.response,
+        timedOut: response.timedOut);
   }
 }

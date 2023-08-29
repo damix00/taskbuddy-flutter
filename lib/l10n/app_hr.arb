@@ -21,5 +21,7 @@
   "passwordTooShort": "Lozinka mora imati najmanje {minLength} znakova.",
   "passwordTooLong": "Lozinka ne može imati više od {maxLength} znakova.",
   "passwordMustContainNumber": "Lozinka mora sadržavati barem jedan broj.",
-  "invalidCredentials": "Neispravan E-Mail ili lozinka."
+  "invalidCredentials": "Neispravan E-Mail ili lozinka.",
+  "internalServerError": "Došlo je do pogreške na serveru.",
+  "requestTimedOut": "Zahtjev je istekao."
 }

@@ -126,32 +126,41 @@ class _LoginFormState extends State<_LoginForm> {
           ),
           const SizedBox(height: 26),
           Button(
-            loading: loading,
-            child: Text(
-              l10n.loginBtn,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
+              loading: loading,
+              child: Text(
+                l10n.loginBtn,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
-            ),
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                setState(() {
-                  loading = true;
-                });
-                bool valid = await Api.v1.accounts
-                    .login(_emailController.text, _passwordController.text);
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    loading = true;
+                  });
+                  final response = await Api.v1.accounts
+                      .login(_emailController.text, _passwordController.text);
 
-                setState(() {
-                  loading = false;
-                  
-                  if (!valid) {
-                    _errorText = l10n.invalidCredentials;
-                  }
-                });
+                  setState(() {
+                    loading = false;
 
-              }
-            }
-          ),
+                    if (response.status == 500) {
+                      _errorText = l10n.internalServerError;
+                    } else if (response.status == 408) {
+                      _errorText = l10n.requestTimedOut;
+                    } else if (!response.ok) {
+                      _errorText = l10n.invalidCredentials;
+                    } else {
+                      // Login successful
+                      _errorText = null;
+
+                      // Show the home screen
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home', (route) => false);
+                    }
+                  });
+                }
+              }),
           const SizedBox(
             height: 12,
           ),
