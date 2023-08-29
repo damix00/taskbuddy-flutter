@@ -13,6 +13,7 @@ class Button extends StatelessWidget {
   final double height;
   final double radius;
   final bool loading;
+  final bool disabled;
 
   const Button(
       {Key? key,
@@ -22,13 +23,14 @@ class Button extends StatelessWidget {
       this.height = 40,
       this.radius = 4,
       this.type = ButtonType.primary,
+      this.disabled = false,
       this.loading = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Touchable(
-      enabled: !loading,
+      enabled: !disabled || !loading,
       onTap: () {
         HapticFeedback.lightImpact();
         onPressed();

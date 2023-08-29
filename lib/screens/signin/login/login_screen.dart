@@ -9,16 +9,15 @@ import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/ui/gradient_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// Login screen widget
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
-
-  static const String routeName = '/login';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: BlurAppbar.appBar(),
+      appBar: BlurAppbar.appBar(), // AppBar with blur effect
       body: ScrollbarSingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -32,11 +31,11 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _ScreenTitle(),
+                _ScreenTitle(), // Display screen title and description
                 SizedBox(
                   height: 26,
                 ),
-                _LoginForm(),
+                _LoginForm(), // Display login form
               ],
             ),
           ),
@@ -168,7 +167,9 @@ class _LoginFormState extends State<_LoginForm> {
           const SizedBox(
             height: 6,
           ),
-          LinkText(text: l10n.dontHaveAccount, onTap: () {}),
+          LinkText(text: l10n.dontHaveAccount, onTap: () {
+            Navigator.pushReplacementNamed(context, '/register');
+          }),
         ],
       ),
     );

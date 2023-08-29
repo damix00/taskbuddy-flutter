@@ -23,5 +23,9 @@
   "passwordMustContainNumber": "Lozinka mora sadržavati barem jedan broj.",
   "invalidCredentials": "Neispravan E-Mail ili lozinka.",
   "internalServerError": "Došlo je do pogreške na serveru.",
-  "requestTimedOut": "Zahtjev je istekao."
+  "requestTimedOut": "Zahtjev je istekao.",
+  "registerTitle": "Poslovi.\nZajednica.\nKrenimo!",
+  "registerDesc": "Prihvatite suradnju i praktičnost - registrirajte se za TaskBuddy danas!",
+  "continueText": "Nastavi",
+  "termsAndConditions": "Slažem se s <link href=\"{url}\">Uvjetima pružanja usluge</link>."
 }

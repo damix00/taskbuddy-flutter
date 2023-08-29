@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/providers/preferences.dart';
 import 'package:taskbuddy/screens/signin/login/login_screen.dart';
+import 'package:taskbuddy/screens/signin/register/register_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -149,7 +150,7 @@ class _AppState extends State<App> {
             outline: Constants.borderColor,
           ),
           pageTransitionsTheme: const PageTransitionsTheme(builders: {
-            TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           }),
           useMaterial3: true,
@@ -195,6 +196,7 @@ class _AppState extends State<App> {
         routes: {
           '/welcome': (context) => const WelcomeScreen(),
           '/login': (context) => const LoginScreen(),
+          '/register': (context) => const RegisterScreen(),
         });
   }
 }

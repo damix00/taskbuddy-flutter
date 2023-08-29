@@ -1,7 +1,7 @@
 import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 
-// Define Dart equivalent classes for the TypeScript interfaces
+// Represents user information received from the server response
 class AccountResponseUser {
   final String uuid;
   final String email;
@@ -25,6 +25,7 @@ class AccountResponseUser {
     required this.createdAt,
   });
 
+  // Factory method to create an AccountResponseUser from JSON data
   factory AccountResponseUser.fromJson(Map<String, dynamic> json) {
     return AccountResponseUser(
       uuid: json['uuid'],
@@ -40,6 +41,7 @@ class AccountResponseUser {
   }
 }
 
+// Represents required actions (like verification) from the server response
 class AccountResponseRequiredActions {
   final bool verifyPhoneNumber;
   final bool verifyEmail;
@@ -49,6 +51,7 @@ class AccountResponseRequiredActions {
     required this.verifyEmail,
   });
 
+  // Factory method to create an AccountResponseRequiredActions from JSON data
   factory AccountResponseRequiredActions.fromJson(Map<String, dynamic> json) {
     return AccountResponseRequiredActions(
       verifyPhoneNumber: json['verify_phone_number'],
@@ -57,6 +60,7 @@ class AccountResponseRequiredActions {
   }
 }
 
+// Represents the entire response from the server including user data and actions
 class AccountResponse {
   final AccountResponseUser user;
   final AccountResponseRequiredActions requiredActions;
@@ -68,6 +72,7 @@ class AccountResponse {
     required this.token,
   });
 
+  // Factory method to create an AccountResponse from JSON data
   factory AccountResponse.fromJson(Map<String, dynamic> json) {
     return AccountResponse(
       user: AccountResponseUser.fromJson(json['user']),
@@ -77,14 +82,17 @@ class AccountResponse {
     );
   }
 
+  // Static method to build an ApiResponse<AccountResponse?>
   static Future<ApiResponse<AccountResponse?>> buildAccountResponse(
       String endpoint,
       {dynamic data,
       Map<String, String>? headers,
       String method = "GET"}) async {
-    final response =
-        await Requests.fetchEndpoint(endpoint, data: data, headers: headers, method: method);
+    // Fetch the response using the Requests class
+    final response = await Requests.fetchEndpoint(
+        endpoint, data: data, headers: headers, method: method);
 
+    // Handle various response scenarios and construct ApiResponse
     if (response == null) {
       return ApiResponse(
           status: 500, message: 'Something went wrong', ok: false);

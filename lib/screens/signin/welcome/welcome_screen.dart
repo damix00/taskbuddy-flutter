@@ -128,11 +128,14 @@ class _WelcomeButtons extends StatelessWidget {
           ),
           // Register button
           Button(
-              child: Text(
-                AppLocalizations.of(context)!.registerBtn,
-                style: const TextStyle(color: Colors.black),
-              ),
-              onPressed: () {}),
+            onPressed: () {
+              Navigator.pushNamed(context, '/register');
+            },
+            child: Text(
+              AppLocalizations.of(context)!.registerBtn,
+              style: const TextStyle(color: Colors.black),
+            )
+          ),
           // Add some vertical spacing between the buttons
           const SizedBox(
             height: 15,

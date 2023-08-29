@@ -11,6 +11,7 @@ class PreferencesConfig {
   }
 
   static Future<bool> isUiBlurEnabled() async{
+    // Check if the user has enabled blur in the settings
     return await readBool('ui_blur_enabled');
   }
 }
