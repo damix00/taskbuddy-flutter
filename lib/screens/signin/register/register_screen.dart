@@ -113,18 +113,20 @@ class _ScreenBottomState extends State<_ScreenBottom> {
             });
           },
           child: StyledText(
-              text: l10n.termsAndConditions("https://google.com"),
-              tags: {
-                'link': StyledTextActionTag((_, attrs) async {
-                  await launchUrl(Uri.parse(attrs['href']!),
-                      mode: Platform.isAndroid
-                          ? LaunchMode.inAppWebView
-                          : LaunchMode.externalApplication);
+            text: l10n.termsAndConditions("https://google.com"),
+            tags: {
+              'link': StyledTextActionTag((_, attrs) async {
+                await launchUrl(Uri.parse(attrs['href']!),
+                    mode: Platform.isAndroid
+                        ? LaunchMode.inAppWebView
+                        : LaunchMode.externalApplication);
                 },
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                    ))
-              })
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                )
+              )
+            }
+          )
         ),
         const SizedBox(
           height: 16,

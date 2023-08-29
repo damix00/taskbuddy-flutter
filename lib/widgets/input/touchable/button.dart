@@ -30,7 +30,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Touchable(
-      enabled: !disabled || !loading,
+      disabled: loading || disabled,
       onTap: () {
         HapticFeedback.lightImpact();
         onPressed();

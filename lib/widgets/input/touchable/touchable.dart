@@ -5,7 +5,7 @@ class Touchable extends StatefulWidget {
   final Function? onTap;
   final VoidCallback? onLongPress;
   final VoidCallback? onDoubleTap;
-  final bool enabled;
+  final bool disabled;
 
   const Touchable(
       {Key? key,
@@ -13,7 +13,7 @@ class Touchable extends StatefulWidget {
       this.onTap,
       this.onLongPress,
       this.onDoubleTap,
-      this.enabled = true})
+      this.disabled = false})
       : super(key: key);
 
   @override
@@ -51,7 +51,7 @@ class _TouchableState extends State<Touchable> {
       onDoubleTap: widget.onDoubleTap,
       onLongPress: widget.onLongPress,
       child: AnimatedOpacity(
-        opacity: widget.enabled ? _opacity : 0.5,
+        opacity: widget.disabled ? 0.5 : _opacity,
         duration: _duration,
         child: widget.child,
       )
