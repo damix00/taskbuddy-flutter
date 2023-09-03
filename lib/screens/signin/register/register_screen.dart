@@ -2,14 +2,12 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/checkbox.dart';
 import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/screens/screen_title.dart';
-import 'package:taskbuddy/widgets/ui/gradient_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_text/styled_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';

@@ -13,6 +13,7 @@ class TextInput extends StatelessWidget {
   final TextInputType keyboardType;
   final String? errorText;
   final bool optional; // If true, shows grey optional text
+  final void Function(String)? onChanged;
 
   const TextInput(
       {Key? key,
@@ -25,6 +26,7 @@ class TextInput extends StatelessWidget {
       this.keyboardType = TextInputType.text,
       this.errorText,
       this.optional = false,
+      this.onChanged,
       required this.validator})
       : super(key: key);
 
@@ -47,6 +49,7 @@ class TextInput extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextFormField(
+          onChanged: onChanged,
           keyboardType: keyboardType,
           textInputAction: textInputAction,
           controller: controller,

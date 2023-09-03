@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taskbuddy/providers/preferences.dart';
+import 'package:taskbuddy/state/providers/preferences.dart';
 
 class BlurAppbar extends StatelessWidget {
   final Widget? child;

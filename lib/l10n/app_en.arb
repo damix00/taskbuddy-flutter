@@ -78,5 +78,7 @@
   },
   "registerCredentialsAppbar": "Account setup",
   "registerCredentialsTitle": "Account credentials",
-  "registerCredentialsDesc": "Your secure gateway: choose your E-Mail and password."
+  "registerCredentialsDesc": "Your secure gateway: choose your E-Mail and password.",
+  "confirmPassword": "Confirm password",
+  "passwordsDontMatch": "Passwords don''t match."
 }

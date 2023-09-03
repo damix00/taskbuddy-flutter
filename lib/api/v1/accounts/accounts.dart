@@ -1,9 +1,12 @@
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
+import 'package:taskbuddy/api/v1/accounts/check_existence.dart';
 
 // Class for handling account-related operations
 class Accounts {
+  static get check_existence => CheckExistence();
+
   // Placeholder method for retrieving user account details
   void me() {
     throw UnimplementedError();

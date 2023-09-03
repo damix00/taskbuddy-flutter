@@ -30,5 +30,7 @@
   "termsAndConditions": "Slažem se s <link href=\"{url}\">Uvjetima pružanja usluge</link>.",
   "registerCredentialsAppbar": "Postavljanje računa",
   "registerCredentialsTitle": "E-Mail i lozinka",
-  "registerCredentialsDesc": "Vaš siguran prolaz: odaberite svoj E-Mail i lozinku."
+  "registerCredentialsDesc": "Tvoj siguran prolaz: odaberi svoj E-Mail i lozinku.",
+  "confirmPassword": "Potvrdi lozinku",
+  "passwordsDontMatch": "Lozinke se ne podudaraju."
 }

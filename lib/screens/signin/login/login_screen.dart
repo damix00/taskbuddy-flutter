@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/utils/validators.dart';
@@ -7,7 +9,6 @@ import 'package:taskbuddy/widgets/input/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/screens/screen_title.dart';
-import 'package:taskbuddy/widgets/ui/gradient_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
@@ -26,9 +27,7 @@ class LoginScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context)
-                  .size
-                  .height, // Set minimum height to the screen height
+              minHeight: max(MediaQuery.of(context).size.height, 600), // Set minimum height to the screen height
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +35,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 ScreenTitle(title: l10n.loginTitle, description: l10n.loginDesc,), // Display screen title and description
                 const SizedBox(
-                  height: 26,
+                  height: Sizing.formSpacing,
                 ),
                 const _LoginForm(), // Display login form
               ],
@@ -87,7 +86,7 @@ class _LoginFormState extends State<_LoginForm> {
             },
           ),
           const SizedBox(
-            height: 12,
+            height: Sizing.inputSpacing,
           ),
           TextInput(
             controller: _passwordController,
@@ -105,7 +104,7 @@ class _LoginFormState extends State<_LoginForm> {
               return null;
             },
           ),
-          const SizedBox(height: 26),
+          const SizedBox(height: Sizing.formSpacing),
           Button(
               loading: loading,
               child: Text(
