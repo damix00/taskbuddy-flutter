@@ -58,6 +58,10 @@ class AccountResponseRequiredActions {
       verifyEmail: json['verify_email'],
     );
   }
+
+  String toJson() {
+    return '{"verify_phone_number": $verifyPhoneNumber, "verify_email": $verifyEmail}';
+  }
 }
 
 // Represents the entire response from the server including user data and actions

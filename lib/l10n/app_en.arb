@@ -1,11 +1,8 @@
 {
   "@@locale": "en",
-  "helloWorld": "Hello World",
-  "@helloWorld": {
-    "description": "This is an example description."
-  },
   "registerBtn": "Sign up",
   "loginBtn": "Log in",
+  "optional": "(optional)",
   "welcome__s1_title": "Welcome to TaskBuddy.",
   "@welcome__s1_title": {
     "description": "This is the title for the first slide of the welcome screen."
@@ -78,5 +75,8 @@
         "example": "https://www.google.com/"
       }
     }
-  }
+  },
+  "registerCredentialsAppbar": "Account setup",
+  "registerCredentialsTitle": "Account credentials",
+  "registerCredentialsDesc": "Your secure gateway: choose your E-Mail and password."
 }

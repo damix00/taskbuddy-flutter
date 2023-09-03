@@ -6,8 +6,10 @@ import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
+import 'package:taskbuddy/widgets/screens/screen_title.dart';
 import 'package:taskbuddy/widgets/ui/gradient_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 // Login screen widget
 class LoginScreen extends StatelessWidget {
@@ -15,52 +17,32 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: BlurAppbar.appBar(), // AppBar with blur effect
       body: ScrollbarSingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: MediaQuery.of(context)
                   .size
                   .height, // Set minimum height to the screen height
             ),
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _ScreenTitle(), // Display screen title and description
-                SizedBox(
+                ScreenTitle(title: l10n.loginTitle, description: l10n.loginDesc,), // Display screen title and description
+                const SizedBox(
                   height: 26,
                 ),
-                _LoginForm(), // Display login form
+                const _LoginForm(), // Display login form
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _ScreenTitle extends StatelessWidget {
-  const _ScreenTitle({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          GradientText(AppLocalizations.of(context)!.loginTitle,
-              gradient: GradientText.getDefaultGradient(context)),
-          const SizedBox(height: 12),
-          Text(
-            AppLocalizations.of(context)!.loginDesc,
-            textAlign: TextAlign.center,
-          ),
-        ],
       ),
     );
   }

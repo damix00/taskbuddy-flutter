@@ -1,8 +1,8 @@
 {
   "@@locale": "hr",
-  "helloWorld": "Pozdrav svijete!",
   "registerBtn": "Registriraj se",
   "loginBtn": "Prijavi se",
+  "optional": "(neobavezno)",
   "welcome__s1_title": "Dobrodošli na TaskBuddy.",
   "welcome__s1_desc": "Vaša platforma za jednostavno obavljanje i objavljivanje poslova.",
   "welcome__s2_title": "Objavi posao.",
@@ -27,5 +27,8 @@
   "registerTitle": "Poslovi.\nZajednica.\nKrenimo!",
   "registerDesc": "Prihvatite suradnju i praktičnost - registrirajte se za TaskBuddy danas!",
   "continueText": "Nastavi",
-  "termsAndConditions": "Slažem se s <link href=\"{url}\">Uvjetima pružanja usluge</link>."
+  "termsAndConditions": "Slažem se s <link href=\"{url}\">Uvjetima pružanja usluge</link>.",
+  "registerCredentialsAppbar": "Postavljanje računa",
+  "registerCredentialsTitle": "E-Mail i lozinka",
+  "registerCredentialsDesc": "Vaš siguran prolaz: odaberite svoj E-Mail i lozinku."
 }

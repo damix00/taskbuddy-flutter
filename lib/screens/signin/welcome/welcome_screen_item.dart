@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:taskbuddy/widgets/ui/gradient_text.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class WelcomeScreenItem extends StatelessWidget {
   final String title;
@@ -20,7 +21,7 @@ class WelcomeScreenItem extends StatelessWidget {
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

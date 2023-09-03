@@ -50,7 +50,7 @@ class BlurAppbar extends StatelessWidget {
         child: ClipRRect(
           child: BackdropFilter(
             filter:
-                ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Apply blur effect
+                ImageFilter.blur(sigmaX: 50, sigmaY: 50), // Apply blur effect
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceVariant,

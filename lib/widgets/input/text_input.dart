@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TextInput extends StatelessWidget {
   final String label;
@@ -11,6 +12,7 @@ class TextInput extends StatelessWidget {
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
   final String? errorText;
+  final bool optional; // If true, shows grey optional text
 
   const TextInput(
       {Key? key,
@@ -22,6 +24,7 @@ class TextInput extends StatelessWidget {
       this.textInputAction = TextInputAction.done,
       this.keyboardType = TextInputType.text,
       this.errorText,
+      this.optional = false,
       required this.validator})
       : super(key: key);
 
@@ -30,7 +33,18 @@ class TextInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: Theme.of(context).textTheme.titleMedium),
+        Wrap(
+          children: [
+            Text('$label ', style: Theme.of(context).textTheme.titleMedium),
+            if (optional)
+              Text(
+                AppLocalizations.of(context)!.optional,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                )
+              ),
+          ],
+        ),
         const SizedBox(height: 8),
         TextFormField(
           keyboardType: keyboardType,
@@ -52,6 +66,11 @@ class TextInput extends StatelessWidget {
             isDense: true,
             hintStyle: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.outline),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),

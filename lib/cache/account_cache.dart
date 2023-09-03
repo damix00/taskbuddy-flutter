@@ -1,6 +1,9 @@
 // Account cache is used to store the account information of the user
 // Stored using secure storage to prevent tampering
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:taskbuddy/api/responses/account_response.dart';
 
 // Class responsible for caching account-related data using secure storage
 class AccountCache {
@@ -34,5 +37,24 @@ class AccountCache {
   // Set the token in the storage
   static Future<void> setToken(String value) async {
     await _writeKey('token', value); // Write the token value
+  }
+
+  // Get required actions from the storage
+  // Required actions are actions that the user needs to perform (like verifying phone number)
+  static Future<AccountResponseRequiredActions?> getRequiredActions() async {
+    // Read the required actions value
+    var requiredActions = await _readKey('requiredActions');
+    // Convert the JSON string to a map
+    var requiredActionsMap = requiredActions != null ? jsonDecode(requiredActions) : null;
+    // Return the required actions object
+    return requiredActionsMap != null ? AccountResponseRequiredActions.fromJson(requiredActionsMap) : null;
+  }
+
+  // Set required actions in the storage
+  static Future<void> setRequiredActions(AccountResponseRequiredActions value) async {
+    // Convert the required actions object to a JSON string
+    var requiredActions = value.toJson();
+    // Write the required actions value
+    await _writeKey('requiredActions', requiredActions);
   }
 }

@@ -8,9 +8,11 @@ import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/checkbox.dart';
 import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
+import 'package:taskbuddy/widgets/screens/screen_title.dart';
 import 'package:taskbuddy/widgets/ui/gradient_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_text/styled_text.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -18,12 +20,14 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: BlurAppbar.appBar(),
       body: ScrollbarSingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: max(MediaQuery.of(context).size.height, 500),
@@ -35,55 +39,12 @@ class RegisterScreen extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).padding.top * 2 + 16,
               ),
-              const _ScreenMiddle(),
+              ScreenTitle(title: l10n.registerTitle, description: l10n.registerDesc),
               const _ScreenBottom(),
             ],),
           )
         )
       )
-    );
-  }
-}
-
-class _ScreenMiddle extends StatelessWidget {
-  const _ScreenMiddle({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        _Title(),
-        SizedBox(
-          height: 16,
-        ),
-        _Description(),
-      ],
-    );
-  }
-}
-
-class _Title extends StatelessWidget {
-  const _Title({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: GradientText(AppLocalizations.of(context)!.registerTitle,
-          gradient: GradientText.getDefaultGradient(context)),
-    );
-  }
-}
-
-class _Description extends StatelessWidget {
-  const _Description({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        AppLocalizations.of(context)!.registerDesc,
-        textAlign: TextAlign.center,
-      ),
     );
   }
 }
@@ -122,7 +83,8 @@ class _ScreenBottomState extends State<_ScreenBottom> {
                         : LaunchMode.externalApplication);
                 },
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  fontWeight: FontWeight.w900,
                 )
               )
             }
@@ -136,7 +98,11 @@ class _ScreenBottomState extends State<_ScreenBottom> {
             child: Text(l10n.continueText,
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-            onPressed: () {}),
+            onPressed: () {
+              // Show the next registration step
+              // In the credentials, the user will define their email and password
+              Navigator.pushNamed(context, '/register/creds');
+            }),
         const SizedBox(
           height: 16,
         ),
