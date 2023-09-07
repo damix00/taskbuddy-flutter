@@ -5,7 +5,7 @@ import 'package:taskbuddy/api/v1/accounts/check_existence.dart';
 
 // Class for handling account-related operations
 class Accounts {
-  static get check_existence => CheckExistence();
+  CheckExistence get checkExistence => CheckExistence();
 
   // Placeholder method for retrieving user account details
   void me() {

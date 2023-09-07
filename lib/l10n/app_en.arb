@@ -80,5 +80,9 @@
   "registerCredentialsTitle": "Account credentials",
   "registerCredentialsDesc": "Your secure gateway: choose your E-Mail and password.",
   "confirmPassword": "Confirm password",
-  "passwordsDontMatch": "Passwords don''t match."
+  "passwordsDontMatch": "Passwords don''t match.",
+  "emailTaken": "E-Mail address already taken.",
+  "networkError": "A network error occurred.",
+  "phoneNumber": "Phone number",
+  "phoneNumberTaken": "Phone number already taken."
 }

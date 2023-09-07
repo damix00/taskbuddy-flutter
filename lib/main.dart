@@ -8,6 +8,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 import 'package:taskbuddy/screens/signin/login/login_screen.dart';
 import 'package:taskbuddy/screens/signin/register/pages/credentials_page.dart';
@@ -147,7 +148,7 @@ class _AppState extends State<App> {
             onSecondary: const Color(0xff000000),
             onSurface: Colors.white,
             onBackground: Colors.white,
-            onError: const Color(0xff000000),
+            onError: Colors.white,
             outline: Constants.borderColor,
           ),
           pageTransitionsTheme: const PageTransitionsTheme(builders: {
@@ -173,7 +174,7 @@ class _AppState extends State<App> {
             onSurface: Colors.black,
             onBackground: Colors.black,
             onError:
-                Colors.black, // Color that is used for error messages (text)
+                Colors.white, // Color that is used for error messages (text)
             outline: const Color(0xFFC2BBD3),
           ),
           textTheme: _textTheme.copyWith(
@@ -199,6 +200,7 @@ class _AppState extends State<App> {
           '/login': (context) => const LoginScreen(),
           '/register': (context) => const RegisterScreen(),
           '/register/creds': (context) => const CredentialsPage(),
+          '/register/profile/details':(context) => const ProfileDetailsPage(),
         });
   }
 }

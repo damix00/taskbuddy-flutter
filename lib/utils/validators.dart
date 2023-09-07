@@ -25,7 +25,20 @@ class Validators {
     if (!password.contains(RegExp(r'[A-Z]'))) {
       return l10n.passwordMustContainNumber;
     }
-    
+
     return null;
+  }
+
+  static bool validatePhoneNumber(String phoneNumber) {
+    var n = phoneNumber.replaceAll(RegExp('[ .,\\-]'), '');
+
+    String patttern =
+        r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
+    RegExp regExp = RegExp(patttern);
+
+    if (!regExp.hasMatch(n)) {
+      return false;
+    }
+    return true;
   }
 }

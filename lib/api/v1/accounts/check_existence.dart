@@ -1,24 +1,60 @@
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/requests.dart';
+import 'package:taskbuddy/api/responses/existence_response.dart';
+import 'package:taskbuddy/api/responses/responses.dart';
 
 class CheckExistence {
-  Future<bool> _request(String endpoint) async {
+  Future<ExistenceResponse> _request(
+      String endpoint, Duration? fakeDuration) async {
+    var time = DateTime.now().millisecondsSinceEpoch;
     var res = await Requests.fetchEndpoint(endpoint, method: 'GET');
 
-    if (res == null) return true; // assume taken
+    if (fakeDuration != null &&
+        DateTime.now().millisecondsSinceEpoch - time <
+            fakeDuration.inMilliseconds) {
+      // Add a fake delay
+      // This is to prevent the UI from flashing
+      await Future.delayed(Duration(
+          milliseconds: fakeDuration.inMilliseconds -
+              (DateTime.now().millisecondsSinceEpoch - time)));
+    }
 
-    if (res.response!.statusCode! >= 500) return true; // assume taken
+    if (res!.response!.statusCode == 200) {
+      return ExistenceResponse.fromJson(res.response!.data);
+    }
 
-    return res.response!.statusCode != 200;
+    return ExistenceResponse(error: ErrorType.serverError);
   }
 
-  Future<bool> email(String email) async {
+  Future<ExistenceResponse> email(String email, {Duration? fakeDelay}) async {
     return (await _request(
-        '${ApiOptions.path}/accounts/check-existence?email=${Uri.encodeComponent(email)}'));
+        '${ApiOptions.path}/accounts/check-existence?email=${Uri.encodeComponent(email)}',
+        fakeDelay));
   }
 
-  Future<bool> username(String username) async {
+  Future<ExistenceResponse> username(String username,
+      {Duration? fakeDelay}) async {
     return (await _request(
-        '${ApiOptions.path}/accounts/check-existence?username=${Uri.encodeComponent(username)}'));
+        '${ApiOptions.path}/accounts/check-existence?username=${Uri.encodeComponent(username)}',
+        fakeDelay));
+  }
+
+  Future<ExistenceResponse> phoneNumber(String phoneNumber,
+      {Duration? fakeDelay}) async {
+    return (await _request(
+        '${ApiOptions.path}/accounts/check-existence?phoneNumber=${Uri.encodeComponent(phoneNumber)}',
+        fakeDelay));
+  }
+
+  Future<ExistenceResponse> custom(Map<String, String> data,
+      {Duration? fakeDelay}) async {
+    var query = '';
+
+    data.forEach((key, value) {
+      query += '$key=${Uri.encodeComponent(value.toString())}&';
+    });
+
+    return (await _request(
+        '${ApiOptions.path}/accounts/check-existence?$query', fakeDelay));
   }
 }

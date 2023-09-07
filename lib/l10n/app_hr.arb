@@ -29,8 +29,12 @@
   "continueText": "Nastavi",
   "termsAndConditions": "Slažem se s <link href=\"{url}\">Uvjetima pružanja usluge</link>.",
   "registerCredentialsAppbar": "Postavljanje računa",
-  "registerCredentialsTitle": "E-Mail i lozinka",
+  "registerCredentialsTitle": "Podaci za prijavu",
   "registerCredentialsDesc": "Tvoj siguran prolaz: odaberi svoj E-Mail i lozinku.",
   "confirmPassword": "Potvrdi lozinku",
-  "passwordsDontMatch": "Lozinke se ne podudaraju."
+  "passwordsDontMatch": "Lozinke se ne podudaraju.",
+  "emailTaken": "E-Mail je već zauzet.",
+  "networkError": "Došlo je do pogreške u mreži.",
+  "phoneNumber": "Broj mobitela",
+  "phoneNumberTaken": "Broj mobitela je već zauzet."
 }

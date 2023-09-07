@@ -50,3 +50,8 @@ class ApiResponse<T> extends Response {
     );
   }
 }
+
+enum ErrorType {
+  networkError,
+  serverError
+}

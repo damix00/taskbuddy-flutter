@@ -58,7 +58,6 @@ class _LoginFormState extends State<_LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String? _errorText;
   bool loading = false;
 
   @override
@@ -74,7 +73,6 @@ class _LoginFormState extends State<_LoginForm> {
             textInputAction: TextInputAction.next,
             label: l10n.email,
             hint: 'latinary@example.com',
-            errorText: _errorText,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return l10n.emptyField(l10n.email);
@@ -91,7 +89,6 @@ class _LoginFormState extends State<_LoginForm> {
           TextInput(
             controller: _passwordController,
             label: l10n.password,
-            errorText: _errorText,
             hint: 'coolpassword123',
             obscureText: true,
             validator: (value) {
@@ -121,19 +118,27 @@ class _LoginFormState extends State<_LoginForm> {
                   final response = await Api.v1.accounts
                       .login(_emailController.text, _passwordController.text);
 
-                  setState(() {
-                    loading = false;
-
-                    if (response.status == 500) {
-                      _errorText = l10n.internalServerError;
-                    } else if (response.status == 408) {
+                  if (!response.ok) {
+                    var _errorText = l10n.internalServerError;
+                    if (response.status == 408) {
                       _errorText = l10n.requestTimedOut;
                     } else if (!response.ok) {
                       _errorText = l10n.invalidCredentials;
-                    } else {
-                      // Login successful
-                      _errorText = null;
+                    }
 
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(l10n.networkError, style: TextStyle(
+                        color: Theme.of(context).colorScheme.onError
+                      ),),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                    ));
+                  }
+
+
+                  setState(() {
+                    loading = false;
+
+                    if (response.ok) {
                       // Show the home screen
                       Navigator.pushNamedAndRemoveUntil(
                           context, '/home', (route) => false);
