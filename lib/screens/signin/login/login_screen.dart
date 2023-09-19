@@ -11,6 +11,7 @@ import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/screens/screen_title.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/widgets/ui/snackbars.dart';
 
 // Login screen widget
 class LoginScreen extends StatelessWidget {
@@ -126,14 +127,8 @@ class _LoginFormState extends State<_LoginForm> {
                       _errorText = l10n.invalidCredentials;
                     }
 
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(l10n.networkError, style: TextStyle(
-                        color: Theme.of(context).colorScheme.onError
-                      ),),
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                    ));
+                    SnackbarPresets.show(context, _errorText);
                   }
-
 
                   setState(() {
                     loading = false;

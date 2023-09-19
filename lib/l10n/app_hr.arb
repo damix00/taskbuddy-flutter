@@ -48,5 +48,6 @@
   "usernameTooShort": "Korisničko ime mora imati najmanje {minLength} znakova.",
   "usernameTooLong": "Korisničko ime ne može imati više od {maxLength} znakova.",
   "usernameTaken": "Korisničko ime je već zauzeto.",
-  "invalidUsername": "Neispravno korisničko ime."
+  "invalidUsername": "Neispravno korisničko ime.",
+  "profileDisclaimer": "Ovi će podaci biti vidljivi svima.\nMožete ih promijeniti kasnije."
 }

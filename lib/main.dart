@@ -201,6 +201,7 @@ class _AppState extends State<App> {
           '/register': (context) => const RegisterScreen(),
           '/register/creds': (context) => const CredentialsPage(),
           '/register/profile/details':(context) => const ProfileDetailsPage(),
+          '/register/profile/finish':(context) => const ProfileDetailsPage(),
         });
   }
 }

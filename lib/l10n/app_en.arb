@@ -114,5 +114,6 @@
     }
   },
   "usernameTaken": "Username already taken.",
-  "invalidUsername": "Invalid username."
+  "invalidUsername": "Invalid username.",
+  "profileDisclaimer": "This data will be visible to everyone.\nYou can change this later."
 }

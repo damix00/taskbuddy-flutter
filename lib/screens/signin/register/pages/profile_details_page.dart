@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/state/static/register_state.dart';
+import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
@@ -9,6 +12,7 @@ import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/screens/screen_title.dart';
 import 'package:taskbuddy/widgets/ui/disclaimer_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/widgets/ui/snackbars.dart';
 
 class ProfileDetailsPage extends StatelessWidget {
   const ProfileDetailsPage({Key? key}) : super(key: key);
@@ -58,6 +62,14 @@ class _DetailsForm extends StatefulWidget {
 
 class __DetailsFormState extends State<_DetailsForm> {
   final _formKey = GlobalKey<FormState>();
+  
+  // Controllers for the text inputs
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+
+  bool _usernameTaken = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +82,9 @@ class __DetailsFormState extends State<_DetailsForm> {
           Row(
             children: [
               Flexible(
+                // First name
                 child: TextInput(
+                  controller: _firstNameController,
                   label: l10n.firstName,
                   hint: 'Mathew',
                   keyboardType: TextInputType.name,
@@ -85,7 +99,9 @@ class __DetailsFormState extends State<_DetailsForm> {
               ),
               const SizedBox(width: Sizing.inputSpacing,),
               Flexible(
+                // Last name
                 child: TextInput(
+                  controller: _lastNameController,
                   label: l10n.lastName,
                   hint: 'Pizey',
                   keyboardType: TextInputType.name,
@@ -102,24 +118,57 @@ class __DetailsFormState extends State<_DetailsForm> {
           ),
           const SizedBox(height: Sizing.inputSpacing,),
           TextInput(
-            tooltipText: "Gay sex",
+            errorText: _usernameTaken ? l10n.usernameTaken : null,
+            controller: _usernameController,
+            tooltipText: l10n.usernameTooltip,
             label: l10n.username,
             hint: 'its.mr_p123',
             keyboardType: TextInputType.text,
-            validator: (v) {}
+            validator: (v) {
+              if (v == null || v.isEmpty) {
+                return l10n.emptyField(l10n.username);
+              }
+
+              return Validators.validateUsername(context, v);
+            }
           ),
           const SizedBox(height: Sizing.formSpacing,),
           Button(
+            loading: _loading,
             child: Text(
               l10n.continueText,
               style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)
             ),
-            onPressed: () {
-              _formKey.currentState!.validate();
+            onPressed: () async {
+              // If there are no input errors, continue
+              if (_formKey.currentState!.validate()) {
+                setState(() {
+                  _loading = true;
+                  _usernameTaken = false;
+                });
+
+                var exists = await Api.v1.accounts.checkExistence.username(_usernameController.text, fakeDelay: const Duration(milliseconds: 400));
+
+                if (exists.error != null) {
+                  setState(() {
+                    _loading = false;
+                  });
+                  SnackbarPresets.networkError(context);
+                } else {
+                  setState(() {
+                  _usernameTaken = exists.username!;
+                    _loading = false;
+                  });
+
+                  if (!exists.username!) {
+                    Navigator.pushNamed(context, '/register/profile/details');
+                  }
+                }
+              }
             }
           ),
           const SizedBox(height: Sizing.inputSpacing,),
-          DisclaimerText(text: 'This is a disclaimer text.')
+          DisclaimerText(text: l10n.profileDisclaimer),
         ],
       ),
     );

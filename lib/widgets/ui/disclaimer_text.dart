@@ -13,6 +13,7 @@ class DisclaimerText extends StatelessWidget {
         color: Theme.of(context).colorScheme.onSurfaceVariant,
         fontSize: 12,
       ),
+      textAlign: TextAlign.center,
     );
   }
 }

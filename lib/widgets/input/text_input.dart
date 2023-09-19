@@ -35,11 +35,14 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<TooltipState> _tooltipKey = GlobalKey<TooltipState>();
+    // This is for the tooltip
+    final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Add a row with the label and the optional text
+        // If the tooltip text is specified, add a tooltip icon
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
@@ -53,11 +56,15 @@ class TextInput extends StatelessWidget {
               ),
             if (tooltipText != null)
               Tooltip(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 message: tooltipText,
-                key: _tooltipKey,
+                // Disable auto hide (1 day is more than enough)
+                waitDuration: const Duration(days: 1),
+                key: tooltipKey,
                 child: Touchable(
                   onTap: () {
-                    _tooltipKey.currentState?.ensureTooltipVisible();
+                    // Show the tooltip on tap
+                    tooltipKey.currentState?.ensureTooltipVisible();
                   },
                   child: Icon(
                     Icons.info_outline,

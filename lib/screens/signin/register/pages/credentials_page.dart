@@ -11,6 +11,7 @@ import 'package:taskbuddy/widgets/input/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/screens/screen_title.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/widgets/ui/snackbars.dart';
 
 class CredentialsPage extends StatelessWidget {
   const CredentialsPage({Key? key}) : super(key: key);
@@ -61,11 +62,13 @@ class _CredentialsForm extends StatefulWidget {
 class __CredentialsFormState extends State<_CredentialsForm> {
   final _formKey = GlobalKey<FormState>();
 
+  // Text controllers
+  // These are used to get the text from the text fields
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
-  String _passwordValue = '';
-  String _confirmPasswordValue = '';
   bool _loading = false;
   bool _emailTaken = false;
   bool _phoneNumberTaken = false;
@@ -79,24 +82,26 @@ class __CredentialsFormState extends State<_CredentialsForm> {
       child: Column(
         children: [
           TextInput(
-              errorText: _emailTaken ? l10n.emailTaken : null,
-              controller: _emailController,
-              label: l10n.email,
-              hint: 'example@latinary.com',
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return l10n.emptyField(l10n.email);
-                }
-                if (!Validators.isEmailValid(value)) {
-                  return l10n.invalidEmail;
-                }
-                return null;
-              }),
+            errorText: _emailTaken ? l10n.emailTaken : null,
+            controller: _emailController,
+            label: l10n.email,
+            hint: 'example@latinary.com',
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return l10n.emptyField(l10n.email);
+              }
+              if (!Validators.isEmailValid(value)) {
+                return l10n.invalidEmail;
+              }
+              return null;
+            }
+          ),
           const SizedBox(height: Sizing.inputSpacing),
           TextInput(
             label: l10n.phoneNumber,
+            controller: _phoneNumberController,
             hint: '+1 555 555 5555',
             errorText: _phoneNumberTaken ? l10n.phoneNumberTaken : null,
             textInputAction: TextInputAction.next,
@@ -115,11 +120,8 @@ class __CredentialsFormState extends State<_CredentialsForm> {
               hint: 'supersecretpassword',
               textInputAction: TextInputAction.next,
               obscureText: true,
-              onChanged: (value) {
-                _passwordValue = value;
-              },
               validator: (value) {
-                if (_confirmPasswordValue != value) {
+                if (_confirmPasswordController.text != value) {
                   return l10n.passwordsDontMatch;
                 }
 
@@ -135,28 +137,27 @@ class __CredentialsFormState extends State<_CredentialsForm> {
               }),
           const SizedBox(height: Sizing.inputSpacing),
           TextInput(
-              label: l10n.confirmPassword,
-              hint: 'supersecretpassword',
-              textInputAction: TextInputAction.done,
-              obscureText: true,
-              onChanged: (value) {
-                _confirmPasswordValue = value;
-              },
-              validator: (value) {
-                if (_passwordValue != value) {
-                  return l10n.passwordsDontMatch;
-                }
+            controller: _confirmPasswordController,
+            label: l10n.confirmPassword,
+            hint: 'supersecretpassword',
+            textInputAction: TextInputAction.done,
+            obscureText: true,
+            validator: (value) {
+              if (_passwordController.text != value) {
+                return l10n.passwordsDontMatch;
+              }
 
-                if (value == null || value.isEmpty) {
-                  return l10n.emptyField(l10n.confirmPassword);
-                }
+              if (value == null || value.isEmpty) {
+                return l10n.emptyField(l10n.confirmPassword);
+              }
 
-                if (value.length < 8) {
-                  return l10n.passwordTooShort(8);
-                }
+              if (value.length < 8) {
+                return l10n.passwordTooShort(8);
+              }
 
-                return null;
-              }),
+              return null;
+            }
+          ),
           const SizedBox(height: Sizing.formSpacing),
           Button(
             loading: _loading,
@@ -170,24 +171,18 @@ class __CredentialsFormState extends State<_CredentialsForm> {
 
                 RegisterState.email = _emailController.text;
                 RegisterState.password = _passwordController.text;
+                RegisterState.phoneNumber = _phoneNumberController.text;
 
                 var exists = await Api.v1.accounts.checkExistence.custom({
                   'email': _emailController.text,
-                  'phoneNumber': _emailController.text,
+                  'phoneNumber': _phoneNumberController.text,
                 }, fakeDelay: const Duration(milliseconds: 500));
 
                 if (exists.error != null) {
                   setState(() {
                     _loading = false;
                   });
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                      l10n.networkError,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.onError),
-                    ),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                  ));
+                  SnackbarPresets.networkError(context);
                 } else {
                   setState(() {
                     _emailTaken = exists.email!;
