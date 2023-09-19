@@ -5,6 +5,8 @@ class Validators {
   static final RegExp _emailRegex = RegExp(
       r"^[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
 
+  static final RegExp _usernameRegex = RegExp(r'^([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,30}(?:[A-Za-z0-9_]))?)$');
+
   static bool isEmailValid(String email) {
     return email.length <= 256 && _emailRegex.hasMatch(email);
   }
@@ -40,5 +42,29 @@ class Validators {
       return false;
     }
     return true;
+  }
+
+  static String? validateUsername(BuildContext context, String username) {
+    // Get the localized strings
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
+    // Username must be between 3 and 32 characters
+    if (username.length < 3) {
+      return l10n.usernameTooShort(3);
+    }
+    if (username.length > 32) {
+      return l10n.usernameTooLong(32);
+    }
+
+    // Username must only contain alphanumeric characters and underscores
+    if (!_usernameRegex.hasMatch(username)) {
+      return l10n.invalidUsername;
+    }
+
+    return null;
+  }
+
+  static bool isUsernameValid(String username) {
+    return _usernameRegex.hasMatch(username);
   }
 }

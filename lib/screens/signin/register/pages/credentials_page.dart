@@ -33,7 +33,7 @@ class CredentialsPage extends StatelessWidget {
               ),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: max(MediaQuery.of(context).size.height, 700),
+                  minHeight: max(MediaQuery.of(context).size.height, 800),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +105,7 @@ class __CredentialsFormState extends State<_CredentialsForm> {
               if (v == null || v.isEmpty) {
                 return l10n.emptyField(l10n.phoneNumber);
               }
-              return Validators.validatePhoneNumber(v) ? null : 'zexs';
+              return Validators.validatePhoneNumber(v) ? null : l10n.invalidPhoneNumber;
             },
           ),
           const SizedBox(height: Sizing.inputSpacing),

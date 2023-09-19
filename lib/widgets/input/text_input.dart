@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 
 class TextInput extends StatelessWidget {
   final String label;
@@ -12,6 +13,7 @@ class TextInput extends StatelessWidget {
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
   final String? errorText;
+  final String? tooltipText;
   final bool optional; // If true, shows grey optional text
   final void Function(String)? onChanged;
 
@@ -27,23 +29,42 @@ class TextInput extends StatelessWidget {
       this.errorText,
       this.optional = false,
       this.onChanged,
+      this.tooltipText,
       required this.validator})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<TooltipState> _tooltipKey = GlobalKey<TooltipState>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Text('$label ', style: Theme.of(context).textTheme.titleMedium),
             if (optional)
               Text(
-                AppLocalizations.of(context)!.optional,
+                '${AppLocalizations.of(context)!.optional} ',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 )
+              ),
+            if (tooltipText != null)
+              Tooltip(
+                message: tooltipText,
+                key: _tooltipKey,
+                child: Touchable(
+                  onTap: () {
+                    _tooltipKey.currentState?.ensureTooltipVisible();
+                  },
+                  child: Icon(
+                    Icons.info_outline,
+                    size: 18,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
               ),
           ],
         ),

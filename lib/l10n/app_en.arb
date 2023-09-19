@@ -84,5 +84,35 @@
   "emailTaken": "E-Mail address already taken.",
   "networkError": "A network error occurred.",
   "phoneNumber": "Phone number",
-  "phoneNumberTaken": "Phone number already taken."
+  "phoneNumberTaken": "Phone number already taken.",
+  "invalidPhoneNumber": "Invalid phone number.",
+  "registerDetailsAppbar": "Profile details",
+  "registerDetailsTitle": "Profile details",
+  "registerDetailsDesc": "Tell us a bit about yourself.",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "username": "Username",
+  "usernameTooltip": "This is your unique identifier, and it can be changed later if needed. Choose a name that represents you best.",
+  "usernameTooShort": "Username must be at least {minLength} characters long.",
+  "@usernameTooShort": {
+    "description": "This is the error message when the username is too short.",
+    "placeholders": {
+      "minLength": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "usernameTooLong": "Username must be at most {maxLength} characters long.",
+  "@usernameTooLong": {
+    "description": "This is the error message when the username is too long.",
+    "placeholders": {
+      "maxLength": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "usernameTaken": "Username already taken.",
+  "invalidUsername": "Invalid username."
 }

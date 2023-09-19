@@ -36,5 +36,17 @@
   "emailTaken": "E-Mail je već zauzet.",
   "networkError": "Došlo je do pogreške u mreži.",
   "phoneNumber": "Broj mobitela",
-  "phoneNumberTaken": "Broj mobitela je već zauzet."
+  "phoneNumberTaken": "Broj mobitela je već zauzet.",
+  "invalidPhoneNumber": "Neispravan broj mobitela.",
+  "registerDetailsAppbar": "Detalji profila",
+  "registerDetailsTitle": "Detalji profila",
+  "registerDetailsDesc": "Reci nam nešto o sebi.",
+  "firstName": "Ime",
+  "lastName": "Prezime",
+  "username": "Korisničko ime",
+  "usernameTooltip": "Ovo je tvoj jedinstveni identifikator, a može se promijeniti kasnije ako je potrebno. Odaberite ime koje vas najbolje predstavlja.",
+  "usernameTooShort": "Korisničko ime mora imati najmanje {minLength} znakova.",
+  "usernameTooLong": "Korisničko ime ne može imati više od {maxLength} znakova.",
+  "usernameTaken": "Korisničko ime je već zauzeto.",
+  "invalidUsername": "Neispravno korisničko ime."
 }
