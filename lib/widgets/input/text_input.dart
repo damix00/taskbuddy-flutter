@@ -16,6 +16,9 @@ class TextInput extends StatelessWidget {
   final String? tooltipText;
   final bool optional; // If true, shows grey optional text
   final void Function(String)? onChanged;
+  final int? minLines;
+  final int? maxLines;
+  final int? maxLength;
 
   const TextInput(
       {Key? key,
@@ -30,11 +33,16 @@ class TextInput extends StatelessWidget {
       this.optional = false,
       this.onChanged,
       this.tooltipText,
+      this.minLines,
+      this.maxLines = 1,
+      this.maxLength,
       required this.validator})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(obscureText);
+
     // This is for the tooltip
     final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
 
@@ -87,6 +95,9 @@ class TextInput extends StatelessWidget {
             fontSize: 14,
           ),
           obscureText: obscureText,
+          maxLines: maxLines,
+          minLines: minLines,
+          maxLength: maxLength,
           decoration: InputDecoration(
             errorText: errorText,
             contentPadding:

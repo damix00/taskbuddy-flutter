@@ -49,5 +49,11 @@
   "usernameTooLong": "Korisničko ime ne može imati više od {maxLength} znakova.",
   "usernameTaken": "Korisničko ime je već zauzeto.",
   "invalidUsername": "Neispravno korisničko ime.",
-  "profileDisclaimer": "Ovi će podaci biti vidljivi svima.\nMožete ih promijeniti kasnije."
+  "profileDisclaimer": "Ovi će podaci biti vidljivi svima.\nMožete ih promijeniti kasnije.",
+  "finalRegisterAppbar": "Dovrši registraciju",
+  "finalRegisterTitle": "Poboljšaj svoj profil",
+  "finalRegisterDesc": "Dodaj profilnu sliku i kratku biografiju kako bi tvoj profil bio uočljiviji.",
+  "profilePicture": "Profilna slika",
+  "biograpgy": "Biografija",
+  "signUpBtnFinish": "Registriraj se!"
 }

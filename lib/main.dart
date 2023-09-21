@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
+import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 import 'package:taskbuddy/screens/signin/login/login_screen.dart';
 import 'package:taskbuddy/screens/signin/register/pages/credentials_page.dart';
@@ -16,18 +17,23 @@ import 'package:taskbuddy/screens/signin/register/register_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 void main() {
   // Add a custom splash screen so we can manually remove it
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => PreferencesModel()),
-    ],
-    child: const App(),
-  ));
+  runApp(
+    Phoenix(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => PreferencesModel()),
+        ],
+        child: const App(),
+      )
+    )
+  );
 }
 
 class App extends StatefulWidget {
@@ -201,7 +207,7 @@ class _AppState extends State<App> {
           '/register': (context) => const RegisterScreen(),
           '/register/creds': (context) => const CredentialsPage(),
           '/register/profile/details':(context) => const ProfileDetailsPage(),
-          '/register/profile/finish':(context) => const ProfileDetailsPage(),
+          '/register/profile/finish':(context) => const ProfileFinishPage(),
         });
   }
 }

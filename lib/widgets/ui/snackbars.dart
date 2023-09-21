@@ -5,7 +5,7 @@ class SnackbarPresets {
   static void show(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
-        AppLocalizations.of(context)!.networkError,
+        text,
         style: TextStyle(color: Theme.of(context).colorScheme.onError),
       ),
       backgroundColor: Theme.of(context).colorScheme.error,

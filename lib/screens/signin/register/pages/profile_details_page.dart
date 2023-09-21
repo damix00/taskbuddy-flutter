@@ -161,7 +161,13 @@ class __DetailsFormState extends State<_DetailsForm> {
                   });
 
                   if (!exists.username!) {
-                    Navigator.pushNamed(context, '/register/profile/details');
+                    // Save the data to the register state
+                    RegisterState.firstName = _firstNameController.text;
+                    RegisterState.lastName = _lastNameController.text;
+                    RegisterState.username = _usernameController.text;
+
+                    // Navigate to the final registration step
+                    Navigator.pushNamed(context, '/register/profile/finish');
                   }
                 }
               }

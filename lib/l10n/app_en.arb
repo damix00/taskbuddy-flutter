@@ -115,5 +115,11 @@
   },
   "usernameTaken": "Username already taken.",
   "invalidUsername": "Invalid username.",
-  "profileDisclaimer": "This data will be visible to everyone.\nYou can change this later."
+  "profileDisclaimer": "This data will be visible to everyone.\nYou can change this later.",
+  "finalRegisterAppbar": "Finish up",
+  "finalRegisterTitle": "Enhance your profile",
+  "finalRegisterDesc": "Add a profile picture and a short bio to make your profile stand out.",
+  "profilePicture": "Profile picture",
+  "biography": "Biography",
+  "signUpBtnFinish": "Sign up!"
 }
