@@ -20,6 +20,7 @@ class TextInput extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final int? maxLength;
+  final String? initialValue;
 
   const TextInput(
       {Key? key,
@@ -37,6 +38,7 @@ class TextInput extends StatelessWidget {
       this.minLines,
       this.maxLines = 1,
       this.maxLength,
+      this.initialValue,
       this.validator})
       : super(key: key);
 
@@ -53,6 +55,7 @@ class TextInput extends StatelessWidget {
         InputTitle(title: label, optional: optional, tooltipText: tooltipText),
         const SizedBox(height: 8),
         TextFormField(
+          initialValue: initialValue,
           onChanged: onChanged,
           keyboardType: keyboardType,
           textInputAction: textInputAction,

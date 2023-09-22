@@ -59,5 +59,8 @@
   "signUpBtnFinish": "Registriraj se!",
   "takePhoto": "Uslikaj fotografiju",
   "chooseFromGallery": "Odaberi iz galerije",
-  "remove": "Ukloni"
+  "remove": "Ukloni",
+  "cropImage": "Izreži sliku",
+  "cancel": "Odustani",
+  "done": "Gotovo"
 }

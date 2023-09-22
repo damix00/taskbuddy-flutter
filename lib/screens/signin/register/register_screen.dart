@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/state/static/register_state.dart';
 import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
@@ -97,6 +98,9 @@ class _ScreenBottomState extends State<_ScreenBottom> {
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
             onPressed: () {
+              // Clear the previous registration state
+              RegisterState.clear();
+
               // Show the next registration step
               // In the credentials, the user will define their email and password
               Navigator.pushNamed(context, '/register/creds');

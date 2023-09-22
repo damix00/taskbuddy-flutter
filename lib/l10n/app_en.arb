@@ -125,5 +125,8 @@
   "signUpBtnFinish": "Sign up!",
   "takePhoto": "Take photo",
   "chooseFromGallery": "Choose from gallery",
-  "remove": "Remove"
+  "remove": "Remove",
+  "cropImage": "Crop image",
+  "cancel": "Cancel",
+  "done": "Done"
 }

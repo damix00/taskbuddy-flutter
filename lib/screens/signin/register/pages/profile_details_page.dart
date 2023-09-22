@@ -64,9 +64,9 @@ class __DetailsFormState extends State<_DetailsForm> {
   final _formKey = GlobalKey<FormState>();
   
   // Controllers for the text inputs
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController(text: RegisterState.firstName);
+  final TextEditingController _lastNameController = TextEditingController(text: RegisterState.lastName);
+  final TextEditingController _usernameController = TextEditingController(text: RegisterState.username);
 
   bool _usernameTaken = false;
   bool _loading = false;

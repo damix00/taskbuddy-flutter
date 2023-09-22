@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:taskbuddy/state/static/register_state.dart';
 import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/pfp_input.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
@@ -64,7 +65,8 @@ class _OptionalForm extends StatefulWidget {
 class __OptionalFormState extends State<_OptionalForm> {
   final _formKey = GlobalKey<FormState>();
 
-  XFile? _image;
+  XFile? _image = RegisterState.profilePicture == '' ? null : XFile(RegisterState.profilePicture);
+  final TextEditingController _bioController = TextEditingController(text: RegisterState.bio);
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,7 @@ class __OptionalFormState extends State<_OptionalForm> {
             onSelected: (file) {
               setState(() {
                 _image = file;
+                RegisterState.profilePicture = file?.path ?? '';
               });
             },
             image: _image,
@@ -85,6 +88,7 @@ class __OptionalFormState extends State<_OptionalForm> {
           const SizedBox(height: Sizing.inputSpacing,),
           // Biograpy text field
           TextInput(
+            controller: _bioController,
             optional: true,
             label: l10n.biography,
             hint: l10n.bioPlaceholder,
@@ -92,6 +96,9 @@ class __OptionalFormState extends State<_OptionalForm> {
             textInputAction: TextInputAction.newline,
             maxLength: 150,
             minLines: 3,
+            onChanged: (v) {
+              RegisterState.bio = v;
+            },
             maxLines: null,
           ),
           const SizedBox(height: Sizing.formSpacing,),
@@ -103,7 +110,8 @@ class __OptionalFormState extends State<_OptionalForm> {
               ),
             ),
             onPressed: () {
-              _formKey.currentState?.validate();
+              if (_formKey.currentState!.validate()) {
+              }
             },
           ),
         ],
