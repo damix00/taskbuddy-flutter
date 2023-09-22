@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Touchable extends StatefulWidget {
   final Widget child;
-  final Function? onTap;
+  final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final VoidCallback? onDoubleTap;
   final bool disabled;

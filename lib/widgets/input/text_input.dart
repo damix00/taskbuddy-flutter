@@ -9,7 +9,7 @@ class TextInput extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final double borderRadius;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
   final String? errorText;
@@ -36,7 +36,7 @@ class TextInput extends StatelessWidget {
       this.minLines,
       this.maxLines = 1,
       this.maxLength,
-      required this.validator})
+      this.validator})
       : super(key: key);
 
   @override

@@ -32,6 +32,7 @@ class Button extends StatelessWidget {
     return Touchable(
       disabled: loading || disabled,
       onTap: () {
+        if (disabled) return;
         HapticFeedback.lightImpact();
         onPressed();
       },

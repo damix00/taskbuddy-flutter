@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "825779028905",
+    "project_id": "taskbuddy-42fba",
+    "storage_bucket": "taskbuddy-42fba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825779028905:android:5cdbe04096460754eefab8",
+        "android_client_info": {
+          "package_name": "net.taskbuddy.taskbuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXZ6eBrySDs_hbFCGsJm-TE83A5zcZNas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

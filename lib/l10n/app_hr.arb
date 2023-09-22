@@ -51,9 +51,10 @@
   "invalidUsername": "Neispravno korisničko ime.",
   "profileDisclaimer": "Ovi će podaci biti vidljivi svima.\nMožete ih promijeniti kasnije.",
   "finalRegisterAppbar": "Dovrši registraciju",
-  "finalRegisterTitle": "Poboljšaj svoj profil",
+  "finalRegisterTitle": "Usavrši svoj profil",
   "finalRegisterDesc": "Dodaj profilnu sliku i kratku biografiju kako bi tvoj profil bio uočljiviji.",
   "profilePicture": "Profilna slika",
   "biograpgy": "Biografija",
+  "bioPlaceholder": "npr. \"22, studiram na FER-u, volim programirati\"",
   "signUpBtnFinish": "Registriraj se!"
 }

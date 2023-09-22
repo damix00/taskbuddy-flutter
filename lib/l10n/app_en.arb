@@ -117,9 +117,10 @@
   "invalidUsername": "Invalid username.",
   "profileDisclaimer": "This data will be visible to everyone.\nYou can change this later.",
   "finalRegisterAppbar": "Finish up",
-  "finalRegisterTitle": "Enhance your profile",
+  "finalRegisterTitle": "Perfect your profile",
   "finalRegisterDesc": "Add a profile picture and a short bio to make your profile stand out.",
   "profilePicture": "Profile picture",
   "biography": "Biography",
+  "bioPlaceholder": "e.g. \"22, studying at MIT, gamer\"",
   "signUpBtnFinish": "Sign up!"
 }
