@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/input/input_title.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 
 class TextInput extends StatelessWidget {
@@ -41,8 +42,6 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(obscureText);
-
     // This is for the tooltip
     final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
 
@@ -51,38 +50,7 @@ class TextInput extends StatelessWidget {
       children: [
         // Add a row with the label and the optional text
         // If the tooltip text is specified, add a tooltip icon
-        Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            Text('$label ', style: Theme.of(context).textTheme.titleMedium),
-            if (optional)
-              Text(
-                '${AppLocalizations.of(context)!.optional} ',
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                )
-              ),
-            if (tooltipText != null)
-              Tooltip(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                message: tooltipText,
-                // Disable auto hide (1 day is more than enough)
-                waitDuration: const Duration(days: 1),
-                key: tooltipKey,
-                child: Touchable(
-                  onTap: () {
-                    // Show the tooltip on tap
-                    tooltipKey.currentState?.ensureTooltipVisible();
-                  },
-                  child: Icon(
-                    Icons.info_outline,
-                    size: 18,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ),
-          ],
-        ),
+        InputTitle(title: label, optional: optional, tooltipText: tooltipText),
         const SizedBox(height: 8),
         TextFormField(
           onChanged: onChanged,

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/pfp_input.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
@@ -33,7 +33,7 @@ class ProfileFinishPage extends StatelessWidget {
           ),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              minHeight: max(MediaQuery.of(context).size.height, 800),
+              minHeight: max(MediaQuery.of(context).size.height, 700),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -64,6 +64,8 @@ class _OptionalForm extends StatefulWidget {
 class __OptionalFormState extends State<_OptionalForm> {
   final _formKey = GlobalKey<FormState>();
 
+  XFile? _image;
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
@@ -74,9 +76,13 @@ class __OptionalFormState extends State<_OptionalForm> {
         children: [
           ProfilePictureInput(
             onSelected: (file) {
-              
+              setState(() {
+                _image = file;
+              });
             },
+            image: _image,
           ),
+          const SizedBox(height: Sizing.inputSpacing,),
           // Biograpy text field
           TextInput(
             optional: true,

@@ -18,6 +18,7 @@ import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:taskbuddy/widgets/transitions/slide_in.dart';
 
 void main() {
   // Add a custom splash screen so we can manually remove it
@@ -157,9 +158,9 @@ class _AppState extends State<App> {
             onError: Colors.white,
             outline: Constants.borderColor,
           ),
-          pageTransitionsTheme: const PageTransitionsTheme(builders: {
-            TargetPlatform.android: ZoomPageTransitionsBuilder(),
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          pageTransitionsTheme: PageTransitionsTheme(builders: {
+            TargetPlatform.android: SlideTransitionBuilder(),
+            TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
           }),
           useMaterial3: true,
         ),
@@ -208,6 +209,7 @@ class _AppState extends State<App> {
           '/register/creds': (context) => const CredentialsPage(),
           '/register/profile/details':(context) => const ProfileDetailsPage(),
           '/register/profile/finish':(context) => const ProfileFinishPage(),
-        });
+        },
+      );
   }
 }
