@@ -51,6 +51,8 @@ dependencies:
   flutter_phoenix: ^1.1.1
   firebase_core: ^2.16.0
   image_picker: ^1.0.4
+  flutter_launcher_icons: ^0.13.1
+  image_crop: ^0.4.1
 
 dev_dependencies:
   flutter_test:
@@ -111,3 +113,10 @@ flutter_native_splash:
   color_dark: "#201A31"
   image: "assets/img/logo_dark.png"
   image_dark: "assets/img/logo_white.png"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/img/icon_dark.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/img/logo_white.png"

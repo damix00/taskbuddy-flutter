@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/input_title.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:taskbuddy/widgets/ui/cross_platform_bottom_sheet.dart';
 
 class ProfilePictureInput extends StatefulWidget {
   final XFile? image;
@@ -29,6 +31,8 @@ class ProfilePictureInput extends StatefulWidget {
 class _ProfilePictureInputState extends State<ProfilePictureInput> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     return SizedBox(
       width: double.infinity, // make the width the same as the parent so it isn't centered
       child: Column(
@@ -41,15 +45,47 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
           const SizedBox(height: 8),
           Touchable(
             onTap: () async {
-              final ImagePicker picker = ImagePicker();
+              var items = [
+                BottomSheetButton(
+                  title: l10n.takePhoto,
+                  icon: Icons.camera_alt,
+                  onTap: (ctx) {
+                    Navigator.of(ctx).pop(); // Close the bottom sheet
+                    // Take a photo
+                    ImagePicker().pickImage(source: ImageSource.camera).then((value) {
+                      widget.onSelected!(value);
+                    });
+                  }
+                ),
+                BottomSheetButton(
+                  title: l10n.chooseFromGallery,
+                  icon: Icons.photo_library,
+                  onTap: (ctx) {
+                    Navigator.of(ctx).pop(); // Close the bottom sheet
+                    // Choose from gallery
+                    ImagePicker().pickImage(source: ImageSource.gallery).then((value) {
+                      widget.onSelected!(value);
+                    });
+                  }
+                ),
+              ];
 
-              // Choose a photo from the gallery
-              final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
-
-              if (photo != null) {
-                // If the user selected a photo, call the onSelected callback
-                widget.onSelected?.call(photo);
+              if (widget.image != null) {
+                items.add(BottomSheetButton(
+                  title: l10n.remove,
+                  icon: Icons.delete,
+                  onTap: (ctx) {
+                    Navigator.of(ctx).pop(); // Close the bottom sheet
+                    widget.onSelected!(null);
+                  }
+                ));
               }
+
+              // Show a bottom sheet to choose an action
+              CrossPlatformBottomSheet.showModal(
+                context,
+                items
+              );
             },
             child: Stack(
               children: [

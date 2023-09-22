@@ -56,5 +56,8 @@
   "profilePicture": "Profilna slika",
   "biography": "Biografija",
   "bioPlaceholder": "npr. \"22, studiram na FER-u, volim programirati\"",
-  "signUpBtnFinish": "Registriraj se!"
+  "signUpBtnFinish": "Registriraj se!",
+  "takePhoto": "Uslikaj fotografiju",
+  "chooseFromGallery": "Odaberi iz galerije",
+  "remove": "Ukloni"
 }

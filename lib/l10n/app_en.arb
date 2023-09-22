@@ -122,5 +122,8 @@
   "profilePicture": "Profile picture",
   "biography": "Biography",
   "bioPlaceholder": "e.g. \"22, studying at MIT, gamer\"",
-  "signUpBtnFinish": "Sign up!"
+  "signUpBtnFinish": "Sign up!",
+  "takePhoto": "Take photo",
+  "chooseFromGallery": "Choose from gallery",
+  "remove": "Remove"
 }
