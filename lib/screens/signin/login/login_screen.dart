@@ -124,7 +124,7 @@ class _LoginFormState extends State<_LoginForm> {
                   if (!response.ok) {
                     var _errorText = l10n.internalServerError;
                     
-                    if (response.status == 408) {
+                    if (response.timedOut || response.status == 408) {
                       _errorText = l10n.requestTimedOut;
                     } else if (!response.ok) {
                       _errorText = l10n.invalidCredentials;

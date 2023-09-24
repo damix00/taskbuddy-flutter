@@ -101,10 +101,8 @@ class AccountResponse {
       bool getProfile = false,
       String method = "GET"}) async {
     // Fetch the response using the Requests class
-    final response = await Requests.fetchEndpoint(
-        endpoint, data: data, headers: headers, method: method, files: files);
-
-    print(response!.response!.data);
+    final response = await Requests.fetchEndpoint(endpoint,
+        data: data, headers: headers, method: method, files: files);
 
     // Handle various response scenarios and construct ApiResponse
     if (response == null) {
@@ -115,6 +113,11 @@ class AccountResponse {
     if (response.timedOut) {
       return ApiResponse(
           status: 408, message: 'Request timed out', ok: false, timedOut: true);
+    }
+
+    if (response.response?.data == null) {
+      return ApiResponse(
+          status: 500, message: 'Request timed out', ok: false, timedOut: true);
     }
 
     final json = response.response!.data;

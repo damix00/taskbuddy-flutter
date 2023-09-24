@@ -1,8 +1,8 @@
 class ProfileResponse {
   String bio;
   String profilePicture;
-  double ratingEmployer;
-  double ratingEmployee;
+  num ratingEmployer;
+  num ratingEmployee;
   int cancelledEmployer;
   int cancelledEmployee;
   int completedEmployer;
@@ -11,8 +11,8 @@ class ProfileResponse {
   int following;
   int posts;
   String locationText;
-  double locationLat;
-  double locationLon;
+  num locationLat;
+  num locationLon;
   bool isPrivate;
 
   ProfileResponse({

@@ -14,8 +14,13 @@ class Accounts {
   CheckExistence get checkExistence => CheckExistence();
 
   // Placeholder method for retrieving user account details
-  void me() {
-    throw UnimplementedError();
+  Future<ApiResponse<AccountResponse?>> me(String token) {
+    return AccountResponse.buildAccountResponse(
+        '${ApiOptions.path}/accounts/me',
+        headers: {
+          'Authorization': 'Bearer $token',
+        }
+    );
   }
 
   // Method for user login

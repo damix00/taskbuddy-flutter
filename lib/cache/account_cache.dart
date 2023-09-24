@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
+import 'package:taskbuddy/api/responses/profile_response.dart';
 
 // Class responsible for caching account-related data using secure storage
 class AccountCache {
@@ -43,15 +44,39 @@ class AccountCache {
 
   static Future<void> setFullName(String firstName, String lastName) async {
     await _writeKey(
-        'fullName', '$firstName $lastName'); // Write the token value
+        'fullName', '$firstName $lastName');
   }
 
   static Future<void> setUsername(String username) async {
-    await _writeKey('username', username); // Write the token value
+    await _writeKey('username', username);
   }
 
   static Future<void> setProfilePicture(String profilePicture) async {
-    await _writeKey('profilePicture', profilePicture); // Write the token value
+    await _writeKey('profilePicture', profilePicture);
+  }
+
+  static Future<void> setBio(String bio) async {
+    await _writeKey('bio', bio);
+  }
+
+  static Future<void> setFollowers(int followers) async {
+    await _writeKey('followers', followers.toString());
+  }
+
+  static Future<void> setFollowing(int following) async {
+    await _writeKey('following', following.toString());
+  }
+
+  static Future<void> setPosts(int posts) async {
+    await _writeKey('posts', posts.toString());
+  }
+
+  static Future<void> setLocationText(String locationText) async {
+    await _writeKey('locationText', locationText);
+  }
+
+  static Future<void> setIsPrivate(bool isPrivate) async {
+    await _writeKey('isPrivate', isPrivate.toString());
   }
 
   // Get required actions from the storage
@@ -77,16 +102,35 @@ class AccountCache {
     await _writeKey('requiredActions', requiredActions);
   }
 
-  static Future<void> saveAccountResponse(AccountResponse value,
-      {String? profilePicture}) async {
+  static Future<void> saveProfile(ProfileResponse profile) async {
+    await setProfilePicture(profile.profilePicture);
+    await setBio(profile.bio);
+    await setFollowers(profile.followers);
+    await setFollowing(profile.following);
+    await setPosts(profile.posts);
+    await setLocationText(profile.locationText);
+    await setIsPrivate(profile.isPrivate);
+  }
+
+  // Save the account response in the storage
+  // This method is used when the user logs in
+  static Future<void> saveAccountResponse(AccountResponse value) async {
     await setToken(value.token);
     await setFullName(value.user.firstName, value.user.lastName);
     await setUsername(value.user.username);
-    if (profilePicture != null) {
-      await setProfilePicture(profilePicture);
+
+    if (value.profile != null) {
+      await saveProfile(value.profile!);
     }
+
     await setRequiredActions(value.requiredActions);
 
     await setLoggedIn(true);
+  }
+
+  // Clear the storage
+  static Future<void> clear() {
+    var storage = const FlutterSecureStorage();
+    return storage.deleteAll();
   }
 }
