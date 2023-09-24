@@ -1,4 +1,5 @@
 import 'package:taskbuddy/api/requests.dart';
+import 'package:taskbuddy/api/responses/profile_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 
 // Represents user information received from the server response
@@ -68,12 +69,14 @@ class AccountResponseRequiredActions {
 class AccountResponse {
   final AccountResponseUser user;
   final AccountResponseRequiredActions requiredActions;
+  final ProfileResponse? profile;
   final String token;
 
   AccountResponse({
     required this.user,
     required this.requiredActions,
     required this.token,
+    this.profile,
   });
 
   // Factory method to create an AccountResponse from JSON data
@@ -83,18 +86,25 @@ class AccountResponse {
       requiredActions:
           AccountResponseRequiredActions.fromJson(json['required_actions']),
       token: json['token'],
+      profile: json['profile'] != null
+          ? ProfileResponse.fromJson(json['profile'])
+          : null,
     );
   }
 
   // Static method to build an ApiResponse<AccountResponse?>
   static Future<ApiResponse<AccountResponse?>> buildAccountResponse(
       String endpoint,
-      {dynamic data,
+      {Map<String, dynamic>? data,
       Map<String, String>? headers,
+      Map<String, dynamic>? files,
+      bool getProfile = false,
       String method = "GET"}) async {
     // Fetch the response using the Requests class
     final response = await Requests.fetchEndpoint(
-        endpoint, data: data, headers: headers, method: method);
+        endpoint, data: data, headers: headers, method: method, files: files);
+
+    print(response!.response!.data);
 
     // Handle various response scenarios and construct ApiResponse
     if (response == null) {
@@ -118,7 +128,7 @@ class AccountResponse {
 
     return ApiResponse(
         status: 200,
-        message: json["message"],
+        message: json?["message"] ?? "OK",
         ok: true,
         data: AccountResponse.fromJson(json),
         response: response.response,

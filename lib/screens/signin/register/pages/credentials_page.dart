@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/state/static/register_state.dart';
 import 'package:taskbuddy/utils/validators.dart';
-import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
+import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';

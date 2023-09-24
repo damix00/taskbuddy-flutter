@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/utils/validators.dart';
-import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
+import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
@@ -121,6 +123,7 @@ class _LoginFormState extends State<_LoginForm> {
 
                   if (!response.ok) {
                     var _errorText = l10n.internalServerError;
+                    
                     if (response.status == 408) {
                       _errorText = l10n.requestTimedOut;
                     } else if (!response.ok) {
@@ -130,14 +133,16 @@ class _LoginFormState extends State<_LoginForm> {
                     SnackbarPresets.show(context, _errorText);
                   }
 
+                  else {
+                    // Save the data
+                    await AccountCache.saveAccountResponse(response.data!);
+
+                    // Restart the app
+                    Phoenix.rebirth(context);
+                  }
+
                   setState(() {
                     loading = false;
-
-                    if (response.ok) {
-                      // Show the home screen
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/home', (route) => false);
-                    }
                   });
                 }
               }),

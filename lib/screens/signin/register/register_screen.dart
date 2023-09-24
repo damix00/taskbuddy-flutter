@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/state/static/register_state.dart';
-import 'package:taskbuddy/widgets/appbar/blur_appbar.dart';
+import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/checkbox.dart';

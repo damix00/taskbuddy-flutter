@@ -8,6 +8,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
@@ -201,7 +202,7 @@ class _AppState extends State<App> {
           useMaterial3: true,
         ),
         // If logged in, show the home screen, otherwise show the welcome screen
-        home: _loggedIn ? const Scaffold() : const WelcomeScreen(),
+        home: _loggedIn ? const HomeScreen() : const WelcomeScreen(),
         routes: {
           '/welcome': (context) => const WelcomeScreen(),
           '/login': (context) => const LoginScreen(),

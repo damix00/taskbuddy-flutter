@@ -5,8 +5,9 @@ final dio = diolib.Dio();
 
 class Requests {
   static Future<Response?> fetchEndpoint(String endpoint,
-      {dynamic data,
+      {Map<String, dynamic>? data,
       Map<String, String>? headers,
+      Map<String, dynamic>? files,
       String method = 'GET',
       Duration timeout = const Duration(seconds: 20)}) async {
     try {
@@ -17,6 +18,12 @@ class Requests {
         addedHeaders.addAll(headers);
       }
 
+      if (files != null && data != null) {
+        data.addEntries(files.entries);
+      }
+
+      diolib.FormData formData = diolib.FormData.fromMap(data ?? {});
+
       final response = await dio
           .request(
         endpoint,
@@ -25,7 +32,7 @@ class Requests {
           headers: addedHeaders,
           contentType: 'application/json',
         ),
-        data: data,
+        data: formData,
       )
           .timeout(timeout, onTimeout: () {
         timedOut = true;
