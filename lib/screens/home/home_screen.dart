@@ -5,6 +5,10 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/home/pages/home_page.dart';
+import 'package:taskbuddy/screens/home/pages/messages_page.dart';
+import 'package:taskbuddy/screens/home/pages/profile_page.dart';
+import 'package:taskbuddy/screens/home/pages/search_page.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -47,10 +51,19 @@ class _HomeScreenState extends State<HomeScreen> {
     init();
   }
 
+  var pages = [
+    const HomePage(),
+    const SearchPage(),
+    Container(),
+    const MessagesPage(),
+    const ProfilePage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      extendBody: true,
       bottomNavigationBar: CustomBottomNavbar(
         items: [
           BottomNavbarItem(icon: Icons.home_outlined, activeIcon: Icons.home),
@@ -91,15 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )
       ),
-      body: Center(
-        child: Button(
-          child: Text('Log out'),
-          onPressed: () {
-            AccountCache.setLoggedIn(false);
-            Phoenix.rebirth(context);
-          }
-        )
-      ),
+      // IndexedStack is used to keep the state of the pages
+      // So that when the user switches between pages, the state is not lost
+      body: IndexedStack(
+        index: _currentIndex,
+        children: pages,
+      )
     );
   }
 }
