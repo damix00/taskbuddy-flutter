@@ -7,7 +7,6 @@ import 'package:taskbuddy/widgets/input/input_title.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:taskbuddy/widgets/transitions/slide_in.dart';
 import 'package:taskbuddy/widgets/ui/cross_platform_bottom_sheet.dart';
 
 // A button that allows the user to select a profile picture

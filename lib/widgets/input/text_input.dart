@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/input/input_title.dart';
-import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 
 class TextInput extends StatelessWidget {
   final String label;
@@ -44,9 +42,6 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This is for the tooltip
-    final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

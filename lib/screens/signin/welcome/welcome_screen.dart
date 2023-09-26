@@ -28,21 +28,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
     // Set up a periodic timer to switch pages every 10 seconds
     timer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      setState(() {
-        // Change the selected page index
-        if (_selectedPage == 2) {
-          _selectedPage = 0;
-        } else {
-          _selectedPage++;
-        }
-      });
+      try {
+        setState(() {
+          // Change the selected page index
+          if (_selectedPage == 2) {
+            _selectedPage = 0;
+          } else {
+            _selectedPage++;
+          }
+        });
 
-      // Animate to the newly selected page using the controller
-      _controller.animateToPage(
-        _selectedPage,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeInOutCirc,
-      );
+        // Animate to the newly selected page using the controller
+        _controller.animateToPage(
+          _selectedPage,
+          duration: const Duration(seconds: 1),
+          curve: Curves.easeInOutCirc,
+        );
+      }
+      // Catch any errors that may occur when the user is not on the page
+      catch (_) {}
     });
   }
 
@@ -50,6 +54,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void dispose() {
     // Dispose of the page controller to prevent memory leaks
     _controller.dispose();
+
+    // Cancel the timer to prevent errors
+    timer.cancel();
     super.dispose();
   }
 
