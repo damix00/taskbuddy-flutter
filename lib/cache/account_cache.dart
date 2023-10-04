@@ -79,6 +79,78 @@ class AccountCache {
     await _writeKey('isPrivate', isPrivate.toString());
   }
 
+  static Future<void> setCompletedJobs(int completedJobs) async {
+    await _writeKey('completedJobs', completedJobs.toString());
+  }
+
+  static Future<void> setEmployerRating(num employerRating) async {
+    await _writeKey('employerRating', employerRating.toString());
+  }
+
+  static Future<void> setEmployeeRating(num employeeRating) async {
+    await _writeKey('employeeRating', employeeRating.toString());
+  }
+
+  static Future<void> setEmployerCancelled(int employerCancelRate) async {
+    await _writeKey('employerCancelRate', employerCancelRate.toString());
+  }
+
+  static Future<void> setEmployeeCancelled(int employeeCancelRate) async {
+    await _writeKey('employeeCancelRate', employeeCancelRate.toString());
+  }
+
+  static Future<String> getFullName() async {
+    return await _readKey('fullName') ?? '';
+  }
+
+  static Future<String> getUsername() async {
+    return await _readKey('username') ?? '';
+  }
+
+  static Future<String> getProfilePicture() async {
+    return await _readKey('profilePicture') ?? '';
+  }
+
+  static Future<String> getBio() async {
+    return await _readKey('bio') ?? '';
+  }
+
+  static Future<int> getFollowers() async {
+    return int.parse(await _readKey('followers') ?? '0');
+  }
+
+  static Future<int> getFollowing() async {
+    return int.parse(await _readKey('following') ?? '0');
+  }
+
+  static Future<int> getPosts() async {
+    return int.parse(await _readKey('posts') ?? '0');
+  }
+
+  static Future<String> getLocationText() async {
+    return await _readKey('locationText') ?? '';
+  }
+
+  static Future<int> getCompletedJobs() async {
+    return int.parse(await _readKey('completedJobs') ?? '0');
+  }
+
+  static Future<num> getEmployerRating() async {
+    return num.parse(await _readKey('employerRating') ?? '0');
+  }
+
+  static Future<num> getEmployeeRating() async {
+    return num.parse(await _readKey('employeeRating') ?? '0');
+  }
+
+  static Future<int> getEmployerCancelled() async {
+    return int.parse(await _readKey('employerCancelRate') ?? '0');
+  }
+
+  static Future<int> getEmployeeCancelled() async {
+    return int.parse(await _readKey('employeeCancelRate') ?? '0');
+  }
+
   // Get required actions from the storage
   // Required actions are actions that the user needs to perform (like verifying phone number)
   static Future<AccountResponseRequiredActions?> getRequiredActions() async {
@@ -91,6 +163,10 @@ class AccountCache {
     return requiredActionsMap != null
         ? AccountResponseRequiredActions.fromJson(requiredActionsMap)
         : null;
+  }
+
+  static Future<bool> isPrivate() async {
+    return await _readKey('isPrivate') == 'true';
   }
 
   // Set required actions in the storage
@@ -110,6 +186,11 @@ class AccountCache {
     await setPosts(profile.posts);
     await setLocationText(profile.locationText);
     await setIsPrivate(profile.isPrivate);
+    await setCompletedJobs(profile.completedEmployee + profile.completedEmployer);
+    await setEmployerRating(profile.ratingEmployer);
+    await setEmployeeRating(profile.ratingEmployee);
+    await setEmployerCancelled(profile.cancelledEmployer);
+    await setEmployeeCancelled(profile.cancelledEmployee);
   }
 
   // Save the account response in the storage

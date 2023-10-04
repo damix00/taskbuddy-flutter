@@ -137,6 +137,7 @@ class __OptionalFormState extends State<_OptionalForm> {
                 if (response.ok) {
                   // Save the data
                   await AccountCache.saveAccountResponse(response.data!);
+                  await AccountCache.saveProfile(response.data!.profile!);
 
                   Phoenix.rebirth(context);
                 }

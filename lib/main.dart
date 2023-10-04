@@ -11,6 +11,7 @@ import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
+import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 import 'package:taskbuddy/screens/signin/login/login_screen.dart';
 import 'package:taskbuddy/screens/signin/register/pages/credentials_page.dart';
@@ -19,6 +20,7 @@ import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/transitions/slide_in.dart';
 
 void main() {
@@ -26,16 +28,14 @@ void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  runApp(
-    Phoenix(
+  runApp(Phoenix(
       child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => PreferencesModel()),
-        ],
-        child: const App(),
-      )
-    )
-  );
+    providers: [
+      ChangeNotifierProvider(create: (context) => PreferencesModel()),
+      ChangeNotifierProvider(create: (context) => AuthModel()),
+    ],
+    child: const App(),
+  )));
 }
 
 class App extends StatefulWidget {
@@ -93,8 +93,13 @@ class _AppState extends State<App> {
     PreferencesModel prefs =
         Provider.of<PreferencesModel>(context, listen: false);
 
+    AuthModel auth = Provider.of<AuthModel>(context, listen: false);
+
     // Initialize the preferences
     await prefs.init();
+
+    // Initialize the auth
+    await auth.init();
 
     // Re-render the UI
     setState(() {});
@@ -103,114 +108,92 @@ class _AppState extends State<App> {
     FlutterNativeSplash.remove();
   }
 
-  void overrideColors() {
-    if (Platform.isAndroid) {
-      Brightness brightness =
-          SchedulerBinding.instance.platformDispatcher.platformBrightness ==
-                  Brightness.dark
-              ? Brightness.light
-              : Brightness.dark;
-
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-          systemStatusBarContrastEnforced: true,
-          systemNavigationBarColor: Colors.black.withOpacity(0.002),
-          systemNavigationBarDividerColor: Colors.transparent,
-          systemNavigationBarIconBrightness: brightness,
-          statusBarColor: Colors.black.withOpacity(0.002),
-          statusBarIconBrightness: brightness));
-
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
-          overlays: [SystemUiOverlay.top]);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     // Change the status bar and navigation bar colors on Android
-    overrideColors();
+    Utils.overrideColors();
 
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        title: 'TaskBuddy',
-        themeMode: ThemeMode.system,
-        // Set the scroll behavior to the platform default
-        scrollBehavior: Platform.isAndroid
-            ? const MaterialScrollBehavior()
-            : const CupertinoScrollBehavior(),
-        darkTheme: ThemeData(
-          textTheme: _textTheme,
-          fontFamily: GoogleFonts.montserrat().fontFamily,
-          colorScheme: ColorScheme(
-            background: Constants.bgColor,
-            brightness: Brightness.dark,
-            primary: Constants.primaryColor,
-            inversePrimary: Constants.primaryColor,
-            secondary: Constants.secondaryColor,
-            surface: Constants.secondaryBgColor,
-            surfaceVariant: Constants.secondaryBgColor.withOpacity(0.7),
-            onSurfaceVariant: Colors.grey[500],
-            error: Colors.red,
-            onPrimary: Colors.black,
-            onSecondary: const Color(0xff000000),
-            onSurface: Colors.white,
-            onBackground: Colors.white,
-            onError: Colors.white,
-            outline: Constants.borderColor,
-          ),
-          pageTransitionsTheme: PageTransitionsTheme(builders: {
-            TargetPlatform.android: SlideTransitionBuilder(),
-            TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
-          }),
-          useMaterial3: true,
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      title: 'TaskBuddy',
+      themeMode: ThemeMode.system,
+      // Set the scroll behavior to the platform default
+      scrollBehavior: Platform.isAndroid
+          ? const MaterialScrollBehavior()
+          : const CupertinoScrollBehavior(),
+      darkTheme: ThemeData(
+        textTheme: _textTheme,
+        fontFamily: GoogleFonts.montserrat().fontFamily,
+        colorScheme: ColorScheme(
+          background: Constants.bgColor,
+          brightness: Brightness.dark,
+          primary: Constants.primaryColor,
+          inversePrimary: Constants.primaryColor,
+          secondary: Constants.secondaryColor,
+          surface: Constants.secondaryBgColor,
+          surfaceVariant: Constants.secondaryBgColor.withOpacity(0.7),
+          onSurfaceVariant: Colors.grey[500],
+          error: Colors.red,
+          onPrimary: Colors.black,
+          onSecondary: const Color(0xff000000),
+          onSurface: Colors.white,
+          onBackground: Colors.white,
+          onError: Colors.white,
+          outline: Constants.borderColor,
         ),
-        theme: ThemeData(
-          fontFamily: GoogleFonts.montserrat().fontFamily,
-          colorScheme: ColorScheme(
-            background: Colors.white,
-            brightness: Brightness.dark,
-            primary: Constants.primaryColor,
-            inversePrimary: Colors.blue, // This is the link color
-            secondary: Constants.secondaryColor,
-            surface: const Color(0xFFDBDBDB),
-            surfaceVariant: const Color(0xFFC7C7C7).withOpacity(0.7),
-            onSurfaceVariant: Colors.grey[600],
-            error: Colors.red,
-            onPrimary: Colors.black,
-            onSecondary: Colors.black,
-            onSurface: Colors.black,
-            onBackground: Colors.black,
-            onError:
-                Colors.white, // Color that is used for error messages (text)
-            outline: const Color(0xFFC2BBD3),
-          ),
-          textTheme: _textTheme.copyWith(
-            titleLarge: const TextStyle(
-              color: Colors.black,
-            ),
-            titleMedium: const TextStyle(
-              color: Colors.black,
-            ),
-            titleSmall: const TextStyle(
-              color: Colors.black,
-            ),
-            bodyMedium: const TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          useMaterial3: true,
+        pageTransitionsTheme: PageTransitionsTheme(builders: {
+          TargetPlatform.android: SlideTransitionBuilder(),
+          TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
+        }),
+        useMaterial3: true,
+      ),
+      theme: ThemeData(
+        fontFamily: GoogleFonts.montserrat().fontFamily,
+        colorScheme: ColorScheme(
+          background: Colors.white,
+          brightness: Brightness.dark,
+          primary: Constants.primaryColor,
+          inversePrimary: Colors.blue, // This is the link color
+          secondary: Constants.secondaryColor,
+          surface: const Color(0xFFDBDBDB),
+          surfaceVariant: const Color(0xFFC7C7C7).withOpacity(0.7),
+          onSurfaceVariant: Colors.grey[600],
+          error: Colors.red,
+          onPrimary: Colors.black,
+          onSecondary: Colors.black,
+          onSurface: Colors.black,
+          onBackground: Colors.black,
+          onError: Colors.white, // Color that is used for error messages (text)
+          outline: const Color(0xFFC2BBD3),
         ),
-        // If logged in, show the home screen, otherwise show the welcome screen
-        home: _loggedIn ? const HomeScreen() : const WelcomeScreen(),
-        routes: {
-          '/welcome': (context) => const WelcomeScreen(),
-          '/login': (context) => const LoginScreen(),
-          '/register': (context) => const RegisterScreen(),
-          '/register/creds': (context) => const CredentialsPage(),
-          '/register/profile/details':(context) => const ProfileDetailsPage(),
-          '/register/profile/finish':(context) => const ProfileFinishPage(),
-        },
-      );
+        textTheme: _textTheme.copyWith(
+          titleLarge: const TextStyle(
+            color: Colors.black,
+          ),
+          titleMedium: const TextStyle(
+            color: Colors.black,
+          ),
+          titleSmall: const TextStyle(
+            color: Colors.black,
+          ),
+          bodyMedium: const TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        useMaterial3: true,
+      ),
+      // If logged in, show the home screen, otherwise show the welcome screen
+      home: _loggedIn ? const HomeScreen() : const WelcomeScreen(),
+      routes: {
+        '/welcome': (context) => const WelcomeScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
+        '/register/creds': (context) => const CredentialsPage(),
+        '/register/profile/details': (context) => const ProfileDetailsPage(),
+        '/register/profile/finish': (context) => const ProfileFinishPage(),
+      },
+    );
   }
 }

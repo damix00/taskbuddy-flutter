@@ -136,6 +136,7 @@ class _LoginFormState extends State<_LoginForm> {
                   else {
                     // Save the data
                     await AccountCache.saveAccountResponse(response.data!);
+                    await AccountCache.saveProfile(response.data!.profile!);
 
                     // Restart the app
                     Phoenix.rebirth(context);
