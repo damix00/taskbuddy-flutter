@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/state/static/register_state.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
-import 'package:taskbuddy/widgets/input/touchable/button.dart';
+import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/checkbox.dart';
 import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';

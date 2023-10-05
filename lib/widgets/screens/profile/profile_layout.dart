@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:taskbuddy/widgets/screens/profile/bio.dart';
 import 'package:taskbuddy/widgets/screens/profile/counts.dart';
+import 'package:taskbuddy/widgets/screens/profile/ratings.dart';
 import 'package:taskbuddy/widgets/ui/default_profile_picture.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
@@ -13,6 +14,11 @@ class ProfileLayout extends StatelessWidget {
   final String following;
   final String listings;
   final String jobsDone;
+  final String bio;
+  final num employerRating;
+  final num employerCancelRate;
+  final num employeeRating;
+  final num employeeCancelRate;
 
   const ProfileLayout(
       {required this.profilePicture,
@@ -22,6 +28,11 @@ class ProfileLayout extends StatelessWidget {
       required this.following,
       required this.listings,
       required this.jobsDone,
+      required this.bio,
+      required this.employerRating,
+      required this.employerCancelRate,
+      required this.employeeRating,
+      required this.employeeCancelRate,
       Key? key})
       : super(key: key);
 
@@ -67,8 +78,19 @@ class ProfileLayout extends StatelessWidget {
               following: following,
               listings: listings,
               jobsDone: jobsDone),
+          bio != '' ? ProfileBio(bio: bio) : Container(),
           const SizedBox(height: 16),
-          ProfileBio(bio: 'ja sam mislav rados i dolazim iz vesele i ja sam najveselija osoba iz vesele'),
+          ProfileRatings(employerRating: employerRating, employerCancelRate: employerCancelRate, employeeRating: employeeRating, employeeCancelRate: employeeCancelRate),
+          const SizedBox(height: 16,),
+          Column(
+            children: actions,
+          ),
+          const SizedBox(height: 16,),
+          Container(
+            width: double.infinity,
+            height: 1,
+            color: Theme.of(context).colorScheme.surfaceVariant,
+          )
         ],
       ),
     );

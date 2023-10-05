@@ -19,6 +19,7 @@ class ProfileBio extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 16,),
             Text(
               l10n.biography,
               style: GoogleFonts.montserrat(

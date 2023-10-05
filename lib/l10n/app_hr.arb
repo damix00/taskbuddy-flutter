@@ -67,5 +67,8 @@
   "following": "Prati",
   "editProfile": "Uredi profil",
   "listings": "Objave",
-  "jobsDone": "Obavljeno"
+  "jobsDone": "Obavljeno",
+  "cancellationRate": "{rate}% otkazivanja",
+  "employerRating": "Ocjena kao poslodavac",
+  "employeeRating": "Ocjena kao radnik"
 }

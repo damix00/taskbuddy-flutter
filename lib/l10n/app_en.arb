@@ -133,5 +133,17 @@
   "following": "Following",
   "editProfile": "Edit profile",
   "listings": "Listings",
-  "jobsDone": "Jobs done"
+  "jobsDone": "Jobs done",
+  "cancellationRate": "{rate}% cancellation rate",
+  "@cancellationRate": {
+    "description": "This is the cancellation rate of a user.",
+    "placeholders": {
+      "rate": {
+        "type": "num",
+        "example": "10"
+      }
+    }
+  },
+  "employerRating": "Employer rating",
+  "employeeRating": "Employee rating"
 }

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/utils.dart';
-import 'package:taskbuddy/widgets/input/touchable/button.dart';
+import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
+import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
 import 'package:taskbuddy/widgets/screens/profile/profile_layout.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -45,8 +48,8 @@ class _ProfilePageState extends State<ProfilePage> {
     _bio = auth.bio;
     _employerRating = auth.employerRating;
     _employeeRating = auth.employeeRating;
-    _employerCancelRate = (auth.employerCancelled / auth.listings) * 100;
-    _employeeCancelRate = (auth.employeeCancelled / auth.jobsDone) * 100;
+    _employerCancelRate = auth.listings > 0 ? (auth.employerCancelled / auth.listings) * 100 : 0;
+    _employeeCancelRate = auth.jobsDone > 0 ? (auth.employeeCancelled / auth.jobsDone) * 100 : 0;
     _isPrivate = auth.isPrivate;
   }
 
@@ -61,10 +64,19 @@ class _ProfilePageState extends State<ProfilePage> {
           following: _following,
           listings: _listings,
           jobsDone: _jobsDone,
+          bio: _bio,
+          employerRating: _employerRating,
+          employerCancelRate: _employerCancelRate,
+          employeeRating: _employeeRating,
+          employeeCancelRate: _employeeCancelRate,
           actions: [
-            Button(
-              child: Text('Edit profile'),
-              onPressed: () {},
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
+              child: SlimButton(
+                type: ButtonType.outlined,
+                child: Text(AppLocalizations.of(context)!.editProfile),
+                onPressed: () {},
+              ),
             )
           ]
         ),

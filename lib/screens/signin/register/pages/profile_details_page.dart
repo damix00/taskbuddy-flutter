@@ -8,7 +8,7 @@ import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';
-import 'package:taskbuddy/widgets/input/touchable/button.dart';
+import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';
 import 'package:taskbuddy/widgets/ui/disclaimer_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
