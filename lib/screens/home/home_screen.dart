@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
@@ -9,6 +10,7 @@ import 'package:taskbuddy/screens/home/pages/home_page.dart';
 import 'package:taskbuddy/screens/home/pages/messages_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
+import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/input/touchable/button.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
@@ -37,6 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (me.status == 401) {
       // If the status code is 401, then the token is invalid so restart the app
+
+      // Remove the token from the cache
+      AccountCache.setLoggedIn(false);
+
       Phoenix.rebirth(context);
     } else if (me.ok) {
       // If the response is OK, then the user is logged in
@@ -44,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (me.data!.profile != null) {
         AccountCache.saveProfile(me.data!.profile!);
       }
+
     }
   }
 

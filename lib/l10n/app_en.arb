@@ -128,5 +128,10 @@
   "remove": "Remove",
   "cropImage": "Crop image",
   "cancel": "Cancel",
-  "done": "Done"
+  "done": "Done",
+  "followers": "Followers",
+  "following": "Following",
+  "editProfile": "Edit profile",
+  "listings": "Listings",
+  "jobsDone": "Jobs done"
 }

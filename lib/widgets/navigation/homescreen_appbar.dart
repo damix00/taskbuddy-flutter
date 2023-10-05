@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class HomescreenAppbar extends StatelessWidget {
   final List<Widget> children;
@@ -7,19 +9,16 @@ class HomescreenAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SizedBox(
-        height: 56,
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
-          ),
+    return BlurParent(
+      height: MediaQuery.of(context).padding.top + Sizing.appbarHeight,
+      child: Padding(
+        padding: EdgeInsets.only(left: 16, right: 16, top: MediaQuery.of(context).padding.top),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: children,
         ),
-      )
+      ),
     );
   }
 }

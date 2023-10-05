@@ -62,5 +62,10 @@
   "remove": "Ukloni",
   "cropImage": "Izreži sliku",
   "cancel": "Odustani",
-  "done": "Gotovo"
+  "done": "Gotovo",
+  "followers": "Pratitelji",
+  "following": "Prati",
+  "editProfile": "Uredi profil",
+  "listings": "Objave",
+  "jobsDone": "Obavljeno"
 }
