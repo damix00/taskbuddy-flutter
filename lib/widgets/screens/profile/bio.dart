@@ -23,7 +23,7 @@ class ProfileBio extends StatelessWidget {
             Text(
               l10n.biography,
               style: GoogleFonts.montserrat(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).colorScheme.onSurfaceVariant
               ),

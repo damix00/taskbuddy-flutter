@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:taskbuddy/widgets/screens/profile/bio.dart';
-import 'package:taskbuddy/widgets/screens/profile/counts.dart';
-import 'package:taskbuddy/widgets/screens/profile/ratings.dart';
-import 'package:taskbuddy/widgets/ui/default_profile_picture.dart';
-import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
+import 'package:taskbuddy/widgets/screens/profile/header.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileLayout extends StatelessWidget {
   final String profilePicture;
@@ -19,6 +16,8 @@ class ProfileLayout extends StatelessWidget {
   final num employerCancelRate;
   final num employeeRating;
   final num employeeCancelRate;
+  final String? locationText;
+  final bool isMe;
 
   const ProfileLayout(
       {required this.profilePicture,
@@ -33,65 +32,73 @@ class ProfileLayout extends StatelessWidget {
       required this.employerCancelRate,
       required this.employeeRating,
       required this.employeeCancelRate,
+      this.isMe = false,
+      this.locationText,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Appbar padding
-          SizedBox(
-              height: MediaQuery.of(context).padding.top + Sizing.appbarHeight),
-          // Content padding
-          const SizedBox(
-            height: 32,
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(156),
-            child: SizedBox(
-              height: 156,
-              width: 156,
-              child: CachedNetworkImage(
-                  imageUrl: profilePicture,
-                  errorWidget: (context, url, error) =>
-                      const DefaultProfilePicture(size: 156)),
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        body: Column(
+          children: [
+            TabBar(
+                tabs: [
+                  Tab(
+                    text: AppLocalizations.of(context)!.listings,
+                  ),
+                  Tab(
+                    text: AppLocalizations.of(context)!.reviews,
+                  ),
+                ],
+              ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  GridView.count(
+                    padding: EdgeInsets.zero,
+                    crossAxisCount: 3,
+                    children: Colors.primaries.map((color) {
+                      return Container(color: color, height: 150.0);
+                    }).toList(),
+                  ),
+                  ListView(
+                    padding: EdgeInsets.zero,
+                    children: Colors.primaries.map((color) {
+                      return Container(color: color, height: 150.0);
+                    }).toList(),
+                  )
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Column(
-            children: [
-              Text(fullName,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.onBackground)),
-            ],
-          ),
-          const SizedBox(height: 16),
-          CountsList(
-              followers: followers,
-              following: following,
-              listings: listings,
-              jobsDone: jobsDone),
-          bio != '' ? ProfileBio(bio: bio) : Container(),
-          const SizedBox(height: 16),
-          ProfileRatings(employerRating: employerRating, employerCancelRate: employerCancelRate, employeeRating: employeeRating, employeeCancelRate: employeeCancelRate),
-          const SizedBox(height: 16,),
-          Column(
-            children: actions,
-          ),
-          const SizedBox(height: 16,),
-          Container(
-            width: double.infinity,
-            height: 1,
-            color: Theme.of(context).colorScheme.surfaceVariant,
-          )
-        ],
+          ],
+        ),
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverList(
+              delegate: SliverChildListDelegate([
+                ProfileHeader(
+                  profilePicture: profilePicture,
+                  actions: actions,
+                  fullName: fullName,
+                  followers: followers,
+                  following: following,
+                  listings: listings,
+                  jobsDone: jobsDone,
+                  employeeCancelRate: employeeCancelRate,
+                  employeeRating: employeeRating,
+                  employerCancelRate: employerCancelRate,
+                  employerRating: employerRating,
+                  bio: bio.trim(),
+                  locationText: locationText,
+                  isMe: isMe,
+                ),
+              ]),
+            )
+          ];
+        },
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
@@ -10,12 +9,10 @@ import 'package:taskbuddy/screens/home/pages/home_page.dart';
 import 'package:taskbuddy/screens/home/pages/messages_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
-import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/utils.dart';
-import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
-import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
+import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -50,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
       if (me.data!.profile != null) {
         AccountCache.saveProfile(me.data!.profile!);
       }
-
     }
   }
 
@@ -75,46 +71,75 @@ class _HomeScreenState extends State<HomeScreen> {
     Utils.overrideColors(); // Override the status bar color
 
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        bottomNavigationBar: CustomBottomNavbar(
-          items: [
-            BottomNavbarItem(icon: Icons.home_outlined, activeIcon: Icons.home),
-            BottomNavbarItem(
-                icon: Icons.search_outlined, activeIcon: Icons.search),
-            BottomNavbarItem(
-                child: Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              child: Icon(Icons.add,
-                  color: Theme.of(context).colorScheme.onPrimary),
-            )),
-            BottomNavbarItem(icon: Icons.chat_outlined, activeIcon: Icons.chat),
-            BottomNavbarItem(
-                icon: Icons.person_outline, activeIcon: Icons.person),
-          ],
-          currentIndex: _currentIndex,
-          onSelected: (index) {
-            setState(() {
-              if (index == 2) {
-                // If the index is 2, then the user tapped the middle button (add)
-                // So we don't want to change the current index
-              } else {
-                _currentIndex = index;
-              }
-            });
-          },
-        ),
-        appBar: null,
-        // IndexedStack is used to keep the state of the pages
-        // So that when the user switches between pages, the state is not lost
-        body: IndexedStack(
-          index: _currentIndex,
-          children: pages,
-        ));
+      extendBodyBehindAppBar: 4 != _currentIndex,
+      extendBody: true,
+      bottomNavigationBar: CustomBottomNavbar(
+        items: [
+          BottomNavbarItem(icon: Icons.home_outlined, activeIcon: Icons.home),
+          BottomNavbarItem(
+              icon: Icons.search_outlined, activeIcon: Icons.search),
+          BottomNavbarItem(
+              child: Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            child: Icon(Icons.add,
+                color: Theme.of(context).colorScheme.onPrimary),
+          )),
+          BottomNavbarItem(icon: Icons.chat_outlined, activeIcon: Icons.chat),
+          BottomNavbarItem(
+              icon: Icons.person_outline, activeIcon: Icons.person),
+        ],
+        currentIndex: _currentIndex,
+        onSelected: (index) {
+          setState(() {
+            if (index == 2) {
+              // If the index is 2, then the user tapped the middle button (add)
+              // So we don't want to change the current index
+            } else {
+              _currentIndex = index;
+            }
+          });
+        },
+      ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(MediaQuery.of(context).padding.top + Sizing.appbarHeight),
+        child: _HomeAppbarHandler(currentIndex: _currentIndex,)
+      ),
+      // IndexedStack is used to keep the state of the pages
+      // So that when the user switches between pages, the state is not lost
+      body: IndexedStack(
+        index: _currentIndex,
+        children: pages,
+      ),
+    );
+  }
+}
+
+class _HomeAppbarHandler extends StatefulWidget {
+  final int currentIndex;
+
+  const _HomeAppbarHandler({required this.currentIndex, Key? key}) : super(key: key);
+
+  @override
+  State<_HomeAppbarHandler> createState() => _HomeAppbarHandlerState();
+}
+
+class _HomeAppbarHandlerState extends State<_HomeAppbarHandler> {
+  @override
+  Widget build(BuildContext context) {
+    return HomescreenAppbar(
+      forceDisableBlur: 4 == widget.currentIndex,
+      child: [
+        Text('Home'),
+        Container(),
+        Container(),
+        Container(),
+        ProfileAppbar(),
+      ][widget.currentIndex],
+    );
   }
 }

@@ -22,7 +22,7 @@ class BlurAppbar extends StatelessWidget {
     return SizedBox(
       height: statusBarHeight,
       child: Consumer<PreferencesModel>(
-        builder: (context, prefs, child) {
+        builder: (context, prefs, c) {
           if (!prefs.uiBlurEnabled) {
             // If UI blur is disabled, display a non-blurred version with surface color
             return Container(
@@ -32,12 +32,12 @@ class BlurAppbar extends StatelessWidget {
               child: _AppbarChildren(
                 context: context,
                 showLeading: showLeading,
-                child: child,
+                child: c,
               ),
             );
           }
 
-          if (child == null) {
+          if (c == null) {
             return _AppbarChildren(
               context: context,
               showLeading: showLeading,
@@ -45,7 +45,7 @@ class BlurAppbar extends StatelessWidget {
             );
           }
 
-          return child; // Return the child as it is if available
+          return c; // Return the child as it is if available
         },
         child: ClipRRect(
           child: BackdropFilter(

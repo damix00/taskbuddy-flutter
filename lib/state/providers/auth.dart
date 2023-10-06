@@ -17,6 +17,7 @@ class AuthModel extends ChangeNotifier {
   int _employerCancelled = 0;
   int _employeeCancelled = 0;
   String _fullName = '';
+  String _locationText = '';
 
   bool get finishedLoading => _finishedLoading;
   bool get loggedIn => _loggedIn;
@@ -33,6 +34,7 @@ class AuthModel extends ChangeNotifier {
   int get employerCancelled => _employerCancelled;
   int get employeeCancelled => _employeeCancelled;
   String get fullName => _fullName;
+  String get locationText => _locationText;
 
   set finishedLoading(bool value) {
     _finishedLoading = value;
@@ -109,6 +111,11 @@ class AuthModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  set locationText(String value) {
+    _locationText = value;
+    notifyListeners();
+  }
+
   Future<void> init() async {
     var loggedIn = await AccountCache.isLoggedIn();
 
@@ -126,6 +133,7 @@ class AuthModel extends ChangeNotifier {
       var employerCancelled = await AccountCache.getEmployerCancelled();
       var employeeCancelled = await AccountCache.getEmployeeCancelled();
       var fullName = await AccountCache.getFullName();
+      var locationText = await AccountCache.getLocationText();
 
       _username = username;
       _profilePicture = profilePicture;
@@ -140,6 +148,7 @@ class AuthModel extends ChangeNotifier {
       _employerCancelled = employerCancelled;
       _employeeCancelled = employeeCancelled;
       _fullName = fullName;
+      _locationText = locationText;
     }
 
     _loggedIn = loggedIn;

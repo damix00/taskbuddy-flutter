@@ -5,10 +5,50 @@ import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
-import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
 import 'package:taskbuddy/widgets/screens/profile/profile_layout.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+class ProfileAppbar extends StatefulWidget {
+  const ProfileAppbar({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileAppbar> createState() => _ProfileAppbarState();
+}
+
+class _ProfileAppbarState extends State<ProfileAppbar> {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AuthModel>(
+      builder: (context, auth, child) => SizedBox(
+        height: 56,
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                Text(
+                  '@${auth.username}',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                auth.isPrivate ? const _PrivateProfileIcon() : Container()
+              ],
+            ),
+            const Spacer(),
+            Touchable(
+              child: Icon(
+                Icons.menu,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -69,6 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
           employerCancelRate: _employerCancelRate,
           employeeRating: _employeeRating,
           employeeCancelRate: _employeeCancelRate,
+          isMe: true,
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
@@ -79,25 +120,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             )
           ]
-        ),
-        HomescreenAppbar(
-          children: [
-            Row(
-              children: [
-                Text(
-                  '@$_username',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                _isPrivate ? const _PrivateProfileIcon() : Container()
-              ],
-            ),
-            Touchable(
-              child: Icon(
-                Icons.menu,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-            )
-          ],
         ),
       ],
     );

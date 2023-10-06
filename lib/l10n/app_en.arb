@@ -133,6 +133,7 @@
   "following": "Following",
   "editProfile": "Edit profile",
   "listings": "Listings",
+  "reviews": "Reviews",
   "jobsDone": "Jobs done",
   "cancellationRate": "{rate}% cancellation rate",
   "@cancellationRate": {
