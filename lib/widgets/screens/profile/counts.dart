@@ -76,10 +76,7 @@ class _CountTab extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 color: Theme.of(context).colorScheme.onBackground)),
         Text(displayText,
-            style: GoogleFonts.montserrat(
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-                color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 12)),
       ],
     );
   }

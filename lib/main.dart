@@ -72,6 +72,15 @@ class _AppState extends State<App> {
       color: Colors.white,
       fontSize: 14,
     ),
+    bodySmall: GoogleFonts.montserrat(
+      fontSize: 12,
+      color: Colors.grey[500],
+    ),
+    displaySmall: GoogleFonts.montserrat(
+      fontSize: 16,
+      fontWeight: FontWeight.w700,
+      color: Colors.grey[500],
+    ),
   );
 
   @override
@@ -168,17 +177,23 @@ class _AppState extends State<App> {
           outline: const Color(0xFFC2BBD3),
         ),
         textTheme: _textTheme.copyWith(
-          titleLarge: const TextStyle(
+          titleLarge: _textTheme.titleLarge!.copyWith(
             color: Colors.black,
           ),
-          titleMedium: const TextStyle(
+          titleMedium: _textTheme.titleMedium!.copyWith(
             color: Colors.black,
           ),
-          titleSmall: const TextStyle(
+          titleSmall: _textTheme.titleSmall!.copyWith(
             color: Colors.black,
           ),
-          bodyMedium: const TextStyle(
+          bodyMedium: _textTheme.bodyMedium!.copyWith(
             color: Colors.black,
+          ),
+          bodySmall: _textTheme.bodySmall!.copyWith(
+            color: Colors.grey[600],
+          ),
+          displaySmall: _textTheme.displaySmall!.copyWith(
+            color: Colors.grey[600],
           ),
         ),
         useMaterial3: true,
