@@ -6,7 +6,7 @@ import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:taskbuddy/screens/signin/welcome/first_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/second_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/third_screen.dart';
-import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
+import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 

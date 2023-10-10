@@ -146,5 +146,10 @@
     }
   },
   "employerRating": "Employer rating",
-  "employeeRating": "Employee rating"
+  "employeeRating": "Employee rating",
+  "settings": "Settings",
+  "helpAndSupport": "Help & Support",
+  "shareProfile": "Share profile",
+  "history": "History",
+  "saved": "Saved"
 }

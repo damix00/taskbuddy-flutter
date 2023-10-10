@@ -1,11 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/screens/profile/bio.dart';
 import 'package:taskbuddy/widgets/screens/profile/counts.dart';
 import 'package:taskbuddy/widgets/screens/profile/profile_picture.dart';
 import 'package:taskbuddy/widgets/screens/profile/ratings.dart';
-import 'package:taskbuddy/widgets/ui/default_profile_picture.dart';
-import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String profilePicture;

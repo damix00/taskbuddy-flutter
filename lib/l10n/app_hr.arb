@@ -71,5 +71,10 @@
   "jobsDone": "Obavljeno",
   "cancellationRate": "{rate}% otkazivanja",
   "employerRating": "Ocjena kao poslodavac",
-  "employeeRating": "Ocjena kao radnik"
+  "employeeRating": "Ocjena kao radnik",
+  "settings": "Postavke",
+  "helpAndSupport": "Pomoć i podrška",
+  "shareProfile": "Podijeli profil",
+  "history": "Povijest",
+  "saved": "Spremljeno"
 }

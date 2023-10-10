@@ -10,7 +10,7 @@ import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/state/static/register_state.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/pfp_input.dart';
-import 'package:taskbuddy/widgets/input/scrollbar_scroll_view.dart';
+import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';

@@ -7,7 +7,7 @@ import 'package:taskbuddy/widgets/input/input_title.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:taskbuddy/widgets/ui/cross_platform_bottom_sheet.dart';
+import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 
 // A button that allows the user to select a profile picture
 class ProfilePictureInput extends StatefulWidget {
@@ -87,7 +87,6 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
                   title: l10n.takePhoto,
                   icon: Icons.camera_alt,
                   onTap: (ctx) {
-                    Navigator.of(ctx).pop(); // Close the bottom sheet
                     // Take a photo
                     ImagePicker().pickImage(source: ImageSource.camera).then((value) {
                       onSelected(value);

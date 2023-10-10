@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
+import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
@@ -191,6 +192,7 @@ class _AppState extends State<App> {
         '/register/creds': (context) => const CredentialsPage(),
         '/register/profile/details': (context) => const ProfileDetailsPage(),
         '/register/profile/finish': (context) => const ProfileFinishPage(),
+        '/settings': (context) => const SettingsScreen(),
       },
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
 import 'package:taskbuddy/widgets/screens/profile/header.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
