@@ -9,7 +9,7 @@ class SettingsSection extends StatelessWidget {
     Key? key,
     required this.title,
     required this.children,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    this.padding = const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
   }) : super(key: key);
 
   @override
@@ -27,8 +27,21 @@ class SettingsSection extends StatelessWidget {
               ),
             ),
           ),
-        ...children,
+        ...children
       ],
+    );
+  }
+}
+
+class SettingsDivider extends StatelessWidget {
+  const SettingsDivider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      color: Theme.of(context).colorScheme.outline,
+      height: 1,
+      thickness: 1,
     );
   }
 }

@@ -40,4 +40,14 @@ class Utils {
 
     return number.toString();
   }
+
+  static T repeatList<T>(List<T> list, int times) {
+    List<T> result = [];
+
+    for (int i = 0; i < times; i++) {
+      result.addAll(list);
+    }
+
+    return result as T;
+  }
 }

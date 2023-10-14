@@ -151,5 +151,8 @@
   "helpAndSupport": "Help & Support",
   "shareProfile": "Share profile",
   "history": "History",
-  "saved": "Saved"
+  "saved": "Saved",
+  "general": "General",
+  "account": "Account",
+  "privacy": "Privacy"
 }

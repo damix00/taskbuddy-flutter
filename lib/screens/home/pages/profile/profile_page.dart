@@ -151,29 +151,30 @@ class _ProfilePageState extends State<ProfilePage> {
     return Stack(
       children: [
         ProfileLayout(
-            fullName: _fullName,
-            profilePicture: _profilePicture,
-            followers: _followers,
-            following: _following,
-            listings: _listings,
-            jobsDone: _jobsDone,
-            bio: _bio,
-            employerRating: _employerRating,
-            employerCancelRate: _employerCancelRate,
-            employeeRating: _employeeRating,
-            employeeCancelRate: _employeeCancelRate,
-            isMe: true,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Sizing.horizontalPadding),
-                child: SlimButton(
-                  type: ButtonType.outlined,
-                  child: Text(AppLocalizations.of(context)!.editProfile),
-                  onPressed: () {},
-                ),
-              )
-            ]),
+          fullName: _fullName,
+          profilePicture: _profilePicture,
+          followers: _followers,
+          following: _following,
+          listings: _listings,
+          jobsDone: _jobsDone,
+          bio: _bio,
+          employerRating: _employerRating,
+          employerCancelRate: _employerCancelRate,
+          employeeRating: _employeeRating,
+          employeeCancelRate: _employeeCancelRate,
+          isMe: true,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Sizing.horizontalPadding),
+              child: SlimButton(
+                type: ButtonType.outlined,
+                child: Text(AppLocalizations.of(context)!.editProfile),
+                onPressed: () {},
+              ),
+            )
+          ]
+        ),
       ],
     );
   }
