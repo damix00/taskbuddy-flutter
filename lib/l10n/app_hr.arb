@@ -79,5 +79,18 @@
   "saved": "Spremljeno",
   "general": "Općenito",
   "account": "Račun",
-  "privacy": "Privatnost"
+  "privacy": "Privatnost",
+  "security": "Sigurnost",
+  "appearance": "Izgled",
+  "language": "Jezik",
+  "accessibility": "Pristupačnost",
+  "social": "Društveno",
+  "friends": "Prijatelji",
+  "blockedUsers": "Blokirani korisnici",
+  "interests": "Interesi",
+  "interestsDesc": "Odaberite kategorije koje vas zanimaju kako bismo vam mogli prikazati relevantne poslove.",
+  "application": "Aplikacija",
+  "other": "Ostalo",
+  "openSourceLicenses": "Licence otvorenog koda",
+  "notifications": "Obavijesti"
 }

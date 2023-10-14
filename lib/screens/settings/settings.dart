@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/screens/settings/items/navigation.dart';
 import 'package:taskbuddy/screens/settings/section.dart';
@@ -30,6 +32,30 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 SettingsNavigation(title: l10n.account, icon: Icons.person_outline, onTap: () {}),
                 SettingsNavigation(title: l10n.privacy, icon: Icons.lock_outline, onTap: () {}),
+                SettingsNavigation(title: l10n.security, icon: Icons.security_outlined, onTap: () {}),
+              ]
+            ),
+            SettingsSection(
+              title: l10n.application,
+              children: [
+                SettingsNavigation(title: l10n.appearance, icon: Icons.color_lens_outlined, onTap: () {}),
+                SettingsNavigation(title: l10n.notifications, icon: Icons.notifications_outlined, onTap: () {}),
+                SettingsNavigation(title: l10n.accessibility, icon: Icons.accessibility_new_outlined, onTap: () {}),
+                SettingsNavigation(title: l10n.language, icon: Icons.translate_outlined, onTap: () {}, value: Platform.localeName.split('_')[0].toUpperCase()),
+              ]
+            ),
+            SettingsSection(
+              title: l10n.social,
+              children: [
+                SettingsNavigation(title: l10n.friends, icon: Icons.group_outlined, onTap: () {}),
+                SettingsNavigation(title: l10n.blockedUsers, icon: Icons.block_outlined, onTap: () {}),
+                SettingsNavigation(title: l10n.interests, subtitle: l10n.interestsDesc, icon: Icons.interests_outlined, onTap: () {}),
+              ]
+            ),
+            SettingsSection(
+              title: l10n.other,
+              children: [
+                SettingsNavigation(title: l10n.openSourceLicenses, icon: Icons.code, onTap: () {}),
               ]
             ),
             SizedBox(height: MediaQuery.of(context).padding.bottom),

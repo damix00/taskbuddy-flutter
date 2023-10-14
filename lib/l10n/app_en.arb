@@ -154,5 +154,18 @@
   "saved": "Saved",
   "general": "General",
   "account": "Account",
-  "privacy": "Privacy"
+  "privacy": "Privacy",
+  "security": "Security",
+  "appearance": "Appearance",
+  "language": "Language",
+  "accessibility": "Accessibility",
+  "social": "Social",
+  "friends": "Friends",
+  "blockedUsers": "Blocked users",
+  "interests": "Interests",
+  "interestsDesc": "Tell us what you''re interested in so we can show you the most relevant content.",
+  "application": "Application",
+  "other": "Other",
+  "openSourceLicenses": "Open source licenses",
+  "notifications": "Notifications"
 }
