@@ -124,7 +124,10 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('hr', 'HR'),
+      ],
       title: 'TaskBuddy',
       themeMode: ThemeMode.system,
       // Set the scroll behavior to the platform default
@@ -208,6 +211,16 @@ class _AppState extends State<App> {
         '/register/profile/details': (context) => const ProfileDetailsPage(),
         '/register/profile/finish': (context) => const ProfileFinishPage(),
         '/settings': (context) => const SettingsScreen(),
+      },
+      localeListResolutionCallback: (__, supportedLocales) {
+        // If the locale is supported, return it
+        for (Locale supportedLocale in supportedLocales) {
+          if (Platform.localeName.split('_')[0].toLowerCase() == supportedLocale.languageCode) {
+            return supportedLocale;
+          }
+        }
+
+        return Locale('en', 'US'); // Default to English
       },
     );
   }

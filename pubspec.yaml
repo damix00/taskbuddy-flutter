@@ -58,6 +58,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   sticky_headers: ^0.3.0+2
   share_plus: ^6.0.1
+  app_settings: ^5.1.1
 
 dev_dependencies:
   flutter_test:

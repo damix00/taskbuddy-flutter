@@ -132,8 +132,6 @@ class __OptionalFormState extends State<_OptionalForm> {
                   profilePicture: _image != null ? File(_image!.path) : null,
                 );
 
-                print(response.message);
-
                 if (response.ok) {
                   // Save the data
                   await AccountCache.saveAccountResponse(response.data!);

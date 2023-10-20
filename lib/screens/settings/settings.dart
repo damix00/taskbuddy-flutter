@@ -7,9 +7,33 @@ import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:app_settings/app_settings.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeLocales(List<Locale>? locale) {
+    setState(() {}); // Force rebuild
+    super.didChangeLocales(locale);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +65,14 @@ class SettingsScreen extends StatelessWidget {
                 SettingsNavigation(title: l10n.appearance, icon: Icons.color_lens_outlined, onTap: () {}),
                 SettingsNavigation(title: l10n.notifications, icon: Icons.notifications_outlined, onTap: () {}),
                 SettingsNavigation(title: l10n.accessibility, icon: Icons.accessibility_new_outlined, onTap: () {}),
-                SettingsNavigation(title: l10n.language, icon: Icons.translate_outlined, onTap: () {}, value: Platform.localeName.split('_')[0].toUpperCase()),
+                SettingsNavigation(
+                  title: l10n.language,
+                  icon: Icons.translate_outlined,
+                  onTap: () {
+                    AppSettings.openAppSettings(type: AppSettingsType.appLocale);
+                  },
+                  value: Platform.localeName.split('_')[0].toUpperCase(),
+                ),
               ]
             ),
             SettingsSection(
