@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 
 class AuthModel extends ChangeNotifier {
@@ -18,6 +19,7 @@ class AuthModel extends ChangeNotifier {
   int _employeeCancelled = 0;
   String _fullName = '';
   String _locationText = '';
+  AccountResponseRequiredActions? _requiredActions;
 
   bool get finishedLoading => _finishedLoading;
   bool get loggedIn => _loggedIn;
@@ -35,6 +37,7 @@ class AuthModel extends ChangeNotifier {
   int get employeeCancelled => _employeeCancelled;
   String get fullName => _fullName;
   String get locationText => _locationText;
+  AccountResponseRequiredActions? get requiredActions => _requiredActions;
 
   set finishedLoading(bool value) {
     _finishedLoading = value;
@@ -116,6 +119,11 @@ class AuthModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  set requiredActions(AccountResponseRequiredActions? value) {
+    _requiredActions = value;
+    notifyListeners();
+  }
+
   Future<void> init() async {
     var loggedIn = await AccountCache.isLoggedIn();
 
@@ -134,6 +142,7 @@ class AuthModel extends ChangeNotifier {
       var employeeCancelled = await AccountCache.getEmployeeCancelled();
       var fullName = await AccountCache.getFullName();
       var locationText = await AccountCache.getLocationText();
+      var requiredActions = await AccountCache.getRequiredActions();
 
       _username = username;
       _profilePicture = profilePicture;
@@ -149,6 +158,7 @@ class AuthModel extends ChangeNotifier {
       _employeeCancelled = employeeCancelled;
       _fullName = fullName;
       _locationText = locationText;
+      _requiredActions = requiredActions;
     }
 
     _loggedIn = loggedIn;

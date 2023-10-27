@@ -6,10 +6,12 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/create_post/create_post_screen.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
+import 'package:taskbuddy/state/providers/app_overlay.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 import 'package:taskbuddy/screens/signin/login/login_screen.dart';
@@ -32,6 +34,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (context) => PreferencesModel()),
       ChangeNotifierProvider(create: (context) => AuthModel()),
+      ChangeNotifierProvider(create: (context) => AppOverlay()),
     ],
     child: const App(),
   )));
@@ -124,12 +127,9 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: [
-        Locale('en', 'US'),
-        Locale('hr', 'HR'),
-      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       title: 'TaskBuddy',
-      themeMode: ThemeMode.system,
+      themeMode: Provider.of<PreferencesModel>(context, listen: false).themeMode,
       // Set the scroll behavior to the platform default
       scrollBehavior: Platform.isAndroid
           ? const MaterialScrollBehavior()
@@ -211,6 +211,7 @@ class _AppState extends State<App> {
         '/register/profile/details': (context) => const ProfileDetailsPage(),
         '/register/profile/finish': (context) => const ProfileFinishPage(),
         '/settings': (context) => const SettingsScreen(),
+        '/create-post':(context) => const CreatePostScreen(),
       },
       localeListResolutionCallback: (__, supportedLocales) {
         // If the locale is supported, return it
@@ -222,6 +223,18 @@ class _AppState extends State<App> {
 
         return Locale('en', 'US'); // Default to English
       },
+      onGenerateRoute: (settings) {
+        // Override status bar color on route change
+        Utils.overrideColors();
+      },
+      builder: (context, child) { // Called on route changes
+        Utils.overrideColors(); // Override the status bar colors
+
+        return Scaffold(
+          body: AppOverlayWidget(child: child),
+          appBar: null,
+        );
+      }
     );
   }
 }

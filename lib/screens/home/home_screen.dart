@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
@@ -9,9 +10,11 @@ import 'package:taskbuddy/screens/home/pages/home_page.dart';
 import 'package:taskbuddy/screens/home/pages/messages_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
+import 'package:taskbuddy/state/providers/app_overlay.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
 import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
+import 'package:taskbuddy/widgets/overlays/required_actions_overlay.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,6 +26,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  bool _setActions = false;
+
+  void updateRequiredActions(AccountResponseRequiredActions? requiredActions) {
+    if (_setActions) {
+      // If the actions are already set, then don't set them again
+      return;
+    }
+    
+    if (requiredActions != null && (requiredActions.verifyEmail || requiredActions.verifyPhoneNumber)) {
+      // If the user has required actions, then show the overlay
+      _setActions = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Add a post frame callback to make sure that the overlay is shown after the build method is called
+        // Otherwise, the overlay will not be shown
+        Provider.of<AppOverlay>(context, listen: false).overlay = const RequiredActionsOverlay();
+      });
+    }
+  }
 
   void init() async {
     String? token = await AccountCache.getToken();
@@ -31,6 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
       // If the token is null, then the user is not logged in so restart the app
       Phoenix.rebirth(context);
     }
+
+    AccountResponseRequiredActions? requiredActions =
+        await AccountCache.getRequiredActions();
+    
+    // Get the required actions from the cache and show a popup accordingly
+    updateRequiredActions(requiredActions);
 
     ApiResponse<AccountResponse?> me = await Api.v1.accounts.me(token!);
 
@@ -47,6 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
       if (me.data!.profile != null) {
         AccountCache.saveProfile(me.data!.profile!);
       }
+
+      if (me.data!.requiredActions != null) {
+        AccountCache.setRequiredActions(me.data!.requiredActions!);
+      }
+
+      // Show a popup if the user has required actions
+      updateRequiredActions(me.data!.requiredActions);
     }
   }
 
@@ -99,6 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
             if (index == 2) {
               // If the index is 2, then the user tapped the middle button (add)
               // So we don't want to change the current index
+              // Instead, we want to open the create post page
+              Navigator.of(context).pushNamed('/create-post');
             } else {
               _currentIndex = index;
             }
