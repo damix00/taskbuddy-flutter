@@ -95,5 +95,16 @@
   "notifications": "Obavijesti",
   "logout": "Odjava",
   "accountInformation": "Informacije o računu",
-  "outdatedApp": "Vaša je verzija aplikacija zastarjela. Molimo vas da ju ažurirate kako biste ju nastavili koristiti."
+  "outdatedApp": "Vaša je verzija aplikacija zastarjela. Molimo vas da ju ažurirate kako biste ju nastavili koristiti.",
+  "verifyPhoneNumber": "Potvrdite broj mobitela",
+  "verifyPhoneNumberDesc": "Kako biste mogli koristiti TaskBuddy, morate potvrditi svoj broj mobitela.",
+  "verificationCode": "Kod za potvrdu",
+  "enterVerificationCode": "Unesite kod za potvrdu",
+  "enterVerificationCodeDesc": "Poslali smo vam SMS s kodom za potvrdu. Unesite ga u polje ispod kako biste potvrdili svoj broj mobitela.",
+  "verify": "Potvrdi",
+  "resendCode": "Pošalji ponovno",
+  "invalidVerificationCode": "Neispravan kod za potvrdu.",
+  "verificationCodeExpired": "Kod za potvrdu je istekao.",
+  "verificationCodeSent": "Kod za potvrdu je poslan.",
+  "callInstead": "Nazovi me umjesto toga"
 }

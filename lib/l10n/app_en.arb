@@ -170,5 +170,16 @@
   "notifications": "Notifications",
   "logout": "Log out",
   "accountInformation": "Account information",
-  "outdatedApp": "Your app is outdated. Please update it to the latest version to continue using it."
+  "outdatedApp": "Your app is outdated. Please update it to the latest version to continue using it.",
+  "verifyPhoneNumber": "Verify phone number",
+  "verifyPhoneNumberDesc": "In order to use TaskBuddy, you need to verify your phone number.",
+  "verificationCode": "Verification code",
+  "enterVerificationCode": "Enter verification code",
+  "enterVerificationCodeDesc": "We''ve sent a verification code to your phone number. Please enter it below to verify your phone number.",
+  "verify": "Verify",
+  "resendCode": "Resend code",
+  "invalidVerificationCode": "Invalid verification code.",
+  "verificationCodeExpired": "Verification code expired.",
+  "verificationCodeSent": "Verification code sent.",
+  "callInstead": "Call me instead"
 }

@@ -85,6 +85,10 @@ class _AppState extends State<App> {
       fontWeight: FontWeight.w700,
       color: Colors.grey[500],
     ),
+    labelMedium: TextStyle(
+      fontSize: 14,
+      color: Colors.grey[500],
+    ),
   );
 
   @override
@@ -188,6 +192,9 @@ class _AppState extends State<App> {
             color: Colors.grey[600],
           ),
           displaySmall: _textTheme.displaySmall!.copyWith(
+            color: Colors.grey[600],
+          ),
+          labelMedium: _textTheme.labelMedium!.copyWith(
             color: Colors.grey[600],
           ),
         ),

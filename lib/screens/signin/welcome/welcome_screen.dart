@@ -133,6 +133,18 @@ class _WelcomeButtons extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
+          // Login button
+          Button(
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+            type: ButtonType.outlined,
+            child: Text(AppLocalizations.of(context)!.loginBtn),
+          ),
+          // Add some vertical spacing between the buttons
+          const SizedBox(
+            height: 15,
+          ),
           // Register button
           Button(
             onPressed: () {
@@ -142,18 +154,6 @@ class _WelcomeButtons extends StatelessWidget {
               AppLocalizations.of(context)!.registerBtn,
               style: const TextStyle(color: Colors.black),
             )
-          ),
-          // Add some vertical spacing between the buttons
-          const SizedBox(
-            height: 15,
-          ),
-          // Login button
-          Button(
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
-            },
-            type: ButtonType.outlined,
-            child: Text(AppLocalizations.of(context)!.loginBtn),
           ),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom + 16,
