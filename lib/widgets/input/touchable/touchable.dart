@@ -28,6 +28,7 @@ class _TouchableState extends State<Touchable> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (widget.disabled) return;
         widget.onTap?.call();
       },
       onTapDown: (_) {
@@ -48,8 +49,16 @@ class _TouchableState extends State<Touchable> {
           _duration = const Duration(milliseconds: 100);
         });
       },
-      onDoubleTap: widget.onDoubleTap,
-      onLongPress: widget.onLongPress,
+      onDoubleTap: () {
+        if (widget.disabled) return;
+
+        widget.onDoubleTap?.call();
+      },
+      onLongPress: () {
+        if (widget.disabled) return;
+
+        widget.onLongPress?.call();
+      },
       child: AnimatedOpacity(
         opacity: widget.disabled ? 0.5 : _opacity,
         duration: _duration,

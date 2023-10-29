@@ -177,9 +177,20 @@
   "enterVerificationCode": "Enter verification code",
   "enterVerificationCodeDesc": "We''ve sent a verification code to your phone number. Please enter it below to verify your phone number.",
   "verify": "Verify",
+  "resendCodeIn": "Resend code in {seconds} seconds",
+  "@resendCodeIn": {
+    "description": "This is the text for the resend code button.",
+    "placeholders": {
+      "seconds": {
+        "type": "num",
+        "example": "1:30"
+      }
+    }
+  },
   "resendCode": "Resend code",
   "invalidVerificationCode": "Invalid verification code.",
   "verificationCodeExpired": "Verification code expired.",
   "verificationCodeSent": "Verification code sent.",
-  "callInstead": "Call me instead"
+  "callInstead": "Call me instead",
+  "verificationSuccessful": "Verification successful!"
 }

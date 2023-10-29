@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/error_codes.dart';
 import 'package:taskbuddy/widgets/overlays/required_actions/update_app.dart';
-import 'package:taskbuddy/widgets/overlays/required_actions/verify_phone.dart';
+import 'package:taskbuddy/widgets/overlays/required_actions/verify_phone/verify_phone.dart';
 
 class RequiredActionsOverlay extends StatelessWidget {
   const RequiredActionsOverlay({Key? key}) : super(key: key);
