@@ -6,6 +6,7 @@ class AuthModel extends ChangeNotifier {
   bool _finishedLoading = false;
   bool _loggedIn = false;
   String _username = '';
+  String _email = '';
   String _profilePicture = '';
   bool _isPrivate = false;
   int _followers = 0;
@@ -24,6 +25,7 @@ class AuthModel extends ChangeNotifier {
   bool get finishedLoading => _finishedLoading;
   bool get loggedIn => _loggedIn;
   String get username => _username;
+  String get email => _email;
   String get profilePicture => _profilePicture;
   bool get isPrivate => _isPrivate;
   int get followers => _followers;
@@ -51,6 +53,11 @@ class AuthModel extends ChangeNotifier {
 
   set username(String value) {
     _username = value;
+    notifyListeners();
+  }
+
+  set email(String value) {
+    _email = value;
     notifyListeners();
   }
 
@@ -129,6 +136,7 @@ class AuthModel extends ChangeNotifier {
 
     if (loggedIn) {
       var username = await AccountCache.getUsername();
+      var email = await AccountCache.getEmail();
       var profilePicture = await AccountCache.getProfilePicture();
       var isPrivate = await AccountCache.isPrivate();
       var followers = await AccountCache.getFollowers();
@@ -159,9 +167,33 @@ class AuthModel extends ChangeNotifier {
       _fullName = fullName;
       _locationText = locationText;
       _requiredActions = requiredActions;
+      _email = email;
     }
 
     _loggedIn = loggedIn;
+  }
+
+  void setAccountResponse(AccountResponse response) {
+    _username = response.user.username;
+    _profilePicture = response.profile!.profilePicture;
+    _isPrivate = response.profile!.isPrivate;
+    _followers = response.profile!.followers;
+    _following = response.profile!.following;
+    _listings = response.profile!.posts;
+    _jobsDone = response.profile!.completedEmployee +
+        response.profile!.completedEmployer;
+    _bio = response.profile!.bio;
+    _employerRating = response.profile!.ratingEmployer;
+    _employeeRating = response.profile!.ratingEmployee;
+    _employerCancelled = response.profile!.cancelledEmployer;
+    _employeeCancelled = response.profile!.cancelledEmployee;
+    _fullName = '${response.user.firstName} ${response.user.lastName}';
+    _locationText = response.profile!.locationText;
+    _requiredActions = response.requiredActions;
+    _email = response.user.email;
+    _loggedIn = true;
     _finishedLoading = true;
+
+    notifyListeners();
   }
 }

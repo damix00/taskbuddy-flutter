@@ -4,14 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/create_post_screen.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
+import 'package:taskbuddy/screens/settings/account/account_settings.dart';
 import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
-import 'package:taskbuddy/state/providers/app_overlay.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 import 'package:taskbuddy/screens/signin/login/login_screen.dart';
@@ -20,7 +21,7 @@ import 'package:taskbuddy/screens/signin/register/register_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:taskbuddy/utils/initializers.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/transitions/slide_in.dart';
 
@@ -29,15 +30,15 @@ void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  runApp(Phoenix(
-      child: MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => PreferencesModel()),
-      ChangeNotifierProvider(create: (context) => AuthModel()),
-      ChangeNotifierProvider(create: (context) => AppOverlay()),
-    ],
-    child: const App(),
-  )));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => PreferencesModel()),
+        ChangeNotifierProvider(create: (context) => AuthModel()),
+      ],
+      child: const App(),
+    )
+  );
 }
 
 class App extends StatefulWidget {
@@ -100,17 +101,8 @@ class _AppState extends State<App> {
     // Check if logged in
     _loggedIn = await AccountCache.isLoggedIn();
 
-    // Get the preferences context provider
-    PreferencesModel prefs =
-        Provider.of<PreferencesModel>(context, listen: false);
-
-    AuthModel auth = Provider.of<AuthModel>(context, listen: false);
-
-    // Initialize the preferences
-    await prefs.init();
-
-    // Initialize the auth
-    await auth.init();
+    // Initialize the cache
+    await Initializers.initCache(context);
 
     // Re-render the UI
     setState(() {});
@@ -124,7 +116,7 @@ class _AppState extends State<App> {
     // Change the status bar and navigation bar colors on Android
     Utils.overrideColors();
 
-    return MaterialApp(
+    return OverlaySupport.global(child: MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -211,7 +203,9 @@ class _AppState extends State<App> {
         '/register/profile/details': (context) => const ProfileDetailsPage(),
         '/register/profile/finish': (context) => const ProfileFinishPage(),
         '/settings': (context) => const SettingsScreen(),
-        '/create-post':(context) => const CreatePostScreen(),
+        '/settings/account': (context) => const AccountSettings(),
+        '/create-post': (context) => const CreatePostScreen(),
+        '/home': (context) => const HomeScreen(),
       },
       localeListResolutionCallback: (__, supportedLocales) {
         // If the locale is supported, return it
@@ -221,20 +215,14 @@ class _AppState extends State<App> {
           }
         }
 
-        return Locale('en', 'US'); // Default to English
+        return const Locale('en', 'US'); // Default to English
       },
       onGenerateRoute: (settings) {
         // Override status bar color on route change
         Utils.overrideColors();
-      },
-      builder: (context, child) { // Called on route changes
-        Utils.overrideColors(); // Override the status bar colors
 
-        return Scaffold(
-          body: AppOverlayWidget(child: child),
-          appBar: null,
-        );
-      }
-    );
+        return null;
+      },
+    ));
   }
 }

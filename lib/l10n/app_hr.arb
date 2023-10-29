@@ -92,5 +92,8 @@
   "application": "Aplikacija",
   "other": "Ostalo",
   "openSourceLicenses": "Licence otvorenog koda",
-  "notifications": "Obavijesti"
+  "notifications": "Obavijesti",
+  "logout": "Odjava",
+  "accountInformation": "Informacije o računu",
+  "outdatedApp": "Vaša je verzija aplikacija zastarjela. Molimo vas da ju ažurirate kako biste ju nastavili koristiti."
 }

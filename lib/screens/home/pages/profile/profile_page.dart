@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';

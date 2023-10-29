@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:taskbuddy/screens/home/home_screen.dart';
+import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 
 class Utils {
   static void overrideColors() {
@@ -49,5 +51,24 @@ class Utils {
     }
 
     return result as T;
+  }
+
+  static void navigateWithoutAnim(BuildContext context, Widget page) {
+    Navigator.of(context).pushAndRemoveUntil(
+      PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => page,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
+      (route) => false,
+    );
+  }
+
+  static void restartLoggedOut(BuildContext context) {
+    navigateWithoutAnim(context, const WelcomeScreen());
+  }
+
+  static void restartLoggedIn(BuildContext context) {
+    navigateWithoutAnim(context, const HomeScreen());
   }
 }

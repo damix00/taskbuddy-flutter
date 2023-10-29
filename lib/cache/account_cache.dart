@@ -51,6 +51,10 @@ class AccountCache {
     await _writeKey('username', username);
   }
 
+  static Future<void> setEmail(String email) async {
+    await _writeKey('email', email);
+  }
+
   static Future<void> setProfilePicture(String profilePicture) async {
     await _writeKey('profilePicture', profilePicture);
   }
@@ -105,6 +109,10 @@ class AccountCache {
 
   static Future<String> getUsername() async {
     return await _readKey('username') ?? '';
+  }
+
+  static Future<String> getEmail() async {
+    return await _readKey('email') ?? '';
   }
 
   static Future<String> getProfilePicture() async {
@@ -199,6 +207,7 @@ class AccountCache {
     await setToken(value.token);
     await setFullName(value.user.firstName, value.user.lastName);
     await setUsername(value.user.username);
+    await setEmail(value.user.email);
 
     if (value.profile != null) {
       await saveProfile(value.profile!);

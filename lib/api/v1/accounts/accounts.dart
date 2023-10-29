@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:http/http.dart';
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';

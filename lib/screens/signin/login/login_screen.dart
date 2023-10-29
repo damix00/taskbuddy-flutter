@@ -1,9 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/utils/initializers.dart';
+import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
@@ -14,7 +15,6 @@ import 'package:taskbuddy/widgets/screens/register/screen_title.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/ui/snackbars.dart';
-
 // Login screen widget
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -138,8 +138,10 @@ class _LoginFormState extends State<_LoginForm> {
                     await AccountCache.saveAccountResponse(response.data!);
                     await AccountCache.saveProfile(response.data!.profile!);
 
+                    await Initializers.initCache(context);
+
                     // Restart the app
-                    Phoenix.rebirth(context);
+                    Utils.restartLoggedIn(context);
                   }
 
                   setState(() {

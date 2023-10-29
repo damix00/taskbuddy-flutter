@@ -22,13 +22,13 @@ class ProfilePFP extends StatelessWidget {
         width: 156,
         child: Stack(
           children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(156),
-                child: CachedNetworkImage(
-                    imageUrl: profilePicture,
-                    errorWidget: (context, url, error) =>
-                        const DefaultProfilePicture(size: 156)),
-              ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(156),
+              child: CachedNetworkImage(
+                  imageUrl: profilePicture,
+                  errorWidget: (context, url, error) =>
+                      const DefaultProfilePicture(size: 156)),
+            ),
             if (isMe)
               Positioned(
                 bottom: 0,
@@ -59,10 +59,10 @@ class _PFPParent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return this.isMe
+    return isMe
       ? Touchable(
-        child: child,
         onTap: onPressed,
+        child: child
       )
       : child;
   }

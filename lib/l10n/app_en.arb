@@ -167,5 +167,8 @@
   "application": "Application",
   "other": "Other",
   "openSourceLicenses": "Open source licenses",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "logout": "Log out",
+  "accountInformation": "Account information",
+  "outdatedApp": "Your app is outdated. Please update it to the latest version to continue using it."
 }

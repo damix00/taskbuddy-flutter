@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
@@ -10,11 +9,11 @@ import 'package:taskbuddy/screens/home/pages/home_page.dart';
 import 'package:taskbuddy/screens/home/pages/messages_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
-import 'package:taskbuddy/state/providers/app_overlay.dart';
+import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
 import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
-import 'package:taskbuddy/widgets/overlays/required_actions_overlay.dart';
+import 'package:taskbuddy/widgets/overlays/required_actions/required_actions_overlay.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         // Add a post frame callback to make sure that the overlay is shown after the build method is called
         // Otherwise, the overlay will not be shown
-        Provider.of<AppOverlay>(context, listen: false).overlay = const RequiredActionsOverlay();
+        showOverlay((context, progress) => const RequiredActionsOverlay(), duration: Duration.zero);
       });
     }
   }
@@ -50,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (token == null) {
       // If the token is null, then the user is not logged in so restart the app
-      Phoenix.rebirth(context);
+      Utils.restartLoggedOut(context);
     }
 
     AccountResponseRequiredActions? requiredActions =
@@ -67,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // Remove the token from the cache
       AccountCache.setLoggedIn(false);
 
-      Phoenix.rebirth(context);
+      Utils.restartLoggedOut(context);
     } else if (me.ok) {
       // If the response is OK, then the user is logged in
       AccountCache.saveAccountResponse(me.data!);
@@ -75,9 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
         AccountCache.saveProfile(me.data!.profile!);
       }
 
-      if (me.data!.requiredActions != null) {
-        AccountCache.setRequiredActions(me.data!.requiredActions!);
-      }
+      AccountCache.setRequiredActions(me.data!.requiredActions);
+
+      Provider.of<AuthModel>(context, listen: false).setAccountResponse(me.data!);
 
       // Show a popup if the user has required actions
       updateRequiredActions(me.data!.requiredActions);
