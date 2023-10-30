@@ -14,16 +14,19 @@ class SnackbarPresets {
     //   margin: const EdgeInsets.all(16),
     //   backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
     // ));
-    showOverlayNotification((ctx) => CustomNotification(
-      backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
-      child: Center(
-        heightFactor: 0,
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: textColor ?? Theme.of(context).colorScheme.onSurface),
+    showOverlayNotification((ctx) =>
+      CustomNotification(
+        backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
+        child: Center(
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: textColor ?? Theme.of(context).colorScheme.onSurface),
+          ),
         ),
       ),
-    ), position: NotificationPosition.bottom);
+      position: NotificationPosition.bottom,
+      duration: const Duration(seconds: 5)
+    );
   }
 
   static void error(BuildContext context, String text) {

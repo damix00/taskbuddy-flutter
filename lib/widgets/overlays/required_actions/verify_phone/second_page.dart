@@ -3,12 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/widgets/input/otp_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/widgets/ui/snackbars.dart';
 
 class _CodeInput extends StatefulWidget {
   final Function(String) onCompleted;
@@ -68,12 +72,9 @@ class _CodeInputState extends State<_CodeInput> {
           text: _countdown > 0 ? l10n.resendCodeIn(_countdown) : l10n.resendCode,
           onTap: () async {
             await Api.v1.accounts.verification.phone.send((await AccountCache.getToken())!);
-            showSimpleNotification(
-              Text(
-                l10n.verificationCodeSent,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimary),
-              ),
-              background: Theme.of(context).colorScheme.primary,
+            SnackbarPresets.show(
+              context,
+              text: l10n.verificationCodeSent
             );
             _startTimer();
           },
@@ -120,6 +121,8 @@ class VerifyPhoneSecondPage extends StatefulWidget {
 
 class _VerifyPhoneSecondPageState extends State<VerifyPhoneSecondPage> {
   String _value = "";
+  bool _loadingVerify = false;
+  bool _loadingCall = false;
 
   void onCompleted(String value) {
     setState(() {
@@ -141,6 +144,7 @@ class _VerifyPhoneSecondPageState extends State<VerifyPhoneSecondPage> {
           Column(
             children: [
               Button(
+                loading: _loadingVerify,
                 disabled: _value.length != 6,
                 child: Text(
                   l10n.verify,
@@ -149,33 +153,42 @@ class _VerifyPhoneSecondPageState extends State<VerifyPhoneSecondPage> {
                   ),
                 ),
                 onPressed: () async {
+                  setState(() {
+                    _loadingVerify = true;
+                  });
                   // Check if the code is valid
                   bool result = await Api.v1.accounts.verification.phone.verify((await AccountCache.getToken())!, _value);
 
                   // If the code is valid, show a success notification and close the popup
                   if (result) {
-                    showSimpleNotification(
-                      Text(
-                        l10n.verificationSuccessful,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                      ),
-                      background: Theme.of(context).colorScheme.primary,
+                    SnackbarPresets.show(
+                      context,
+                      text: l10n.verificationSuccessful,
                     );
+                    AccountResponseRequiredActions? requiredActions = await AccountCache.getRequiredActions();
+
+                    if (requiredActions != null) {
+                      await AccountCache.setRequiredActions(requiredActions.copyWith(verifyPhoneNumber: false));
+                    }
+
                     OverlaySupportEntry.of(context)!.dismiss(); // Close the popup
+
                   } else {
                     // If the code is invalid, show an error notification
-                    showSimpleNotification(
-                      Text(
-                        l10n.invalidVerificationCode,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onError),
-                      ),
-                      background: Theme.of(context).colorScheme.error,
+                    SnackbarPresets.error(
+                      context,
+                      l10n.invalidVerificationCode,
                     );
                   }
+
+                  setState(() {
+                    _loadingVerify = false;
+                  });
                 }
               ),
               const SizedBox(height: 8,),
               Button(
+                loading: _loadingCall,
                 type: ButtonType.outlined,
                 child: Text(
                   l10n.callInstead,
@@ -183,7 +196,22 @@ class _VerifyPhoneSecondPageState extends State<VerifyPhoneSecondPage> {
                     color: Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
-                onPressed: () {}
+                onPressed: () async {
+                  setState(() {
+                    _loadingCall = true;
+                  });
+                  // Send a call verification request
+                  await Api.v1.accounts.verification.phone.call((await AccountCache.getToken())!);
+                  // Show a notification
+                  SnackbarPresets.show(
+                    context,
+                    text: l10n.verificationCodeSent,
+                  );
+
+                  setState(() {
+                    _loadingCall = false;
+                  });
+                }
               ),
               SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding / 2)
             ],

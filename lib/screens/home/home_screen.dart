@@ -52,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<bool> _fetchData(String token) async {
+    print("fethin");
+
     ApiResponse<AccountResponse?> me = await Api.v1.accounts.me(token);
 
     if (me.data == null) {
@@ -96,10 +98,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (await _fetchData((await AccountCache.getToken())!)) {
+      print('cancelling');
       _subscription?.cancel();
     }
     else {
       // If the auth has not been fetched, then fetch it again
+      print("setting interval");
       _setInterval();
     }
   }
@@ -181,22 +185,20 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CustomBottomNavbar(
         items: [
           BottomNavbarItem(icon: Icons.home_outlined, activeIcon: Icons.home),
-          BottomNavbarItem(
-              icon: Icons.search_outlined, activeIcon: Icons.search),
-          BottomNavbarItem(
-              child: Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            child: Icon(Icons.add,
-                color: Theme.of(context).colorScheme.onPrimary),
-          )),
           BottomNavbarItem(icon: Icons.chat_outlined, activeIcon: Icons.chat),
           BottomNavbarItem(
-              icon: Icons.person_outline, activeIcon: Icons.person),
+            child: Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
+            )
+          ),
+          BottomNavbarItem(icon: Icons.wallet_outlined, activeIcon: Icons.wallet),
+          BottomNavbarItem(icon: Icons.person_outline, activeIcon: Icons.person),
         ],
         currentIndex: _currentIndex,
         onSelected: (index) {

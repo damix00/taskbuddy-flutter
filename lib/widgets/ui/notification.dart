@@ -18,7 +18,7 @@ class CustomNotification extends StatelessWidget {
           enableAnimation: onTap != null,
           onTap: onTap,
           child: Container(
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: backgroundColor ?? Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(8),
@@ -33,13 +33,12 @@ class CustomNotification extends StatelessWidget {
                   spreadRadius: 2,
                   offset: const Offset(0, 0)
                 )
-              ]
+              ],
             ),
-            padding: const EdgeInsets.all(8),
-            constraints: const BoxConstraints(
-              minHeight: 40
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: child,
             ),
-            child: child,
           )
         ),
       ),

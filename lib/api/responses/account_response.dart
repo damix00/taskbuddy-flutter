@@ -60,6 +60,16 @@ class AccountResponseRequiredActions {
     );
   }
 
+  AccountResponseRequiredActions copyWith({
+    bool? verifyPhoneNumber,
+    bool? verifyEmail,
+  }) {
+    return AccountResponseRequiredActions(
+      verifyPhoneNumber: verifyPhoneNumber ?? this.verifyPhoneNumber,
+      verifyEmail: verifyEmail ?? this.verifyEmail,
+    );
+  }
+
   String toJson() {
     return '{"verify_phone_number": $verifyPhoneNumber, "verify_email": $verifyEmail}';
   }

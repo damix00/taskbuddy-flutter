@@ -165,14 +165,11 @@ class _ProfilePageState extends State<ProfilePage> {
           isMe: true,
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Sizing.horizontalPadding),
+              padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
               child: SlimButton(
                 type: ButtonType.outlined,
                 child: Text(AppLocalizations.of(context)!.editProfile),
-                onPressed: () {
-                  SnackbarPresets.show(context, text: "test notification");
-                },
+                onPressed: () {},
               ),
             )
           ]

@@ -1,11 +1,37 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/error_codes.dart';
 import 'package:taskbuddy/widgets/overlays/required_actions/update_app.dart';
 import 'package:taskbuddy/widgets/overlays/required_actions/verify_phone/verify_phone.dart';
+
+class _RequiredActionsMap extends StatelessWidget {
+  final AuthModel auth;
+
+  const _RequiredActionsMap({Key? key, required this.auth}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (auth.requiredActions == null) {
+      return Container();
+    }
+
+    if (auth.requiredActions!.verifyEmail) {
+      return UpdateApp(errorCode: ErrorCodes.unsupportedRequiredAction);
+    }
+
+    if (auth.requiredActions!.verifyPhoneNumber) {
+      return const VerifyPhoneNumber();
+    }
+
+    OverlaySupportEntry.of(context)!.dismiss(); // Close the popup
+
+    return Container();
+  }
+}
 
 class RequiredActionsOverlay extends StatelessWidget {
   const RequiredActionsOverlay({Key? key}) : super(key: key);
@@ -25,13 +51,7 @@ class RequiredActionsOverlay extends StatelessWidget {
             color: Theme.of(context).colorScheme.surfaceVariant,
             child: Consumer<AuthModel>(
               builder: (context, auth, child) {
-                return !auth.finishedLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : (
-                        auth.requiredActions!.verifyEmail
-                          ? UpdateApp(errorCode: ErrorCodes.unsupportedRequiredAction)
-                          : const VerifyPhoneNumber()
-                    );
+                return _RequiredActionsMap(auth: auth);
               },
             ),
           ),
