@@ -8,21 +8,36 @@ import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
+import 'package:taskbuddy/widgets/ui/visual/default_profile_picture.dart';
 
 // A button that allows the user to select a profile picture
 class ProfilePictureInput extends StatefulWidget {
   final XFile? image;
+  final Widget? child;
   final bool optional;
   final void Function(XFile?)? onSelected;
   final String? title;
-  final bool showPlus;
+  final bool showTitle;
+  final bool showIcon;
+  final double width;
+  final double height;
+  final double iconSize;
+  final double iconBackgroundSize;
+  final bool centered;
 
   const ProfilePictureInput({
     required this.onSelected,
+    this.child,
     this.optional = true,
     this.image,
     this.title,
-    this.showPlus = true,
+    this.showIcon = true,
+    this.showTitle = true,
+    this.width = 60,
+    this.height = 60,
+    this.iconSize = 14,
+    this.iconBackgroundSize = 20,
+    this.centered = false,
     Key? key})
       : super(key: key);
 
@@ -71,13 +86,13 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
     return SizedBox(
       width: double.infinity, // make the width the same as the parent so it isn't centered
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: widget.centered ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
-          InputTitle(
+          if (widget.showTitle) InputTitle(
             title: widget.title ?? AppLocalizations.of(context)!.profilePicture,
             optional: widget.optional,
           ),
-          const SizedBox(height: 8),
+          if (widget.showTitle) const SizedBox(height: 8),
           // Show the profile picture
           Touchable(
             onTap: () async {
@@ -97,7 +112,6 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
                   title: l10n.chooseFromGallery,
                   icon: Icons.photo_library,
                   onTap: (ctx) {
-                    Navigator.of(ctx).pop(); // Close the bottom sheet
                     // Choose from gallery
                     ImagePicker().pickImage(source: ImageSource.gallery).then((value) {
                       onSelected(value);
@@ -106,12 +120,11 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
                 ),
               ];
 
-              if (widget.image != null) {
+              if (widget.image != null || widget.child != null) {
                 items.add(BottomSheetButton(
                   title: l10n.remove,
                   icon: Icons.delete,
                   onTap: (ctx) {
-                    Navigator.of(ctx).pop(); // Close the bottom sheet
                     widget.onSelected!(null);
                   }
                 ));
@@ -127,41 +140,32 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
             child: Stack(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: widget.width,
+                  height: widget.height,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Theme.of(context).colorScheme.surface,
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.outline,
-                      width: 1,
-                    ),
                   ),
-                  child: widget.image != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image.file(
-                          File(widget.image!.path),
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : const Icon(Icons.person, size: 30,),
+                  child: _PfpInputImage(
+                    width: widget.width,
+                    height: widget.height,
+                    image: widget.image,
+                    child: widget.child,
+                  ),
                 ),
-                if (widget.showPlus)
+                if (widget.showIcon)
                   // Show the plus icon if the user can add a profile picture
                   Positioned(
                     bottom: 0,
                     right: 0,
                     child: Container(
-                      width: 20,
-                      height: 20,
+                      width: widget.iconBackgroundSize,
+                      height: widget.iconBackgroundSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      child: Icon(Icons.add, size: 14, color: Theme.of(context).colorScheme.onPrimary),
+                      child: Icon(Icons.edit, size: widget.iconSize, color: Theme.of(context).colorScheme.onPrimary),
                     ),
                   ),
               ],
@@ -170,5 +174,35 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
         ],
       ),
     );
+  }
+}
+
+class _PfpInputImage extends StatelessWidget {
+  final XFile? image;
+  final Widget? child;
+  final double width;
+  final double height;
+
+  const _PfpInputImage({required this.width, required this.height, this.image, this.child, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (image != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(height),
+        child: Image.file(
+          File(image!.path),
+          width: width,
+          height: height,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+
+    if (child != null) {
+      return child!;
+    }
+
+    return DefaultProfilePicture(size: width);
   }
 }

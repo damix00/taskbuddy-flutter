@@ -11,12 +11,17 @@ class DefaultProfilePicture extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(size / 2)),
+        color: Theme.of(context).colorScheme.surface,
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(size / 2)
+      ),
       child: Icon(
         Icons.person,
-        color: Colors.grey[600],
-        size: size - 8,
+        color: Theme.of(context).colorScheme.onSurface,
+        size: size - size / 4,
       ),
     );
   }

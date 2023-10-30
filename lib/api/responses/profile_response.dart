@@ -37,7 +37,7 @@ class ProfileResponse {
   factory ProfileResponse.fromJson(Map<String, dynamic> json) {
     return ProfileResponse(
       bio: json['bio'],
-      profilePicture: json['profile_picture'],
+      profilePicture: json['profile_picture'] ?? '',
       ratingEmployer: json['rating_employer'],
       ratingEmployee: json['rating_employee'],
       cancelledEmployer: json['cancelled_employer'],

@@ -194,5 +194,7 @@
   "callInstead": "Call me instead",
   "verificationSuccessful": "Verification successful!",
   "offlineWarning": "You are offline. Some features may not work properly.",
-  "changePfp": "Change profile picture"
+  "changePfp": "Change profile picture",
+  "somethingWentWrong": "Something went wrong.",
+  "successfullyChangedPfp": "Successfully changed profile picture!"
 }

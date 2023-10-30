@@ -90,20 +90,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _handleConnected() async {
-    print("gex");
-
     if (_authFetched) {
       // If the auth has already been fetched, then don't fetch it again
       return;
     }
 
     if (await _fetchData((await AccountCache.getToken())!)) {
-      print('cancelling');
       _subscription?.cancel();
     }
     else {
       // If the auth has not been fetched, then fetch it again
-      print("setting interval");
       _setInterval();
     }
   }

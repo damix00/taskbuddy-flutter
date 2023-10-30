@@ -110,5 +110,7 @@
   "callInstead": "Nazovi me umjesto toga",
   "verificationSuccessful": "Potvrda uspješna!",
   "offlineWarning": "Niste povezani na mrežu. Neke značajke možda neće ispravno raditi.",
-  "changePfp": "Promijeni profilnu sliku"
+  "changePfp": "Promijeni profilnu sliku",
+  "somethingWentWrong": "Nešto je pošlo po zlu.",
+  "successfullyChangedPfp": "Profilna slika uspješno promijenjena!"
 }

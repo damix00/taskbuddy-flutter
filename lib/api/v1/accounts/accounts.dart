@@ -5,6 +5,7 @@ import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/api/v1/accounts/check_existence.dart';
 import 'package:dio/dio.dart' as diolib;
+import 'package:taskbuddy/api/v1/accounts/me/me.dart';
 import 'package:taskbuddy/api/v1/accounts/verification/verification.dart';
 
 final dio = diolib.Dio();
@@ -13,6 +14,7 @@ final dio = diolib.Dio();
 class Accounts {
   CheckExistence get checkExistence => CheckExistence();
   Verification get verification => Verification();
+  MeRoute get meRoute => MeRoute();
 
   // Placeholder method for retrieving user account details
   Future<ApiResponse<AccountResponse?>> me(String token) {
