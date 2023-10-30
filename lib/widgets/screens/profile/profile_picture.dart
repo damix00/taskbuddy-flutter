@@ -63,12 +63,13 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
         removeProfilePicture: true
       );
 
-      if (!result.ok) {
+      if (result.response!.statusCode != 200) {
         SnackbarPresets.error(context, AppLocalizations.of(context)!.somethingWentWrong);
       }
 
       else {
         SnackbarPresets.show(context, text: AppLocalizations.of(context)!.successfullyChangedPfp);
+        AccountCache.setProfilePicture(result.data!.profilePicture);
       }
 
       context.loaderOverlay.hide();
@@ -87,12 +88,15 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
         profilePicture: File(file.path),
       );
 
-      if (!result.ok) {
+      print(result.status);
+
+      if (result.response!.statusCode != 200) {
         SnackbarPresets.error(context, AppLocalizations.of(context)!.somethingWentWrong);
       }
 
       else {
         SnackbarPresets.show(context, text: AppLocalizations.of(context)!.successfullyChangedPfp);
+        AccountCache.setProfilePicture(result.data!.profilePicture);
       }
     }
   }

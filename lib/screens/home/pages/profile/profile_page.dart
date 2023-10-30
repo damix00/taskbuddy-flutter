@@ -169,7 +169,9 @@ class _ProfilePageState extends State<ProfilePage> {
               child: SlimButton(
                 type: ButtonType.outlined,
                 child: Text(AppLocalizations.of(context)!.editProfile),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/profile/edit');
+                },
               ),
             )
           ]

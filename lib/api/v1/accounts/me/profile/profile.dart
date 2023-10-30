@@ -59,15 +59,12 @@ class ProfileRoute {
 
       var json = response.response!.data;
 
-      print(json);
-      print(response.response!.statusCode);
-
       return ApiResponse(
-        status: response.response?.statusCode ?? 500,
-        message: json['message'],
-        ok: json['ok'],
-        response: response.response,
-        data: ProfileResponse.fromJson(json['data']),
+        status: response.response!.statusCode!,
+        message: 'W',
+        ok: true,
+        response: response.response!,
+        data: ProfileResponse.fromJson(json['profile']),
       );
     }
     catch (e) {

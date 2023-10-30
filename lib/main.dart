@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/create_post_screen.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
+import 'package:taskbuddy/screens/home/pages/profile/edit/profile_edit.dart';
 import 'package:taskbuddy/screens/settings/account/account_settings.dart';
 import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
@@ -218,6 +219,7 @@ class _AppState extends State<App> {
           '/settings/account': (context) => const AccountSettings(),
           '/create-post': (context) => const CreatePostScreen(),
           '/home': (context) => const HomeScreen(),
+          '/profile/edit': (context) => const ProfileEditScreen(),
         },
         localeListResolutionCallback: (__, supportedLocales) {
           // If the locale is supported, return it

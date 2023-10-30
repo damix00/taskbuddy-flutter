@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/widgets/screens/profile/header.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/feedback/custom_refresh.dart';
@@ -43,7 +47,19 @@ class ProfileLayout extends StatelessWidget {
       length: 2,
       child: CustomRefresh(
         onRefresh: () async {
-          await Future.delayed(Duration(seconds: 2));
+          var token = await AccountCache.getToken();
+
+          if (token == null) return;
+
+          if (isMe) {
+            var data = await Api.v1.accounts.me(token);
+
+            if (!data.ok) {
+              return;
+            }
+
+            Provider.of<AuthModel>(context, listen: false).setAccountResponse(data.data!);
+          }
         },
         notificationPredicate: (notification) {
           // with NestedScrollView local(depth == 2) OverscrollNotification are not sent
