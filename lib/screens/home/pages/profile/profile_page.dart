@@ -11,7 +11,6 @@ import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:taskbuddy/api/options.dart';
-import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
 class ProfileAppbar extends StatefulWidget {
   const ProfileAppbar({Key? key}) : super(key: key);
@@ -101,67 +100,25 @@ class _ProfileAppbarState extends State<ProfileAppbar> {
   }
 }
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  String _username = '';
-  String _fullName = '';
-  String _profilePicture = '';
-  String _followers = '';
-  String _following = '';
-  String _listings = '';
-  String _jobsDone = '';
-  String _bio = '';
-  num _employerRating = 0;
-  num _employeeRating = 0;
-  num _employerCancelRate = 0;
-  num _employeeCancelRate = 0;
-  bool _isPrivate = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    AuthModel auth = Provider.of<AuthModel>(context, listen: false);
-
-    _username = auth.username;
-    _fullName = auth.fullName;
-    _profilePicture = auth.profilePicture;
-    _followers = Utils.formatNumber(auth.followers);
-    _following = Utils.formatNumber(auth.following);
-    _listings = Utils.formatNumber(auth.listings);
-    _jobsDone = Utils.formatNumber(auth.jobsDone);
-    _bio = auth.bio;
-    _employerRating = auth.employerRating;
-    _employeeRating = auth.employeeRating;
-    _employerCancelRate =
-        auth.listings > 0 ? (auth.employerCancelled / auth.listings) * 100 : 0;
-    _employeeCancelRate =
-        auth.jobsDone > 0 ? (auth.employeeCancelled / auth.jobsDone) * 100 : 0;
-    _isPrivate = auth.isPrivate;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ProfileLayout(
-          fullName: _fullName,
-          profilePicture: _profilePicture,
-          followers: _followers,
-          following: _following,
-          listings: _listings,
-          jobsDone: _jobsDone,
-          bio: _bio,
-          employerRating: _employerRating,
-          employerCancelRate: _employerCancelRate,
-          employeeRating: _employeeRating,
-          employeeCancelRate: _employeeCancelRate,
+    return Consumer<AuthModel>(
+      builder: (context, auth, child) {
+        return ProfileLayout(
+          fullName: auth.fullName,
+          profilePicture: auth.profilePicture,
+          followers: Utils.formatNumber(auth.followers),
+          following: Utils.formatNumber(auth.following),
+          listings: Utils.formatNumber(auth.listings),
+          jobsDone: Utils.formatNumber(auth.jobsDone),
+          bio: auth.bio,
+          employerRating: auth.employerRating,
+          employerCancelRate: auth.employeeRating,
+          employeeRating: auth.listings > 0 ? (auth.employerCancelled / auth.listings) * 100 : 0,
+          employeeCancelRate: auth.jobsDone > 0 ? (auth.employeeCancelled / auth.jobsDone) * 100 : 0,
           isMe: true,
           actions: [
             Padding(
@@ -175,8 +132,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             )
           ]
-        ),
-      ],
+        );
+      },
     );
   }
 }
