@@ -130,7 +130,7 @@ class _LoginFormState extends State<_LoginForm> {
                       _errorText = l10n.invalidCredentials;
                     }
 
-                    SnackbarPresets.show(context, _errorText);
+                    SnackbarPresets.error(context, _errorText);
                   }
 
                   else {

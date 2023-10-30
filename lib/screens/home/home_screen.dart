@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +17,9 @@ import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
 import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
 import 'package:taskbuddy/widgets/overlays/required_actions/required_actions_overlay.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/widgets/ui/snackbars.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,6 +31,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   bool _setActions = false;
+  bool _authFetched = false;
+  StreamSubscription<ConnectivityResult>? _subscription;
 
   void updateRequiredActions(AccountResponseRequiredActions? requiredActions) {
     if (_setActions) {
@@ -44,21 +51,15 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void init() async {
-    String? token = await AccountCache.getToken();
+  Future<bool> _fetchData(String token) async {
+    ApiResponse<AccountResponse?> me = await Api.v1.accounts.me(token);
 
-    if (token == null) {
-      // If the token is null, then the user is not logged in so restart the app
-      Utils.restartLoggedOut(context);
+    if (me.data == null) {
+      return false;
     }
 
-    AccountResponseRequiredActions? requiredActions =
-        await AccountCache.getRequiredActions();
-    
-    // Get the required actions from the cache and show a popup accordingly
-    updateRequiredActions(requiredActions);
-
-    ApiResponse<AccountResponse?> me = await Api.v1.accounts.me(token!);
+    _authFetched = true;
+    print('auth fetched');
 
     if (me.status == 401) {
       // If the status code is 401, then the token is invalid so restart the app
@@ -67,7 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
       AccountCache.setLoggedIn(false);
 
       Utils.restartLoggedOut(context);
-    } else if (me.ok) {
+    }
+    else if (me.ok) {
       // If the response is OK, then the user is logged in
       AccountCache.saveAccountResponse(me.data!);
       if (me.data!.profile != null) {
@@ -81,6 +83,70 @@ class _HomeScreenState extends State<HomeScreen> {
       // Show a popup if the user has required actions
       updateRequiredActions(me.data!.requiredActions);
     }
+
+    return true;
+  }
+
+  void _handleConnected() async {
+    print("gex");
+
+    if (_authFetched) {
+      // If the auth has already been fetched, then don't fetch it again
+      return;
+    }
+
+    if (await _fetchData((await AccountCache.getToken())!)) {
+      _subscription?.cancel();
+    }
+    else {
+      // If the auth has not been fetched, then fetch it again
+      _setInterval();
+    }
+  }
+
+  void _setInterval() {
+    // Set an interval to fetch the data every 5 seconds
+    Future.delayed(const Duration(seconds: 5), () async {
+      String token = (await AccountCache.getToken())!;
+      var connectivityResult = await (Connectivity().checkConnectivity());
+
+      // if user is offline, or there is a server error, then set the interval again
+      if (connectivityResult != ConnectivityResult.none || !(await _fetchData(token))) {
+        _setInterval();
+      }
+    });
+  }
+
+  void _init() async {
+    String? token = await AccountCache.getToken();
+
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    _subscription = Connectivity().onConnectivityChanged.listen((event) {
+      if (event == ConnectivityResult.mobile || event == ConnectivityResult.wifi) {
+        _handleConnected();
+      }
+    });
+
+    if (token == null) {
+      // If the token is null, then the user is not logged in so restart the app
+      Utils.restartLoggedOut(context);
+    }
+
+    if (connectivityResult == ConnectivityResult.none) {
+      print('user is offline');
+      SnackbarPresets.error(context, AppLocalizations.of(context)!.offlineWarning);
+      return;
+    }
+
+    AccountResponseRequiredActions? requiredActions = await AccountCache.getRequiredActions();
+    
+    // Get the required actions from the cache and show a popup accordingly
+    updateRequiredActions(requiredActions);
+
+    if (!(await _fetchData(token!))) {
+      _setInterval(); // Set the interval to fetch the data every 5 seconds
+    }
   }
 
   @override
@@ -88,7 +154,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     // Initialize the state
-    init();
+    _init();
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 
   var pages = [

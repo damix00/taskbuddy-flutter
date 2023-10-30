@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/utils/utils.dart';
 
 class Touchable extends StatefulWidget {
   final Widget child;
@@ -6,6 +7,7 @@ class Touchable extends StatefulWidget {
   final VoidCallback? onLongPress;
   final VoidCallback? onDoubleTap;
   final bool disabled;
+  final bool enableAnimation;
 
   const Touchable(
       {Key? key,
@@ -13,6 +15,7 @@ class Touchable extends StatefulWidget {
       this.onTap,
       this.onLongPress,
       this.onDoubleTap,
+      this.enableAnimation = true,
       this.disabled = false})
       : super(key: key);
 
@@ -24,41 +27,69 @@ class _TouchableState extends State<Touchable> {
   double _opacity = 1;
   Duration _duration = const Duration(milliseconds: 100);
 
+  bool _shouldCallTap = true;
+  Offset _startPosition = Offset.zero;
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (widget.disabled) return;
-        widget.onTap?.call();
-      },
-      onTapDown: (_) {
+    return Listener(
+      onPointerDown: (e) {
         setState(() {
+          if (!widget.enableAnimation) return;
           _opacity = 0.5;
           _duration = Duration.zero;
         });
+
+        _startPosition = e.position;
+
+        _shouldCallTap = true;
       },
-      onTapUp: (_) {
+      onPointerUp: (e) {
+        if (!widget.enableAnimation) return;
         setState(() {
           _opacity = 1;
           _duration = const Duration(milliseconds: 100);
         });
+
+        if (_shouldCallTap && widget.onTap != null) {
+          widget.onTap?.call();
+        }
       },
-      onTapCancel: () {
+      onPointerCancel: (e) {
+        if (!widget.enableAnimation) return;
         setState(() {
           _opacity = 1;
           _duration = const Duration(milliseconds: 100);
         });
-      },
-      onDoubleTap: () {
-        if (widget.disabled) return;
 
-        widget.onDoubleTap?.call();
+        _shouldCallTap = false;
       },
-      onLongPress: () {
-        if (widget.disabled) return;
+      onPointerMove: (e) {
+        // Check distance between start and end position
+        if (Utils.dist(_startPosition, e.position) < 10) {
+          return;
+        }
 
-        widget.onLongPress?.call();
+        // if it is moved too much, cancel the tap
+        if (!widget.enableAnimation) return;
+        setState(() {
+          _opacity = 1;
+          _duration = const Duration(milliseconds: 100);
+        });
+
+        _startPosition = Offset.zero;
+        _shouldCallTap = false;
       },
+      // onDoubleTap: () {
+      //   if (widget.disabled) return;
+
+      //   widget.onDoubleTap?.call();
+      // },
+      // onLongPress: () {
+      //   if (widget.disabled) return;
+
+      //   widget.onLongPress?.call();
+      // },
       child: AnimatedOpacity(
         opacity: widget.disabled ? 0.5 : _opacity,
         duration: _duration,

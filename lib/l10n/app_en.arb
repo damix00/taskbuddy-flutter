@@ -192,5 +192,6 @@
   "verificationCodeExpired": "Verification code expired.",
   "verificationCodeSent": "Verification code sent.",
   "callInstead": "Call me instead",
-  "verificationSuccessful": "Verification successful!"
+  "verificationSuccessful": "Verification successful!",
+  "offlineWarning": "You are offline. Some features may not work properly."
 }

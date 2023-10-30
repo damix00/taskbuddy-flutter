@@ -108,5 +108,6 @@
   "verificationCodeExpired": "Kod za potvrdu je istekao.",
   "verificationCodeSent": "Kod za potvrdu je poslan.",
   "callInstead": "Nazovi me umjesto toga",
-  "verificationSuccessful": "Potvrda uspješna!"
+  "verificationSuccessful": "Potvrda uspješna!",
+  "offlineWarning": "Niste povezani na mrežu. Neke značajke možda neće ispravno raditi."
 }

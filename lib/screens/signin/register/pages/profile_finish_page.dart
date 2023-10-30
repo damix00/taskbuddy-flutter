@@ -152,7 +152,7 @@ class __OptionalFormState extends State<_OptionalForm> {
                     _errorText = l10n.invalidCredentials;
                   }
 
-                  SnackbarPresets.show(context, _errorText);
+                  SnackbarPresets.error(context, _errorText);
                 }
 
                 setState(() {

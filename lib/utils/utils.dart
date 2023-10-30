@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -70,5 +71,9 @@ class Utils {
 
   static void restartLoggedIn(BuildContext context) {
     navigateWithoutAnim(context, const HomeScreen());
+  }
+
+  static num dist(Offset a, Offset b) {
+    return sqrt(pow(a.dx - b.dx, 2) + pow(a.dy - b.dy, 2));
   }
 }

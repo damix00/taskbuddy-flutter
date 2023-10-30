@@ -11,6 +11,7 @@ import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:taskbuddy/api/options.dart';
+import 'package:taskbuddy/widgets/ui/snackbars.dart';
 
 class ProfileAppbar extends StatefulWidget {
   const ProfileAppbar({Key? key}) : super(key: key);
@@ -169,7 +170,9 @@ class _ProfilePageState extends State<ProfilePage> {
               child: SlimButton(
                 type: ButtonType.outlined,
                 child: Text(AppLocalizations.of(context)!.editProfile),
-                onPressed: () {},
+                onPressed: () {
+                  SnackbarPresets.show(context, text: "test notification");
+                },
               ),
             )
           ]
