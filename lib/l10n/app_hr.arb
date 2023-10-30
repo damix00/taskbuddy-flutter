@@ -109,5 +109,6 @@
   "verificationCodeSent": "Kod za potvrdu je poslan.",
   "callInstead": "Nazovi me umjesto toga",
   "verificationSuccessful": "Potvrda uspješna!",
-  "offlineWarning": "Niste povezani na mrežu. Neke značajke možda neće ispravno raditi."
+  "offlineWarning": "Niste povezani na mrežu. Neke značajke možda neće ispravno raditi.",
+  "changePfp": "Promijeni profilnu sliku"
 }

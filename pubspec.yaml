@@ -61,6 +61,7 @@ dependencies:
   overlay_support: ^2.1.0
   animations: ^2.0.8
   connectivity_plus: ^2.3.9
+  custom_refresh_indicator: ^2.2.1
 
 dev_dependencies:
   flutter_test:

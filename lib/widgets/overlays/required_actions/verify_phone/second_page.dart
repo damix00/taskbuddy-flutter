@@ -12,7 +12,7 @@ import 'package:taskbuddy/widgets/input/otp_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
-import 'package:taskbuddy/widgets/ui/snackbars.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
 class _CodeInput extends StatefulWidget {
   final Function(String) onCompleted;

@@ -11,7 +11,7 @@ import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:taskbuddy/api/options.dart';
-import 'package:taskbuddy/widgets/ui/snackbars.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
 class ProfileAppbar extends StatefulWidget {
   const ProfileAppbar({Key? key}) : super(key: key);

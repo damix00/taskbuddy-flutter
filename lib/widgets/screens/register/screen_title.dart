@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/widgets/ui/gradient_text.dart';
+import 'package:taskbuddy/widgets/ui/visual/gradient_text.dart';
 
 class ScreenTitle extends StatelessWidget {
   final String title;

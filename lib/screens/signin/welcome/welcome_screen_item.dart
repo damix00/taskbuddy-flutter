@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:taskbuddy/widgets/ui/gradient_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/widgets/ui/visual/gradient_text.dart';
 
 class WelcomeScreenItem extends StatelessWidget {
   final String title;

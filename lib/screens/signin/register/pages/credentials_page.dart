@@ -11,7 +11,7 @@ import 'package:taskbuddy/widgets/input/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
-import 'package:taskbuddy/widgets/ui/snackbars.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
 class CredentialsPage extends StatelessWidget {
   const CredentialsPage({Key? key}) : super(key: key);

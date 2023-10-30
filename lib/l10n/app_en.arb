@@ -193,5 +193,6 @@
   "verificationCodeSent": "Verification code sent.",
   "callInstead": "Call me instead",
   "verificationSuccessful": "Verification successful!",
-  "offlineWarning": "You are offline. Some features may not work properly."
+  "offlineWarning": "You are offline. Some features may not work properly.",
+  "changePfp": "Change profile picture"
 }

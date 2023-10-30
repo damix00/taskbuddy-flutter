@@ -17,7 +17,7 @@ import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
 import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
 import 'package:taskbuddy/widgets/overlays/required_actions/required_actions_overlay.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
-import 'package:taskbuddy/widgets/ui/snackbars.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 

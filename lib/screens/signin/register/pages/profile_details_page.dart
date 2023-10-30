@@ -10,9 +10,9 @@ import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';
-import 'package:taskbuddy/widgets/ui/disclaimer_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
-import 'package:taskbuddy/widgets/ui/snackbars.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
+import 'package:taskbuddy/widgets/ui/visual/disclaimer_text.dart';
 
 class ProfileDetailsPage extends StatelessWidget {
   const ProfileDetailsPage({Key? key}) : super(key: key);

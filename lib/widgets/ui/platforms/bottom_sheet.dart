@@ -20,6 +20,7 @@ class CrossPlatformBottomSheet {
   static showModal(BuildContext context, List<BottomSheetButton> buttons, {
     bool iosShowCancelButton = true,
     bool forceAndroidVersion = false, // If true, will show the Android version even if on iOS
+    String? title,
   }) {
     if (Platform.isAndroid || forceAndroidVersion) {
       showModalBottomSheet(
@@ -28,7 +29,7 @@ class CrossPlatformBottomSheet {
           borderRadius: BorderRadius.all(Radius.circular(0)),
         ),
         builder: (ctx) {
-          return _AndroidBottomSheet(buttons: buttons);
+          return _AndroidBottomSheet(title: title, buttons: buttons);
         }
       );
     }
@@ -37,7 +38,7 @@ class CrossPlatformBottomSheet {
       showCupertinoModalPopup(
         context: context,
         builder: (ctx) {
-          return _CupertinoBottomSheet(buttons: buttons, showCancelButton: iosShowCancelButton,);
+          return _CupertinoBottomSheet(title: title, buttons: buttons, showCancelButton: iosShowCancelButton,);
         }
       );
     }
@@ -76,25 +77,31 @@ class BottomSheetBase extends StatelessWidget {
 
 class _AndroidBottomSheet extends StatelessWidget {
   final List<BottomSheetButton> buttons;
+  final String? title;
 
   const _AndroidBottomSheet({
-    Key? key,
     required this.buttons,
+    this.title,
+    Key? key
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BottomSheetBase(
-      children: buttons.map((button) {
-        return ListTile(
-          leading: Icon(button.icon, color: Theme.of(context).colorScheme.onBackground),
-          title: Text(button.title, style: Theme.of(context).textTheme.bodyMedium!),
-          onTap: () {
-            Navigator.of(context).pop(); // Close the bottom sheet
-            button.onTap(context);
-          },
-        );
-      }).toList()
+      children: [
+        if (title != null)
+          Text(title!, style: Theme.of(context).textTheme.titleSmall),
+        ...buttons.map((button) {
+          return ListTile(
+            leading: Icon(button.icon, color: Theme.of(context).colorScheme.onBackground),
+            title: Text(button.title, style: Theme.of(context).textTheme.bodyMedium!),
+            onTap: () {
+              Navigator.of(context).pop(); // Close the bottom sheet
+              button.onTap(context);
+            },
+          );
+        }).toList()
+      ]
     );
   }
 }
@@ -102,16 +109,19 @@ class _AndroidBottomSheet extends StatelessWidget {
 class _CupertinoBottomSheet extends StatelessWidget {
   final List<BottomSheetButton> buttons;
   final bool showCancelButton;
+  final String? title;
 
   const _CupertinoBottomSheet({
     Key? key,
     required this.buttons,
     this.showCancelButton = true,
+    this.title,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
+      title: title != null ? Text(title!) : null,
       cancelButton: showCancelButton
         ? CupertinoActionSheetAction(onPressed: () {
           Navigator.of(context).pop(); // Close the bottom sheet

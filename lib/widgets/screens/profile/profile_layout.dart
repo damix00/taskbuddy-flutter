@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/screens/profile/header.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/ui/feedback/custom_refresh.dart';
 
 class ProfileLayout extends StatelessWidget {
   final String profilePicture;
@@ -40,10 +41,18 @@ class ProfileLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: NestedScrollView(
-        body: Column(
-          children: [
-            TabBar(
+      child: CustomRefresh(
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 2));
+        },
+        notificationPredicate: (notification) {
+          // with NestedScrollView local(depth == 2) OverscrollNotification are not sent
+          return notification.depth == 2 || notification.depth == 0;
+        },
+        child: NestedScrollView(
+          body: Column(
+            children: [
+              TabBar(
                 tabs: [
                   Tab(
                     text: AppLocalizations.of(context)!.listings,
@@ -53,51 +62,52 @@ class ProfileLayout extends StatelessWidget {
                   ),
                 ],
               ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  GridView.count(
-                    padding: EdgeInsets.zero,
-                    crossAxisCount: 3,
-                    children: Colors.primaries.map((color) {
-                      return Container(color: color, height: 150.0);
-                    }).toList(),
-                  ),
-                  ListView(
-                    padding: EdgeInsets.zero,
-                    children: Colors.primaries.map((color) {
-                      return Container(color: color, height: 150.0);
-                    }).toList(),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverList(
-              delegate: SliverChildListDelegate([
-                ProfileHeader(
-                  profilePicture: profilePicture,
-                  actions: actions,
-                  fullName: fullName,
-                  followers: followers,
-                  following: following,
-                  listings: listings,
-                  jobsDone: jobsDone,
-                  employeeCancelRate: employeeCancelRate,
-                  employeeRating: employeeRating,
-                  employerCancelRate: employerCancelRate,
-                  employerRating: employerRating,
-                  bio: bio.trim(),
-                  locationText: locationText,
-                  isMe: isMe,
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    GridView.count(
+                      padding: EdgeInsets.zero,
+                      crossAxisCount: 3,
+                      children: Colors.primaries.map((color) {
+                        return Container(color: color, height: 150.0);
+                      }).toList(),
+                    ),
+                    ListView(
+                      padding: EdgeInsets.zero,
+                      children: Colors.primaries.map((color) {
+                        return Container(color: color, height: 150.0);
+                      }).toList(),
+                    )
+                  ],
                 ),
-              ]),
-            )
-          ];
-        },
+              ),
+            ],
+          ),
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  ProfileHeader(
+                    profilePicture: profilePicture,
+                    actions: actions,
+                    fullName: fullName,
+                    followers: followers,
+                    following: following,
+                    listings: listings,
+                    jobsDone: jobsDone,
+                    employeeCancelRate: employeeCancelRate,
+                    employeeRating: employeeRating,
+                    employerCancelRate: employerCancelRate,
+                    employerRating: employerRating,
+                    bio: bio.trim(),
+                    locationText: locationText,
+                    isMe: isMe,
+                  ),
+                ]),
+              )
+            ];
+          },
+        ),
       ),
     );
   }

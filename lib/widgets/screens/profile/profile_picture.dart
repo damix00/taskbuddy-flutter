@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
-import 'package:taskbuddy/widgets/ui/default_profile_picture.dart';
+import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/ui/visual/default_profile_picture.dart';
 
 class ProfilePFP extends StatelessWidget {
   final bool isMe;
@@ -15,7 +17,25 @@ class ProfilePFP extends StatelessWidget {
     return _PFPParent(
       isMe: isMe,
       onPressed: () {
-        
+        CrossPlatformBottomSheet.showModal(
+          context,
+          title: AppLocalizations.of(context)!.profilePicture,
+          [
+            BottomSheetButton(
+              title: AppLocalizations.of(context)!.changePfp,
+              icon: Icons.photo_camera,
+              onTap: (ctx) {
+
+              },
+            ),
+            BottomSheetButton(
+              title: AppLocalizations.of(context)!.remove,
+              icon: Icons.delete,
+              onTap: (ctx) {
+              },
+            ),
+          ]
+        );
       },
       child: SizedBox(
         height: 156,
