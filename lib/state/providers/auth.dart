@@ -171,6 +171,8 @@ class AuthModel extends ChangeNotifier {
     }
 
     _loggedIn = loggedIn;
+
+    notifyListeners();
   }
 
   void setAccountResponse(AccountResponse response) {

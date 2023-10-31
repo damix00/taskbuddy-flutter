@@ -82,8 +82,8 @@
   "privacy": "Privatnost",
   "security": "Sigurnost",
   "appearance": "Izgled",
+  "appearanceAndAccessibility": "Izgled i pristupačnost",
   "language": "Jezik",
-  "accessibility": "Pristupačnost",
   "social": "Društveno",
   "friends": "Prijatelji",
   "blockedUsers": "Blokirani korisnici",
@@ -112,5 +112,12 @@
   "offlineWarning": "Niste povezani na mrežu. Neke značajke možda neće ispravno raditi.",
   "changePfp": "Promijeni profilnu sliku",
   "somethingWentWrong": "Nešto je pošlo po zlu.",
-  "successfullyChangedPfp": "Profilna slika uspješno promijenjena!"
+  "successfullyChangedPfp": "Profilna slika uspješno promijenjena!",
+  "uiBlur": "Zamagljivanje sučelja",
+  "uiBlurDesc": "Isključivanje zamagljivanja može poboljšati performanse na starijim uređajima.",
+  "advanced": "Napredno",
+  "theme": "Tema",
+  "system": "Sustav",
+  "light": "Svijetlo",
+  "dark": "Tamno"
 }

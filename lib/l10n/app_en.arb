@@ -157,8 +157,8 @@
   "privacy": "Privacy",
   "security": "Security",
   "appearance": "Appearance",
+  "appearanceAndAccessibility": "Appearance & Accessibility",
   "language": "Language",
-  "accessibility": "Accessibility",
   "social": "Social",
   "friends": "Friends",
   "blockedUsers": "Blocked users",
@@ -196,5 +196,12 @@
   "offlineWarning": "You are offline. Some features may not work properly.",
   "changePfp": "Change profile picture",
   "somethingWentWrong": "Something went wrong.",
-  "successfullyChangedPfp": "Successfully changed profile picture!"
+  "successfullyChangedPfp": "Successfully changed profile picture!",
+  "uiBlur": "UI blur",
+  "uiBlurDesc": "Disabling UI blur will improve performance on older devices.",
+  "advanced": "Advanced",
+  "theme": "Theme",
+  "system": "System",
+  "light": "Light",
+  "dark": "Dark"
 }

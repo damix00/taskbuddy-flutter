@@ -45,24 +45,24 @@ class BlurAppbar extends StatelessWidget {
             );
           }
 
-          return c; // Return the child as it is if available
+          return ClipRRect(
+            child: BackdropFilter(
+              filter:
+                  ImageFilter.blur(sigmaX: 50, sigmaY: 50), // Apply blur effect
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceVariant,
+                ),
+                child: _AppbarChildren(
+                  context: context,
+                  showLeading: showLeading,
+                  child: child,
+                ),
+              ),
+            )
+          ); // Return the child as it is if available
         },
-        child: ClipRRect(
-          child: BackdropFilter(
-            filter:
-                ImageFilter.blur(sigmaX: 50, sigmaY: 50), // Apply blur effect
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceVariant,
-              ),
-              child: _AppbarChildren(
-                context: context,
-                showLeading: showLeading,
-                child: child,
-              ),
-            ),
-          ),
-        ),
+        child: child,
       ),
     );
   }
@@ -74,7 +74,7 @@ class BlurAppbar extends StatelessWidget {
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: false
     );
   }
 }
@@ -88,7 +88,7 @@ class _AppbarChildren extends StatelessWidget {
     Key? key,
     required this.context,
     required this.child,
-    this.showLeading = true,
+    this.showLeading = false,
   }) : super(key: key);
 
   @override

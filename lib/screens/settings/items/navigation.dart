@@ -37,7 +37,7 @@ class SettingsNavigation extends StatelessWidget {
                   Text(subtitle!, style: Theme.of(context).textTheme.bodySmall,),
                 ],
               ),
-            ),
+          ),
           const Spacer(),
           Row(
             mainAxisSize: MainAxisSize.min,

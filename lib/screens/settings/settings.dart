@@ -67,9 +67,10 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
             SettingsSection(
               title: l10n.application,
               children: [
-                SettingsNavigation(title: l10n.appearance, icon: Icons.color_lens_outlined, onTap: () {}),
+                SettingsNavigation(title: l10n.appearanceAndAccessibility, icon: Icons.color_lens_outlined, onTap: () {
+                  Navigator.of(context).pushNamed('/settings/appearance');
+                }),
                 SettingsNavigation(title: l10n.notifications, icon: Icons.notifications_outlined, onTap: () {}),
-                SettingsNavigation(title: l10n.accessibility, icon: Icons.accessibility_new_outlined, onTap: () {}),
                 SettingsNavigation(
                   title: l10n.language,
                   icon: Icons.translate_outlined,
@@ -91,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
             SettingsSection(
               title: l10n.other,
               children: [
-                SettingsNavigation(title: l10n.openSourceLicenses, icon: Icons.code, onTap: () {}),
+                SettingsNavigation(title: l10n.openSourceLicenses, icon: Icons.code, onTap: () {})
               ]
             ),
             SizedBox(height: MediaQuery.of(context).padding.bottom),
