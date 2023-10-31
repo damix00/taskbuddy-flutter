@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:loader_overlay/loader_overlay.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/widgets/input/pfp_input.dart';
@@ -56,7 +54,7 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
         _showChild = false;
       });
 
-      context.loaderOverlay.show();
+      LoadingOverlay.showLoader(context);
 
       var result = await Api.v1.accounts.meRoute.profile.update(
         token,
@@ -72,7 +70,7 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
         AccountCache.setProfilePicture(result.data!.profilePicture);
       }
 
-      context.loaderOverlay.hide();
+      Navigator.of(context).pop(); // hide overlay
 
       return;
     }
@@ -83,12 +81,12 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
         _showChild = false;
       });
 
+      LoadingOverlay.showLoader(context);
+
       var result = await Api.v1.accounts.meRoute.profile.update(
         token,
         profilePicture: File(file.path),
       );
-
-      print(result.status);
 
       if (result.response!.statusCode != 200) {
         SnackbarPresets.error(context, AppLocalizations.of(context)!.somethingWentWrong);
@@ -98,6 +96,8 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
         SnackbarPresets.show(context, text: AppLocalizations.of(context)!.successfullyChangedPfp);
         AccountCache.setProfilePicture(result.data!.profilePicture);
       }
+
+      Navigator.of(context).pop(); // hide the loading overlay
     }
   }
 

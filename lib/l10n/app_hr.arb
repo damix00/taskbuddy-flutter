@@ -119,5 +119,7 @@
   "theme": "Tema",
   "system": "Sustav",
   "light": "Svijetlo",
-  "dark": "Tamno"
+  "dark": "Tamno",
+  "profie": "Profil",
+  "editProfile": "Uredi profil"
 }

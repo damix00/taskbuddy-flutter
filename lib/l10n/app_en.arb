@@ -203,5 +203,7 @@
   "theme": "Theme",
   "system": "System",
   "light": "Light",
-  "dark": "Dark"
+  "dark": "Dark",
+  "profile": "Profile",
+  "editProfile": "Edit profile"
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
-import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class CustomNotification extends StatelessWidget {
   final Widget child;

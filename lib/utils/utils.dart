@@ -15,7 +15,7 @@ class Utils {
                   Brightness.dark
               ? Brightness.light
               : Brightness.dark;
-
+      
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
           systemStatusBarContrastEnforced: true,
           systemNavigationBarColor: Colors.black.withOpacity(0.002),
