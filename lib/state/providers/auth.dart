@@ -19,6 +19,10 @@ class AuthModel extends ChangeNotifier {
   int _employerCancelled = 0;
   int _employeeCancelled = 0;
   String _fullName = '';
+  String _firstName = '';
+  String _lastName = '';
+  num _lat = 0;
+  num _lon = 0;
   String _locationText = '';
   AccountResponseRequiredActions? _requiredActions;
 
@@ -38,6 +42,8 @@ class AuthModel extends ChangeNotifier {
   int get employerCancelled => _employerCancelled;
   int get employeeCancelled => _employeeCancelled;
   String get fullName => _fullName;
+  String get firstName => _firstName;
+  String get lastName => _lastName;
   String get locationText => _locationText;
   AccountResponseRequiredActions? get requiredActions => _requiredActions;
 
@@ -121,6 +127,16 @@ class AuthModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  set firstName(String value) {
+    _firstName = value;
+    notifyListeners();
+  }
+
+  set lastName(String value) {
+    _lastName = value;
+    notifyListeners();
+  }
+
   set locationText(String value) {
     _locationText = value;
     notifyListeners();
@@ -149,6 +165,8 @@ class AuthModel extends ChangeNotifier {
       var employerCancelled = await AccountCache.getEmployerCancelled();
       var employeeCancelled = await AccountCache.getEmployeeCancelled();
       var fullName = await AccountCache.getFullName();
+      var firstName = await AccountCache.getFirstName();
+      var lastName = await AccountCache.getLastName();
       var locationText = await AccountCache.getLocationText();
       var requiredActions = await AccountCache.getRequiredActions();
 
@@ -165,6 +183,8 @@ class AuthModel extends ChangeNotifier {
       _employerCancelled = employerCancelled;
       _employeeCancelled = employeeCancelled;
       _fullName = fullName;
+      _firstName = firstName;
+      _lastName = lastName;
       _locationText = locationText;
       _requiredActions = requiredActions;
       _email = email;
@@ -190,6 +210,8 @@ class AuthModel extends ChangeNotifier {
     _employerCancelled = response.profile!.cancelledEmployer;
     _employeeCancelled = response.profile!.cancelledEmployee;
     _fullName = '${response.user.firstName} ${response.user.lastName}';
+    _firstName = response.user.firstName;
+    _lastName = response.user.lastName;
     _locationText = response.profile!.locationText;
     _requiredActions = response.requiredActions;
     _email = response.user.email;

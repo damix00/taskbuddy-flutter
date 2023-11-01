@@ -47,6 +47,14 @@ class AccountCache {
         'fullName', '$firstName $lastName');
   }
 
+  static Future<void> setFirstName(String firstName) async {
+    await _writeKey('firstName', firstName);
+  }
+
+  static Future<void> setLastName(String lastName) async {
+    await _writeKey('lastName', lastName);
+  }
+
   static Future<void> setUsername(String username) async {
     await _writeKey('username', username);
   }
@@ -79,6 +87,14 @@ class AccountCache {
     await _writeKey('locationText', locationText);
   }
 
+  static Future<void> setLatitude(num latitude) async {
+    await _writeKey('latitude', latitude.toString());
+  }
+
+  static Future<void> setLongitude(num longitude) async {
+    await _writeKey('longitude', longitude.toString());
+  }
+
   static Future<void> setIsPrivate(bool isPrivate) async {
     await _writeKey('isPrivate', isPrivate.toString());
   }
@@ -105,6 +121,14 @@ class AccountCache {
 
   static Future<String> getFullName() async {
     return await _readKey('fullName') ?? '';
+  }
+
+  static Future<String> getFirstName() async {
+    return await _readKey('firstName') ?? '';
+  }
+
+  static Future<String> getLastName() async {
+    return await _readKey('lastName') ?? '';
   }
 
   static Future<String> getUsername() async {
@@ -137,6 +161,14 @@ class AccountCache {
 
   static Future<String> getLocationText() async {
     return await _readKey('locationText') ?? '';
+  }
+
+  static Future<num> getLatitude() async {
+    return num.parse(await _readKey('latitude') ?? '0');
+  }
+
+  static Future<num> getLongitude() async {
+    return num.parse(await _readKey('longitude') ?? '0');
   }
 
   static Future<int> getCompletedJobs() async {
@@ -193,6 +225,8 @@ class AccountCache {
     await setFollowing(profile.following);
     await setPosts(profile.posts);
     await setLocationText(profile.locationText);
+    await setLatitude(profile.locationLat);
+    await setLongitude(profile.locationLon);
     await setIsPrivate(profile.isPrivate);
     await setCompletedJobs(profile.completedEmployee + profile.completedEmployer);
     await setEmployerRating(profile.ratingEmployer);
@@ -206,6 +240,8 @@ class AccountCache {
   static Future<void> saveAccountResponse(AccountResponse value) async {
     await setToken(value.token);
     await setFullName(value.user.firstName, value.user.lastName);
+    await setFirstName(value.user.firstName);
+    await setLastName(value.user.lastName);
     await setUsername(value.user.username);
     await setEmail(value.user.email);
 

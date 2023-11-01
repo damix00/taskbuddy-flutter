@@ -59,6 +59,7 @@ class ProfileLayout extends StatelessWidget {
             }
 
             Provider.of<AuthModel>(context, listen: false).setAccountResponse(data.data!);
+            AccountCache.saveAccountResponse(data.data!);
           }
         },
         notificationPredicate: (notification) {

@@ -123,10 +123,12 @@ class _CupertinoBottomSheet extends StatelessWidget {
     return CupertinoActionSheet(
       title: title != null ? Text(title!) : null,
       cancelButton: showCancelButton
-        ? CupertinoActionSheetAction(onPressed: () {
-          Navigator.of(context).pop(); // Close the bottom sheet
-        },
-      child: Text(AppLocalizations.of(context)!.cancel))
+        ? CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the bottom sheet
+            },
+            child: Text(AppLocalizations.of(context)!.cancel)
+        )
         : null,
       actions: buttons.map((button) {
         return CupertinoActionSheetAction(

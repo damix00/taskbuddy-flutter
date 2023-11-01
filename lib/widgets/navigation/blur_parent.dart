@@ -6,10 +6,10 @@ import 'package:taskbuddy/state/providers/preferences.dart';
 
 class BlurParent extends StatefulWidget {
   final Widget child;
-  final double height;
+  final double? height;
   final bool forceDisableBlur;
 
-  const BlurParent({this.forceDisableBlur = false, required this.child, required this.height, Key? key}) : super(key: key);
+  const BlurParent({this.forceDisableBlur = false, required this.child, this.height, Key? key}) : super(key: key);
 
   @override
   State<BlurParent> createState() => _BlurParentState();
