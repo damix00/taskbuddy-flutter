@@ -18,13 +18,13 @@ class _PFPDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (profilePicture.isEmpty) return const DefaultProfilePicture(size: 156);
+    if (profilePicture.isEmpty) return const DefaultProfilePicture(size: 156, iconSize: 92);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(156),
       child: CachedNetworkImage(
         imageUrl: profilePicture,
-        errorWidget: (context, url, error) => const DefaultProfilePicture(size: 156)
+        errorWidget: (context, url, error) => const DefaultProfilePicture(size: 156, iconSize: 92,)
       ),
     );
   }
@@ -109,6 +109,7 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
       width: 156,
       height: 156,
       iconSize: 24,
+      pfpIconSize: 92,
       iconBackgroundSize: 48,
       centered: true,
       image: _image,

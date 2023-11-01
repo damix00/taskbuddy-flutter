@@ -52,8 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<bool> _fetchData(String token) async {
-    print("fethin");
-
     ApiResponse<AccountResponse?> me = await Api.v1.accounts.me(token);
 
     if (me.data == null) {
@@ -61,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     _authFetched = true;
-    print('auth fetched');
 
     if (me.status == 401) {
       // If the status code is 401, then the token is invalid so restart the app
@@ -134,7 +131,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (connectivityResult == ConnectivityResult.none) {
-      print('user is offline');
       SnackbarPresets.error(context, AppLocalizations.of(context)!.offlineWarning);
       return;
     }

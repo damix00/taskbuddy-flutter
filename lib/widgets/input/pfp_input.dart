@@ -22,6 +22,7 @@ class ProfilePictureInput extends StatefulWidget {
   final double width;
   final double height;
   final double iconSize;
+  final double pfpIconSize;
   final double iconBackgroundSize;
   final bool centered;
 
@@ -37,6 +38,7 @@ class ProfilePictureInput extends StatefulWidget {
     this.height = 60,
     this.iconSize = 14,
     this.iconBackgroundSize = 20,
+    this.pfpIconSize = 32,
     this.centered = false,
     Key? key})
       : super(key: key);
@@ -101,21 +103,19 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
                 BottomSheetButton(
                   title: l10n.takePhoto,
                   icon: Icons.camera_alt,
-                  onTap: (ctx) {
+                  onTap: (ctx) async {
                     // Take a photo
-                    ImagePicker().pickImage(source: ImageSource.camera).then((value) {
-                      onSelected(value);
-                    });
+                    var value = await ImagePicker().pickImage(source: ImageSource.camera);
+                    if (value != null) onSelected(value);
                   }
                 ),
                 BottomSheetButton(
                   title: l10n.chooseFromGallery,
                   icon: Icons.photo_library,
-                  onTap: (ctx) {
+                  onTap: (ctx) async {
                     // Choose from gallery
-                    ImagePicker().pickImage(source: ImageSource.gallery).then((value) {
-                      onSelected(value);
-                    });
+                    var value = await ImagePicker().pickImage(source: ImageSource.gallery);
+                    if (value != null) onSelected(value);
                   }
                 ),
               ];
@@ -150,6 +150,7 @@ class _ProfilePictureInputState extends State<ProfilePictureInput> {
                     width: widget.width,
                     height: widget.height,
                     image: widget.image,
+                    iconSize: widget.pfpIconSize,
                     child: widget.child,
                   ),
                 ),
@@ -182,8 +183,9 @@ class _PfpInputImage extends StatelessWidget {
   final Widget? child;
   final double width;
   final double height;
+  final double? iconSize;
 
-  const _PfpInputImage({required this.width, required this.height, this.image, this.child, Key? key}) : super(key: key);
+  const _PfpInputImage({required this.width, required this.height, this.iconSize, this.image, this.child, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +205,6 @@ class _PfpInputImage extends StatelessWidget {
       return child!;
     }
 
-    return DefaultProfilePicture(size: width);
+    return DefaultProfilePicture(size: width, iconSize: iconSize,);
   }
 }

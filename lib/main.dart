@@ -109,14 +109,12 @@ class _AppState extends State<App> {
     _loggedIn = await AccountCache.isLoggedIn();
 
     // Initialize the cache
-    print("initializing cache");
     await Initializers.initCache(context);
 
     // Re-render the UI
     setState(() {});
 
     // Remove the splash screen after initialization
-    print("removing splash");
     FlutterNativeSplash.remove();
   }
 

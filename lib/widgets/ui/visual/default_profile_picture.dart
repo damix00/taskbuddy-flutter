@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class DefaultProfilePicture extends StatelessWidget {
   final double size;
+  final double? iconSize;
 
-  const DefaultProfilePicture({required this.size, Key? key}) : super(key: key);
+  const DefaultProfilePicture({required this.size, this.iconSize, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,9 @@ class DefaultProfilePicture extends StatelessWidget {
         borderRadius: BorderRadius.circular(size / 2)
       ),
       child: Icon(
-        Icons.person,
+        Icons.person_outline,
         color: Theme.of(context).colorScheme.onSurface,
-        size: size - size / 4,
+        size: iconSize ?? (size - size / 4),
       ),
     );
   }

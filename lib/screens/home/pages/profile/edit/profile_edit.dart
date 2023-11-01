@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/widgets/input/pfp_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taskbuddy/widgets/overlays/dialog/dialog.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
@@ -21,6 +21,9 @@ class __ProfileEditFormState extends State<_ProfileEditForm> {
       key: widget.formKey, 
       child: Column(
         children: [
+          ProfilePictureInput(
+            onSelected: (file) {},
+          )
         ]
       )
     );
@@ -47,15 +50,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             IconButton(
               icon: const Icon(Icons.close, size: 24),
               onPressed: () async {
-                showDialog(
-                  context: context,
-                  builder: (ctx) => WillPopScope(onWillPop: () async => false, child: const CustomDialog()),
-                  barrierDismissible: false,
-                  barrierColor: Colors.black,
-                );
-
-                await Future.delayed(Duration(seconds: 3));
-
                 Navigator.of(context).pop();
               }
             ),
