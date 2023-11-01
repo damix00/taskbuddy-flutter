@@ -1,34 +1,15 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/widgets/input/pfp_input.dart';
 import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taskbuddy/widgets/ui/visual/default_profile_picture.dart';
-
-class _PFPDisplay extends StatelessWidget {
-  final String profilePicture;
-
-  const _PFPDisplay({required this.profilePicture, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (profilePicture.isEmpty) return const DefaultProfilePicture(size: 156, iconSize: 92);
-
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(156),
-      child: CachedNetworkImage(
-        imageUrl: profilePicture,
-        errorWidget: (context, url, error) => const DefaultProfilePicture(size: 156, iconSize: 92,)
-      ),
-    );
-  }
-}
 
 class _ProfilePFPInput extends StatefulWidget {
   final String profilePicture;
@@ -47,6 +28,8 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
     String? token = await AccountCache.getToken();
 
     if (token == null) return;
+
+    AuthModel auth = Provider.of<AuthModel>(context, listen: false);
 
     if (file == null) {
       setState(() {
@@ -68,6 +51,7 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
       else {
         SnackbarPresets.show(context, text: AppLocalizations.of(context)!.successfullyChangedPfp);
         AccountCache.setProfilePicture(result.data!.profilePicture);
+        auth.profilePicture = result.data!.profilePicture;
       }
 
       Navigator.of(context).pop(); // hide overlay
@@ -95,6 +79,7 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
       else {
         SnackbarPresets.show(context, text: AppLocalizations.of(context)!.successfullyChangedPfp);
         AccountCache.setProfilePicture(result.data!.profilePicture);
+        auth.profilePicture = result.data!.profilePicture;
       }
 
       Navigator.of(context).pop(); // hide the loading overlay
@@ -113,7 +98,7 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
       iconBackgroundSize: 48,
       centered: true,
       image: _image,
-      child: (_showChild && widget.profilePicture.isNotEmpty) ? _PFPDisplay(profilePicture: widget.profilePicture) : null,
+      child: (_showChild && widget.profilePicture.isNotEmpty) ? ProfilePictureDisplay(size: 156, iconSize: 92, profilePicture: widget.profilePicture) : null,
     );
   }
 }
@@ -134,7 +119,7 @@ class ProfilePFP extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(156),
-            child: _PFPDisplay(profilePicture: profilePicture),
+            child: ProfilePictureDisplay(size: 156, iconSize: 92, profilePicture: profilePicture),
           ),
           if (isMe)
             Positioned(

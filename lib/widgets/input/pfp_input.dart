@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:taskbuddy/widgets/input/input_title.dart';
@@ -9,6 +9,32 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 import 'package:taskbuddy/widgets/ui/visual/default_profile_picture.dart';
+
+class ProfilePictureDisplay extends StatelessWidget {
+  final double size;
+  final double iconSize;
+  final String profilePicture;
+
+  const ProfilePictureDisplay({
+    required this.size,
+    required this.iconSize,
+    required this.profilePicture,
+    Key? key
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (profilePicture.isEmpty) return DefaultProfilePicture(size: size, iconSize: iconSize);
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(156),
+      child: CachedNetworkImage(
+        imageUrl: profilePicture,
+        errorWidget: (context, url, error) => DefaultProfilePicture(size: size, iconSize: iconSize,)
+      ),
+    );
+  }
+}
 
 // A button that allows the user to select a profile picture
 class ProfilePictureInput extends StatefulWidget {

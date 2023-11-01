@@ -29,9 +29,10 @@ class InputTitle extends StatelessWidget {
         Tooltip(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           message: tooltipText,
-          // Disable auto hide (1 day is more than enough)
-          waitDuration: const Duration(days: 1),
+          // Disable auto hide
+          waitDuration: Duration.zero,
           key: tooltipKey,
+          triggerMode: TooltipTriggerMode.manual,
           child: Touchable(
             onTap: () {
               // Show the tooltip on tap
