@@ -209,5 +209,11 @@
   "locationTooltipProfile": "If your profile is public, your location will be visible to everyone. Otherwise, it will be visible only to your followers.",
   "discard": "Discard",
   "popupEditProfileCancelTitle": "Discard changes?",
-  "popupEditProfileCancelDesc": "Are you sure you want to discard your changes?"
+  "popupEditProfileCancelDesc": "Are you sure you want to discard your changes?",
+  "pinnedLocation": "Pinned location",
+  "change": "Change",
+  "unnamedLocation": "Unnamed location",
+  "noLocationProvided": "No location provided",
+  "chooseLocation": "Choose location",
+  "searchPlaceholder": "Search locations, adresses..."
 }

@@ -5,16 +5,13 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/location_display.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
-import 'package:taskbuddy/widgets/input/input_title.dart';
 import 'package:taskbuddy/widgets/input/pfp_input.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';
-import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/overlays/dialog/dialog.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class _ProfileEditForm extends StatefulWidget {
   final String profilePicture;
@@ -24,6 +21,7 @@ class _ProfileEditForm extends StatefulWidget {
   final String bio;
   final double latitude;
   final double longitude;
+  final String locationName;
   final Function(XFile?) onProfilePictureSelected;
   final Function(String?) onChangeMade;
 
@@ -37,6 +35,7 @@ class _ProfileEditForm extends StatefulWidget {
     required this.formKey,
     required this.onProfilePictureSelected,
     required this.onChangeMade,
+    this.locationName = '',
     this.latitude = 1000,
     this.longitude = 1000,
     this.bio = '',
@@ -48,8 +47,12 @@ class _ProfileEditForm extends StatefulWidget {
 }
 
 class __ProfileEditFormState extends State<_ProfileEditForm> {
+  final MapController _mapController = MapController();
+
   bool _showChild = true;
   XFile? _image;
+  double _lat = 1000;
+  double _lon = 1000;
 
   void _onSelected(XFile? file) async {
     setState(() {
@@ -58,6 +61,14 @@ class __ProfileEditFormState extends State<_ProfileEditForm> {
     });
 
     widget.onProfilePictureSelected(file);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _image = null;
+    _lat = widget.latitude;
+    _lon = widget.longitude;
   }
 
   @override
@@ -132,9 +143,19 @@ class __ProfileEditFormState extends State<_ProfileEditForm> {
             const SizedBox(height: Sizing.horizontalPadding,),
             // Location
             ProfileEditLocationDisplay(
-              location: widget.latitude == 1000 || widget.longitude == 1000
-                ? null
-                : LatLng(widget.latitude, widget.longitude)
+              mapController: _mapController,
+              location: _lat == 1000 ? null : LatLng(_lat, _lon),
+              locationName: widget.locationName,
+              onLocationChanged: (LatLng? location) {
+                widget.onChangeMade(null);
+                setState(() {
+                  _lat = location?.latitude ?? 1000;
+                  _lon = location?.longitude ?? 1000;
+
+                  if (location != null)
+                    _mapController.move(location, 10);
+                });
+              },
             )
           ]
         )
@@ -158,95 +179,107 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   void _handleSubmit() {
   }
 
+  void _handleBackBtn(AppLocalizations l10n) {
+    if (_madeChanges) {
+      CustomDialog.show(
+        context,
+        title: l10n.popupEditProfileCancelTitle,
+        description: l10n.popupEditProfileCancelDesc,
+        actions: [
+          DialogAction(
+            text: l10n.cancel,
+            onPressed: () {
+              Navigator.of(context).pop();
+            }
+          ),
+          DialogAction(
+            text: l10n.discard,
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            }
+          ),
+        ]
+      );
+    }
+    else {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: BlurAppbar.appBar(
-        child: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.close, size: 24),
-              onPressed: () async {
-                if (_madeChanges) {
-                  CustomDialog.show(
-                    context,
-                    title: l10n.popupEditProfileCancelTitle,
-                    description: l10n.popupEditProfileCancelDesc,
-                    actions: [
-                      DialogAction(
-                        text: l10n.cancel,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        }
-                      ),
-                      DialogAction(
-                        text: l10n.discard,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                        }
-                      ),
-                    ]
-                  );
+    return WillPopScope(
+      onWillPop: () async {
+        _handleBackBtn(l10n);
+        return false;
+      },
+      child: Scaffold(
+        appBar: BlurAppbar.appBar(
+          child: Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.close, size: 24),
+                onPressed: () async {
+                  _handleBackBtn(l10n);
                 }
-                else {
-                  Navigator.of(context).pop();
-                }
-              }
-            ),
-            Text(
-              AppLocalizations.of(context)!.editProfile,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            const Spacer(),
-            IconButton(
-              color: _madeChanges ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurfaceVariant,
-              icon: const Icon(Icons.check, size: 24),
-              onPressed: _madeChanges ? _handleSubmit : null,
-            ),
-          ],
+              ),
+              Text(
+                AppLocalizations.of(context)!.editProfile,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const Spacer(),
+              IconButton(
+                color: _madeChanges ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurfaceVariant,
+                icon: const Icon(Icons.check, size: 24),
+                onPressed: _madeChanges ? _handleSubmit : null,
+              ),
+            ],
+          ),
+          showLeading: false,
         ),
-        showLeading: false,
-      ),
-      extendBodyBehindAppBar: true,
-      body: ScrollbarSingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).padding.top + Sizing.appbarHeight),
-            Consumer<AuthModel>(
-              builder: (context, value, child) {
-                return _ProfileEditForm(
-                  formKey: _formKey,
-                  profilePicture: value.profilePicture,
-                  firstName: value.firstName,
-                  lastName: value.lastName,
-                  username: value.username,
-                  bio: value.bio,
-                  latitude: value.lat.toDouble(),
-                  longitude: value.lon.toDouble(),
-                  onProfilePictureSelected: (XFile? file) {
-                    setState(() {
-                      _madeChanges = true;
-                      _pfp = file;
-                    });
-                  },
-                  onChangeMade: (String? value) {
-                    // Set state if it hasn't been set yet
-                    // This is for performance reasons
-                    if (!_madeChanges) {
+        extendBodyBehindAppBar: true,
+        body: ScrollbarSingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).padding.top + Sizing.appbarHeight),
+              Consumer<AuthModel>(
+                builder: (context, value, child) {
+                  return _ProfileEditForm(
+                    formKey: _formKey,
+                    profilePicture: value.profilePicture,
+                    firstName: value.firstName,
+                    lastName: value.lastName,
+                    username: value.username,
+                    bio: value.bio,
+                    latitude: value.lat.toDouble(),
+                    longitude: value.lon.toDouble(),
+                    locationName: value.locationText,
+                    onProfilePictureSelected: (XFile? file) {
                       setState(() {
                         _madeChanges = true;
+                        _pfp = file;
                       });
-                    }
-                  },
-                );
-              }
-            ),
-          ],
-        ),
-      )
+                    },
+                    onChangeMade: (String? value) {
+                      // Set state if it hasn't been set yet
+                      // This is for performance reasons
+                      if (!_madeChanges) {
+                        setState(() {
+                          _madeChanges = true; 
+                        });
+                      }
+                    },
+                  );
+                }
+              ),
+              SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
+            ],
+          ),
+        )
+      ),
     );
   }
 }

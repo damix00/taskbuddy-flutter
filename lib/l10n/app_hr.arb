@@ -125,5 +125,11 @@
   "locationTooltipProfile": "Ako je Vaš profil javan, Vaša će lokacija biti vidljiva svima. Inače, bit će vidljiva samo vašim pratiteljima.",
   "discard": "Odbaci",
   "popupEditProfileCancelTitle": "Odbaciti promjene?",
-  "popupEditProfileCancelDesc": "Jeste li sigurni da želite odbaciti promjene?"
+  "popupEditProfileCancelDesc": "Jeste li sigurni da želite odbaciti promjene?",
+  "pinnedLocation": "Označena lokacija",
+  "change": "Promijeni",
+  "unnamedLocation": "Nepoznata lokacija",
+  "noLocationProvided": "Lokacija nije navedena",
+  "chooseLocation": "Odaberi lokaciju",
+  "searchPlaceholder": "Pretraži lokacije, adrese..."
 }

@@ -26,6 +26,7 @@ import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/utils/initializers.dart';
 import 'package:taskbuddy/utils/utils.dart';
+import 'package:taskbuddy/widgets/screens/location_input/location_input.dart';
 import 'package:taskbuddy/widgets/transitions/slide_in.dart';
 
 void main() {
@@ -74,6 +75,10 @@ class _AppState extends State<App> {
       fontWeight: FontWeight.w900,
       color: Colors.white,
       fontFamily: Constants.getHeadingFontFamily(),
+    ),
+    bodyLarge: const TextStyle(
+      color: Colors.white,
+      fontSize: 16,
     ),
     bodyMedium: const TextStyle(
       color: Colors.white,
@@ -193,6 +198,9 @@ class _AppState extends State<App> {
                 titleSmall: _textTheme.titleSmall!.copyWith(
                   color: Colors.black,
                 ),
+                bodyLarge: _textTheme.bodyLarge!.copyWith(
+                  color: Colors.black,
+                ),
                 bodyMedium: _textTheme.bodyMedium!.copyWith(
                   color: Colors.black,
                 ),
@@ -228,6 +236,7 @@ class _AppState extends State<App> {
               '/create-post': (context) => const CreatePostScreen(),
               '/home': (context) => const HomeScreen(),
               '/profile/edit': (context) => const ProfileEditScreen(),
+              '/location-chooser':(context) => const LocationInputScreen(),
             },
             localeListResolutionCallback: (__, supportedLocales) {
               // If the locale is supported, return it

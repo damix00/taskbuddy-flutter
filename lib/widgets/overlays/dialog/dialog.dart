@@ -85,7 +85,7 @@ class CustomDialog extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: actions.map((action) => Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
+                      padding: const EdgeInsets.only(left: 16),
                       child: Touchable(
                         onTap: action.onPressed,
                         child: Text(
