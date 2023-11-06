@@ -11,8 +11,8 @@ class ProfileResponse {
   int following;
   int posts;
   String locationText;
-  num locationLat;
-  num locationLon;
+  num? locationLat;
+  num? locationLon;
   bool isPrivate;
 
   ProfileResponse({

@@ -87,11 +87,11 @@ class AccountCache {
     await _writeKey('locationText', locationText);
   }
 
-  static Future<void> setLatitude(num latitude) async {
+  static Future<void> setLatitude(num? latitude) async {
     await _writeKey('latitude', latitude.toString());
   }
 
-  static Future<void> setLongitude(num longitude) async {
+  static Future<void> setLongitude(num? longitude) async {
     await _writeKey('longitude', longitude.toString());
   }
 

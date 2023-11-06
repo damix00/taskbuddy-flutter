@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 
 class DialogAction {
@@ -50,7 +51,7 @@ class CustomDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!Platform.isIOS) {
+    if (Platform.isIOS) {
       return CupertinoAlertDialog(
         title: Text(title),
         content: Text(description),
@@ -66,9 +67,41 @@ class CustomDialog extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       color: Colors.black.withOpacity(0.5),
-      child: BlurParent(
-        child: Container(
-        )
+      padding: const EdgeInsets.all(16),
+      child: Center(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: BlurParent(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.titleMedium),
+                  const SizedBox(height: 8,),
+                  Text(description, style: Theme.of(context).textTheme.bodyMedium,),
+                  const SizedBox(height: 16,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: actions.map((action) => Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Touchable(
+                        onTap: action.onPressed,
+                        child: Text(
+                          action.text,
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).colorScheme.primary
+                          ),
+                        ),
+                      ),
+                    )).toList()
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
       )
     );
   }

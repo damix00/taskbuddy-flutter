@@ -3,9 +3,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:taskbuddy/screens/home/pages/profile/edit/location_display.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
+import 'package:taskbuddy/widgets/input/input_title.dart';
 import 'package:taskbuddy/widgets/input/pfp_input.dart';
 import 'package:taskbuddy/widgets/input/text_input.dart';
+import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/overlays/dialog/dialog.dart';
@@ -19,6 +22,8 @@ class _ProfileEditForm extends StatefulWidget {
   final String lastName;
   final String username;
   final String bio;
+  final double latitude;
+  final double longitude;
   final Function(XFile?) onProfilePictureSelected;
   final Function(String?) onChangeMade;
 
@@ -32,6 +37,8 @@ class _ProfileEditForm extends StatefulWidget {
     required this.formKey,
     required this.onProfilePictureSelected,
     required this.onChangeMade,
+    this.latitude = 1000,
+    this.longitude = 1000,
     this.bio = '',
     Key? key
   }) : super(key: key);
@@ -62,6 +69,7 @@ class __ProfileEditFormState extends State<_ProfileEditForm> {
       child: Form(
         key: widget.formKey, 
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: Sizing.horizontalPadding,),
             ProfilePictureInput(
@@ -123,39 +131,10 @@ class __ProfileEditFormState extends State<_ProfileEditForm> {
             ),
             const SizedBox(height: Sizing.horizontalPadding,),
             // Location
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: SizedBox(
-                height: 200,
-                child: FlutterMap(
-                  options: MapOptions(
-                    initialCenter: LatLng(0, 0),
-                    initialZoom: 10,
-                  ),
-                  children: [
-                    TileLayer(
-                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      userAgentPackageName: 'com.example.app',
-                    ),
-                    MarkerLayer(
-                      markers: [
-                        Marker(
-                          point: LatLng(0, 0),
-                          child: Icon(Icons.location_on)
-                        )
-                      ],
-                    ),
-                    RichAttributionWidget(
-                      attributions: [
-                        TextSourceAttribution(
-                          'OpenStreetMap contributors',
-                          onTap: () => launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+            ProfileEditLocationDisplay(
+              location: widget.latitude == 1000 || widget.longitude == 1000
+                ? null
+                : LatLng(widget.latitude, widget.longitude)
             )
           ]
         )
@@ -193,8 +172,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 if (_madeChanges) {
                   CustomDialog.show(
                     context,
-                    title: 'gex',
-                    description: 'a',
+                    title: l10n.popupEditProfileCancelTitle,
+                    description: l10n.popupEditProfileCancelDesc,
                     actions: [
                       DialogAction(
                         text: l10n.cancel,
@@ -203,7 +182,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                         }
                       ),
                       DialogAction(
-                        text: 'Discard',
+                        text: l10n.discard,
                         onPressed: () {
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
@@ -245,6 +224,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   lastName: value.lastName,
                   username: value.username,
                   bio: value.bio,
+                  latitude: value.lat.toDouble(),
+                  longitude: value.lon.toDouble(),
                   onProfilePictureSelected: (XFile? file) {
                     setState(() {
                       _madeChanges = true;

@@ -120,5 +120,10 @@
   "system": "Sustav",
   "light": "Svijetlo",
   "dark": "Tamno",
-  "profie": "Profil"
+  "profile": "Profil",
+  "location": "Lokacija",
+  "locationTooltipProfile": "Ako je Vaš profil javan, Vaša će lokacija biti vidljiva svima. Inače, bit će vidljiva samo vašim pratiteljima.",
+  "discard": "Odbaci",
+  "popupEditProfileCancelTitle": "Odbaciti promjene?",
+  "popupEditProfileCancelDesc": "Jeste li sigurni da želite odbaciti promjene?"
 }

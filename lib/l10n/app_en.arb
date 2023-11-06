@@ -197,12 +197,17 @@
   "changePfp": "Change profile picture",
   "somethingWentWrong": "Something went wrong.",
   "successfullyChangedPfp": "Successfully changed profile picture!",
-  "uiBlur": "UI blur",
+  "uiBlur": "UI Blur",
   "uiBlurDesc": "Disabling UI blur will improve performance on older devices.",
   "advanced": "Advanced",
   "theme": "Theme",
   "system": "System",
   "light": "Light",
   "dark": "Dark",
-  "profile": "Profile"
+  "profile": "Profile",
+  "location": "Location",
+  "locationTooltipProfile": "If your profile is public, your location will be visible to everyone. Otherwise, it will be visible only to your followers.",
+  "discard": "Discard",
+  "popupEditProfileCancelTitle": "Discard changes?",
+  "popupEditProfileCancelDesc": "Are you sure you want to discard your changes?"
 }
