@@ -87,7 +87,6 @@ class LocationInformation extends StatelessWidget {
                                 initPosition: location,
                                 onLocationSelected: (loc) {
                                   onLocationChanged(loc);
-                                  print("${loc.latitude} ${loc.longitude}");
                                 }
                               )
                             );
@@ -150,6 +149,8 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
       children: [
         InputTitle(title: l10n.location, optional: true, tooltipText: l10n.locationTooltipProfile),
         const SizedBox(height: Sizing.inputSpacing,),
+        if (location != null) 
+          Text(l10n.approximateLocation, style: Theme.of(context).textTheme.labelMedium,),
         if (location != null)
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
@@ -211,7 +212,17 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
                     color: Theme.of(context).colorScheme.onPrimary
                   ),
                 ),
-                onPressed: () {}
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    '/location-chooser',
+                    arguments: LocationInputArguments(
+                      initPosition: location,
+                      onLocationSelected: (loc) {
+                        widget.onLocationChanged(loc);
+                      }
+                    )
+                  );
+                }
               ),
             ],
           ),

@@ -33,6 +33,7 @@ class _TouchableState extends State<Touchable> {
   @override
   Widget build(BuildContext context) {
     return Listener(
+      behavior: HitTestBehavior.opaque, // Used to make the empty space clickable
       onPointerDown: (e) {
         setState(() {
           if (!widget.enableAnimation) return;

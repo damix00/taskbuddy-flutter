@@ -123,6 +123,7 @@
   "profile": "Profil",
   "location": "Lokacija",
   "locationTooltipProfile": "Ako je Vaš profil javan, Vaša će lokacija biti vidljiva svima. Inače, bit će vidljiva samo vašim pratiteljima.",
+  "approximateLocation": "Prikazat ćemo samo vašu približnu lokaciju, i ime vašeg mjesta.",
   "discard": "Odbaci",
   "popupEditProfileCancelTitle": "Odbaciti promjene?",
   "popupEditProfileCancelDesc": "Jeste li sigurni da želite odbaciti promjene?",

@@ -207,6 +207,7 @@
   "profile": "Profile",
   "location": "Location",
   "locationTooltipProfile": "If your profile is public, your location will be visible to everyone. Otherwise, it will be visible only to your followers.",
+  "approximateLocation": "We will only show your approximate location, and the name of your town.",
   "discard": "Discard",
   "popupEditProfileCancelTitle": "Discard changes?",
   "popupEditProfileCancelDesc": "Are you sure you want to discard your changes?",
