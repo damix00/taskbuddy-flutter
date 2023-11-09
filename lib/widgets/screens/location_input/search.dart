@@ -2,23 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:taskbuddy/api/requests.dart';
+import 'package:taskbuddy/api/geo/osm_api.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
-
-class SearchResultData {
-  final String name;
-  final String? address;
-  final LatLng position;
-
-  SearchResultData({
-    required this.name,
-    required this.position,
-    this.address
-  });
-
-}
 
 class SearchResults extends StatefulWidget {
   final String query;
@@ -40,13 +27,12 @@ class _SearchResultsState extends State<SearchResults> {
 
   void _fetchResults() async {
     // Uses the OpenStreetMap Nominatim API
-    var url = 'https://nominatim.openstreetmap.org/search?q=${widget.query}&format=json&limit=20';
+    var data = await OSMApi.search(widget.query);
 
     setState(() {
       _loading = true;
     });
 
-    var data = await Requests.fetchEndpoint(url);
 
     if (data!.timedOut) {
       setState(() {
@@ -180,7 +166,7 @@ class SearchResult extends StatelessWidget {
                 result.address!,
                 style: Theme.of(context).textTheme.labelMedium,
               ),
-            Divider(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.2))
+            if (!isLast) Divider(color: Theme.of(context).colorScheme.onBackground.withOpacity(0.2))
           ],
         ),
       ),

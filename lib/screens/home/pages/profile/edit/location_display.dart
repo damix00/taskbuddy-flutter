@@ -12,7 +12,7 @@ import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LocationInformation extends StatelessWidget {
-  final Function(LatLng?) onLocationChanged;
+  final Function(LatLng?, String? name) onLocationChanged;
   final LatLng? location;
   final String? locationName;
 
@@ -85,8 +85,9 @@ class LocationInformation extends StatelessWidget {
                               '/location-chooser',
                               arguments: LocationInputArguments(
                                 initPosition: location,
-                                onLocationSelected: (loc) {
-                                  onLocationChanged(loc);
+                                locationName: locationName,
+                                onLocationSelected: (loc, name) {
+                                  onLocationChanged(loc, name);
                                 }
                               )
                             );
@@ -96,7 +97,7 @@ class LocationInformation extends StatelessWidget {
                           title: l10n.remove,
                           icon: Icons.delete,
                           onTap: (c) {
-                            onLocationChanged(null);
+                            onLocationChanged(null, null);
                           }
                         ),
                       ],
@@ -116,7 +117,7 @@ class LocationInformation extends StatelessWidget {
 class ProfileEditLocationDisplay extends StatefulWidget {
   final LatLng? location;
   final String? locationName;
-  final Function(LatLng?) onLocationChanged;
+  final Function(LatLng?, String? name) onLocationChanged;
   final MapController? mapController;
 
   const ProfileEditLocationDisplay({
@@ -132,12 +133,14 @@ class ProfileEditLocationDisplay extends StatefulWidget {
 }
 
 class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay> {
-  LatLng? location;
+  LatLng? _location;
+  String? _locationName;
 
   @override
   void initState() {
     super.initState();
-    location = widget.location;
+    _location = widget.location;
+    _locationName = widget.locationName;
   }
 
   @override
@@ -148,12 +151,12 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InputTitle(title: l10n.location, optional: true, tooltipText: l10n.locationTooltipProfile),
-        if (location != null)
+        if (_location != null)
           const SizedBox(height: 8,),
-        if (location != null) 
+        if (_location != null) 
           Text(l10n.approximateLocation, style: Theme.of(context).textTheme.labelMedium,),
         const SizedBox(height: Sizing.inputSpacing,),
-        if (location != null)
+        if (_location != null)
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: SizedBox(
@@ -188,20 +191,21 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
                   ),
                   // Show the location text
                   LocationInformation(
-                    onLocationChanged: (loc) {
-                      widget.onLocationChanged(loc);
+                    onLocationChanged: (loc, name) {
+                      widget.onLocationChanged(loc, name);
                       setState(() {
-                        location = loc;
+                        _location = loc;
+                        _locationName = name;
                       });
                     },
-                    location: widget.location,
-                    locationName: widget.locationName,
+                    location: _location,
+                    locationName: _locationName,
                   ),
                 ],
               ),
             )
           ),
-        if (location == null)
+        if (_location == null)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -218,9 +222,10 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
                   Navigator.of(context).pushNamed(
                     '/location-chooser',
                     arguments: LocationInputArguments(
-                      initPosition: location,
-                      onLocationSelected: (loc) {
-                        widget.onLocationChanged(loc);
+                      initPosition: _location,
+                      locationName: _locationName,
+                      onLocationSelected: (loc, name) {
+                        widget.onLocationChanged(loc, name);
                       }
                     )
                   );

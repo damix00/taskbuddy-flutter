@@ -13,6 +13,16 @@ import 'package:taskbuddy/widgets/overlays/dialog/dialog.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
+class LocationData {
+  LatLng location;
+  String locationName;
+
+  LocationData({
+    required this.location,
+    required this.locationName
+  });
+}
+
 class _ProfileEditForm extends StatefulWidget {
   final String profilePicture;
   final String firstName;
@@ -53,6 +63,7 @@ class __ProfileEditFormState extends State<_ProfileEditForm> {
   XFile? _image;
   double _lat = 1000;
   double _lon = 1000;
+  String _locationName = '';
 
   void _onSelected(XFile? file) async {
     setState(() {
@@ -69,6 +80,7 @@ class __ProfileEditFormState extends State<_ProfileEditForm> {
     _image = null;
     _lat = widget.latitude;
     _lon = widget.longitude;
+    _locationName = widget.locationName;
   }
 
   @override
@@ -145,12 +157,13 @@ class __ProfileEditFormState extends State<_ProfileEditForm> {
             ProfileEditLocationDisplay(
               mapController: _mapController,
               location: _lat == 1000 ? null : LatLng(_lat, _lon),
-              locationName: widget.locationName,
-              onLocationChanged: (LatLng? location) {
+              locationName: _locationName,
+              onLocationChanged: (LatLng? location, String? name) {
                 widget.onChangeMade(null);
                 setState(() {
                   _lat = location?.latitude ?? 1000;
                   _lon = location?.longitude ?? 1000;
+                  _locationName = name ?? '';
 
                   if (location != null)
                     _mapController.move(location, 10);

@@ -236,7 +236,7 @@ class _AppState extends State<App> {
               '/create-post': (context) => const CreatePostScreen(),
               '/home': (context) => const HomeScreen(),
               '/profile/edit': (context) => const ProfileEditScreen(),
-              '/location-chooser':(context) => const LocationInputScreen(),
+              '/location-chooser': (context) => const LocationInputScreen(),
             },
             localeListResolutionCallback: (__, supportedLocales) {
               // If the locale is supported, return it

@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:taskbuddy/api/geo/osm_api.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/screens/location_input/bottom_sheet.dart';
+import 'package:taskbuddy/widgets/screens/location_input/input_overlay.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,11 +32,13 @@ class OSMAttribution extends StatelessWidget {
 
 class LocationInputArguments {
   final LatLng? initPosition;
-  final Function(LatLng)? onLocationSelected;
+  final Function(LatLng, String? locationName)? onLocationSelected;
+  final String? locationName;
 
   LocationInputArguments({
     this.initPosition,
-    this.onLocationSelected
+    this.onLocationSelected,
+    this.locationName
   });
 }
 
@@ -51,6 +57,54 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
   // For the bottom sheet
   final DraggableScrollableController _sheetController = DraggableScrollableController();
   final _minHeight = 92.0;
+
+  String _locationName = '';
+  bool _loadingName = false;
+
+  Timer _debounce = Timer(const Duration(milliseconds: 300), () => {});
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var args = ModalRoute.of(context)!.settings.arguments as LocationInputArguments;
+
+      setState(() {
+        _locationName = args.locationName ?? '';
+      });
+    });
+  }
+
+  // Called when the map position changes
+  void onPositionChanged(MapPosition position, bool hasGesture) {
+    _debounce.cancel();
+    _debounce = Timer(const Duration(milliseconds: 300), () async {
+      setState(() {
+        _loadingName = true;
+      });
+
+      var response = await OSMApi.getLocationName(position.center!);
+
+      if (response?.response == null || response!.timedOut || response.response!.statusCode != 200) {
+        setState(() {
+          _loadingName = false;
+          _locationName = '';
+        });
+
+        return;
+      }
+
+      var data = response.response!.data;
+
+      String? name = data["address"]?["village"] ?? data["address"]?["town"] ?? data["name"];
+
+      setState(() {
+        _locationName = name ?? '';
+        _loadingName = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +132,7 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
               icon: Icon(Icons.check, size: 24, color: Theme.of(context).colorScheme.primary),
               onPressed: () {
                 var center = _mapController.camera.center;
-                args.onLocationSelected?.call(center);
+                args.onLocationSelected?.call(center, _locationName);
                 Navigator.of(context).pop(center);
               },
             ),
@@ -97,6 +151,7 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
               options: MapOptions(
                 initialCenter: args.initPosition ?? LatLng(0, 0),
                 initialZoom: 10,
+                onPositionChanged: onPositionChanged,
                 minZoom: 0,
                 maxZoom: 18,
                 interactionOptions: InteractionOptions(
@@ -115,6 +170,7 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
               ],
             )
           ),
+          LocationNameDisplay(locationName: _locationName, loadingName: _loadingName),
           Center(child: Icon(Icons.location_on, color: Theme.of(context).colorScheme.primary, size: 40,)),
           DraggableScrollableSheet(
             controller: _sheetController,

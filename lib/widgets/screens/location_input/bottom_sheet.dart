@@ -32,7 +32,7 @@ class _LocationInputBottomSheetState extends State<LocationInputBottomSheet> {
 
   double _borderRadius = 16;
   String _searchQuery = '';
-  Timer _debounce = Timer(Duration(milliseconds: 300), () {});
+  Timer _debounce = Timer(const Duration(milliseconds: 300), () {});
 
   @override
   void initState() {
@@ -69,10 +69,12 @@ class _LocationInputBottomSheetState extends State<LocationInputBottomSheet> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Stack(
             children: [
+              // Scroll view consisting of the search input and results
               CustomScrollView(
                 controller: widget.scrollConroller,
                 slivers: [
                   SliverToBoxAdapter(
+                    // Search input
                     child: Padding(
                       padding: const EdgeInsets.only(top: 32.0),
                       child: SearchInput (
@@ -86,7 +88,7 @@ class _LocationInputBottomSheetState extends State<LocationInputBottomSheet> {
                           );
                         },
                         onChanged: (v) {
-                          // debounce
+                          // Debounce the search query (to avoid spamming the API)
                           _debounce.cancel();
                           _debounce = Timer(const Duration(milliseconds: 300), () {
                             setState(() {
@@ -97,6 +99,7 @@ class _LocationInputBottomSheetState extends State<LocationInputBottomSheet> {
                       ),
                     ),
                   ),
+                  // Display the search results
                   SearchResults(
                     query: _searchQuery,
                     onResultSelected: (result) {
@@ -116,6 +119,7 @@ class _LocationInputBottomSheetState extends State<LocationInputBottomSheet> {
                   )
                 ],
               ),
+              // Resize indicator
               Center(
                 heightFactor: 0,
                 child: Padding(
