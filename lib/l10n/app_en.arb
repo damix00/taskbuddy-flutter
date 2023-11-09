@@ -216,5 +216,6 @@
   "unnamedLocation": "Unnamed location",
   "noLocationProvided": "No location provided",
   "chooseLocation": "Choose location",
-  "searchPlaceholder": "Search locations, adresses..."
+  "searchPlaceholder": "Search locations, adresses...",
+  "noResults": "No results"
 }

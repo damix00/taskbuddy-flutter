@@ -132,5 +132,6 @@
   "unnamedLocation": "Nepoznata lokacija",
   "noLocationProvided": "Lokacija nije navedena",
   "chooseLocation": "Odaberi lokaciju",
-  "searchPlaceholder": "Pretraži lokacije, adrese..."
+  "searchPlaceholder": "Pretraži lokacije, adrese...",
+  "noResults": "Nema rezultata"
 }

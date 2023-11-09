@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
+import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 
 class SearchResultData {
   final String name;
@@ -98,17 +99,20 @@ class _SearchResultsState extends State<SearchResults> {
   @override
   Widget build(BuildContext context) {
     if (_loading) {
-      return SliverToBoxAdapter(
+      return const SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+          padding: EdgeInsets.only(top: 16.0),
           child: SizedBox(
             height: 24,
             width: 24,
-            child: CupertinoActivityIndicator(
-            ),
+            child: CrossPlatformLoader(),
           ),
         ),
       );
+    }
+
+    if (widget.query.isEmpty) {
+      return const SliverToBoxAdapter();
     }
 
     if (_results.isEmpty) {
@@ -116,7 +120,7 @@ class _SearchResultsState extends State<SearchResults> {
         child: Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: Text(
-            AppLocalizations.of(context)!.networkError,
+            AppLocalizations.of(context)!.noResults,
             style: Theme.of(context).textTheme.labelMedium,
           ),
         ),

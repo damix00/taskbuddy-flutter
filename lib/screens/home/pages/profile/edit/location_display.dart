@@ -148,9 +148,11 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InputTitle(title: l10n.location, optional: true, tooltipText: l10n.locationTooltipProfile),
-        const SizedBox(height: Sizing.inputSpacing,),
+        if (location != null)
+          const SizedBox(height: 8,),
         if (location != null) 
           Text(l10n.approximateLocation, style: Theme.of(context).textTheme.labelMedium,),
+        const SizedBox(height: Sizing.inputSpacing,),
         if (location != null)
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
