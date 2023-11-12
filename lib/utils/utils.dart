@@ -4,7 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 
@@ -76,5 +77,49 @@ class Utils {
 
   static num dist(Offset a, Offset b) {
     return sqrt(pow(a.dx - b.dx, 2) + pow(a.dy - b.dy, 2));
+  }
+
+  static Future<bool> canGetLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the 
+      // App to enable the location services.
+      return false;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale 
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return false;
+      }
+    }
+    
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately. 
+      return false;
+    }
+
+    return true;
+  }
+
+  static Future<LatLng?> getCurrentLocation() async {
+    if (!await canGetLocation()) {
+      return null;
+    }
+
+    var loc = await Geolocator.getCurrentPosition();
+
+    return LatLng(loc.latitude, loc.longitude);
   }
 }

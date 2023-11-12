@@ -134,5 +134,7 @@
   "chooseLocation": "Odaberi lokaciju",
   "searchPlaceholder": "Pretraži lokacije, adrese...",
   "noResults": "Nema rezultata",
-  "successfullyChanged": "Uspješno promijenjeno!"
+  "successfullyChanged": "Uspješno promijenjeno!",
+  "locationOff": "Vaša lokacija je isključena ili nedostupna.",
+  "newPost": "Nova objava"
 }

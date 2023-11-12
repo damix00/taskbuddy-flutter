@@ -218,5 +218,7 @@
   "chooseLocation": "Choose location",
   "searchPlaceholder": "Search locations, adresses...",
   "noResults": "No results",
-  "successfullyChanged": "Successfully changed!"
+  "successfullyChanged": "Successfully changed!",
+  "locationOff": "Your location is off or unavailable.",
+  "newPost": "New post"
 }

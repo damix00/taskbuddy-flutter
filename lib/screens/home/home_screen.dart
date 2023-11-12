@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CustomBottomNavbar(
         items: [
           BottomNavbarItem(icon: Icons.home_outlined, activeIcon: Icons.home),
-          BottomNavbarItem(icon: Icons.chat_outlined, activeIcon: Icons.chat),
+          BottomNavbarItem(icon: Icons.search, activeIcon: Icons.search_outlined),
           BottomNavbarItem(
             child: Container(
               width: 42,
@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(Icons.add, color: Theme.of(context).colorScheme.onPrimary),
             )
           ),
-          BottomNavbarItem(icon: Icons.wallet_outlined, activeIcon: Icons.wallet),
+          BottomNavbarItem(icon: Icons.chat_outlined, activeIcon: Icons.chat),
           BottomNavbarItem(icon: Icons.person_outline, activeIcon: Icons.person),
         ],
         currentIndex: _currentIndex,

@@ -142,6 +142,33 @@ class _VerifyPhoneSecondPageState extends State<VerifyPhoneSecondPage> {
           Column(
             children: [
               Button(
+                loading: _loadingCall,
+                type: ButtonType.outlined,
+                child: Text(
+                  l10n.callInstead,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                ),
+                onPressed: () async {
+                  setState(() {
+                    _loadingCall = true;
+                  });
+                  // Send a call verification request
+                  await Api.v1.accounts.verification.phone.call((await AccountCache.getToken())!);
+                  // Show a notification
+                  SnackbarPresets.show(
+                    context,
+                    text: l10n.verificationCodeSent,
+                  );
+
+                  setState(() {
+                    _loadingCall = false;
+                  });
+                }
+              ),
+              const SizedBox(height: 8,),
+              Button(
                 loading: _loadingVerify,
                 disabled: _value.length != 6,
                 child: Text(
@@ -181,33 +208,6 @@ class _VerifyPhoneSecondPageState extends State<VerifyPhoneSecondPage> {
 
                   setState(() {
                     _loadingVerify = false;
-                  });
-                }
-              ),
-              const SizedBox(height: 8,),
-              Button(
-                loading: _loadingCall,
-                type: ButtonType.outlined,
-                child: Text(
-                  l10n.callInstead,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                ),
-                onPressed: () async {
-                  setState(() {
-                    _loadingCall = true;
-                  });
-                  // Send a call verification request
-                  await Api.v1.accounts.verification.phone.call((await AccountCache.getToken())!);
-                  // Show a notification
-                  SnackbarPresets.show(
-                    context,
-                    text: l10n.verificationCodeSent,
-                  );
-
-                  setState(() {
-                    _loadingCall = false;
                   });
                 }
               ),

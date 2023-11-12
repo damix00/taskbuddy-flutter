@@ -6,6 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/api/geo/osm_api.dart';
 import 'package:taskbuddy/utils/constants.dart';
+import 'package:taskbuddy/widgets/input/touchable/buttons/location_button.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/screens/location_input/bottom_sheet.dart';
@@ -169,15 +170,34 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'app.taskbuddy.flutter',
                 ),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: args.initPosition ?? Constants.getInitialLocation(),
+                      child: const Icon(Icons.location_on, color: Colors.red),
+                    )
+                  ],
+                ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * minSnapSize),
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * minSnapSize + 64),
                   child: const OSMAttribution()
                 )
               ],
             )
           ),
           LocationNameDisplay(locationName: _locationName, loadingName: _loadingName),
+          // Marker for the center of the map
           Center(child: Icon(Icons.location_on, color: Theme.of(context).colorScheme.primary, size: 40,)),
+          // Current location button
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * minSnapSize + 16,
+            right: 16,
+            child: LocationButton(
+              onTap: (value) {
+                _mapController.move(value, 18);
+              },
+            ),
+          ),
           DraggableScrollableSheet(
             controller: _sheetController,
             initialChildSize: minSnapSize,
