@@ -133,5 +133,6 @@
   "noLocationProvided": "Lokacija nije navedena",
   "chooseLocation": "Odaberi lokaciju",
   "searchPlaceholder": "Pretraži lokacije, adrese...",
-  "noResults": "Nema rezultata"
+  "noResults": "Nema rezultata",
+  "successfullyChanged": "Uspješno promijenjeno!"
 }

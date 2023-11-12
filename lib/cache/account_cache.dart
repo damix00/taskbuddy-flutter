@@ -11,8 +11,15 @@ class AccountCache {
   // Read a value from the storage based on a given key
   static Future<String?> _readKey(String key) async {
     var storage = const FlutterSecureStorage(); // Initialize the secure storage
-    return await storage.read(
-        key: key); // Read the value associated with the key
+    var v = await storage.read(key: key); // Read the value associated with the key
+
+    if (v == null || v.isEmpty) {
+      // If the value is empty, then return null
+      return null;
+    } else {
+      // Otherwise, return the value
+      return v;
+    }
   }
 
   // Write a value to the storage based on a given key
@@ -88,11 +95,11 @@ class AccountCache {
   }
 
   static Future<void> setLatitude(num? latitude) async {
-    await _writeKey('latitude', latitude.toString());
+    await _writeKey('latitude', latitude != null ? latitude.toString() : '1000');
   }
 
   static Future<void> setLongitude(num? longitude) async {
-    await _writeKey('longitude', longitude.toString());
+    await _writeKey('longitude', longitude != null ? longitude.toString() : '1000');
   }
 
   static Future<void> setIsPrivate(bool isPrivate) async {
@@ -148,15 +155,15 @@ class AccountCache {
   }
 
   static Future<int> getFollowers() async {
-    return int.parse(await _readKey('followers') ?? '0');
+    return int.parse((await _readKey('followers')) ?? '0');
   }
 
   static Future<int> getFollowing() async {
-    return int.parse(await _readKey('following') ?? '0');
+    return int.parse((await _readKey('following')) ?? '0');
   }
 
   static Future<int> getPosts() async {
-    return int.parse(await _readKey('posts') ?? '0');
+    return int.parse((await _readKey('posts')) ?? '0');
   }
 
   static Future<String> getLocationText() async {
@@ -164,31 +171,31 @@ class AccountCache {
   }
 
   static Future<num> getLatitude() async {
-    return num.parse(await _readKey('latitude') ?? '0');
+    return num.parse((await _readKey('latitude')) ?? '1000');
   }
 
   static Future<num> getLongitude() async {
-    return num.parse(await _readKey('longitude') ?? '0');
+    return num.parse((await _readKey('longitude')) ?? '1000');
   }
 
   static Future<int> getCompletedJobs() async {
-    return int.parse(await _readKey('completedJobs') ?? '0');
+    return int.parse((await _readKey('completedJobs')) ?? '0');
   }
 
   static Future<num> getEmployerRating() async {
-    return num.parse(await _readKey('employerRating') ?? '0');
+    return num.parse((await _readKey('employerRating')) ?? '0');
   }
 
   static Future<num> getEmployeeRating() async {
-    return num.parse(await _readKey('employeeRating') ?? '0');
+    return num.parse((await _readKey('employeeRating')) ?? '0');
   }
 
   static Future<int> getEmployerCancelled() async {
-    return int.parse(await _readKey('employerCancelRate') ?? '0');
+    return int.parse((await _readKey('employerCancelRate')) ?? '0');
   }
 
   static Future<int> getEmployeeCancelled() async {
-    return int.parse(await _readKey('employeeCancelRate') ?? '0');
+    return int.parse((await _readKey('employeeCancelRate')) ?? '0');
   }
 
   // Get required actions from the storage

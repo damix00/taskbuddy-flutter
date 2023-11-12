@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/api/geo/osm_api.dart';
+import 'package:taskbuddy/utils/constants.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/screens/location_input/bottom_sheet.dart';
@@ -97,7 +98,12 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
 
       var data = response.response!.data;
 
-      String? name = data["address"]?["village"] ?? data["address"]?["town"] ?? data["name"];
+      String? name = data["address"]?["village"] ??
+        data["address"]?["city"] ??
+        data["address"]?["town"] ??
+        data["address"]["county"] ??
+        ((data["name"] ?? '').isNotEmpty ? data["name"] : null) ??
+        data["country"];
 
       setState(() {
         _locationName = name ?? '';
@@ -149,7 +155,7 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
             child: FlutterMap(
               mapController: _mapController,
               options: MapOptions(
-                initialCenter: args.initPosition ?? LatLng(0, 0),
+                initialCenter: args.initPosition ?? Constants.getInitialLocation(),
                 initialZoom: 10,
                 onPositionChanged: onPositionChanged,
                 minZoom: 0,

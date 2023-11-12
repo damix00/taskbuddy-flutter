@@ -2,19 +2,21 @@ import 'dart:io';
 
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/requests.dart';
-import 'package:taskbuddy/api/responses/profile_response.dart';
+import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:dio/dio.dart' as diolib;
 
 final dio = diolib.Dio();
 
 class ProfileRoute {
-  Future<ApiResponse<ProfileResponse?>> update(String token, {
+  Future<ApiResponse<AccountResponse?>> update(String token, {
+    String? username,
     String? firstName,
     String? lastName,
     String? bio,
     num? lat,
     num? lon,
+    String? locationText,
     bool? isPrivate,
     bool? removeProfilePicture,
     File? profilePicture
@@ -38,11 +40,13 @@ class ProfileRoute {
           'Authorization': 'Bearer $token',
         },
         data: {
+          'username': username,
           'first_name': firstName,
           'last_name': lastName,
           'bio': bio,
           'location_lat': lat,
           'location_lon': lon,
+          'location_text': locationText,
           'is_private': isPrivate,
           'remove_profile_picture': removeProfilePicture,
         },
@@ -64,7 +68,7 @@ class ProfileRoute {
         message: 'W',
         ok: true,
         response: response.response!,
-        data: ProfileResponse.fromJson(json['profile']),
+        data: AccountResponse.fromJson(json),
       );
     }
     catch (e) {

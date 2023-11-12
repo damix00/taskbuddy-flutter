@@ -54,12 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<bool> _fetchData(String token) async {
     ApiResponse<AccountResponse?> me = await Api.v1.accounts.me(token);
 
-    if (me.data == null) {
-      return false;
-    }
-
-    _authFetched = true;
-
     if (me.status == 401) {
       // If the status code is 401, then the token is invalid so restart the app
 
@@ -67,8 +61,17 @@ class _HomeScreenState extends State<HomeScreen> {
       AccountCache.setLoggedIn(false);
 
       Utils.restartLoggedOut(context);
+
+      return true;
     }
-    else if (me.ok) {
+
+    else if (me.data == null) {
+      return false;
+    }
+
+    _authFetched = true;
+
+    if (me.ok) {
       // If the response is OK, then the user is logged in
       AccountCache.saveAccountResponse(me.data!);
       if (me.data!.profile != null) {
@@ -78,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
       AccountCache.setRequiredActions(me.data!.requiredActions);
 
       Provider.of<AuthModel>(context, listen: false).setAccountResponse(me.data!);
-
+ 
       // Show a popup if the user has required actions
       updateRequiredActions(me.data!.requiredActions);
     }

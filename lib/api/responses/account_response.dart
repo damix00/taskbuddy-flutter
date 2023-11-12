@@ -33,7 +33,7 @@ class AccountResponseUser {
       email: json['email'],
       username: json['username'],
       phoneNumber: json['phone_number'],
-      lastLogin: DateTime.parse(json['last_login']),
+      lastLogin: DateTime.parse(json['last_login'] ?? DateTime.now().toString()),
       firstName: json['first_name'],
       lastName: json['last_name'],
       role: json['role'],
@@ -121,22 +121,21 @@ class AccountResponse {
     }
 
     if (response.timedOut) {
-      return ApiResponse(
-          status: 408, message: 'Request timed out', ok: false, timedOut: true);
+      return ApiResponse(status: 408, message: 'Request timed out', ok: false, timedOut: true);
     }
 
     if (response.response?.data == null) {
-      return ApiResponse(
-          status: 500, message: 'Request timed out', ok: false, timedOut: true);
+      return ApiResponse(status: 500, message: 'Request timed out', ok: false, timedOut: true);
     }
 
     final json = response.response!.data;
 
     if (response.response!.statusCode != 200) {
       return ApiResponse(
-          status: response.response!.statusCode ?? 500,
-          message: json["message"],
-          ok: false);
+        status: response.response!.statusCode ?? 500,
+        message: json["message"],
+        ok: false
+      );
     }
 
     return ApiResponse(

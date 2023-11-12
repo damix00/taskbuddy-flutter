@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:latlong2/latlong.dart';
 
 class Constants {
   static const Color primaryColor = Color.fromARGB(255, 31, 184, 255);
@@ -15,5 +16,9 @@ class Constants {
     return Platform.isIOS
         ? 'SF Pro Display'
         : GoogleFonts.montserrat().fontFamily;
+  }
+
+  static LatLng getInitialLocation() {
+    return const LatLng(42.2881519, 18.8208781);
   }
 }

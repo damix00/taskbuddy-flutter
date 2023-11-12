@@ -50,8 +50,8 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
 
       else {
         SnackbarPresets.show(context, text: AppLocalizations.of(context)!.successfullyChangedPfp);
-        AccountCache.setProfilePicture(result.data!.profilePicture);
-        auth.profilePicture = result.data!.profilePicture;
+        AccountCache.setProfilePicture(result.data!.profile!.profilePicture);
+        auth.profilePicture = result.data!.profile!.profilePicture;
       }
 
       Navigator.of(context).pop(); // hide overlay
@@ -78,8 +78,8 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
 
       else {
         SnackbarPresets.show(context, text: AppLocalizations.of(context)!.successfullyChangedPfp);
-        AccountCache.setProfilePicture(result.data!.profilePicture);
-        auth.profilePicture = result.data!.profilePicture;
+        AccountCache.setProfilePicture(result.data!.profile!.profilePicture);
+        auth.profilePicture = result.data!.profile!.profilePicture;
       }
 
       Navigator.of(context).pop(); // hide the loading overlay

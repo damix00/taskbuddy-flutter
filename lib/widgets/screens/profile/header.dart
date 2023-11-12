@@ -73,7 +73,7 @@ class ProfileHeader extends StatelessWidget {
                   Icon(Icons.location_on_outlined, size: 18, color: Theme.of(context).colorScheme.onSurfaceVariant),
                   const SizedBox(width: 4),
                   Text(
-                    'Zagreb, Croatia',
+                    locationText!,
                     maxLines: 1,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,

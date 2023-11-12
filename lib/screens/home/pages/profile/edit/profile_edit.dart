@@ -1,181 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/home/pages/profile/edit/edit_form.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/location_display.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
-import 'package:taskbuddy/widgets/input/pfp_input.dart';
-import 'package:taskbuddy/widgets/input/text_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/overlays/dialog/dialog.dart';
+import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
-
-class LocationData {
-  LatLng location;
-  String locationName;
-
-  LocationData({
-    required this.location,
-    required this.locationName
-  });
-}
-
-class _ProfileEditForm extends StatefulWidget {
-  final String profilePicture;
-  final String firstName;
-  final String lastName;
-  final String username;
-  final String bio;
-  final double latitude;
-  final double longitude;
-  final String locationName;
-  final Function(XFile?) onProfilePictureSelected;
-  final Function(String?) onChangeMade;
-
-  final formKey;
-
-  const _ProfileEditForm({
-    required this.profilePicture,
-    required this.firstName,
-    required this.lastName,
-    required this.username,
-    required this.formKey,
-    required this.onProfilePictureSelected,
-    required this.onChangeMade,
-    this.locationName = '',
-    this.latitude = 1000,
-    this.longitude = 1000,
-    this.bio = '',
-    Key? key
-  }) : super(key: key);
-
-  @override
-  __ProfileEditFormState createState() => __ProfileEditFormState();
-}
-
-class __ProfileEditFormState extends State<_ProfileEditForm> {
-  final MapController _mapController = MapController();
-
-  bool _showChild = true;
-  XFile? _image;
-  double _lat = 1000;
-  double _lon = 1000;
-  String _locationName = '';
-
-  void _onSelected(XFile? file) async {
-    setState(() {
-      _image = file;
-      _showChild = false;
-    });
-
-    widget.onProfilePictureSelected(file);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _image = null;
-    _lat = widget.latitude;
-    _lon = widget.longitude;
-    _locationName = widget.locationName;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    AppLocalizations l10n = AppLocalizations.of(context)!;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
-      child: Form(
-        key: widget.formKey, 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: Sizing.horizontalPadding,),
-            ProfilePictureInput(
-              onSelected: _onSelected,
-              image: _image,
-              child: (_showChild && widget.profilePicture.isNotEmpty)
-                ? ProfilePictureDisplay(size: 60, iconSize: 32, profilePicture: widget.profilePicture)
-                : null,
-            ),
-            const SizedBox(height: Sizing.horizontalPadding,),
-            // First & last name input
-            Row(
-              children: [
-                Flexible(
-                  // First name input
-                  child: TextInput(
-                    initialValue: widget.firstName,
-                    label: l10n.firstName,
-                    hint: "John",
-                    textInputAction: TextInputAction.next,
-                    onChanged: widget.onChangeMade,
-                  ),
-                ),
-                const SizedBox(width: Sizing.inputSpacing,),
-                Flexible(
-                  // Last name input
-                  child: TextInput(
-                    initialValue: widget.lastName,
-                    label: l10n.lastName,
-                    hint: "Doe",
-                    textInputAction: TextInputAction.next,
-                    onChanged: widget.onChangeMade,
-                  ),
-                ),
-              ]
-            ),
-            const SizedBox(height: Sizing.horizontalPadding,),
-            // Username input
-            TextInput(
-              initialValue: widget.username,
-              label: l10n.username,
-              hint: "@johndoe",
-              textInputAction: TextInputAction.next,
-              tooltipText: l10n.usernameTooltip,
-              onChanged: widget.onChangeMade,
-            ),
-            const SizedBox(height: Sizing.horizontalPadding,),
-            // Bio input
-            TextInput(
-              textInputAction: TextInputAction.done,
-              initialValue: widget.bio,
-              label: l10n.biography,
-              optional: true,
-              hint: l10n.bioPlaceholder,
-              maxLength: 150,
-              minLines: 3,
-              maxLines: null,
-              onChanged: widget.onChangeMade,
-            ),
-            const SizedBox(height: Sizing.horizontalPadding,),
-            // Location
-            ProfileEditLocationDisplay(
-              mapController: _mapController,
-              location: _lat == 1000 ? null : LatLng(_lat, _lon),
-              locationName: _locationName,
-              onLocationChanged: (LatLng? location, String? name) {
-                widget.onChangeMade(null);
-                setState(() {
-                  _lat = location?.latitude ?? 1000;
-                  _lon = location?.longitude ?? 1000;
-                  _locationName = name ?? '';
-
-                  if (location != null)
-                    _mapController.move(location, 10);
-                });
-              },
-            )
-          ]
-        )
-      ),
-    );
-  }
-}
 
 class ProfileEditScreen extends StatefulWidget {
   const ProfileEditScreen({Key? key}) : super(key: key);
@@ -188,8 +28,58 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _madeChanges = false;
   XFile? _pfp;
+  bool _changedPfp = false;
+  String _firstName = '';
+  String _lastName = '';
+  String _username = '';
+  String _bio = '';
+  LatLng? _location;
+  String? _locationName;
+  bool _init = false;
 
-  void _handleSubmit() {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _handleSubmit() async {
+    if (_formKey.currentState!.validate()) {
+      String? token = await AccountCache.getToken();
+
+      if (token == null) {
+        return;
+      }
+
+      LoadingOverlay.showLoader(context);
+
+      var result = await Api.v1.accounts.meRoute.profile.update(
+        token,
+        firstName: _firstName,
+        lastName: _lastName,
+        username: _username,
+        profilePicture: _pfp != null ? File(_pfp!.path) : null,
+        removeProfilePicture: _changedPfp && _pfp == null,
+        lat: _location?.latitude,
+        lon: _location?.longitude,
+        locationText: _locationName,
+        bio: _bio,
+      );
+
+      LoadingOverlay.hideLoader(context);
+
+      if (result.status == 200) {
+        SnackbarPresets.show(context, text: AppLocalizations.of(context)!.successfullyChanged);
+
+        Provider.of<AuthModel>(context, listen: false).setAccountResponse(result.data!);
+        AccountCache.saveAccountResponse(result.data!);
+
+        Navigator.of(context).pop();
+      }
+
+      else {
+        SnackbarPresets.show(context, text: AppLocalizations.of(context)!.somethingWentWrong);
+      }
+    }
   }
 
   void _handleBackBtn(AppLocalizations l10n) {
@@ -260,20 +150,28 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               SizedBox(height: MediaQuery.of(context).padding.top + Sizing.appbarHeight),
               Consumer<AuthModel>(
                 builder: (context, value, child) {
-                  return _ProfileEditForm(
+                  if (!_init) {
+                    _init = true;
+                    _location = value.lat != null && value.lon != null ? LatLng(value.lat!.toDouble(), value.lon!.toDouble()) : null;
+                    _locationName = value.locationText;
+                    _bio = value.bio;
+                  }
+
+                  return ProfileEditForm(
                     formKey: _formKey,
                     profilePicture: value.profilePicture,
                     firstName: value.firstName,
                     lastName: value.lastName,
                     username: value.username,
                     bio: value.bio,
-                    latitude: value.lat.toDouble(),
-                    longitude: value.lon.toDouble(),
+                    latitude: value.lat?.toDouble(),
+                    longitude: value.lon?.toDouble(),
                     locationName: value.locationText,
                     onProfilePictureSelected: (XFile? file) {
                       setState(() {
                         _madeChanges = true;
                         _pfp = file;
+                        _changedPfp = true;
                       });
                     },
                     onChangeMade: (String? value) {
@@ -284,6 +182,32 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                           _madeChanges = true; 
                         });
                       }
+                    },
+                    onLocationChanged: (LocationData? data) {
+                      if (data == null) {
+                        setState(() {
+                          _location = null;
+                          _locationName = null;
+                        });
+                      }
+                      else {
+                        setState(() {
+                          _location = data.location;
+                          _locationName = data.locationName;
+                        });
+                      }
+                    },
+                    onFirstNameChanged: (String value) {
+                      _firstName = value;
+                    },
+                    onLastNameChanged: (String value) {
+                      _lastName = value;
+                    },
+                    onUsernameChanged: (String value) {
+                      _username = value;
+                    },
+                    onBioChanged: (String value) {
+                      _bio = value;
                     },
                   );
                 }

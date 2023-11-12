@@ -20,7 +20,7 @@ class ProfileLayout extends StatelessWidget {
   final num employerCancelRate;
   final num employeeRating;
   final num employeeCancelRate;
-  final String? locationText;
+  final String locationText;
   final bool isMe;
 
   const ProfileLayout(
@@ -36,8 +36,8 @@ class ProfileLayout extends StatelessWidget {
       required this.employerCancelRate,
       required this.employeeRating,
       required this.employeeCancelRate,
+      required this.locationText,
       this.isMe = false,
-      this.locationText,
       Key? key})
       : super(key: key);
 
@@ -117,7 +117,7 @@ class ProfileLayout extends StatelessWidget {
                     employerCancelRate: employerCancelRate,
                     employerRating: employerRating,
                     bio: bio.trim(),
-                    locationText: locationText,
+                    locationText: locationText.isEmpty ? null : locationText,
                     isMe: isMe,
                   ),
                 ]),

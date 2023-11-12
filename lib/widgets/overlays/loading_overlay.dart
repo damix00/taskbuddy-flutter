@@ -39,6 +39,10 @@ class LoadingOverlay extends StatelessWidget {
     );
   }
 
+  static void hideLoader(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

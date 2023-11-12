@@ -217,5 +217,6 @@
   "noLocationProvided": "No location provided",
   "chooseLocation": "Choose location",
   "searchPlaceholder": "Search locations, adresses...",
-  "noResults": "No results"
+  "noResults": "No results",
+  "successfullyChanged": "Successfully changed!"
 }

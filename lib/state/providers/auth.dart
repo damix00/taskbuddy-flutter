@@ -21,8 +21,8 @@ class AuthModel extends ChangeNotifier {
   String _fullName = '';
   String _firstName = '';
   String _lastName = '';
-  num _lat = 1000;
-  num _lon = 1000;
+  num? _lat;
+  num? _lon;
   String _locationText = '';
   AccountResponseRequiredActions? _requiredActions;
 
@@ -44,8 +44,12 @@ class AuthModel extends ChangeNotifier {
   String get fullName => _fullName;
   String get firstName => _firstName;
   String get lastName => _lastName;
-  num get lat => _lat;
-  num get lon => _lon;
+  num? get lat {
+    return _lat;
+  }
+  num? get lon {
+    return _lon;
+  }
   String get locationText => _locationText;
   AccountResponseRequiredActions? get requiredActions => _requiredActions;
 
@@ -139,12 +143,12 @@ class AuthModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  set lat(num value) {
+  set lat(num? value) {
     _lat = value;
     notifyListeners();
   }
 
-  set lon(num value) {
+  set lon(num? value) {
     _lon = value;
     notifyListeners();
   }
@@ -233,8 +237,8 @@ class AuthModel extends ChangeNotifier {
     _email = response.user.email;
     _loggedIn = true;
     _finishedLoading = true;
-    _lat = response.profile!.locationLat ?? 1000;
-    _lon = response.profile!.locationLon ?? 1000;
+    _lat = response.profile!.locationLat;
+    _lon = response.profile!.locationLon;
 
     notifyListeners();
   }

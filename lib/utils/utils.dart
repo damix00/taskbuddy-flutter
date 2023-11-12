@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 

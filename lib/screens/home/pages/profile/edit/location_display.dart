@@ -11,6 +11,16 @@ import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+class LocationData {
+  LatLng location;
+  String locationName;
+
+  LocationData({
+    required this.location,
+    required this.locationName
+  });
+}
+
 class LocationInformation extends StatelessWidget {
   final Function(LatLng?, String? name) onLocationChanged;
   final LatLng? location;
@@ -133,16 +143,6 @@ class ProfileEditLocationDisplay extends StatefulWidget {
 }
 
 class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay> {
-  LatLng? _location;
-  String? _locationName;
-
-  @override
-  void initState() {
-    super.initState();
-    _location = widget.location;
-    _locationName = widget.locationName;
-  }
-
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
@@ -151,12 +151,12 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InputTitle(title: l10n.location, optional: true, tooltipText: l10n.locationTooltipProfile),
-        if (_location != null)
+        if (widget.location != null)
           const SizedBox(height: 8,),
-        if (_location != null) 
+        if (widget.location != null) 
           Text(l10n.approximateLocation, style: Theme.of(context).textTheme.labelMedium,),
         const SizedBox(height: Sizing.inputSpacing,),
-        if (_location != null)
+        if (widget.location != null)
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: SizedBox(
@@ -193,19 +193,15 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
                   LocationInformation(
                     onLocationChanged: (loc, name) {
                       widget.onLocationChanged(loc, name);
-                      setState(() {
-                        _location = loc;
-                        _locationName = name;
-                      });
                     },
-                    location: _location,
-                    locationName: _locationName,
+                    location: widget.location,
+                    locationName: widget.locationName,
                   ),
                 ],
               ),
             )
           ),
-        if (_location == null)
+        if (widget.location == null)
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -222,8 +218,8 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
                   Navigator.of(context).pushNamed(
                     '/location-chooser',
                     arguments: LocationInputArguments(
-                      initPosition: _location,
-                      locationName: _locationName,
+                      initPosition: widget.location,
+                      locationName: widget.locationName,
                       onLocationSelected: (loc, name) {
                         widget.onLocationChanged(loc, name);
                       }

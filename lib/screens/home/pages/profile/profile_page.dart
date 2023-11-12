@@ -120,6 +120,7 @@ class ProfilePage extends StatelessWidget {
           employeeRating: auth.listings > 0 ? (auth.employerCancelled / auth.listings) * 100 : 0,
           employeeCancelRate: auth.jobsDone > 0 ? (auth.employeeCancelled / auth.jobsDone) * 100 : 0,
           isMe: true,
+          locationText: auth.locationText,
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
