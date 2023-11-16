@@ -78,6 +78,13 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    _debounce.cancel();
+    _mapController.dispose();
+    super.dispose();
+  }
+
   // Called when the map position changes
   void onPositionChanged(MapPosition position, bool hasGesture) {
     _debounce.cancel();

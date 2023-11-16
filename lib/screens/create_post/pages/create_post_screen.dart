@@ -49,6 +49,11 @@ class CreatePostScreen extends StatelessWidget {
                 const _ScreenContent(),
                 Column(
                   children: [
+                    Text(
+                      l10n.notResponsibleNote,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 6),
                     Button(
                       onPressed: () => Navigator.of(context).pushNamed('/create-post/location'),
                       child: Text(
@@ -121,7 +126,7 @@ class _ScreenContentState extends State<_ScreenContent> {
             ),
           ]
         ),
-        const SizedBox(height: Sizing.formSpacing),
+        const SizedBox(height: Sizing.inputSpacing),
         TBCheckbox(
           onChanged: (v) {
             setState(() {

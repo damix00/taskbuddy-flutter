@@ -153,5 +153,12 @@
   "itDoesntHaveALocation": "Nema lokaciju",
   "itDoesntHaveALocationDesc": "Nema određenu lokaciju i može se obaviti bilo gdje.",
   "suggestionRadius": "Udaljenost preporuke",
-  "suggestionRadiusDesc": "Koliko daleko želite tražiti potencijalne radnike?"
+  "suggestionRadiusDesc": "Koliko daleko želite tražiti potencijalne radnike?",
+  "notResponsibleNote": "Napomena: Nismo odgovorni za bilo kakvu krađu, oštećenje ili druge probleme koji se mogu pojaviti.",
+  "chooseTitleAndDesc": "Odaberi naslov i opis",
+  "chooseTitleAndDescSub": "Vaš će se naslov pojaviti u feedu, kao i prvi redak vašeg opisa.",
+  "title": "Naslov",
+  "titlePlaceholder": "npr. \"Trebam nekoga da mi očisti auto\"",
+  "description": "Opis",
+  "descriptionPlaceholder": "npr. \"Trebam nekoga da mi očisti auto. Nemam vremena to učiniti sam, a spreman sam platiti 10€ za to.\""
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -65,7 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
       return true;
     }
 
-    else if (me.data == null) {
+    if (me.data == null) {
+      log('Auth response is null');
+
       return false;
     }
 
@@ -96,23 +99,31 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (await _fetchData((await AccountCache.getToken())!)) {
+      log('Successfully fetched data, cancelling interval');
       _subscription?.cancel();
     }
     else {
       // If the auth has not been fetched, then fetch it again
+      log('Failed to fetch data, trying again in 10 seconds');
       _setInterval();
     }
   }
 
   void _setInterval() {
     // Set an interval to fetch the data every 5 seconds
-    Future.delayed(const Duration(seconds: 5), () async {
+    Future.delayed(const Duration(seconds: 10), () async {
       String token = (await AccountCache.getToken())!;
       var connectivityResult = await (Connectivity().checkConnectivity());
 
+      log('Attempting to fetch...');
+
       // if user is offline, or there is a server error, then set the interval again
-      if (connectivityResult != ConnectivityResult.none || !(await _fetchData(token))) {
+      if (!(await _fetchData(token)) || connectivityResult == ConnectivityResult.none) {
         _setInterval();
+      }
+      else {
+        log('Successfully fetched data, cancelling interval');
+        _subscription?.cancel();
       }
     });
   }
@@ -144,6 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
     updateRequiredActions(requiredActions);
 
     if (!(await _fetchData(token!))) {
+      log('Setting interval because failed to fetch data');
       _setInterval(); // Set the interval to fetch the data every 5 seconds
     }
   }

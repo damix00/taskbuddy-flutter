@@ -18,7 +18,7 @@ class CreatePostTitleDesc extends StatelessWidget {
         ),
         Text(
           desc,
-          style: Theme.of(context).textTheme.labelLarge,
+          style: Theme.of(context).textTheme.labelMedium,
         ),
       ],
     );

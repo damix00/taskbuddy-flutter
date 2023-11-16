@@ -237,5 +237,12 @@
   "itDoesntHaveALocation": "It doesn''t have a location",
   "itDoesntHaveALocationDesc": "Does not have a specific location, and can be done anywhere.",
   "suggestionRadius": "Suggestion radius",
-  "suggestionRadiusDesc": "How far do you want to search for potential workers?"
+  "suggestionRadiusDesc": "How far do you want to search for potential workers?",
+  "notResponsibleNote": "Note: We are not responsible for any theft, damage or other problems that may occur.",
+  "chooseTitleAndDesc": "Choose title & description",
+  "chooseTitleAndDescSub": "Your title will show up in the feed and the first line of your description will aswell.",
+  "title": "Title",
+  "description": "Description",
+  "titlePlaceholder": "e.g. \"Need help with cleaning my car\"",
+  "descriptionPlaceholder": "e.g. \"I need someone to clean my car. I don''t have time to do it myself, and I''m willing to pay 10€ for it.\""
 }
