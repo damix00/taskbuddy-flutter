@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:taskbuddy/screens/home/pages/profile/edit/location_display.dart';
+import 'package:taskbuddy/widgets/input/with_state/location_display.dart';
 import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
@@ -182,7 +182,9 @@ class __ProfileEditFormState extends State<ProfileEditForm> {
             ),
             const SizedBox(height: Sizing.horizontalPadding,),
             // Location
-            ProfileEditLocationDisplay(
+            LocationDisplay(
+              tooltipText: l10n.locationTooltipProfile,
+              optional: true,
               mapController: _mapController,
               location: _lat == null || _lon == null ? null : LatLng(_lat!, _lon!),
               locationName: _locationName,

@@ -146,5 +146,12 @@
   "fullTimeJob": "Posao na puno radno vrijeme",
   "fullTimeJobDesc": "Poslovi na puno radno vrijeme su pravi poslovi koji se obavljaju redovito, npr. programer, učitelj, liječnik...",
   "urgent": "Hitno?",
-  "urgentDesc": "Hitni poslovi ističu brže, ali ih algoritam više preporučuje."
+  "urgentDesc": "Hitni poslovi ističu brže, ali ih algoritam više preporučuje.",
+  "chooseLocationDesc": "Gdje se posao treba obaviti?",
+  "itHasALocation": "Ima lokaciju",
+  "itHasALocationDesc": "Odredite lokaciju posla. Prikazat ćemo samo približnu lokaciju kako bismo zaštitili vašu privatnost.",
+  "itDoesntHaveALocation": "Nema lokaciju",
+  "itDoesntHaveALocationDesc": "Nema određenu lokaciju i može se obaviti bilo gdje.",
+  "suggestionRadius": "Udaljenost preporuke",
+  "suggestionRadiusDesc": "Koliko daleko želite tražiti potencijalne radnike?"
 }

@@ -149,6 +149,9 @@ class _AppState extends State<App> {
             darkTheme: ThemeData(
               textTheme: _textTheme,
               fontFamily: GoogleFonts.montserrat().fontFamily,
+              sliderTheme: const SliderThemeData(
+                showValueIndicator: ShowValueIndicator.always
+              ),
               colorScheme: ColorScheme(
                 background: Constants.bgColor,
                 brightness: Brightness.dark,
@@ -175,14 +178,17 @@ class _AppState extends State<App> {
             ),
             theme: ThemeData(
               fontFamily: GoogleFonts.montserrat().fontFamily,
+              sliderTheme: const SliderThemeData(
+                showValueIndicator: ShowValueIndicator.always
+              ),
               colorScheme: ColorScheme(
                 background: Colors.white,
                 brightness: Brightness.dark,
                 primary: Constants.primaryColorLight,
                 inversePrimary: Colors.blue, // This is the link color
                 secondary: Constants.secondaryColor,
-                surface: Color.fromARGB(255, 228, 228, 228),
-                surfaceVariant: const Color(0xFFC7C7C7).withOpacity(0.9),
+                surface: Color.fromARGB(255, 236, 236, 236),
+                surfaceVariant: Color.fromARGB(255, 224, 224, 224).withOpacity(0.6),
                 onSurfaceVariant: Colors.grey[600],
                 error: Colors.red,
                 onPrimary: Colors.white,
@@ -190,7 +196,7 @@ class _AppState extends State<App> {
                 onSurface: Colors.black,
                 onBackground: Colors.black,
                 onError: Colors.white, // Color that is used for error messages (text)
-                outline: const Color(0xFFC2BBD3),
+                outline: Color.fromARGB(255, 156, 144, 184),
                 shadow: Colors.black.withOpacity(0.5),
               ),
               textTheme: _textTheme.copyWith(

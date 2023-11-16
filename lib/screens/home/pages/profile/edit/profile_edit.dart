@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/edit_form.dart';
-import 'package:taskbuddy/screens/home/pages/profile/edit/location_display.dart';
+import 'package:taskbuddy/widgets/input/with_state/location_display.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

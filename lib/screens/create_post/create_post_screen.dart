@@ -135,6 +135,7 @@ class _ScreenContentState extends State<_ScreenContent> {
             desc: l10n.urgentDesc,
           )
         ),
+        const SizedBox(height: Sizing.formSpacing),
       ]
     );
   }

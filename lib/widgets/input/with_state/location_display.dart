@@ -124,25 +124,29 @@ class LocationInformation extends StatelessWidget {
   }
 }
 
-class ProfileEditLocationDisplay extends StatefulWidget {
+class LocationDisplay extends StatefulWidget {
   final LatLng? location;
   final String? locationName;
   final Function(LatLng?, String? name) onLocationChanged;
   final MapController? mapController;
+  final bool optional;
+  final String tooltipText;
 
-  const ProfileEditLocationDisplay({
+  const LocationDisplay({
     required this.onLocationChanged,
     this.location,
     this.mapController,
     this.locationName,
+    this.optional = true,
+    this.tooltipText = '',
     Key? key
   }) : super(key: key);
 
   @override
-  State<ProfileEditLocationDisplay> createState() => _ProfileEditLocationDisplayState();
+  State<LocationDisplay> createState() => _LocationDisplayState();
 }
 
-class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay> {
+class _LocationDisplayState extends State<LocationDisplay> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
@@ -150,7 +154,11 @@ class _ProfileEditLocationDisplayState extends State<ProfileEditLocationDisplay>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InputTitle(title: l10n.location, optional: true, tooltipText: l10n.locationTooltipProfile),
+        InputTitle(
+          title: l10n.location,
+          optional: widget.optional,
+          tooltipText: widget.tooltipText.isEmpty ? null : widget.tooltipText,
+        ),
         if (widget.location != null)
           const SizedBox(height: 8,),
         if (widget.location != null) 

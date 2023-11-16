@@ -20,11 +20,11 @@ class CreatePostState {
   static String description = '';
   static LatLng? location;
   static String? locationName;
-  static bool isRemote = false;
+  static bool isRemote = true;
   static bool isUrgent = false;
   static double price = 0;
   static String currency = 'EUR';
-  static double suggestionRadius = 0;
+  static double suggestionRadius = 10;
   static List<XFile> media = [];
   static DateTime? startDate;
   static DateTime? endDate;

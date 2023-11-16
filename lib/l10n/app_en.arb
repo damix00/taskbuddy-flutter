@@ -12,7 +12,7 @@
     "description": "This is the description for the first slide of the welcome screen."
   },
   "welcome__s2_title": "Post a job.",
-  "welcome__s2_desc": "Our powerful algorithm and magical search will find the perfect TaskBuddy for your job. Post a job and witness a wonder of the world!",
+  "welcome__s2_desc": "Our powerful algorithm and magical search will find the perfect worker for your job. Post a job and witness a wonder of the world!",
   "welcome__s3_title": "Discover jobs.",
   "welcome__s3_desc": "1. Scroll through an endless number of jobs.\n2. Do amazing jobs and earn money.\n3. ???\n4. PROFIT!",
   "loginTitle": "Back in black!",
@@ -230,5 +230,12 @@
   "fullTimeJob": "Full-time job",
   "fullTimeJobDesc": "Full-time jobs are real jobs that are done on a regular basis, e.g. developer, teacher, doctor...",
   "urgent": "Urgent?",
-  "urgentDesc": "Urgent jobs expire sooner, but are pushed more by the algorithm."
+  "urgentDesc": "Urgent jobs expire sooner, but are pushed more by the algorithm.",
+  "chooseLocationDesc": "Where is the job located?",
+  "itHasALocation": "It has a location",
+  "itHasALocationDesc": "Specify the location of the job. We will only show an approximate location to protect your privacy.",
+  "itDoesntHaveALocation": "It doesn''t have a location",
+  "itDoesntHaveALocationDesc": "Does not have a specific location, and can be done anywhere.",
+  "suggestionRadius": "Suggestion radius",
+  "suggestionRadiusDesc": "How far do you want to search for potential workers?"
 }
