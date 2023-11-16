@@ -45,9 +45,9 @@ class TBCheckbox extends StatelessWidget {
                 : null,
           ),
           const SizedBox(
-            width: 8,
+            width: 16,
           ),
-          child,
+          Expanded(child: child),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:taskbuddy/widgets/input/input_title.dart';
+import 'package:taskbuddy/widgets/input/with_state/input_title.dart';
 
 class TextInput extends StatelessWidget {
   final String label;

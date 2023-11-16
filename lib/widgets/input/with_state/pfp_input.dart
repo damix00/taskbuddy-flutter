@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:taskbuddy/widgets/input/input_title.dart';
+import 'package:taskbuddy/widgets/input/with_state/input_title.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';

@@ -8,6 +8,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/create_post_screen.dart';
+import 'package:taskbuddy/screens/create_post/pages/location.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/profile_edit.dart';
 import 'package:taskbuddy/screens/settings/account/account_settings.dart';
@@ -95,6 +96,10 @@ class _AppState extends State<App> {
     ),
     labelMedium: TextStyle(
       fontSize: 14,
+      color: Colors.grey[500],
+    ),
+    labelLarge: TextStyle(
+      fontSize: 16,
       color: Colors.grey[500],
     ),
   );
@@ -213,6 +218,9 @@ class _AppState extends State<App> {
                 labelMedium: _textTheme.labelMedium!.copyWith(
                   color: Colors.grey[600],
                 ),
+                labelLarge: _textTheme.labelLarge!.copyWith(
+                  color: Colors.grey[600],
+                ),
               ),
               pageTransitionsTheme: PageTransitionsTheme(builders: {
                 TargetPlatform.android: SlideTransitionBuilder(),
@@ -234,6 +242,7 @@ class _AppState extends State<App> {
               '/settings/appearance': (context) => const AppearanceSettings(),
               '/settings/appearance/theme': (context) => const AppearanceThemeSetting(),
               '/create-post': (context) => const CreatePostScreen(),
+              '/create-post/location': (context) => const CreatePostLocation(),
               '/home': (context) => const HomeScreen(),
               '/profile/edit': (context) => const ProfileEditScreen(),
               '/location-chooser': (context) => const LocationInputScreen(),

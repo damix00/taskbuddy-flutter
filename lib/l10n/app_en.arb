@@ -220,5 +220,15 @@
   "noResults": "No results",
   "successfullyChanged": "Successfully changed!",
   "locationOff": "Your location is off or unavailable.",
-  "newPost": "New post"
+  "newPost": "New post",
+  "chooseTypeOfJob": "Choose type of job",
+  "chooseTypeOfJobDesc": "Which type of services do you require?",
+  "oneTimeJob": "One-time job",
+  "oneTimeJobDesc": "One-time jobs are jobs that are done only once, e.g. cleaning your car, washing the dishes...",
+  "partTimeJob": "Part-time job",
+  "partTimeJobDesc": "Part-time jobs are real jobs that are done part-time, e.g. cashier, waiter, babysitter..",
+  "fullTimeJob": "Full-time job",
+  "fullTimeJobDesc": "Full-time jobs are real jobs that are done on a regular basis, e.g. developer, teacher, doctor...",
+  "urgent": "Urgent?",
+  "urgentDesc": "Urgent jobs expire sooner, but are pushed more by the algorithm."
 }

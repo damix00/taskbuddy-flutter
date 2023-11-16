@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:taskbuddy/widgets/input/input_title.dart';
+import 'package:taskbuddy/widgets/input/with_state/input_title.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
 import 'package:taskbuddy/widgets/screens/location_input/location_input.dart';

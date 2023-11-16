@@ -136,5 +136,15 @@
   "noResults": "Nema rezultata",
   "successfullyChanged": "Uspješno promijenjeno!",
   "locationOff": "Vaša lokacija je isključena ili nedostupna.",
-  "newPost": "Nova objava"
+  "newPost": "Nova objava",
+  "chooseTypeOfJob": "Odaberi vrstu posla",
+  "chooseTypeOfJobDesc": "Koju vrstu usluge trebate?",
+  "oneTimeJob": "Jednokratni posao",
+  "oneTimeJobDesc": "Jednokratni poslovi su poslovi koji se obavljaju samo jednom, npr. čišćenje automobila, pranje posuđa...",
+  "partTimeJob": "Posao na pola radnog vremena",
+  "partTimeJobDesc": "Poslovi na pola radnog vremena su pravi poslovi koji se obavljaju na pola radnog vremena, npr. blagajnik, konobar, dadilja...",
+  "fullTimeJob": "Posao na puno radno vrijeme",
+  "fullTimeJobDesc": "Poslovi na puno radno vrijeme su pravi poslovi koji se obavljaju redovito, npr. programer, učitelj, liječnik...",
+  "urgent": "Hitno?",
+  "urgentDesc": "Hitni poslovi ističu brže, ali ih algoritam više preporučuje."
 }

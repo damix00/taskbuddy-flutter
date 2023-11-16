@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
+import 'package:taskbuddy/widgets/ui/conditional_wrapper.dart';
 
 class RadioItem {
   final String title;
@@ -11,12 +12,12 @@ class RadioItem {
   });
 }
 
-class SettingsRadioContainer extends StatelessWidget {
+class RadioButtons extends StatelessWidget {
   final Function onChanged;
   final int selected;
   final List<RadioItem> items;
 
-  const SettingsRadioContainer({
+  const RadioButtons({
     required this.onChanged,
     required this.selected,
     required this.items,
@@ -33,6 +34,9 @@ class SettingsRadioContainer extends StatelessWidget {
             child: Container(
               width: double.infinity,
               color: Theme.of(context).colorScheme.background,
+              padding: EdgeInsets.symmetric(
+                vertical: e.subtitle != null ? 4 : 0
+              ),
               child: Row(
                 children: [
                   Radio(
@@ -46,10 +50,7 @@ class SettingsRadioContainer extends StatelessWidget {
                       children: [
                         Text(
                           e.title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         if (e.subtitle != null)
                           Text(

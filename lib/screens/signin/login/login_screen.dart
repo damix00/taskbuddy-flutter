@@ -8,7 +8,7 @@ import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
-import 'package:taskbuddy/widgets/input/text_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taskbuddy/screens/settings/items/radio.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
+import 'package:taskbuddy/widgets/input/touchable/radio.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -42,7 +42,7 @@ class _AppearanceThemeSettingState extends State<AppearanceThemeSetting> {
                     ? 1
                     : 2;
 
-            return SettingsRadioContainer(
+            return RadioButtons(
               onChanged: (v) {
                 switch (v) {
                   case 0:

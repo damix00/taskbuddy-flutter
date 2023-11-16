@@ -4,8 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/location_display.dart';
 import 'package:taskbuddy/utils/validators.dart';
-import 'package:taskbuddy/widgets/input/pfp_input.dart';
-import 'package:taskbuddy/widgets/input/text_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

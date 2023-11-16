@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
-import 'package:taskbuddy/widgets/input/pfp_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
