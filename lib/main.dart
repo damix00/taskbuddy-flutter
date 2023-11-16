@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/pages/create_post_screen.dart';
 import 'package:taskbuddy/screens/create_post/pages/location_page.dart';
+import 'package:taskbuddy/screens/create_post/pages/media_page.dart';
 import 'package:taskbuddy/screens/create_post/pages/title_page.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/profile_edit.dart';
@@ -251,6 +252,7 @@ class _AppState extends State<App> {
               '/create-post': (context) => const CreatePostScreen(),
               '/create-post/location': (context) => const CreatePostLocation(),
               '/create-post/title': (context) => const CreatePostTitle(),
+              '/create-post/media': (context) => const CreatePostMedia(),
               '/home': (context) => const HomeScreen(),
               '/profile/edit': (context) => const ProfileEditScreen(),
               '/location-chooser': (context) => const LocationInputScreen(),

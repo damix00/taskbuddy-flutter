@@ -27,21 +27,18 @@ class CreatePostPageLayout extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: true,
       body: ScrollbarSingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                page,
-                bottom
-              ],
-            ),
-          )
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              page,
+              bottom
+            ],
+          ),
         ),
       ),
     );
@@ -58,14 +55,17 @@ class CreatePostContentLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: MediaQuery.of(context).padding.top + Sizing.horizontalPadding,),
-        ...children,
-        const SizedBox(height: Sizing.formSpacing,),
-      ]
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: MediaQuery.of(context).padding.top + Sizing.horizontalPadding,),
+          ...children,
+          const SizedBox(height: Sizing.formSpacing,),
+        ]
+      ),
     );
   }
 }
@@ -80,11 +80,14 @@ class CreatePostBottomLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...children,
-        SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
+      child: Column(
+        children: [
+          ...children,
+          SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding),
+        ],
+      ),
     );
   }
 }

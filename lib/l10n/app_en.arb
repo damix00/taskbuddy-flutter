@@ -244,5 +244,11 @@
   "title": "Title",
   "description": "Description",
   "titlePlaceholder": "e.g. \"Need help with cleaning my car\"",
-  "descriptionPlaceholder": "e.g. \"I need someone to clean my car. I don''t have time to do it myself, and I''m willing to pay 10€ for it.\""
+  "descriptionPlaceholder": "e.g. \"I need someone to clean my car. I don''t have time to do it myself, and I''m willing to pay 10€ for it.\"",
+  "addMedia": "Add media",
+  "addMediaDesc": "Add some images or videos which describe your job.",
+  "tapToAddImage": "Tap to take or choose an image or a video.",
+  "edit": "Edit",
+  "addMore": "Add more",
+  "editMedia": "Edit media"
 }

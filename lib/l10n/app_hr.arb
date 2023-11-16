@@ -160,5 +160,11 @@
   "title": "Naslov",
   "titlePlaceholder": "npr. \"Trebam nekoga da mi očisti auto\"",
   "description": "Opis",
-  "descriptionPlaceholder": "npr. \"Trebam nekoga da mi očisti auto. Nemam vremena to učiniti sam, a spreman sam platiti 10€ za to.\""
+  "descriptionPlaceholder": "npr. \"Trebam nekoga da mi očisti auto. Nemam vremena to učiniti sam, a spreman sam platiti 10€ za to.\"",
+  "addMedia": "Dodaj medije",
+  "addMediaDesc": "Dodajte neke slike ili videozapise koji opisuju vaš posao.",
+  "tapToAddImage": "Dodirnite za odabir slike ili videa",
+  "edit": "Uredi",
+  "addMore": "Dodaj još",
+  "editMedia": "Uredi medije"
 }

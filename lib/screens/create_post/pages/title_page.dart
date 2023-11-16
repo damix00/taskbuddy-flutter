@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:taskbuddy/screens/create_post/page_layout.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
+import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
@@ -43,7 +43,7 @@ class _CreatePostTitleState extends State<CreatePostTitle> {
             ),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                toast('gex');
+                Navigator.of(context).pushNamed('/create-post/media');
               }
             }
           )
@@ -75,10 +75,14 @@ class _ScreenContent extends StatelessWidget {
           ),
           const SizedBox(height: Sizing.inputSpacing,),
           TextInput(
+            initialValue: CreatePostState.title,
             label: l10n.title,
             hint: l10n.titlePlaceholder,
             maxLength: 100,
             textInputAction: TextInputAction.next,
+            onChanged: (v) {
+              CreatePostState.title = v.trim();
+            },
             validator: (value) {
               if (value == null || value.isEmpty || value.trim().isEmpty) {
                 return l10n.emptyField(l10n.title);
@@ -88,12 +92,16 @@ class _ScreenContent extends StatelessWidget {
           ),
           const SizedBox(height: Sizing.inputSpacing,),
           TextInput(
+            initialValue: CreatePostState.description,
             label: l10n.description,
             hint: l10n.descriptionPlaceholder,
             minLines: 3,
             maxLines: null,
             textInputAction: TextInputAction.done,
             maxLength: 512,
+            onChanged: (v) {
+              CreatePostState.description = v.trim();
+            },
             validator: (value) {
               if (value == null || value.isEmpty || value.trim().isEmpty) {
                 return l10n.emptyField(l10n.description);
