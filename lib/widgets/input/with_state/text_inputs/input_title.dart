@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
 class InputTitle extends StatelessWidget {
   final String title;

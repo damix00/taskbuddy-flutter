@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

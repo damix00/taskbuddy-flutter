@@ -5,7 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/widgets/input/with_state/location_display.dart';
 import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
-import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/text_input.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

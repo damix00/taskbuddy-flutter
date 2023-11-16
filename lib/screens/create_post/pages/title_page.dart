@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
-import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/text_input.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class CreatePostTitle extends StatefulWidget {
@@ -97,7 +97,8 @@ class _ScreenContent extends StatelessWidget {
             hint: l10n.descriptionPlaceholder,
             minLines: 3,
             maxLines: null,
-            textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.newline,
             maxLength: 512,
             onChanged: (v) {
               CreatePostState.description = v.trim();

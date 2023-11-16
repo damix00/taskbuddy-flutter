@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
 enum ButtonType { primary, outlined }
 
@@ -60,6 +60,20 @@ class Button extends StatelessWidget {
               : child,
         ),
       ),
+    );
+  }
+}
+
+class ButtonText extends StatelessWidget {
+  final String text;
+
+  const ButtonText(this.text, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
     );
   }
 }

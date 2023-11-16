@@ -12,8 +12,15 @@ import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/screens/create_post/media_pageview.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
-class CreatePostMedia extends StatelessWidget {
-  const CreatePostMedia({Key? key}) : super(key: key);
+class CreatePostMedia extends StatefulWidget {
+  const CreatePostMedia({ Key? key }) : super(key: key);
+
+  @override
+  State<CreatePostMedia> createState() => _CreatePostMediaState();
+}
+
+class _CreatePostMediaState extends State<CreatePostMedia> {
+  int _itemCount = CreatePostState.media.length;
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +28,35 @@ class CreatePostMedia extends StatelessWidget {
 
     return CreatePostPageLayout(
       title: l10n.newPost,
-      page: const _ScreenContent(),
-      bottom: Container(),
+      page: _ScreenContent(
+        onItemCountChanged: (v) {
+          setState(() {
+            _itemCount = v;
+          });
+        },
+      ),
+      bottom: CreatePostBottomLayout(
+        children: [
+          Button(
+            disabled: _itemCount < 3,
+            child: ButtonText(l10n.continueText),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/create-post/date-price');
+            },
+          ),
+        ]
+      ),
     );
   }
 }
 
 class _ScreenContent extends StatefulWidget {
-  const _ScreenContent({Key? key}) : super(key: key);
+  final Function(int) onItemCountChanged;
+
+  const _ScreenContent({
+    required this.onItemCountChanged,
+    Key? key
+  }) : super(key: key);
 
   @override
   State<_ScreenContent> createState() => _ScreenContentState();
@@ -57,15 +85,17 @@ class _ScreenContentState extends State<_ScreenContent> {
           items: items,
           size: size,
           onItemsChanged: (v, reset) {
-            setState(() {
-              if (reset) {
-                items = v;
-              } else {
-                items.addAll(v);
-              }
+            if (reset) {
+              items = v;
+            } else {
+              items.addAll(v);
+            }
 
-              CreatePostState.media = items;
-            });
+            widget.onItemCountChanged(items.length);
+
+            CreatePostState.media = items;
+
+            setState(() {}); // Update the UI
           }
         ),
         const SizedBox(height: Sizing.inputSpacing),
@@ -82,7 +112,11 @@ class _ScreenContentState extends State<_ScreenContent> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const SizedBox(width: 12),
-                  const Icon(Icons.edit, size: 20,),
+                  Icon(
+                    Icons.edit,
+                    size: 20,
+                    color: Theme.of(context).colorScheme.onBackground
+                  ),
                   const SizedBox(width: 8),
                   Text(l10n.edit),
                   const SizedBox(width: 12),
@@ -96,6 +130,7 @@ class _ScreenContentState extends State<_ScreenContent> {
                       onItemsChanged: (v) {
                         setState(() {
                           items = v;
+                          widget.onItemCountChanged(items.length);
                         });
 
                         CreatePostState.media = v;
@@ -105,7 +140,7 @@ class _ScreenContentState extends State<_ScreenContent> {
                 );
               },
             ),
-            SizedBox(width: Sizing.horizontalPadding),
+            const SizedBox(width: Sizing.horizontalPadding),
           ],
         ),
       ],

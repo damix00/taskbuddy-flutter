@@ -1,7 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taskbuddy/widgets/input/touchable/touchable.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
 class AddMediaButton extends StatelessWidget {
   final double width, height;

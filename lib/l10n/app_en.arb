@@ -246,9 +246,13 @@
   "titlePlaceholder": "e.g. \"Need help with cleaning my car\"",
   "descriptionPlaceholder": "e.g. \"I need someone to clean my car. I don''t have time to do it myself, and I''m willing to pay 10€ for it.\"",
   "addMedia": "Add media",
-  "addMediaDesc": "Add some images or videos which describe your job.",
+  "addMediaDesc": "Add some images or videos which describe your job. The first item will be used as the cover.",
   "tapToAddImage": "Tap to take or choose an image or a video.",
   "edit": "Edit",
   "addMore": "Add more",
-  "editMedia": "Edit media"
+  "editMedia": "Edit media",
+  "selectStartEnd": "Select start and end date",
+  "selectStartEndDesc": "Choose when the job is going to be available and when it expires. If it''s urgent, you have a maximum of 7 days.",
+  "choosePrice": "Choose price",
+  "choosePriceDesc": "How much are you willing to pay for this job?"
 }

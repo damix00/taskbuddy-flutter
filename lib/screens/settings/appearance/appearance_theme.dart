@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
-import 'package:taskbuddy/widgets/input/touchable/radio.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/radio.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

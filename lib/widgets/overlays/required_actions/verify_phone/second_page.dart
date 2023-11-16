@@ -6,9 +6,9 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/widgets/input/with_state/otp_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/otp_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
-import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/link_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 

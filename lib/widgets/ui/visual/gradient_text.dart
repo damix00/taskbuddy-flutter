@@ -12,9 +12,9 @@ class GradientText extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShaderMask(
       // Use Text as a mask to show the gradient
-      shaderCallback: (bounds) => gradient.createShader(
-        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-      ),
+      shaderCallback: (bounds) {
+        return gradient.createShader(bounds);
+      },
       blendMode: BlendMode.srcIn,
       child: Text(
         text,

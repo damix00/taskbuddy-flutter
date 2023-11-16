@@ -85,7 +85,7 @@ class CreatePostBottomLayout extends StatelessWidget {
       child: Column(
         children: [
           ...children,
-          SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding / 2),
         ],
       ),
     );

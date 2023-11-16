@@ -12,7 +12,7 @@ import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
-import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
@@ -129,7 +129,7 @@ class __OptionalFormState extends State<_OptionalForm> {
                   firstName: RegisterState.firstName,
                   lastName: RegisterState.lastName,
                   password: RegisterState.password,
-                  bio: RegisterState.bio,
+                  bio: RegisterState.bio.trim(), // remove trailing spaces
                   profilePicture: _image != null ? File(_image!.path) : null,
                 );
 

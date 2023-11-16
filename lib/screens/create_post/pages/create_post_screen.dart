@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
-import 'package:taskbuddy/widgets/input/touchable/checkbox.dart';
-import 'package:taskbuddy/widgets/input/touchable/radio.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/checkbox.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/radio.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
@@ -63,7 +63,7 @@ class CreatePostScreen extends StatelessWidget {
                         )
                       ),
                     ),
-                    SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding),
+                    SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding / 2),
                   ],
                 ),
               ],

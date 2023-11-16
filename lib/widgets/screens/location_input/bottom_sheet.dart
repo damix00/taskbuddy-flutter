@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:taskbuddy/widgets/input/with_state/search_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/search_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/screens/location_input/search.dart';
 

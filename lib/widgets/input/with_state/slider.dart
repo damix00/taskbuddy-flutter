@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/widgets/input/with_state/input_title.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/input_title.dart';
 
 class TBSlider extends StatelessWidget {
   final String title;

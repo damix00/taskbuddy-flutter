@@ -8,6 +8,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/pages/create_post_screen.dart';
+import 'package:taskbuddy/screens/create_post/pages/date_and_price.dart';
 import 'package:taskbuddy/screens/create_post/pages/location_page.dart';
 import 'package:taskbuddy/screens/create_post/pages/media_page.dart';
 import 'package:taskbuddy/screens/create_post/pages/title_page.dart';
@@ -36,6 +37,8 @@ void main() {
   // Add a custom splash screen so we can manually remove it
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
     MultiProvider(
@@ -253,6 +256,7 @@ class _AppState extends State<App> {
               '/create-post/location': (context) => const CreatePostLocation(),
               '/create-post/title': (context) => const CreatePostTitle(),
               '/create-post/media': (context) => const CreatePostMedia(),
+              '/create-post/date-price': (context) => const CreatePostDatePrice(),
               '/home': (context) => const HomeScreen(),
               '/profile/edit': (context) => const ProfileEditScreen(),
               '/location-chooser': (context) => const LocationInputScreen(),

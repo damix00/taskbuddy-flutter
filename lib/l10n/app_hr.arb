@@ -162,9 +162,13 @@
   "description": "Opis",
   "descriptionPlaceholder": "npr. \"Trebam nekoga da mi očisti auto. Nemam vremena to učiniti sam, a spreman sam platiti 10€ za to.\"",
   "addMedia": "Dodaj medije",
-  "addMediaDesc": "Dodajte neke slike ili videozapise koji opisuju vaš posao.",
+  "addMediaDesc": "Dodajte neke slike ili videozapise koji opisuju vaš posao. Prvi će se element prikazati u feedu.",
   "tapToAddImage": "Dodirnite za odabir slike ili videa",
   "edit": "Uredi",
   "addMore": "Dodaj još",
-  "editMedia": "Uredi medije"
+  "editMedia": "Uredi medije",
+  "selectStartEnd": "Odaberi početni i završni datum",
+  "selectStartEndDesc": "Odaberite kada će posao biti dostupan i kada ističe. Ako je hitno, imate maksimalno 7 dana.",
+  "choosePrice": "Odaberi cijenu",
+  "choosePriceDesc": "Koliko ste spremni platiti za ovaj posao?"
 }

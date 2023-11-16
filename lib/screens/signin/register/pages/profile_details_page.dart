@@ -7,7 +7,7 @@ import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
-import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
@@ -90,7 +90,7 @@ class __DetailsFormState extends State<_DetailsForm> {
                   keyboardType: TextInputType.name,
                   textInputAction: TextInputAction.next,
                   validator: (v) {
-                    if (v == null || v.isEmpty) {
+                    if (v == null || v.isEmpty || v.trim().isEmpty) {
                       return l10n.emptyField(l10n.firstName);
                     }
                     return null;
@@ -125,7 +125,7 @@ class __DetailsFormState extends State<_DetailsForm> {
             hint: 'its.mr_p123',
             keyboardType: TextInputType.text,
             validator: (v) {
-              if (v == null || v.isEmpty) {
+              if (v == null || v.isEmpty || v.trim().isEmpty) {
                 return l10n.emptyField(l10n.username);
               }
 
@@ -162,8 +162,8 @@ class __DetailsFormState extends State<_DetailsForm> {
 
                   if (!exists.username!) {
                     // Save the data to the register state
-                    RegisterState.firstName = _firstNameController.text;
-                    RegisterState.lastName = _lastNameController.text;
+                    RegisterState.firstName = _firstNameController.text.trim();
+                    RegisterState.lastName = _lastNameController.text.trim();
                     RegisterState.username = _usernameController.text;
 
                     // Navigate to the final registration step

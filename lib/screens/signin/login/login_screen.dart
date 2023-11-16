@@ -8,9 +8,9 @@ import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
-import 'package:taskbuddy/widgets/input/with_state/text_input.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/text_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
-import 'package:taskbuddy/widgets/input/touchable/link_text.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/link_text.dart';
 import 'package:taskbuddy/widgets/screens/register/screen_title.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
@@ -114,6 +114,10 @@ class _LoginFormState extends State<_LoginForm> {
                 ),
               ),
               onPressed: () async {
+                // Hide the keyboard
+                FocusScope.of(context).unfocus();
+
+                // Validate the form
                 if (_formKey.currentState!.validate()) {
                   setState(() {
                     loading = true;
