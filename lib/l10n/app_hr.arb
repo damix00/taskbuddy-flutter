@@ -168,10 +168,15 @@
   "addMore": "Dodaj još",
   "editMedia": "Uredi medije",
   "selectStartEnd": "Odaberi početni i završni datum",
-  "selectStartEndDesc": "Odaberite kada će posao biti dostupan i kada ističe. Ako je hitno, imate maksimalno 7 dana.",
+  "selectStartEndDesc": "Odaberite kada će posao biti dostupan i kada ističe. Ako je objava označena kao hitna, ističe 7 dana nakon objave.",
   "choosePrice": "Odaberi cijenu",
   "choosePriceDesc": "Koliko ste spremni platiti za ovaj posao?",
   "hapticFeedback": "Taktilna povratna informacija",
   "startDate": "Početni datum",
-  "endDate": "Završni datum"
+  "endDate": "Završni datum",
+  "price": "Cijena",
+  "pricePlaceholder": "npr. \"10€\"",
+  "invalidNumber": "Neispravan broj",
+  "numRange": "Broj mora biti između {min} i {max}.",
+  "mustChooseLocation": "Morate odabrati lokaciju."
 }

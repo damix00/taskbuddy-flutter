@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -8,11 +9,13 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/firebase_options.dart';
 import 'package:taskbuddy/screens/home/pages/home_page.dart';
 import 'package:taskbuddy/screens/home/pages/messages_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
+import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
 import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
@@ -34,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _setActions = false;
   bool _authFetched = false;
   StreamSubscription<ConnectivityResult>? _subscription;
+  bool _called = false;
 
   void updateRequiredActions(AccountResponseRequiredActions? requiredActions) {
     if (_setActions) {
@@ -53,6 +57,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<bool> _fetchData(String token) async {
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform
+      ); // Initialize firebase
+      await RemoteConfigData.init(); // Initialize the remote config data
+    }
+
+    catch (e) {
+      log('Failed to fetch remote config data');
+      log(e.toString());
+    }
+
     ApiResponse<AccountResponse?> me = await Api.v1.accounts.me(token);
 
     if (me.status == 401) {
@@ -134,6 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
     var connectivityResult = await (Connectivity().checkConnectivity());
 
     _subscription = Connectivity().onConnectivityChanged.listen((event) {
+      if (!_called) return; // Don't handle the first event
+      _called = true;
       if (event == ConnectivityResult.mobile || event == ConnectivityResult.wifi) {
         _handleConnected();
       }

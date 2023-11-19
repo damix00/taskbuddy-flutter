@@ -4,12 +4,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/screens/create_post/page_layout.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
+import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/radio.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/unclickable.dart';
 import 'package:taskbuddy/widgets/input/with_state/location_display.dart';
 import 'package:taskbuddy/widgets/input/with_state/slider.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class CreatePostLocation extends StatelessWidget {
@@ -24,7 +26,13 @@ class CreatePostLocation extends StatelessWidget {
       bottom: CreatePostBottomLayout(
         children: [
           Button(
-            onPressed: () => Navigator.of(context).pushNamed('/create-post/title'),
+            onPressed: () {
+              if (!CreatePostState.isRemote && CreatePostState.location == null) {
+                SnackbarPresets.error(context, l10n.mustChooseLocation);
+                return;
+              }
+              Navigator.of(context).pushNamed('/create-post/title');
+            },
             child: Text(
               l10n.continueText,
               style: TextStyle(
@@ -51,7 +59,7 @@ class _ScreenContentState extends State<_ScreenContent> {
   LatLng? _location = CreatePostState.location;
   String? _locationName = CreatePostState.locationName;
   int _selected = CreatePostState.isRemote ? 1 : 0;
-  double _radius = CreatePostState.suggestionRadius;
+  double _radius = CreatePostState.suggestionRadius.clamp(RemoteConfigData.minRadius, RemoteConfigData.maxRadius);
 
   @override
   Widget build(BuildContext context) {
@@ -122,8 +130,8 @@ class _ScreenContentState extends State<_ScreenContent> {
               subtitle: l10n.suggestionRadiusDesc,
               unit: 'km',
               value: _radius,
-              min: 10,
-              max: 100,
+              min: RemoteConfigData.minRadius,
+              max: RemoteConfigData.maxRadius,
               onChanged: (v) {
                 setState(() {
                   _radius = v;

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_inputs/input_title.dart';
 
 class TextInput extends StatelessWidget {
-  final String label;
+  final String? label;
   final String hint;
   final bool obscureText;
   final TextEditingController? controller;
@@ -19,26 +19,30 @@ class TextInput extends StatelessWidget {
   final int? maxLines;
   final int? maxLength;
   final String? initialValue;
+  final Widget? prefix;
+  final String? prefixText;
 
-  const TextInput(
-      {Key? key,
-      required this.label,
-      required this.hint,
-      this.obscureText = false,
-      this.borderRadius = 4,
-      this.controller,
-      this.textInputAction = TextInputAction.done,
-      this.keyboardType = TextInputType.text,
-      this.errorText,
-      this.optional = false,
-      this.onChanged,
-      this.tooltipText,
-      this.minLines,
-      this.maxLines = 1,
-      this.maxLength,
-      this.initialValue,
-      this.validator})
-      : super(key: key);
+  const TextInput({
+    Key? key,
+    this.label,
+    required this.hint,
+    this.obscureText = false,
+    this.borderRadius = 4,
+    this.controller,
+    this.textInputAction = TextInputAction.done,
+    this.keyboardType = TextInputType.text,
+    this.errorText,
+    this.optional = false,
+    this.onChanged,
+    this.tooltipText,
+    this.minLines,
+    this.maxLines = 1,
+    this.maxLength,
+    this.initialValue,
+    this.validator,
+    this.prefix,
+    this.prefixText,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +51,10 @@ class TextInput extends StatelessWidget {
       children: [
         // Add a row with the label and the optional text
         // If the tooltip text is specified, add a tooltip icon
-        InputTitle(title: label, optional: optional, tooltipText: tooltipText),
-        const SizedBox(height: 8),
+        if (label != null) 
+          InputTitle(title: label!, optional: optional, tooltipText: tooltipText),
+        if (label != null) 
+          const SizedBox(height: 8),
         TextFormField(
           initialValue: initialValue,
           onChanged: onChanged,
@@ -90,6 +96,16 @@ class TextInput extends StatelessWidget {
               borderSide:
                   BorderSide(color: Theme.of(context).colorScheme.primary),
             ),
+            prefix: prefix
+              ?? (prefixText != null
+                ? Text(
+                  prefixText!,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                )
+                : null
+              ),
           ),
         ),
       ],

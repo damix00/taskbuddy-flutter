@@ -67,4 +67,8 @@ class Validators {
   static bool isUsernameValid(String username) {
     return _usernameRegex.hasMatch(username);
   }
+
+  static bool isNumber(String value) {
+    return double.tryParse(value) != null;
+  }
 }

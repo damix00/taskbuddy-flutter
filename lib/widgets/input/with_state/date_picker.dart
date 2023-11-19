@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
 class DatePicker extends StatelessWidget {
@@ -117,12 +118,13 @@ class DatePicker extends StatelessWidget {
               borderRadius: BorderRadius.circular(4)
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(Icons.calendar_today_outlined),
                 const SizedBox(width: 8,),
                 Text(
                   // Date, Month, Year, HH:MM
-                  '${value.day}/${value.month}/${value.year} ${value.hour}:${value.minute}',
+                  '${DateFormat.yMMMd().format(value)} ${DateFormat.Hm().format(value)}',
                   style: Theme.of(context).textTheme.bodyMedium
                 ),
               ],

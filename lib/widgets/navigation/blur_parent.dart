@@ -48,7 +48,7 @@ class _BlurParentState extends State<BlurParent> {
         // The child is with blur
         child: ClipRRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceVariant,

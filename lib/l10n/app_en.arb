@@ -252,10 +252,28 @@
   "addMore": "Add more",
   "editMedia": "Edit media",
   "selectStartEnd": "Select start and end date",
-  "selectStartEndDesc": "Choose when the job is going to be available and when it expires. If it''s urgent, you have a maximum of 7 days.",
+  "selectStartEndDesc": "Choose when the job is going to be available and when it expires. If the post is marked as urgent, you have a maximum of 7 days.",
   "choosePrice": "Choose price",
   "choosePriceDesc": "How much are you willing to pay for this job?",
   "hapticFeedback": "Haptic feedback",
   "startDate": "Start date",
-  "endDate": "End date"
+  "endDate": "End date",
+  "price": "Price",
+  "pricePlaceholder": "e.g. \"10€\"",
+  "invalidNumber": "Invalid number",
+  "numRange": "Number must be between {min} and {max}.",
+  "@numRange": {
+    "description": "This is the error message when a number is out of range.",
+    "placeholders": {
+      "min": {
+        "type": "num",
+        "example": "0"
+      },
+      "max": {
+        "type": "num",
+        "example": "100"
+      }
+    }
+  },
+  "mustChooseLocation": "You must choose a location."
 }
