@@ -97,6 +97,7 @@ class _ScreenContentState extends State<_ScreenContent> {
               mapController: _mapController,
               location: _location,
               locationName: _locationName,
+              radius: _radius,
               onLocationChanged: (pos, name) {
                 setState(() {
                   _location = pos;

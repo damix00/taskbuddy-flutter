@@ -50,6 +50,14 @@ class AppearanceSettings extends StatelessWidget {
                   title: l10n.advanced,
                   children: [
                     SettingsCheck(
+                      title: l10n.hapticFeedback,
+                      icon: Icons.vibration_outlined,
+                      value: value.hapticFeedback,
+                      onChanged: (v) {
+                        value.setHapticFeedback(v);
+                      }
+                    ),
+                    SettingsCheck(
                       title: l10n.uiBlur,
                       subtitle: l10n.uiBlurDesc,
                       icon: Icons.blur_on_outlined,
@@ -57,7 +65,7 @@ class AppearanceSettings extends StatelessWidget {
                       onChanged: (v) {
                         value.setUiBlurEnabled(v);
                       }
-                    )
+                    ),
                   ]
                 ),
               ],

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -137,6 +138,12 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     // Change the status bar and navigation bar colors on Android
     Utils.overrideColors();
+
+    // Lock the orientation to portrait
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     return OverlaySupport.global(
       child: Consumer<PreferencesModel>(

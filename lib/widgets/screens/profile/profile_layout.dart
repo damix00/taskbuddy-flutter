@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
@@ -53,6 +55,8 @@ class ProfileLayout extends StatelessWidget {
 
           if (isMe) {
             var data = await Api.v1.accounts.me(token);
+            
+            log('Refreshed account data');
 
             if (!data.ok) {
               return;

@@ -38,7 +38,7 @@ class _CreatePostMediaState extends State<CreatePostMedia> {
       bottom: CreatePostBottomLayout(
         children: [
           Button(
-            disabled: _itemCount < 3,
+            disabled: _itemCount < 3 || _itemCount > 50,
             child: ButtonText(l10n.continueText),
             onPressed: () {
               Navigator.of(context).pushNamed('/create-post/date-price');
@@ -91,11 +91,13 @@ class _ScreenContentState extends State<_ScreenContent> {
               items.addAll(v);
             }
 
-            widget.onItemCountChanged(items.length);
+            setState(() {}); // Update the UI
 
             CreatePostState.media = items;
 
-            setState(() {}); // Update the UI
+            WidgetsBinding.instance.addPostFrameCallback((_) { // Call the callback after the UI is updated
+              widget.onItemCountChanged(items.length);
+            });
           }
         ),
         const SizedBox(height: Sizing.inputSpacing),
@@ -130,9 +132,12 @@ class _ScreenContentState extends State<_ScreenContent> {
                       onItemsChanged: (v) {
                         setState(() {
                           items = v;
-                          widget.onItemCountChanged(items.length);
                         });
 
+                        WidgetsBinding.instance.addPostFrameCallback((_) { // Call the callback after the UI is updated
+                          widget.onItemCountChanged(items.length);
+                        });
+                        
                         CreatePostState.media = v;
                       },
                     )

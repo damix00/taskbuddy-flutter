@@ -127,6 +127,7 @@ class LocationInformation extends StatelessWidget {
 class LocationDisplay extends StatefulWidget {
   final LatLng? location;
   final String? locationName;
+  final double? radius;
   final Function(LatLng?, String? name) onLocationChanged;
   final MapController? mapController;
   final bool optional;
@@ -137,6 +138,7 @@ class LocationDisplay extends StatefulWidget {
     this.location,
     this.mapController,
     this.locationName,
+    this.radius,
     this.optional = true,
     this.tooltipText = '',
     Key? key
@@ -176,7 +178,7 @@ class _LocationDisplayState extends State<LocationDisplay> {
                     mapController: widget.mapController,
                     options: MapOptions(
                       initialCenter: widget.location!,
-                      initialZoom: 15
+                      initialZoom: 10
                     ),
                     children: [
                       TileLayer(
@@ -188,9 +190,22 @@ class _LocationDisplayState extends State<LocationDisplay> {
                           Marker(
                             point: widget.location!,
                             child: const Icon(Icons.location_on, color: Colors.red),
-                          )
+                          ),
                         ],
                       ),
+                      if (widget.radius != null)
+                        CircleLayer(
+                          circles: [
+                            CircleMarker(
+                              point: widget.location!,
+                              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+                              radius: widget.radius! * 1000,
+                              borderColor: Theme.of(context).colorScheme.outline,
+                              borderStrokeWidth: 2,
+                              useRadiusInMeter: true
+                            )
+                          ],
+                        ),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 75),
                         child: OSMAttribution()

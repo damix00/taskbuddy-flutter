@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:taskbuddy/state/providers/preferences.dart';
 import 'package:taskbuddy/utils/utils.dart';
 
 class Touchable extends StatefulWidget {
@@ -32,70 +35,77 @@ class _TouchableState extends State<Touchable> {
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-      behavior: HitTestBehavior.opaque, // Used to make the empty space clickable
-      onPointerDown: (e) {
-        setState(() {
-          if (!widget.enableAnimation) return;
-          _opacity = 0.5;
-          _duration = Duration.zero;
-        });
+    return Consumer<PreferencesModel>(
+      builder: (context, value, child) {
+        return Listener(
+          behavior: HitTestBehavior.opaque, // Used to make the empty space clickable
+          onPointerDown: (e) {
+            setState(() {
+              if (!widget.enableAnimation) return;
+              _opacity = 0.5;
+              _duration = Duration.zero;
+            });
 
-        _startPosition = e.position;
+            _startPosition = e.position;
 
-        _shouldCallTap = true;
-      },
-      onPointerUp: (e) {
-        if (!widget.enableAnimation) return;
-        setState(() {
-          _opacity = 1;
-          _duration = const Duration(milliseconds: 100);
-        });
+            _shouldCallTap = true;
+          },
+          onPointerUp: (e) {
+            if (!widget.enableAnimation) return;
+            setState(() {
+              _opacity = 1;
+              _duration = const Duration(milliseconds: 100);
+            });
 
-        if (_shouldCallTap && widget.onTap != null) {
-          widget.onTap?.call();
-        }
-      },
-      onPointerCancel: (e) {
-        if (!widget.enableAnimation) return;
-        setState(() {
-          _opacity = 1;
-          _duration = const Duration(milliseconds: 100);
-        });
+            if (_shouldCallTap && widget.onTap != null) {
+              if (value.hapticFeedback) {
+                HapticFeedback.lightImpact(); // Vibrate if enabled
+              }
+              widget.onTap?.call();
+            }
+          },
+          onPointerCancel: (e) {
+            if (!widget.enableAnimation) return;
+            setState(() {
+              _opacity = 1;
+              _duration = const Duration(milliseconds: 100);
+            });
 
-        _shouldCallTap = false;
-      },
-      onPointerMove: (e) {
-        // Check distance between start and end position
-        if (Utils.dist(_startPosition, e.position) < 10) {
-          return;
-        }
+            _shouldCallTap = false;
+          },
+          onPointerMove: (e) {
+            // Check distance between start and end position
+            if (Utils.dist(_startPosition, e.position) < 10) {
+              return;
+            }
 
-        // if it is moved too much, cancel the tap
-        if (!widget.enableAnimation) return;
-        setState(() {
-          _opacity = 1;
-          _duration = const Duration(milliseconds: 100);
-        });
+            // if it is moved too much, cancel the tap
+            if (!widget.enableAnimation) return;
+            setState(() {
+              _opacity = 1;
+              _duration = const Duration(milliseconds: 100);
+            });
 
-        _startPosition = Offset.zero;
-        _shouldCallTap = false;
-      },
-      // onDoubleTap: () {
-      //   if (widget.disabled) return;
+            _startPosition = Offset.zero;
+            _shouldCallTap = false;
+          },
+          // onDoubleTap: () {
+          //   if (widget.disabled) return;
 
-      //   widget.onDoubleTap?.call();
-      // },
-      // onLongPress: () {
-      //   if (widget.disabled) return;
+          //   widget.onDoubleTap?.call();
+          // },
+          // onLongPress: () {
+          //   if (widget.disabled) return;
 
-      //   widget.onLongPress?.call();
-      // },
-      child: AnimatedOpacity(
-        opacity: widget.disabled ? 0.5 : _opacity,
-        duration: _duration,
-        child: widget.child,
-      )
+          //   widget.onLongPress?.call();
+          // },
+          child: AnimatedOpacity(
+            opacity: widget.disabled ? 0.5 : _opacity,
+            duration: _duration,
+            child: widget.child,
+          )
+        );
+      }
     );
   }
 }
