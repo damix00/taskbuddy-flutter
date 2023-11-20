@@ -1,17 +1,11 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:taskbuddy/state/providers/tags.dart';
 
 enum PostType {
   oneTime,
   partTime,
   fullTime,
-}
-
-class Tag {
-  final String name;
-  final String category;
-
-  const Tag(this.name, this.category);
 }
 
 class CreatePostState {

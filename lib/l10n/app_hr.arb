@@ -178,5 +178,7 @@
   "pricePlaceholder": "npr. \"10€\"",
   "invalidNumber": "Neispravan broj",
   "numRange": "Broj mora biti između {min} i {max}.",
-  "mustChooseLocation": "Morate odabrati lokaciju."
+  "mustChooseLocation": "Morate odabrati lokaciju.",
+  "chooseTags": "Odaberi oznake",
+  "chooseTagsDesc": "Odaberite oznake koje najbolje opisuju vaš posao. Ove će oznake pomoći drugim korisnicima da pronađu vaš posao."
 }

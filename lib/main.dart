@@ -12,6 +12,7 @@ import 'package:taskbuddy/screens/create_post/pages/create_post_screen.dart';
 import 'package:taskbuddy/screens/create_post/pages/date_and_price.dart';
 import 'package:taskbuddy/screens/create_post/pages/location_page.dart';
 import 'package:taskbuddy/screens/create_post/pages/media_page.dart';
+import 'package:taskbuddy/screens/create_post/pages/tags_page.dart';
 import 'package:taskbuddy/screens/create_post/pages/title_page.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/profile_edit.dart';
@@ -27,6 +28,7 @@ import 'package:taskbuddy/screens/signin/login/login_screen.dart';
 import 'package:taskbuddy/screens/signin/register/pages/credentials_page.dart';
 import 'package:taskbuddy/screens/signin/register/register_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
+import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/utils/initializers.dart';
@@ -46,6 +48,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => PreferencesModel()),
         ChangeNotifierProvider(create: (context) => AuthModel()),
+        ChangeNotifierProvider(create: (context) => TagModel()),
       ],
       child: const App(),
     )
@@ -264,6 +267,7 @@ class _AppState extends State<App> {
               '/create-post/title': (context) => const CreatePostTitle(),
               '/create-post/media': (context) => const CreatePostMedia(),
               '/create-post/date-price': (context) => const CreatePostDatePrice(),
+              '/create-post/tags': (context) => const CreatePostTagsPage(),
               '/home': (context) => const HomeScreen(),
               '/profile/edit': (context) => const ProfileEditScreen(),
               '/location-chooser': (context) => const LocationInputScreen(),

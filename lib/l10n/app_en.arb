@@ -275,5 +275,7 @@
       }
     }
   },
-  "mustChooseLocation": "You must choose a location."
+  "mustChooseLocation": "You must choose a location.",
+  "chooseTags": "Choose tags",
+  "chooseTagsDesc": "Choose tags that describe your job. This will help us find the perfect worker for your job."
 }

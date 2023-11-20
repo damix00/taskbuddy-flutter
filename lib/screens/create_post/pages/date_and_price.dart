@@ -32,6 +32,7 @@ class _CreatePostDatePriceState extends State<CreatePostDatePrice> {
             child: ButtonText(l10n.continueText),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
+                Navigator.of(context).pushNamed('/create-post/tags');
               }
             },
           ),
@@ -128,6 +129,11 @@ class _PageContentState extends State<_PageContent> {
             keyboardType: TextInputType.number,
             initialValue: _price.toString(),
             prefixText: '€ ',
+            onChanged: (v) {
+              if (Validators.isNumber(v)) {
+                CreatePostState.price = double.parse(v);
+              }
+            },
             validator: (value) {
               if (value == null || value.isEmpty || value.trim().isEmpty) {
                 return l10n.emptyField(l10n.price);
