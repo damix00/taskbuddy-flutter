@@ -277,5 +277,18 @@
   },
   "mustChooseLocation": "You must choose a location.",
   "chooseTags": "Choose tags",
-  "chooseTagsDesc": "Choose tags that describe your job. This will help us find the perfect worker for your job."
+  "chooseTagsDesc": "Choose tags that describe your job. This will help us find the perfect worker for your job. You must choose between {min} and {max} tags.",
+  "@chooseTagsDesc": {
+    "description": "This is the description for the choose tags screen.",
+    "placeholders": {
+      "min": {
+        "type": "num",
+        "example": "3"
+      },
+      "max": {
+        "type": "num",
+        "example": "5"
+      }
+    }
+  }
 }

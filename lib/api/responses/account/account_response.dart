@@ -1,5 +1,5 @@
 import 'package:taskbuddy/api/requests.dart';
-import 'package:taskbuddy/api/responses/profile_response.dart';
+import 'package:taskbuddy/api/responses/account/profile_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 
 // Represents user information received from the server response

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:taskbuddy/api/api.dart';
-import 'package:taskbuddy/api/responses/account_response.dart';
+import 'package:taskbuddy/api/responses/account/account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_inputs/otp_input.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';

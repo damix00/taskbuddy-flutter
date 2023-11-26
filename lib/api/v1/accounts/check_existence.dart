@@ -1,6 +1,6 @@
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/requests.dart';
-import 'package:taskbuddy/api/responses/existence_response.dart';
+import 'package:taskbuddy/api/responses/account/existence_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 
 class CheckExistence {

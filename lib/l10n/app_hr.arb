@@ -180,5 +180,5 @@
   "numRange": "Broj mora biti između {min} i {max}.",
   "mustChooseLocation": "Morate odabrati lokaciju.",
   "chooseTags": "Odaberi oznake",
-  "chooseTagsDesc": "Odaberite oznake koje najbolje opisuju vaš posao. Ove će oznake pomoći drugim korisnicima da pronađu vaš posao."
+  "chooseTagsDesc": "Odaberite oznake koje najbolje opisuju vaš posao. Ove će oznake pomoći drugim korisnicima da pronađu vaš posao. Morate odabrati između {min} i {max} oznaka."
 }

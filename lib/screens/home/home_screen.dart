@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
-import 'package:taskbuddy/api/responses/account_response.dart';
+import 'package:taskbuddy/api/responses/account/account_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_tags_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/firebase_options.dart';
@@ -15,6 +16,7 @@ import 'package:taskbuddy/screens/home/pages/messages_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
+import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
@@ -56,19 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<bool> _fetchData(String token) async {
-    try {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform
-      ); // Initialize firebase
-      await RemoteConfigData.init(); // Initialize the remote config data
-    }
-
-    catch (e) {
-      log('Failed to fetch remote config data');
-      log(e.toString());
-    }
-
+  Future<bool> _fetchMe(String token) async {
     ApiResponse<AccountResponse?> me = await Api.v1.accounts.me(token);
 
     if (me.status == 401) {
@@ -103,6 +93,49 @@ class _HomeScreenState extends State<HomeScreen> {
  
       // Show a popup if the user has required actions
       updateRequiredActions(me.data!.requiredActions);
+    }
+
+    return true;
+  }
+
+  Future<bool> _fetchTags() async {
+    ApiResponse<PostTagsResponse?> tags = await Api.v1.posts.tags();
+
+    if (tags.data == null || !tags.ok) {
+      log('Tags response is null');
+
+      return false;
+    }
+
+    if (tags.ok) {
+      // If the response is OK, then save the tags
+      Provider.of<TagModel>(context, listen: false).saveResponse(tags.data!);
+    }
+
+    return true;
+  }
+
+  Future<bool> _fetchData(String token) async {
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform
+      ); // Initialize firebase
+      await RemoteConfigData.init(); // Initialize the remote config data
+    }
+
+    catch (e) {
+      log('Failed to fetch remote config data');
+      log(e.toString());
+    }
+
+    if (!(await _fetchMe(token))) {
+      log('Failed to fetch auth data');
+      return false;
+    }
+
+    if (!(await _fetchTags())) {
+      log('Failed to fetch tags data');
+      return false;
     }
 
     return true;

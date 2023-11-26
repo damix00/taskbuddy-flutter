@@ -3,8 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:taskbuddy/api/responses/account_response.dart';
-import 'package:taskbuddy/api/responses/profile_response.dart';
+import 'package:taskbuddy/api/responses/account/account_response.dart';
+import 'package:taskbuddy/api/responses/account/profile_response.dart';
 
 // Class responsible for caching account-related data using secure storage
 class AccountCache {

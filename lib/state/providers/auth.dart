@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/account_response.dart';
+import 'package:taskbuddy/api/responses/account/account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 
 class AuthModel extends ChangeNotifier {
