@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
+import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/screens/create_post/add_media_button.dart';
 import 'package:taskbuddy/widgets/screens/create_post/pageview_image.dart';
 
@@ -25,7 +26,7 @@ class _MediaPageViewState extends State<MediaPageView> {
   int _currentItem = 0;
 
   void chooseImages(bool reset) async {
-    final List<XFile> image = await ImagePicker().pickMultipleMedia();
+    final List<XFile> image = await ImagePicker().pickMultiImage(); // TODO: Add video support
 
     setState(() {
       widget.onItemsChanged(image, reset);
@@ -69,11 +70,12 @@ class _MediaPageViewState extends State<MediaPageView> {
                       }
                     );
                   }
-            
+
                   return PageViewImage(
                     width: widget.size,
                     height: _size,
                     item: widget.items[index],
+                    video: Utils.isVideo(widget.items[index]),
                     onPressed: () {
                       chooseImages(false);
                     },

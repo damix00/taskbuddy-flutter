@@ -7,17 +7,20 @@ class TagWidget extends StatelessWidget {
   final Tag tag;
   final bool selected;
   final Function(bool) onSelect;
+  final bool isSelectable;
 
   const TagWidget({
     Key? key,
     required this.tag,
     this.selected = false,
     required this.onSelect,
+    this.isSelectable = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Touchable(
+      enableAnimation: isSelectable,
       onTap: () {
         onSelect(!selected);
       },
@@ -25,6 +28,7 @@ class TagWidget extends StatelessWidget {
         scale: selected ? 0.9: 1,
         duration: const Duration(milliseconds: 50),
         child: Container(
+          height: 30,
           decoration: BoxDecoration(
             color: selected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(56),

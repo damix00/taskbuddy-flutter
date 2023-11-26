@@ -112,3 +112,17 @@ class _AppbarChildren extends StatelessWidget {
     );
   }
 }
+
+class AppbarTitle extends StatelessWidget {
+  final String title;
+  
+  const AppbarTitle(this.title, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.titleSmall
+    );
+  }
+}

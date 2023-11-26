@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
+import 'package:mime/mime.dart';
 
 class Utils {
   static void overrideColors() {
@@ -121,5 +124,13 @@ class Utils {
     var loc = await Geolocator.getCurrentPosition();
 
     return LatLng(loc.latitude, loc.longitude);
+  }
+
+  static String formatDate(DateTime date) {
+    return '${DateFormat.yMMMd().format(date)} ${DateFormat.Hm().format(date)}';
+  }
+
+  static bool isVideo(XFile file) {
+    return lookupMimeType(file.path)!.contains('video');
   }
 }

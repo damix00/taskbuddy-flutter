@@ -197,6 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (connectivityResult == ConnectivityResult.none) {
       SnackbarPresets.error(context, AppLocalizations.of(context)!.offlineWarning);
+      _setInterval(); // Set the interval to fetch the data every 5 seconds
       return;
     }
 

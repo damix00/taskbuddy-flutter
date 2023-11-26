@@ -1,6 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum PostType {
   oneTime,
@@ -40,5 +41,16 @@ class CreatePostState {
     startDate = null;
     endDate = null;
     tags = [];
+  }
+
+  static String postTypeToString(AppLocalizations l10n) {
+    switch (postType) {
+      case PostType.oneTime:
+        return l10n.oneTimeJob;
+      case PostType.partTime:
+        return l10n.partTimeJob;
+      case PostType.fullTime:
+        return l10n.fullTimeJob;
+    }
   }
 }

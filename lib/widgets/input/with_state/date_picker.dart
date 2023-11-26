@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
 class DatePicker extends StatelessWidget {
@@ -124,7 +124,7 @@ class DatePicker extends StatelessWidget {
                 const SizedBox(width: 8,),
                 Text(
                   // Date, Month, Year, HH:MM
-                  '${DateFormat.yMMMd().format(value)} ${DateFormat.Hm().format(value)}',
+                  Utils.formatDate(value),
                   style: Theme.of(context).textTheme.bodyMedium
                 ),
               ],

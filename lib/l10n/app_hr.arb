@@ -139,6 +139,7 @@
   "newPost": "Nova objava",
   "chooseTypeOfJob": "Odaberi vrstu posla",
   "chooseTypeOfJobDesc": "Koju vrstu usluge trebate?",
+  "typeOfJob": "Vrsta posla",
   "oneTimeJob": "Jednokratni posao",
   "oneTimeJobDesc": "Jednokratni poslovi su poslovi koji se obavljaju samo jednom, npr. čišćenje automobila, pranje posuđa...",
   "partTimeJob": "Posao na pola radnog vremena",
@@ -180,5 +181,14 @@
   "numRange": "Broj mora biti između {min} i {max}.",
   "mustChooseLocation": "Morate odabrati lokaciju.",
   "chooseTags": "Odaberi oznake",
-  "chooseTagsDesc": "Odaberite oznake koje najbolje opisuju vaš posao. Ove će oznake pomoći drugim korisnicima da pronađu vaš posao. Morate odabrati između {min} i {max} oznaka."
+  "chooseTagsDesc": "Odaberite oznake koje najbolje opisuju vaš posao. Ove će oznake pomoći drugim korisnicima da pronađu vaš posao. Morate odabrati između {min} i {max} oznaka.",
+  "reviewYourPost": "Pregledajte svoju objavu",
+  "reviewYourPostDesc": "Pregledajte svoju objavu prije nego što je objavite. Ako ste spremni, objavite je!",
+  "yes": "Da",
+  "no": "Ne",
+  "remote": "Udaljeno",
+  "media": "Mediji",
+  "view": "Pregled",
+  "tags": "Oznake",
+  "postBtn": "Objavi!"
 }

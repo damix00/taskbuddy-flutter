@@ -19,10 +19,7 @@ class CreatePostTagsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: BlurAppbar.appBar(
-        child: Text(
-          l10n.editMedia,
-          style: Theme.of(context).textTheme.titleSmall
-        )
+        child: AppbarTitle(l10n.newPost),
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -39,7 +36,7 @@ class _PageContent extends StatefulWidget {
 }
 
 class _PageContentState extends State<_PageContent> {
-  List<Tag> _selectedTags = [];
+  List<Tag> _selectedTags = CreatePostState.tags;
 
   int _minTags = 1;
   int _maxTags = 10;
@@ -93,7 +90,10 @@ class _PageContentState extends State<_PageContent> {
                     Button(
                       disabled: _selectedTags.length < _minTags,
                       child: ButtonText(l10n.continueText),
-                      onPressed: () {}
+                      onPressed: () {
+                        CreatePostState.tags = _selectedTags;
+                        Navigator.pushNamed(context, '/create-post/overview');
+                      }
                     ),
                     SizedBox(height: MediaQuery.of(context).padding.bottom),
                   ],

@@ -10,6 +10,7 @@ class PageViewImage extends StatelessWidget {
   final double width, height;
   final XFile item;
   final VoidCallback onPressed;
+  final bool video;
 
   const PageViewImage({
     Key? key,
@@ -17,6 +18,7 @@ class PageViewImage extends StatelessWidget {
     required this.height,
     required this.item,
     required this.onPressed,
+    this.video = false,
   }) : super(key: key);
 
   @override

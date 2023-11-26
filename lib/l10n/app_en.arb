@@ -223,6 +223,7 @@
   "newPost": "New post",
   "chooseTypeOfJob": "Choose type of job",
   "chooseTypeOfJobDesc": "Which type of services do you require?",
+  "typeOfJob": "Type of job",
   "oneTimeJob": "One-time job",
   "oneTimeJobDesc": "One-time jobs are jobs that are done only once, e.g. cleaning your car, washing the dishes...",
   "partTimeJob": "Part-time job",
@@ -290,5 +291,14 @@
         "example": "5"
       }
     }
-  }
+  },
+  "reviewYourPost": "Review your post",
+  "reviewYourPostDesc": "Make sure everything is correct before posting. If you''re ready, post it!",
+  "yes": "Yes",
+  "no": "No",
+  "remote": "Remote",
+  "media": "Media",
+  "view": "View",
+  "tags": "Tags",
+  "postBtn": "Post!"
 }

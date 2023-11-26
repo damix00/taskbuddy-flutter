@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-
 class ApiOptions {
   static String get domain => 'taskbuddy.app';
   static String get fullDomain => 'https://$domain';
