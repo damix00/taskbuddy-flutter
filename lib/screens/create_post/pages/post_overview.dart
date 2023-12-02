@@ -163,6 +163,7 @@ class _ScreenContent extends StatelessWidget {
                 isRemote: CreatePostState.isRemote, // Is it remote?
                 isUrgent: CreatePostState.isUrgent, // Is it urgent?
                 price: CreatePostState.price, // The price
+                suggestionRadius: CreatePostState.suggestionRadius, // The suggestion radius
                 startDate: CreatePostState.startDate!, // When the post starts
                 endDate: CreatePostState.endDate!, // When the post ends
                 tags: CreatePostState.tags.map((e) => e.id).toList(), // Convert tags to a list of ids

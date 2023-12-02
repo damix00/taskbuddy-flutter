@@ -61,7 +61,7 @@ class _MediaPageViewState extends State<MediaPageView> {
                   // When swiping, the current item will be 100% and the others will be 80%
                   double _size = widget.size * (0.8 + 0.2 * factor);
 
-                  if (index == widget.items.length && widget.items.length < 50) {
+                  if (index == widget.items.length && widget.items.length < 20) {
                     return AddMediaButton(
                       width: widget.size,
                       height: _size,
@@ -90,9 +90,9 @@ class _MediaPageViewState extends State<MediaPageView> {
           padding: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width - widget.size) / 2),
           child: Row(
             children: [
-              Text('min 3, max 50', style: Theme.of(context).textTheme.bodySmall),
+              Text('min 3, max 20', style: Theme.of(context).textTheme.bodySmall),
               const Spacer(),
-              Text('${widget.items.length}/50', style: Theme.of(context).textTheme.bodySmall),
+              Text('${widget.items.length}/20', style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
         ),
