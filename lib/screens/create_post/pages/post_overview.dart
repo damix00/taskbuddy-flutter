@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
 import 'package:taskbuddy/screens/create_post/value_display.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
@@ -147,8 +149,25 @@ class _ScreenContent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
           child: Button( // The submit button
             child: ButtonText(l10n.postBtn),
-            onPressed: () {
-              
+            onPressed: () async {
+              var token = (await AccountCache.getToken())!;
+
+              Api.v1.posts.createPost(
+                token, // JWT
+                jobType: CreatePostState.postType, // The post type (enum) (one-time, part-time, full-time)
+                title: CreatePostState.title, // Title
+                description: CreatePostState.description, // Description of the post
+                locationLat: CreatePostState.location?.latitude, // The location
+                locationLon: CreatePostState.location?.longitude, // The location
+                locationName: CreatePostState.locationName, // The location name
+                isRemote: CreatePostState.isRemote, // Is it remote?
+                isUrgent: CreatePostState.isUrgent, // Is it urgent?
+                price: CreatePostState.price, // The price
+                startDate: CreatePostState.startDate!, // When the post starts
+                endDate: CreatePostState.endDate!, // When the post ends
+                tags: CreatePostState.tags.map((e) => e.id).toList(), // Convert tags to a list of ids
+                media: CreatePostState.media, // XFile list of media
+              );
             },
           ),
         ),
