@@ -60,7 +60,7 @@ class _ScreenContent extends StatelessWidget {
         ValueDisplay(title: l10n.location, value: CreatePostState.isRemote ? l10n.remote : CreatePostState.locationName ?? l10n.remote),
         const CustomDivider(padding: Sizing.inputSpacing),
         // Suggestion radius
-        ValueDisplay(title: l10n.suggestionRadius, value: '${CreatePostState.suggestionRadius} km'),
+        ValueDisplay(title: l10n.suggestionRadius, value: '${CreatePostState.suggestionRadius.toStringAsFixed(2)} km'),
         const CustomDivider(padding: Sizing.inputSpacing),
         // Title
         ValueDisplay(title: l10n.title, value: CreatePostState.title),

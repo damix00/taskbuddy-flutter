@@ -22,6 +22,14 @@ class Tag {
   final Map<String, String> translations;
 
   const Tag({required this.id, required this.category, required this.translations});
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      id: json['id'],
+      category: json['category'],
+      translations: json['translations'],
+    );
+  }
 }
 
 class TagModel extends ChangeNotifier {

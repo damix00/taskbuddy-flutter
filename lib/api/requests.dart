@@ -1,3 +1,4 @@
+import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:dio/dio.dart' as diolib;
 
@@ -13,7 +14,7 @@ class Requests {
     try {
       bool timedOut = false;
 
-      var addedHeaders = {"Content-Type": "application/json"};
+      var addedHeaders = {"Content-Type": "application/json", "User-Agent": ApiOptions.userAgent};
       if (headers != null) {
         addedHeaders.addAll(headers);
       }

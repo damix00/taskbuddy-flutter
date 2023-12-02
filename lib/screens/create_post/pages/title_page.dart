@@ -99,7 +99,7 @@ class _ScreenContent extends StatelessWidget {
             maxLines: null,
             keyboardType: TextInputType.multiline,
             textInputAction: TextInputAction.newline,
-            maxLength: 512,
+            maxLength: 1024,
             onChanged: (v) {
               CreatePostState.description = v.trim();
             },
