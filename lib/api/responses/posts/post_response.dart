@@ -24,6 +24,7 @@ class PostResponse {
   final bool isRemote;
   final bool isUrgent;
   final bool isLiked;
+  final bool isBookmarked;
 
   PostResponse({
     required this.user,
@@ -48,6 +49,7 @@ class PostResponse {
     this.bookmarks = 0,
     this.impressions = 0,
     this.isLiked = false,
+    this.isBookmarked = false,
   });
 
   // Factory method to create a PostResponse from JSON data
@@ -81,6 +83,7 @@ class PostResponse {
       isRemote: json['is_remote'] ?? false,
       isUrgent: json['is_urgent'] ?? false,
       isLiked: json['is_liked'] ?? false,
+      isBookmarked: json['is_bookmarked'] ?? false,
     );
   }
 }

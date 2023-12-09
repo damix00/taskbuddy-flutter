@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/widgets/screens/posts/post_interactions.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_media.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_tags.dart';
 
@@ -13,13 +14,22 @@ class PostLayout extends StatelessWidget {
     return Stack(
       children: [
         PostMedia(post: post),
-        Positioned(
-          bottom: MediaQuery.of(context).padding.bottom,
-          child: Column(
-            children: [
-              PostTags(post: post),
-            ],
-          )
+        Stack(
+          children: [
+            Positioned(
+              bottom: MediaQuery.of(context).padding.bottom,
+              child: Column(
+                children: [
+                  PostTags(post: post),
+                ],
+              )
+            ),
+            Positioned(
+              bottom: MediaQuery.of(context).padding.bottom,
+              right: 0,
+              child: PostInteractions(post: post)
+            ),
+          ],
         ),
       ],
     );

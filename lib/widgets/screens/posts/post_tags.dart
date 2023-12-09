@@ -35,16 +35,13 @@ class PostTags extends StatelessWidget {
                       transparent: true,
                       onSelect: (s) {},
                       isSelectable: false,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.warning_amber_rounded, size: 16),
-                          SizedBox(width: 4),
+                          const Icon(Icons.schedule, size: 18),
+                          const SizedBox(width: 8),
                           Text(
                             'Urgent',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium!
                           ),
                         ],
                       )
@@ -56,13 +53,11 @@ class PostTags extends StatelessWidget {
 
               // Check if tag id exists
 
-              int i = 0;
-
               for (var tag in value.tags) {
                 if (tag.id == post.tags[index - (post.isUrgent ? 1 : 0)]) {
                   return Row(
                     children: [
-                      if (i == 0)
+                      if (index == 0)
                         const SizedBox(width: Sizing.horizontalPadding),
                       TagWidget(
                         transparent: true,
@@ -74,7 +69,6 @@ class PostTags extends StatelessWidget {
                     ],
                   );
                 }
-                i++;
               }
 
               return Container();
