@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,11 +6,13 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
 import 'package:taskbuddy/screens/create_post/value_display.dart';
+import 'package:taskbuddy/screens/post_screen.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/ui/tag_widget.dart';
@@ -164,7 +167,7 @@ class _ScreenContentState extends State<_ScreenContent> {
                 _loading = true;
               });
 
-              print("sending request");
+              log("Creating post");
 
               var result = await Api.v1.posts.createPost(
                 token, // JWT
@@ -184,11 +187,21 @@ class _ScreenContentState extends State<_ScreenContent> {
                 media: CreatePostState.media, // XFile list of media
               );
 
-              print(result.data);
+              log("Created post");
+              
+              if (!result.ok) {
+                SnackbarPresets.error(context, l10n.somethingWentWrong);
+              }
 
               setState(() {
                 _loading = false;
               });
+
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/post',
+                (route) => route.isFirst,
+                arguments: PostScreenArguments(post: result.data!)
+              );
             },
           ),
         ),

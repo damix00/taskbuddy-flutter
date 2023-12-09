@@ -1,5 +1,4 @@
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
-import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 
 class PostResponse {
@@ -22,6 +21,9 @@ class PostResponse {
   final int shares;
   final int bookmarks;
   final int impressions;
+  final bool isRemote;
+  final bool isUrgent;
+  final bool isLiked;
 
   PostResponse({
     required this.user,
@@ -38,11 +40,14 @@ class PostResponse {
     required this.createdAt,
     required this.startDate,
     required this.endDate,
+    required this.isRemote,
+    required this.isUrgent,
     this.likes = 0,
     this.comments = 0,
     this.shares = 0,
     this.bookmarks = 0,
     this.impressions = 0,
+    this.isLiked = false,
   });
 
   // Factory method to create a PostResponse from JSON data
@@ -73,6 +78,9 @@ class PostResponse {
       shares: json['analytics']['shares'],
       bookmarks: json['analytics']['bookmarks'],
       impressions: json['analytics']['impressions'],
+      isRemote: json['is_remote'] ?? false,
+      isUrgent: json['is_urgent'] ?? false,
+      isLiked: json['is_liked'] ?? false,
     );
   }
 }

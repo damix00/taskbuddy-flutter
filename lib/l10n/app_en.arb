@@ -300,5 +300,6 @@
   "media": "Media",
   "view": "View",
   "tags": "Tags",
-  "postBtn": "Post!"
+  "postBtn": "Post!",
+  "postTitle": "Post"
 }

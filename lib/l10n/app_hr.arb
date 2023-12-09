@@ -190,5 +190,6 @@
   "media": "Mediji",
   "view": "Pregled",
   "tags": "Oznake",
-  "postBtn": "Objavi!"
+  "postBtn": "Objavi!",
+  "postTitle": "Objava"
 }

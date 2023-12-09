@@ -7,11 +7,13 @@ import 'package:taskbuddy/state/providers/preferences.dart';
 class BlurAppbar extends StatelessWidget {
   final Widget? child;
   final bool showLeading;
+  final bool transparent;
 
   const BlurAppbar({
     Key? key,
     this.child,
     this.showLeading = true,
+    this.transparent = false,
   }) : super(key: key);
 
   @override
@@ -27,10 +29,11 @@ class BlurAppbar extends StatelessWidget {
             // If UI blur is disabled, display a non-blurred version with surface color
             return Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
+                color: transparent ? Colors.transparent : Theme.of(context).colorScheme.surface,
               ),
               child: _AppbarChildren(
                 context: context,
+                transparent: transparent,
                 showLeading: showLeading,
                 child: c,
               ),
@@ -40,6 +43,7 @@ class BlurAppbar extends StatelessWidget {
           if (c == null) {
             return _AppbarChildren(
               context: context,
+              transparent: transparent,
               showLeading: showLeading,
               child: child,
             );
@@ -51,10 +55,11 @@ class BlurAppbar extends StatelessWidget {
                   ImageFilter.blur(sigmaX: 30, sigmaY: 30), // Apply blur effect
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  color: transparent ? Colors.transparent : Theme.of(context).colorScheme.surfaceVariant,
                 ),
                 child: _AppbarChildren(
                   context: context,
+                  transparent: transparent,
                   showLeading: showLeading,
                   child: child,
                 ),
@@ -67,14 +72,18 @@ class BlurAppbar extends StatelessWidget {
     );
   }
 
-  static AppBar appBar({Widget? child, bool showLeading = true}) {
+  static AppBar appBar({Widget? child, bool showLeading = true, bool transparent = false}) {
     return AppBar(
       toolbarHeight: 56,
-      flexibleSpace: BlurAppbar(showLeading: showLeading, child: child),
+      flexibleSpace: BlurAppbar(
+        transparent: transparent,
+        showLeading: showLeading,
+        child: child,
+      ),
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
-      automaticallyImplyLeading: false
+      automaticallyImplyLeading: false,
     );
   }
 }
@@ -83,12 +92,14 @@ class _AppbarChildren extends StatelessWidget {
   final BuildContext context;
   final Widget? child;
   final bool showLeading;
+  final bool transparent;
 
   const _AppbarChildren({
     Key? key,
     required this.context,
     required this.child,
     this.showLeading = false,
+    this.transparent = false,
   }) : super(key: key);
 
   @override

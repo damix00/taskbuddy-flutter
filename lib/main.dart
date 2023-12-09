@@ -17,6 +17,7 @@ import 'package:taskbuddy/screens/create_post/pages/tags_page.dart';
 import 'package:taskbuddy/screens/create_post/pages/title_page.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/profile_edit.dart';
+import 'package:taskbuddy/screens/post_screen.dart';
 import 'package:taskbuddy/screens/settings/account/account_settings.dart';
 import 'package:taskbuddy/screens/settings/appearance/appearance_settings.dart';
 import 'package:taskbuddy/screens/settings/appearance/appearance_theme.dart';
@@ -173,6 +174,7 @@ class _AppState extends State<App> {
                 brightness: Brightness.dark,
                 primary: Constants.primaryColor,
                 inversePrimary: Constants.primaryColor,
+                inverseSurface: Colors.black,
                 secondary: Constants.secondaryColor,
                 surface: const Color(0xff322B44),
                 surfaceVariant: Constants.secondaryBgColor.withOpacity(0.7),
@@ -203,6 +205,7 @@ class _AppState extends State<App> {
                 primary: Constants.primaryColorLight,
                 inversePrimary: Colors.blue, // This is the link color
                 secondary: Constants.secondaryColor,
+                inverseSurface: Colors.white,
                 surface: Color.fromARGB(255, 236, 236, 236),
                 surfaceVariant: Color.fromARGB(255, 224, 224, 224).withOpacity(0.6),
                 onSurfaceVariant: Colors.grey[600],
@@ -273,6 +276,7 @@ class _AppState extends State<App> {
               '/home': (context) => const HomeScreen(),
               '/profile/edit': (context) => const ProfileEditScreen(),
               '/location-chooser': (context) => const LocationInputScreen(),
+              '/post': (context) => const PostScreen(),
             },
             localeListResolutionCallback: (__, supportedLocales) {
               // If the locale is supported, return it
