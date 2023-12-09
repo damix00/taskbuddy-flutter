@@ -15,6 +15,7 @@ class Requests {
       bool timedOut = false;
 
       var addedHeaders = {"Content-Type": "application/json", "User-Agent": ApiOptions.userAgent};
+
       if (headers != null) {
         addedHeaders.addAll(headers);
       }
@@ -49,6 +50,8 @@ class Requests {
         timedOut: timedOut,
       );
     } catch (e) {
+      print(e);
+
       if (e is diolib.DioException) {
         return Response(
           response: e.response,

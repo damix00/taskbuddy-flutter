@@ -73,7 +73,7 @@ class _LocationInputScreenState extends State<LocationInputScreen> {
       var args = ModalRoute.of(context)!.settings.arguments as LocationInputArguments;
 
       setState(() {
-        _locationName = args.locationName ?? '';
+        _locationName = args.locationName ?? 'Budva';
       });
     });
   }

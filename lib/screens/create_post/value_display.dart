@@ -18,13 +18,17 @@ class ValueDisplay extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
+          Padding(
+            padding: const EdgeInsets.only(right: Sizing.inputSpacing / 2),
+            child: Text(
+              title,
+            ),
           ),
           Text(
             value,
             style: Theme.of(context).textTheme.labelMedium,
             overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           )
         ],
       ),

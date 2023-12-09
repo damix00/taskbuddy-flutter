@@ -36,21 +36,21 @@ class ProfileResponse {
   // Factory method to create a ProfileResponse from JSON data
   factory ProfileResponse.fromJson(Map<String, dynamic> json) {
     return ProfileResponse(
-      bio: json['bio'],
+      bio: json['bio'] ?? '',
       profilePicture: json['profile_picture'] ?? '',
-      ratingEmployer: json['rating_employer'],
-      ratingEmployee: json['rating_employee'],
-      cancelledEmployer: json['cancelled_employer'],
-      cancelledEmployee: json['cancelled_employee'],
-      completedEmployer: json['completed_employer'],
-      completedEmployee: json['completed_employee'],
-      followers: json['followers'],
-      following: json['following'],
-      posts: json['posts'],
-      locationText: json['location_text'],
-      locationLat: json['location_lat'],
-      locationLon: json['location_lon'],
-      isPrivate: json['is_private'],
+      ratingEmployer: json['rating_employer'] ?? 0,
+      ratingEmployee: json['rating_employee'] ?? 0,
+      cancelledEmployer: json['cancelled_employer'] ?? 0,
+      cancelledEmployee: json['cancelled_employee'] ?? 0,
+      completedEmployer: json['completed_employer'] ?? 0,
+      completedEmployee: json['completed_employee'] ?? 0,
+      followers: json['followers'] ?? 0,
+      following: json['following'] ?? 0,
+      posts: json['posts'] ?? 0,
+      locationText: json['location_text'] ?? '',
+      locationLat: json['location_lat'] ?? 1000,
+      locationLon: json['location_lon'] ?? 1000,
+      isPrivate: json['is_private'] ?? false,
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:taskbuddy/screens/create_post/page_layout.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/screens/create_post/pages/edit_media_page.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
+import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/screens/create_post/media_pageview.dart';
@@ -38,7 +39,7 @@ class _CreatePostMediaState extends State<CreatePostMedia> {
       bottom: CreatePostBottomLayout(
         children: [
           Button(
-            disabled: _itemCount < 3 || _itemCount > 50,
+            disabled: _itemCount < RemoteConfigData.minMedia || _itemCount > RemoteConfigData.maxMedia,
             child: ButtonText(l10n.continueText),
             onPressed: () {
               Navigator.of(context).pushNamed('/create-post/date-price');

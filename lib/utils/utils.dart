@@ -133,4 +133,20 @@ class Utils {
   static bool isVideo(XFile file) {
     return lookupMimeType(file.path)!.contains('video');
   }
+
+  static String listToString(List<String> list) {
+    String result = '[';
+
+    for (int i = 0; i < list.length; i++) {
+      result += list[i];
+
+      if (i != list.length - 1) {
+        result += ', ';
+      }
+    }
+
+    result += ']';
+
+    return result;
+  }
 }

@@ -12,11 +12,16 @@ class PostResponse {
   final String locationText;
   final double locationLat;
   final double locationLon;
-  final List<Tag> tags;
+  final List<int> tags;
   final List<String> media;
   final DateTime createdAt;
   final DateTime startDate;
   final DateTime endDate;
+  final int likes;
+  final int comments;
+  final int shares;
+  final int bookmarks;
+  final int impressions;
 
   PostResponse({
     required this.user,
@@ -33,25 +38,41 @@ class PostResponse {
     required this.createdAt,
     required this.startDate,
     required this.endDate,
+    this.likes = 0,
+    this.comments = 0,
+    this.shares = 0,
+    this.bookmarks = 0,
+    this.impressions = 0,
   });
 
   // Factory method to create a PostResponse from JSON data
   factory PostResponse.fromJson(Map<String, dynamic> json) {
+    List<String> media = [];
+
+    for (int i = 0; i < json['media'].length; i++) {
+      media.add(json['media'][i]['media']); // Dart is weird
+    }
+
     return PostResponse(
       user: PublicAccountResponse.fromJson(json['user']),
       UUID: json['uuid'],
       title: json['title'],
       description: json['description'],
       jobType: PostType.values[json['job_type']],
-      price: json['price'],
-      locationText: json['location_text'],
-      locationLat: json['location_lat'],
-      locationLon: json['location_lon'],
-      tags: (json['tags'] as List).map((e) => Tag.fromJson(e)).toList(),
-      media: (json['media'] as List).map((e) => e.toString()).toList(),
+      price: json['price'].toDouble(),
+      locationText: json['display_location']['location_name'],
+      locationLat: json['display_location']['lat'].toDouble(),
+      locationLon: json['display_location']['lon'].toDouble(),
+      tags: (json['tags'] as List<dynamic>).map((e) => int.parse(e.toString())).toList(), // Dart being weird again...
+      media: media,
       createdAt: DateTime.parse(json['created_at']),
       startDate: DateTime.parse(json['start_date']),
       endDate: DateTime.parse(json['end_date']),
+      likes: json['analytics']['likes'],
+      comments: json['analytics']['comments'],
+      shares: json['analytics']['shares'],
+      bookmarks: json['analytics']['bookmarks'],
+      impressions: json['analytics']['impressions'],
     );
   }
 }

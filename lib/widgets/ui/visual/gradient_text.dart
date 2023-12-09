@@ -10,18 +10,28 @@ class GradientText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShaderMask(
-      // Use Text as a mask to show the gradient
-      shaderCallback: (bounds) {
-        return gradient.createShader(bounds);
-      },
-      blendMode: BlendMode.srcIn,
-      child: Text(
-        text,
-        style: GoogleFonts.montserrat(
-            fontWeight: FontWeight.w900, fontSize: 40, height: 1.3),
-        textAlign: TextAlign.center,
+    // return ShaderMask(
+    //   // Use Text as a mask to show the gradient
+    //   shaderCallback: (bounds) {
+    //     return gradient.createShader(bounds);
+    //   },
+    //   blendMode: BlendMode.srcIn,
+    //   child: Text(
+    //     text,
+    //     style: GoogleFonts.montserrat(
+    //         fontWeight: FontWeight.w900, fontSize: 40, height: 1.3),
+    //     textAlign: TextAlign.center,
+    //   ),
+    // );
+    return Text(
+      text,
+      style: GoogleFonts.montserrat(
+        fontWeight: FontWeight.w900,
+        fontSize: 40,
+        height: 1.3,
+        color: Theme.of(context).colorScheme.primary,
       ),
+      textAlign: TextAlign.center,
     );
   }
 

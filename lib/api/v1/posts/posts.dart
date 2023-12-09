@@ -6,6 +6,7 @@ import 'package:taskbuddy/api/responses/posts/post_tags_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:dio/dio.dart' as diolib;
+import 'package:taskbuddy/utils/utils.dart';
 
 final dio = diolib.Dio();
 
@@ -55,6 +56,7 @@ class Posts {
       files[i.toString()] = await diolib.MultipartFile.fromFile(
         media[i].path,
         filename: media[i].path.split('/').last,
+        // contentType:
       );
     }
 
@@ -74,7 +76,7 @@ class Posts {
         'price': price,
         'start_date': startDate.toIso8601String(),
         'end_date': endDate.toIso8601String(),
-        'tags': tags,
+        'tags': Utils.listToString(tags.map((e) => e.toString()).toList()),
       },
       files: files,
       headers: {
@@ -94,7 +96,7 @@ class Posts {
       status: response.response!.statusCode!,
       message: 'OK',
       ok: response.response!.statusCode! == 200,
-      // data: PostResponse.fromJson(response.response!.data),
+      data: PostResponse.fromJson(response.response!.data["post"]),
       response: response.response,
     );
   }

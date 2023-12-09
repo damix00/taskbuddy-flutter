@@ -14,7 +14,7 @@ class PostTagsResponse {
       for (Map<String, dynamic> tag in category['tags']) {
         tags.add(Tag(
           id: tag['tag_id'],
-          category: tag['category_id'],
+          category: category['category_id'],
           translations: Map<String, String>.from(tag['translations']),
         ));
       }

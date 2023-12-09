@@ -9,6 +9,7 @@ class PublicAccountResponse {
   final bool hasPremium;
   final bool verified;
   final bool isFollowing;
+  final bool isMe;
 
   PublicAccountResponse({
     required this.profile,
@@ -19,6 +20,7 @@ class PublicAccountResponse {
     required this.hasPremium,
     required this.verified,
     required this.isFollowing,
+    required this.isMe,
   });
 
   // Factory method to create a PublicAccountResponse from JSON data
@@ -32,6 +34,7 @@ class PublicAccountResponse {
       hasPremium: json['has_premium'] ?? false,
       verified: json['verified'] ?? false,
       isFollowing: json['is_following'] ?? false,
+      isMe: json['is_me'] ?? false,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
+import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/screens/create_post/add_media_button.dart';
 import 'package:taskbuddy/widgets/screens/create_post/pageview_image.dart';
@@ -90,9 +91,9 @@ class _MediaPageViewState extends State<MediaPageView> {
           padding: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width - widget.size) / 2),
           child: Row(
             children: [
-              Text('min 3, max 20', style: Theme.of(context).textTheme.bodySmall),
+              Text('min ${RemoteConfigData.minMedia}, max ${RemoteConfigData.maxMedia}', style: Theme.of(context).textTheme.bodySmall),
               const Spacer(),
-              Text('${widget.items.length}/20', style: Theme.of(context).textTheme.bodySmall),
+              Text('${widget.items.length}/${RemoteConfigData.maxMedia}', style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
         ),

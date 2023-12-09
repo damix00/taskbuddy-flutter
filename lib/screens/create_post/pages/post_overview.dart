@@ -34,8 +34,15 @@ class CreatePostOverviewPage extends StatelessWidget {
   }
 }
 
-class _ScreenContent extends StatelessWidget {
+class _ScreenContent extends StatefulWidget {
   const _ScreenContent({Key? key}) : super(key: key);
+
+  @override
+  State<_ScreenContent> createState() => _ScreenContentState();
+}
+
+class _ScreenContentState extends State<_ScreenContent> {
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +75,7 @@ class _ScreenContent extends StatelessWidget {
         ValueDisplay(title: l10n.title, value: CreatePostState.title),
         const CustomDivider(padding: Sizing.inputSpacing),
         // Description
-        ValueDisplay(title: l10n.description, value: CreatePostState.description),
+        ValueDisplay(title: l10n.description, value: CreatePostState.description.replaceAll('\n', ' ')),
         const CustomDivider(padding: Sizing.inputSpacing),
         // Media
         ValueDisplay(title: '${l10n.media} (${CreatePostState.media.length})', value: ''),
@@ -149,10 +156,17 @@ class _ScreenContent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
           child: Button( // The submit button
             child: ButtonText(l10n.postBtn),
+            loading: _loading,
             onPressed: () async {
               var token = (await AccountCache.getToken())!;
 
-              Api.v1.posts.createPost(
+              setState(() {
+                _loading = true;
+              });
+
+              print("sending request");
+
+              var result = await Api.v1.posts.createPost(
                 token, // JWT
                 jobType: CreatePostState.postType, // The post type (enum) (one-time, part-time, full-time)
                 title: CreatePostState.title, // Title
@@ -169,6 +183,12 @@ class _ScreenContent extends StatelessWidget {
                 tags: CreatePostState.tags.map((e) => e.id).toList(), // Convert tags to a list of ids
                 media: CreatePostState.media, // XFile list of media
               );
+
+              print(result.data);
+
+              setState(() {
+                _loading = false;
+              });
             },
           ),
         ),
