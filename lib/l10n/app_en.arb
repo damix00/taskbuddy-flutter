@@ -301,5 +301,6 @@
   "view": "View",
   "tags": "Tags",
   "postBtn": "Post!",
-  "postTitle": "Post"
+  "postTitle": "Post",
+  "follow": "Follow"
 }

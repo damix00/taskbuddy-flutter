@@ -191,5 +191,6 @@
   "view": "Pregled",
   "tags": "Oznake",
   "postBtn": "Objavi!",
-  "postTitle": "Objava"
+  "postTitle": "Objava",
+  "follow": "Prati"
 }

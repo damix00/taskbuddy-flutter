@@ -152,7 +152,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 builder: (context, value, child) {
                   if (!_init) {
                     _init = true;
-                    _location = value.lat != null && value.lon != null ? LatLng(value.lat!.toDouble(), value.lon!.toDouble()) : null;
+                    _location = (value.lat != null && value.lon != null && value.lat != 1000 && value.lon != 1000) ? LatLng(value.lat!.toDouble(), value.lon!.toDouble()) : null;
                     _locationName = value.locationText;
                     _bio = value.bio;
                   }
@@ -164,8 +164,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     lastName: value.lastName,
                     username: value.username,
                     bio: value.bio,
-                    latitude: value.lat?.toDouble(),
-                    longitude: value.lon?.toDouble(),
+                    latitude: value.lat == 1000 ? null : value.lat?.toDouble(),
+                    longitude: value.lon == 1000 ? null : value.lon?.toDouble(),
                     locationName: value.locationText,
                     onProfilePictureSelected: (XFile? file) {
                       setState(() {

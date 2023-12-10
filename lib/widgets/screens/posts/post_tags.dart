@@ -19,13 +19,15 @@ class PostTags extends StatelessWidget {
           return const CrossPlatformLoader();
         }
 
+        var len = post.tags.length + (post.isUrgent ? 1 : 0);
+
         return SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 30,
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: post.tags.length + (post.isUrgent ? 1 : 0),
+            itemCount: len,
             itemBuilder: (context, index) {
               if (index == 0 && post.isUrgent) {
                 return Row(
@@ -59,13 +61,18 @@ class PostTags extends StatelessWidget {
                     children: [
                       if (index == 0)
                         const SizedBox(width: Sizing.horizontalPadding),
+                    
                       TagWidget(
                         transparent: true,
                         tag: tag,
                         onSelect: (s) {},
                         isSelectable: false,
                       ),
-                      const SizedBox(width: 8),
+
+                      if (index == len - 1) 
+                        const SizedBox(width: Sizing.horizontalPadding + Sizing.interactionsWidth),
+                      if (index != len - 1)
+                        const SizedBox(width: 8),
                     ],
                   );
                 }

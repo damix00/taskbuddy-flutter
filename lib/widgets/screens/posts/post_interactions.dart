@@ -9,6 +9,7 @@ class PostInteractionButton extends StatelessWidget {
   final String? text;
   final bool isActive;
   final VoidCallback onTap;
+  final Color activeColor;
 
   const PostInteractionButton({
     Key? key,
@@ -16,7 +17,8 @@ class PostInteractionButton extends StatelessWidget {
     required this.onTap,
     this.text,
     this.isActive = false,
-    this.activeIcon
+    this.activeIcon,
+    this.activeColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class PostInteractionButton extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          isActive ? Icon(activeIcon!, size: 28) : Icon(icon, size: 28),
+          isActive ? Icon(activeIcon!, size: 28, color: activeColor) : Icon(icon, size: 28, color: Theme.of(context).colorScheme.onBackground),
           if (text != null) Text(text!),
         ],
       ),
@@ -41,7 +43,6 @@ class PostInteractions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double spacing = 16;
-    double iconSize = 28;
 
     return Container(
       decoration: BoxDecoration(
@@ -58,6 +59,7 @@ class PostInteractions extends StatelessWidget {
             PostInteractionButton(
               icon: Icons.favorite_border,
               activeIcon: Icons.favorite,
+              activeColor: Colors.red,
               text: post.likes.toString(),
               isActive: post.isLiked,
               onTap: () {},

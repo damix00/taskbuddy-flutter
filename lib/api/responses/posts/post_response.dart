@@ -16,15 +16,15 @@ class PostResponse {
   final DateTime createdAt;
   final DateTime startDate;
   final DateTime endDate;
-  final int likes;
-  final int comments;
-  final int shares;
-  final int bookmarks;
-  final int impressions;
-  final bool isRemote;
-  final bool isUrgent;
-  final bool isLiked;
-  final bool isBookmarked;
+  int likes;
+  int comments;
+  int shares;
+  int bookmarks;
+  int impressions;
+  bool isRemote;
+  bool isUrgent;
+  bool isLiked;
+  bool isBookmarked;
 
   PostResponse({
     required this.user,
