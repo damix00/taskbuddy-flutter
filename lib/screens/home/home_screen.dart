@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
@@ -18,6 +19,7 @@ import 'package:taskbuddy/screens/home/pages/search_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/state/remote_config.dart';
+import 'package:taskbuddy/state/static/location_state.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
 import 'package:taskbuddy/widgets/navigation/homescreen_appbar.dart';
@@ -177,8 +179,42 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _askPermissions() async {
+    var hasPermission = await Geolocator.checkPermission();
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
+    if (hasPermission == LocationPermission.denied) {
+      showDialog(
+        context: context,
+        builder: (BuildContext ctx) => AlertDialog(
+          title: Text(l10n.locationPermissionTitle, style: Theme.of(ctx).textTheme.titleSmall),
+          content: Text(l10n.locationPermissionDesc, style: Theme.of(ctx).textTheme.bodyMedium),
+          actions: [
+            TextButton(
+              child: Text(l10n.cancel),
+              onPressed: () => Navigator.of(ctx).pop()
+            ),
+            TextButton(
+              child: Text(l10n.continueText),
+              onPressed: () async {
+                var res = await Geolocator.requestPermission();
+
+                Navigator.of(ctx).pop();
+              },
+            ),
+          ],
+        )
+      );
+    }
+
+  }
+
   void _init() async {
     String? token = await AccountCache.getToken();
+
+    _askPermissions();
+
+    LocationState.setInterval();
 
     var connectivityResult = await (Connectivity().checkConnectivity());
 

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/widgets/screens/posts/post_data.dart';
+import 'package:taskbuddy/widgets/screens/posts/post_description.dart';
+import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_author.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_interactions.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_job_type.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_media.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_tags.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_title.dart';
-import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class PostLayout extends StatefulWidget {
   final PostResponse post;
@@ -69,8 +72,14 @@ class _PostLayoutState extends State<PostLayout> {
                   PostAuthor(post: _post),
                   const SizedBox(height: 8),
                   PostJobType(post: _post),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 8),
                   PostTitle(post: _post),
+                  const SizedBox(height: 4),
+                  PostDescription(post: _post),
+                  const SizedBox(height: 8),
+                  PostPrice(post: _post),
+                  const SizedBox(height: 4),
+                  PostData(post: _post)
                 ],
               )
             ),

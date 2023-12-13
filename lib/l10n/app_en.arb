@@ -302,5 +302,7 @@
   "tags": "Tags",
   "postBtn": "Post!",
   "postTitle": "Post",
-  "follow": "Follow"
+  "follow": "Follow",
+  "locationPermissionTitle": "Location permission",
+  "locationPermissionDesc": "Do you want to allow TaskBuddy to access your location? This will allow us to show you jobs near you."
 }

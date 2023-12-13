@@ -67,9 +67,9 @@ class PostResponse {
       description: json['description'],
       jobType: PostType.values[json['job_type']],
       price: json['price'].toDouble(),
-      locationText: json['display_location']['location_name'],
-      locationLat: json['display_location']['lat'].toDouble(),
-      locationLon: json['display_location']['lon'].toDouble(),
+      locationText: json['display_location']?['location_name'] ?? '',
+      locationLat: json['display_location']?['lat']?.toDouble() ?? 1000,
+      locationLon: json['display_location']?['lon']?.toDouble() ?? 1000,
       tags: (json['tags'] as List<dynamic>).map((e) => int.parse(e.toString())).toList(), // Dart being weird again...
       media: media,
       createdAt: DateTime.parse(json['created_at']),

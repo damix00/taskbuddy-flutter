@@ -192,5 +192,7 @@
   "tags": "Oznake",
   "postBtn": "Objavi!",
   "postTitle": "Objava",
-  "follow": "Prati"
+  "follow": "Prati",
+  "locationPermissionTitle": "Dopustite pristup lokaciji",
+  "locationPermissionDesc": "Da bismo vam mogli prikazati poslove u vašoj blizini, morate nam dopustiti pristup vašoj lokaciji."
 }
