@@ -7,7 +7,9 @@ import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dar
 import 'package:taskbuddy/widgets/ui/post_card/post_card.dart';
 
 class ProfilePosts extends StatefulWidget {
-  const ProfilePosts({Key? key}) : super(key: key);
+  final bool isMe;
+
+  const ProfilePosts({Key? key, required this.isMe}) : super(key: key);
 
   @override
   State<ProfilePosts> createState() => _ProfilePostsState();
@@ -22,7 +24,11 @@ class _ProfilePostsState extends State<ProfilePosts> {
   void _getPosts() async {
     String token = (await AccountCache.getToken())!;
 
-    var posts = await Api.v1.accounts.meRoute.posts.get(token, offset: _offset);
+    List<PostResponse> posts = [];
+
+    if (widget.isMe) {
+      posts = await Api.v1.accounts.meRoute.posts.get(token, offset: _offset);
+    }
 
     setState(() {
       _posts.addAll(posts);

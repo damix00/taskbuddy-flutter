@@ -22,8 +22,6 @@ class MyPostsRoute {
 
     var posts = <PostResponse>[];
 
-    print(response.response!.data);
-
     for (var post in response.response!.data["posts"]) {
       posts.add(PostResponse.fromJson(post));
     }

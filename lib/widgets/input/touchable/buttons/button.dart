@@ -42,7 +42,7 @@ class Button extends StatelessWidget {
         decoration: BoxDecoration(
             color: type == ButtonType.primary
                 ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.background,
+                : Colors.transparent,
             border: Border.all(
                 color: Theme.of(context).colorScheme.primary, width: 1),
             borderRadius: BorderRadius.circular(radius)),

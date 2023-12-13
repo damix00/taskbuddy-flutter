@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
+import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_data.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_description.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
@@ -11,6 +14,7 @@ import 'package:taskbuddy/widgets/screens/posts/post_job_type.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_media.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_tags.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_title.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostLayout extends StatefulWidget {
   final PostResponse post;
@@ -34,12 +38,15 @@ class _PostLayoutState extends State<PostLayout> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     return Stack(
       children: [
         GestureDetector(
           onDoubleTap: () {
             setState(() {
               _post.isLiked = !_post.isLiked;
+              HapticFeedback.mediumImpact();
             });
           },
           child: PostMedia(
@@ -79,7 +86,22 @@ class _PostLayoutState extends State<PostLayout> {
                   const SizedBox(height: 8),
                   PostPrice(post: _post),
                   const SizedBox(height: 4),
-                  PostData(post: _post)
+                  PostData(post: _post),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
+                      child: SlimButton(
+                        child: Text(l10n.sendAMessage, style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 12
+                        )),
+                        onPressed: () {},
+                        type: ButtonType.outlined,
+                      ),
+                    ),
+                  )
                 ],
               )
             ),

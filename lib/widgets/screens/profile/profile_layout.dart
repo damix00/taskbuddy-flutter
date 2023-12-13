@@ -87,7 +87,9 @@ class ProfileLayout extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    const ProfilePosts(),
+                    ProfilePosts(
+                      isMe: isMe,
+                    ),
                     ListView(
                       padding: EdgeInsets.zero,
                       children: Colors.primaries.map((color) {
