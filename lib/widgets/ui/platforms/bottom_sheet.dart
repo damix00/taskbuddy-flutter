@@ -47,26 +47,36 @@ class CrossPlatformBottomSheet {
 
 class BottomSheetBase extends StatelessWidget {
   final List<Widget> children;
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
+  final MainAxisSize mainAxisSize;
 
   const BottomSheetBase({
     Key? key,
     required this.children,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.mainAxisSize = MainAxisSize.min,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: mainAxisSize,
+        mainAxisAlignment: mainAxisAlignment,
+        crossAxisAlignment: crossAxisAlignment,
         children: [
-          Container(
-            height: 4,
-            width: 40,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(4),
-            )
+          Center(
+            child: Container(
+              height: 4,
+              width: 40,
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(4),
+              )
+            ),
           ),
           ...children
         ],

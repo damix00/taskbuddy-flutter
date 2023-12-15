@@ -195,5 +195,7 @@
   "follow": "Prati",
   "locationPermissionTitle": "Dopustite pristup lokaciji",
   "locationPermissionDesc": "Da bismo vam mogli prikazati poslove u vašoj blizini, morate nam dopustiti pristup vašoj lokaciji.",
-  "sendAMessage": "Pošalji poruku"
+  "sendAMessage": "Pošalji poruku",
+  "urgentText": "Hitno",
+  "tapToReadMore": "Dodirnite da vidite više"
 }

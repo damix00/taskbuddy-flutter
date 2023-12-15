@@ -4,13 +4,16 @@ import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
-import 'package:taskbuddy/widgets/screens/posts/post_data.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
+import 'package:taskbuddy/widgets/screens/posts/sheet/post_metadata.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_description.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
+import 'package:taskbuddy/widgets/screens/posts/sheet/post_sheet.dart';
+import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_author.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_interactions.dart';
-import 'package:taskbuddy/widgets/screens/posts/post_job_type.dart';
+import 'package:taskbuddy/widgets/screens/posts/sheet/post_job_type.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_media.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_tags.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_title.dart';
@@ -76,17 +79,45 @@ class _PostLayoutState extends State<PostLayout> {
                   ),
                   PostTags(post: _post),
                   const SizedBox(height: 12),
-                  PostAuthor(post: _post),
+                  Touchable(
+                    child: PostAuthor(post: _post),
+                    onTap: () {
+                      if (widget.post.user.isMe) {
+                        // TODO: add profile screen
+                      }
+                    },
+                  ),
                   const SizedBox(height: 8),
-                  PostJobType(post: _post),
-                  const SizedBox(height: 8),
-                  PostTitle(post: _post),
-                  const SizedBox(height: 4),
-                  PostDescription(post: _post),
-                  const SizedBox(height: 8),
+                  // PostJobType(post: _post),
                   PostPrice(post: _post),
                   const SizedBox(height: 4),
-                  PostData(post: _post),
+                  PostTitle(post: _post),
+                  const SizedBox(height: 2),
+                  PostDescription(post: _post),
+                  const SizedBox(height: 4),
+                  // const SizedBox(height: 4),
+                  // PostData(post: _post),
+                  const SizedBox(height: 4),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
+                    child: Touchable(
+                      child: Text(
+                        l10n.tapToReadMore,
+                        style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        )
+                      ),
+                      onTap: () {
+                        showBottomSheet(
+                          context: context,
+                          builder: (ctx) => PostSheet(
+                            post: widget.post,
+                            paddingBottom: MediaQuery.of(context).padding.bottom,
+                          )
+                        );
+                      },
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,

@@ -5,6 +5,7 @@ import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/ui/tag_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostTags extends StatelessWidget {
   final PostResponse post;
@@ -13,6 +14,8 @@ class PostTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     return Consumer<TagModel>(
       builder: (ctx, value, child) {
         if (value.isLoading) {
@@ -42,7 +45,7 @@ class PostTags extends StatelessWidget {
                           const Icon(Icons.schedule, size: 18),
                           const SizedBox(width: 8),
                           Text(
-                            'Urgent',
+                            l10n.urgentText,
                             style: Theme.of(context).textTheme.bodyMedium!
                           ),
                         ],

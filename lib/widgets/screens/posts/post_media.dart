@@ -15,10 +15,10 @@ class PostMedia extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 150),
+          padding: const EdgeInsets.only(bottom: 50),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 150,
+            height: MediaQuery.of(context).size.height - 50,
             child: PageView.builder(
               itemCount: post.media.length,
               onPageChanged: (page) {
