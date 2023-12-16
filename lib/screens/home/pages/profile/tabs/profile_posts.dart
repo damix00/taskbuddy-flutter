@@ -15,7 +15,7 @@ class ProfilePosts extends StatefulWidget {
   State<ProfilePosts> createState() => _ProfilePostsState();
 }
 
-class _ProfilePostsState extends State<ProfilePosts> {
+class _ProfilePostsState extends State<ProfilePosts> with AutomaticKeepAliveClientMixin {
   int _offset = 0;
   List<PostResponse> _posts = [];
   bool _loading = false;
@@ -41,6 +41,9 @@ class _ProfilePostsState extends State<ProfilePosts> {
     super.initState();
     _getPosts();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {

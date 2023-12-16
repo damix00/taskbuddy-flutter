@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
+import 'package:taskbuddy/widgets/screens/posts/post_author.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_description.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_title.dart';
@@ -31,11 +32,13 @@ class PostSheet extends StatelessWidget {
         const SizedBox(height: 8),
         PostTitle(post: post),
         const SizedBox(height: 2),
-        PostDescription(post: post),
+        PostDescription(post: post, limitLines: false,),
         const SizedBox(height: 4),
         PostPrice(post: post),
         const SizedBox(height: 8),
         PostData(post: post),
+        const SizedBox(height: 16),
+        PostAuthor(post: post),
         const SizedBox(height: 16),
         SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -55,23 +58,21 @@ class PostSheet extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
-        CustomDivider(color: Theme.of(context).colorScheme.outline),
-        const SizedBox(height: 8),
+        CustomDivider(color: Theme.of(context).colorScheme.outline, padding: 16,),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Wrap(
             direction: Axis.horizontal,
             alignment: WrapAlignment.spaceEvenly,
             children: [
-              PostCounter(count: 10000, text: 'test'),
-              PostCounter(count: post.likes, text: 'test'),
-              PostCounter(count: post.shares, text: 'test'),
+              PostCounter(count: post.impressions, text: l10n.views),
+              PostCounter(count: post.likes, text: l10n.likes),
+              PostCounter(count: post.shares, text: l10n.shares),
             ],
           ),
         ),
-        SizedBox(height: paddingBottom),
-      ],
+        SizedBox(height: paddingBottom)
+      ]
     );
   }
 }

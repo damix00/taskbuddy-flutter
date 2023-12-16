@@ -108,8 +108,12 @@ class _PostLayoutState extends State<PostLayout> {
                         )
                       ),
                       onTap: () {
-                        showBottomSheet(
+                        showModalBottomSheet(
+                          enableDrag: true,
                           context: context,
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.4
+                          ),
                           builder: (ctx) => PostSheet(
                             post: widget.post,
                             paddingBottom: MediaQuery.of(context).padding.bottom,

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -20,13 +21,14 @@ class CrossPlatformBottomSheet {
   static showModal(BuildContext context, List<BottomSheetButton> buttons, {
     bool iosShowCancelButton = true,
     bool forceAndroidVersion = false, // If true, will show the Android version even if on iOS
+    bool safeArea = true,
     String? title,
   }) {
     if (Platform.isAndroid || forceAndroidVersion) {
       showModalBottomSheet(
         context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(0)),
+        constraints: const BoxConstraints(
+          maxHeight: 300,
         ),
         builder: (ctx) {
           return _AndroidBottomSheet(title: title, buttons: buttons);
@@ -62,6 +64,7 @@ class BottomSheetBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: Column(
         mainAxisSize: mainAxisSize,
         mainAxisAlignment: mainAxisAlignment,
@@ -78,7 +81,16 @@ class BottomSheetBase extends StatelessWidget {
               )
             ),
           ),
-          ...children
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: mainAxisSize,
+                mainAxisAlignment: mainAxisAlignment,
+                crossAxisAlignment: crossAxisAlignment,
+                children: children,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -88,10 +100,12 @@ class BottomSheetBase extends StatelessWidget {
 class _AndroidBottomSheet extends StatelessWidget {
   final List<BottomSheetButton> buttons;
   final String? title;
+  final bool safeArea;
 
   const _AndroidBottomSheet({
     required this.buttons,
     this.title,
+    this.safeArea = true,
     Key? key
   }) : super(key: key);
 
@@ -110,7 +124,9 @@ class _AndroidBottomSheet extends StatelessWidget {
               button.onTap(context);
             },
           );
-        }).toList()
+        }).toList(),
+        if (safeArea)
+          SizedBox(height: MediaQuery.of(context).padding.bottom),
       ]
     );
   }

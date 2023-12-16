@@ -4,8 +4,9 @@ import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class PostDescription extends StatelessWidget {
   final PostResponse post;
+  final bool limitLines;
 
-  const PostDescription({ Key? key, required this.post }) : super(key: key);
+  const PostDescription({ Key? key, required this.post, this.limitLines = true, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +15,10 @@ class PostDescription extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
         child: Text(
-          post.description,
+          limitLines ? post.description.replaceAll("\n", " ") : post.description,
           style: Theme.of(context).textTheme.labelMedium,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+          maxLines: limitLines ? 1 : null,
+          overflow: limitLines ? TextOverflow.ellipsis : null,
         ),
       ),
     );

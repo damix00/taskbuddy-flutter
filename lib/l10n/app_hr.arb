@@ -197,5 +197,10 @@
   "locationPermissionDesc": "Da bismo vam mogli prikazati poslove u vašoj blizini, morate nam dopustiti pristup vašoj lokaciji.",
   "sendAMessage": "Pošalji poruku",
   "urgentText": "Hitno",
-  "tapToReadMore": "Dodirnite da vidite više"
+  "tapToReadMore": "Dodirnite da vidite više",
+  "views": "Pregledi",
+  "likes": "Lajkovi",
+  "comments": "Komentari",
+  "shares": "Dijeljenja",
+  "bookmarks": "Spremljenih"
 }

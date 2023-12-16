@@ -307,5 +307,10 @@
   "locationPermissionDesc": "Do you want to allow TaskBuddy to access your location? This will allow us to show you jobs near you.",
   "sendAMessage": "Send a message",
   "urgentText": "Urgent",
-  "tapToReadMore": "Tap to read more"
+  "tapToReadMore": "Tap to read more",
+  "views": "Views",
+  "likes": "Likes",
+  "comments": "Comments",
+  "shares": "Shares",
+  "bookmarks": "Bookmarks"
 }
