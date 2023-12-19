@@ -6,10 +6,15 @@ import 'package:taskbuddy/screens/post_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/ui/post_card/post_card.dart';
 
+class ProfilePostsController {
+  void Function()? refresh;
+}
+
 class ProfilePosts extends StatefulWidget {
   final bool isMe;
+  final ProfilePostsController? controller;
 
-  const ProfilePosts({Key? key, required this.isMe}) : super(key: key);
+  const ProfilePosts({Key? key, required this.isMe, this.controller}) : super(key: key);
 
   @override
   State<ProfilePosts> createState() => _ProfilePostsState();
@@ -39,6 +44,20 @@ class _ProfilePostsState extends State<ProfilePosts> with AutomaticKeepAliveClie
   @override
   void initState() {
     super.initState();
+
+    if (widget.controller != null) {
+      widget.controller!.refresh = refresh;
+    }
+
+    _getPosts();
+  }
+
+  void refresh() {
+    setState(() {
+      _offset = 0;
+      _posts = [];
+      _hasMore = true;
+    });
     _getPosts();
   }
 

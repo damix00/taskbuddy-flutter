@@ -15,9 +15,9 @@ class PostJobType extends StatelessWidget {
 
     var postType = l10n.oneTimeJob;
 
-    if (post.jobType == PostType.partTime.index) {
+    if (post.jobType == PostType.partTime) {
       postType = l10n.partTimeJob;
-    } else if (post.jobType == PostType.fullTime.index) {
+    } else if (post.jobType == PostType.fullTime) {
       postType = l10n.fullTimeJob;
     }
 

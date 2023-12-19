@@ -10,7 +10,7 @@ import 'package:taskbuddy/widgets/screens/profile/header.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/feedback/custom_refresh.dart';
 
-class ProfileLayout extends StatelessWidget {
+class ProfileLayout extends StatefulWidget {
   final String profilePicture;
   final List<Widget> actions;
   final String fullName;
@@ -45,6 +45,13 @@ class ProfileLayout extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<ProfileLayout> createState() => _ProfileLayoutState();
+}
+
+class _ProfileLayoutState extends State<ProfileLayout> {
+  final ProfilePostsController _postsController = ProfilePostsController();
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
@@ -54,7 +61,7 @@ class ProfileLayout extends StatelessWidget {
 
           if (token == null) return;
 
-          if (isMe) {
+          if (widget.isMe) {
             var data = await Api.v1.accounts.me(token);
             
             log('Refreshed account data');
@@ -62,6 +69,8 @@ class ProfileLayout extends StatelessWidget {
             if (!data.ok) {
               return;
             }
+
+            _postsController.refresh!();
 
             Provider.of<AuthModel>(context, listen: false).setAccountResponse(data.data!);
             AccountCache.saveAccountResponse(data.data!);
@@ -88,7 +97,8 @@ class ProfileLayout extends StatelessWidget {
                 child: TabBarView(
                   children: [
                     ProfilePosts(
-                      isMe: isMe,
+                      isMe: widget.isMe,
+                      controller: _postsController,
                     ),
                     ListView(
                       padding: EdgeInsets.zero,
@@ -106,20 +116,20 @@ class ProfileLayout extends StatelessWidget {
               SliverList(
                 delegate: SliverChildListDelegate([
                   ProfileHeader(
-                    profilePicture: profilePicture,
-                    actions: actions,
-                    fullName: fullName,
-                    followers: followers,
-                    following: following,
-                    listings: listings,
-                    jobsDone: jobsDone,
-                    employeeCancelRate: employeeCancelRate,
-                    employeeRating: employeeRating,
-                    employerCancelRate: employerCancelRate,
-                    employerRating: employerRating,
-                    bio: bio.trim(),
-                    locationText: locationText.isEmpty ? null : locationText,
-                    isMe: isMe,
+                    profilePicture: widget.profilePicture,
+                    actions: widget.actions,
+                    fullName: widget.fullName,
+                    followers: widget.followers,
+                    following: widget.following,
+                    listings: widget.listings,
+                    jobsDone: widget.jobsDone,
+                    employeeCancelRate: widget.employeeCancelRate,
+                    employeeRating: widget.employeeRating,
+                    employerCancelRate: widget.employerCancelRate,
+                    employerRating: widget.employerRating,
+                    bio: widget.bio.trim(),
+                    locationText: widget.locationText.isEmpty ? null : widget.locationText,
+                    isMe: widget.isMe,
                   ),
                 ]),
               )
