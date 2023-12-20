@@ -312,5 +312,6 @@
   "likes": "Likes",
   "comments": "Comments",
   "shares": "Shares",
-  "bookmarks": "Bookmarks"
+  "bookmarks": "Bookmarks",
+  "reserved": "Reserved"
 }

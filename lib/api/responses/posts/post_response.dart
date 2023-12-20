@@ -25,6 +25,7 @@ class PostResponse {
   bool isUrgent;
   bool isLiked;
   bool isBookmarked;
+  bool isReserved = false;
 
   PostResponse({
     required this.user,
@@ -50,6 +51,7 @@ class PostResponse {
     this.impressions = 0,
     this.isLiked = false,
     this.isBookmarked = false,
+    this.isReserved = false,
   });
 
   // Factory method to create a PostResponse from JSON data
@@ -84,6 +86,7 @@ class PostResponse {
       isUrgent: json['is_urgent'] ?? false,
       isLiked: json['is_liked'] ?? false,
       isBookmarked: json['is_bookmarked'] ?? false,
+      isReserved: json['reserved'] ?? false,
     );
   }
 }

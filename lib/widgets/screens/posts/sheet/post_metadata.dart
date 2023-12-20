@@ -41,7 +41,7 @@ class PostData extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall
               ),
 
-              const SizedBox(width: Sizing.horizontalPadding + Sizing.interactionsWidth,),
+              const SizedBox(width: Sizing.horizontalPadding,),
             ],
           )
         )        

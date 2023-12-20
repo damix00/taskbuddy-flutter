@@ -11,7 +11,7 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(Sizing.horizontalPadding),
+      padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding, top: Sizing.horizontalPadding),
       child: Row(
         children: [
           SizedBox(

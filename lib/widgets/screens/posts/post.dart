@@ -8,6 +8,7 @@ import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dar
 import 'package:taskbuddy/widgets/screens/posts/post_description.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
 import 'package:taskbuddy/widgets/screens/posts/sheet/post_sheet.dart';
+import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_author.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_interactions.dart';
@@ -36,6 +37,15 @@ class _PostLayoutState extends State<PostLayout> {
     _post = widget.post;
   }
 
+  void _openOptionsMenu() {
+    CrossPlatformBottomSheet.showModal(
+      context,
+      [
+        BottomSheetButton(title: 'test', icon: Icons.delete, onTap: (c) {})
+      ]
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
@@ -43,6 +53,7 @@ class _PostLayoutState extends State<PostLayout> {
     return Stack(
       children: [
         GestureDetector(
+          onLongPress: _openOptionsMenu,
           onDoubleTap: () {
             setState(() {
               _post.isLiked = !_post.isLiked;
