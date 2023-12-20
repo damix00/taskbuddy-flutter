@@ -25,11 +25,13 @@ class LocationInformation extends StatelessWidget {
   final Function(LatLng?, String? name) onLocationChanged;
   final LatLng? location;
   final String? locationName;
+  final bool showEditButton;
 
   const LocationInformation({
     required this.onLocationChanged,
     this.locationName,
     this.location,
+    this.showEditButton = true,
     Key? key
   }) : super(key: key);
 
@@ -75,46 +77,47 @@ class LocationInformation extends StatelessWidget {
                   ),
                 ),
                 // Edit icon
-                Touchable(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.edit,
-                      color: Theme.of(context).colorScheme.onSurface,
+                if (showEditButton)
+                  Touchable(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.edit,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
+                    onTap: () {
+                      CrossPlatformBottomSheet.showModal(
+                        context,
+                        [
+                          BottomSheetButton(
+                            title: l10n.change,
+                            icon: Icons.edit,
+                            onTap: (c) {
+                              Navigator.of(context).pushNamed(
+                                '/location-chooser',
+                                arguments: LocationInputArguments(
+                                  initPosition: location,
+                                  locationName: locationName,
+                                  onLocationSelected: (loc, name) {
+                                    onLocationChanged(loc, name);
+                                  }
+                                )
+                              );
+                            },
+                          ),
+                          BottomSheetButton(
+                            title: l10n.remove,
+                            icon: Icons.delete,
+                            onTap: (c) {
+                              onLocationChanged(null, null);
+                            }
+                          ),
+                        ],
+                        title: l10n.pinnedLocation
+                      );
+                    }
                   ),
-                  onTap: () {
-                    CrossPlatformBottomSheet.showModal(
-                      context,
-                      [
-                        BottomSheetButton(
-                          title: l10n.change,
-                          icon: Icons.edit,
-                          onTap: (c) {
-                            Navigator.of(context).pushNamed(
-                              '/location-chooser',
-                              arguments: LocationInputArguments(
-                                initPosition: location,
-                                locationName: locationName,
-                                onLocationSelected: (loc, name) {
-                                  onLocationChanged(loc, name);
-                                }
-                              )
-                            );
-                          },
-                        ),
-                        BottomSheetButton(
-                          title: l10n.remove,
-                          icon: Icons.delete,
-                          onTap: (c) {
-                            onLocationChanged(null, null);
-                          }
-                        ),
-                      ],
-                      title: l10n.pinnedLocation
-                    );
-                  }
-                ),
               ],
             ),
           ),
@@ -128,19 +131,23 @@ class LocationDisplay extends StatefulWidget {
   final LatLng? location;
   final String? locationName;
   final double? radius;
-  final Function(LatLng?, String? name) onLocationChanged;
+  final Function(LatLng?, String? name)? onLocationChanged;
   final MapController? mapController;
   final bool optional;
   final String tooltipText;
+  final bool showEditButton;
+  final double zoom;
 
   const LocationDisplay({
-    required this.onLocationChanged,
+    this.onLocationChanged,
     this.location,
     this.mapController,
     this.locationName,
     this.radius,
     this.optional = true,
     this.tooltipText = '',
+    this.showEditButton = true,
+    this.zoom = 10,
     Key? key
   }) : super(key: key);
 
@@ -156,14 +163,15 @@ class _LocationDisplayState extends State<LocationDisplay> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InputTitle(
-          title: l10n.location,
-          optional: widget.optional,
-          tooltipText: widget.tooltipText.isEmpty ? null : widget.tooltipText,
-        ),
-        if (widget.location != null)
+        if (widget.showEditButton)
+          InputTitle(
+            title: l10n.location,
+            optional: widget.optional,
+            tooltipText: widget.tooltipText.isEmpty ? null : widget.tooltipText,
+          ),
+        if (widget.location != null && widget.showEditButton)
           const SizedBox(height: 8,),
-        if (widget.location != null) 
+        if (widget.location != null && widget.showEditButton) 
           Text(l10n.approximateLocation, style: Theme.of(context).textTheme.labelMedium,),
         const SizedBox(height: Sizing.inputSpacing,),
         if (widget.location != null)
@@ -178,7 +186,7 @@ class _LocationDisplayState extends State<LocationDisplay> {
                     mapController: widget.mapController,
                     options: MapOptions(
                       initialCenter: widget.location!,
-                      initialZoom: 10
+                      initialZoom: widget.zoom
                     ),
                     children: [
                       TileLayer(
@@ -215,8 +223,9 @@ class _LocationDisplayState extends State<LocationDisplay> {
                   // Show the location text
                   LocationInformation(
                     onLocationChanged: (loc, name) {
-                      widget.onLocationChanged(loc, name);
+                      widget.onLocationChanged?.call(loc, name);
                     },
+                    showEditButton: widget.showEditButton,
                     location: widget.location,
                     locationName: widget.locationName,
                   ),
@@ -244,7 +253,7 @@ class _LocationDisplayState extends State<LocationDisplay> {
                       initPosition: widget.location,
                       locationName: widget.locationName,
                       onLocationSelected: (loc, name) {
-                        widget.onLocationChanged(loc, name);
+                        widget.onLocationChanged?.call(loc, name);
                       }
                     )
                   );

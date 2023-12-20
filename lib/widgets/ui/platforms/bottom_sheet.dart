@@ -27,9 +27,6 @@ class CrossPlatformBottomSheet {
     if (Platform.isAndroid || forceAndroidVersion) {
       showModalBottomSheet(
         context: context,
-        constraints: const BoxConstraints(
-          maxHeight: 300,
-        ),
         builder: (ctx) {
           return _AndroidBottomSheet(title: title, buttons: buttons);
         }
@@ -100,34 +97,44 @@ class BottomSheetBase extends StatelessWidget {
 class _AndroidBottomSheet extends StatelessWidget {
   final List<BottomSheetButton> buttons;
   final String? title;
-  final bool safeArea;
 
   const _AndroidBottomSheet({
     required this.buttons,
     this.title,
-    this.safeArea = true,
     Key? key
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BottomSheetBase(
-      children: [
-        if (title != null)
-          Text(title!, style: Theme.of(context).textTheme.titleSmall),
-        ...buttons.map((button) {
-          return ListTile(
-            leading: Icon(button.icon, color: Theme.of(context).colorScheme.onBackground),
-            title: Text(button.title, style: Theme.of(context).textTheme.bodyMedium!),
-            onTap: () {
-              Navigator.of(context).pop(); // Close the bottom sheet
-              button.onTap(context);
-            },
-          );
-        }).toList(),
-        if (safeArea)
-          SizedBox(height: MediaQuery.of(context).padding.bottom),
-      ]
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(
+            child: Container(
+              height: 4,
+              width: 40,
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(4),
+              )
+            ),
+          ),
+          if (title != null)
+            Text(title!, style: Theme.of(context).textTheme.titleSmall),
+          ...buttons.map((button) {
+            return ListTile(
+              leading: Icon(button.icon, color: Theme.of(context).colorScheme.onBackground),
+              title: Text(button.title, style: Theme.of(context).textTheme.bodyMedium!),
+              onTap: () {
+                Navigator.of(context).pop(); // Close the bottom sheet
+                button.onTap(context);
+              },
+            );
+          }).toList(),
+        ]
+      )
     );
   }
 }

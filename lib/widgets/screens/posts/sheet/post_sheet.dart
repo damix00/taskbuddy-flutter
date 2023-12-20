@@ -8,6 +8,7 @@ import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_title.dart';
 import 'package:taskbuddy/widgets/screens/posts/sheet/post_counter.dart';
 import 'package:taskbuddy/widgets/screens/posts/sheet/post_job_type.dart';
+import 'package:taskbuddy/widgets/screens/posts/sheet/post_location_display.dart';
 import 'package:taskbuddy/widgets/screens/posts/sheet/post_metadata.dart';
 import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
@@ -23,6 +24,8 @@ class PostSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
+
+    var dividerPadding = 16.0;
 
     return BottomSheetBase(
       mainAxisSize: MainAxisSize.min,
@@ -58,7 +61,7 @@ class PostSheet extends StatelessWidget {
             ),
           ),
         ),
-        CustomDivider(color: Theme.of(context).colorScheme.outline, padding: 16,),
+        CustomDivider(color: Theme.of(context).colorScheme.outline, padding: dividerPadding,),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Wrap(
@@ -71,6 +74,9 @@ class PostSheet extends StatelessWidget {
             ],
           ),
         ),
+        if (!post.isRemote)
+          CustomDivider(color: Theme.of(context).colorScheme.outline, padding: dividerPadding,),
+        PostLocationDisplay(post: post),
         SizedBox(height: paddingBottom)
       ]
     );
