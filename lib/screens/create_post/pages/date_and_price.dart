@@ -97,6 +97,7 @@ class _PageContentState extends State<_PageContent> {
                   onChanged: (value) {
                     setState(() {
                       _startDate = value;
+                      CreatePostState.startDate = value;
                     });
                   }
                 ),
@@ -111,6 +112,7 @@ class _PageContentState extends State<_PageContent> {
                   onChanged: (value) {
                     setState(() {
                       _endDate = value;
+                      CreatePostState.endDate = value;
                     });
                   }
                 ),

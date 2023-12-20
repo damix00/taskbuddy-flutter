@@ -14,8 +14,6 @@ class _PostCounterState extends State<PostCounter> with SingleTickerProviderStat
   late AnimationController _animationController;
   late Animation<int> _countAnimation;
 
-  bool _played = false;
-
   @override
   void initState() {
     super.initState();

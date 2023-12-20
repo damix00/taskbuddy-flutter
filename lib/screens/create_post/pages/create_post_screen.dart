@@ -83,7 +83,7 @@ class _ScreenContent extends StatefulWidget {
 }
 
 class _ScreenContentState extends State<_ScreenContent> {
-  int _selected = PostType.oneTime.index;
+  int _selected = CreatePostState.postType.index;
   bool _urgent = false;
 
   @override

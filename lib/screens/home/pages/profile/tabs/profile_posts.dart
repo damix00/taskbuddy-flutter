@@ -5,6 +5,7 @@ import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/post_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/ui/post_card/post_card.dart';
+import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 
 class ProfilePostsController {
   void Function()? refresh;
@@ -23,7 +24,6 @@ class ProfilePosts extends StatefulWidget {
 class _ProfilePostsState extends State<ProfilePosts> with AutomaticKeepAliveClientMixin {
   int _offset = 0;
   List<PostResponse> _posts = [];
-  bool _loading = false;
   bool _hasMore = true;
 
   void _getPosts() async {
@@ -66,12 +66,27 @@ class _ProfilePostsState extends State<ProfilePosts> with AutomaticKeepAliveClie
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return ListView.builder(
-      itemCount: _posts.length,
+      itemCount: _posts.length + 1,
       itemBuilder: (context, index) {
         if (index == _posts.length - 1 && _hasMore) {
           _offset += 10;
           _getPosts();
+        }
+
+        if (index == _posts.length) {
+          if (!_hasMore) {
+            return const SizedBox();
+          }
+
+          return const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: CrossPlatformLoader()
+            ),
+          );
         }
 
         return Touchable(
