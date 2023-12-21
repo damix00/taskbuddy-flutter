@@ -46,7 +46,9 @@ class PostTags extends StatelessWidget {
                           const SizedBox(width: 8),
                           Text(
                             l10n.urgentText,
-                            style: Theme.of(context).textTheme.bodyMedium!
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: Theme.of(context).colorScheme.onBackground
+                            )
                           ),
                         ],
                       )

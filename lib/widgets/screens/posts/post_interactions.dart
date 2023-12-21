@@ -105,6 +105,10 @@ class PostInteractions extends StatelessWidget {
               icon: Icons.more_vert,
               onTap: () {},
             ),
+
+            const SizedBox(
+              height: 4
+            ),
           ],
         ),
       ),

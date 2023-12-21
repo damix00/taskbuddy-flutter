@@ -20,7 +20,7 @@ class CountsList extends StatelessWidget {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
     return SizedBox(
-      height: 40,
+      height: 46,
       child: ListView.separated(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,

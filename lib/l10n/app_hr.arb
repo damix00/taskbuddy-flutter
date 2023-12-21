@@ -203,5 +203,7 @@
   "comments": "Komentari",
   "shares": "Dijeljenja",
   "bookmarks": "Spremljenih",
-  "reserved": "Rezervirano"
+  "reserved": "Rezervirano",
+  "deleteText": "Obriši",
+  "successfullyDeleted": "Uspješno obrisano!"
 }

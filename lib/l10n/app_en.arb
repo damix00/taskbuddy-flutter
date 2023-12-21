@@ -313,5 +313,7 @@
   "comments": "Comments",
   "shares": "Shares",
   "bookmarks": "Bookmarks",
-  "reserved": "Reserved"
+  "reserved": "Reserved",
+  "deleteText": "Delete",
+  "successfullyDeleted": "Successfully deleted!"
 }

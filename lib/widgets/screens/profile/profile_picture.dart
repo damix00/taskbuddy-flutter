@@ -41,7 +41,7 @@ class _ProfilePFPInputState extends State<_ProfilePFPInput> {
 
       var result = await Api.v1.accounts.meRoute.profile.update(
         token,
-        removeProfilePicture: true
+        removeProfilePicture: true,
       );
 
       if (result.response!.statusCode != 200) {
@@ -112,7 +112,8 @@ class ProfilePFP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isMe ? _ProfilePFPInput(profilePicture: profilePicture,) : SizedBox(
+    // return isMe ? _ProfilePFPInput(profilePicture: profilePicture,) : SizedBox(
+    return SizedBox(
       height: 156,
       width: 156,
       child: Stack(
@@ -121,20 +122,20 @@ class ProfilePFP extends StatelessWidget {
             borderRadius: BorderRadius.circular(156),
             child: ProfilePictureDisplay(size: 156, iconSize: 92, profilePicture: profilePicture),
           ),
-          if (isMe)
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(56),
-                ),
-                width: 48,
-                height: 48,
-                child: Icon(Icons.edit, size: 24, color: Theme.of(context).colorScheme.onPrimary),
-              ),
-            ),
+          // if (isMe)
+          //   Positioned(
+          //     bottom: 0,
+          //     right: 0,
+          //     child: Container(
+          //       decoration: BoxDecoration(
+          //         color: Theme.of(context).colorScheme.primary,
+          //         borderRadius: BorderRadius.circular(56),
+          //       ),
+          //       width: 48,
+          //       height: 48,
+          //       child: Icon(Icons.edit, size: 24, color: Theme.of(context).colorScheme.onPrimary),
+          //     ),
+          //   ),
         ],
       ),
     );

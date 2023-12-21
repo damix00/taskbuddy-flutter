@@ -6,7 +6,6 @@ import 'package:taskbuddy/screens/post_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/ui/post_card/post_card.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
-import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class ProfilePostsController {
   void Function()? refresh;
@@ -71,7 +70,6 @@ class _ProfilePostsState extends State<ProfilePosts> with AutomaticKeepAliveClie
 
     return ListView.builder(
       itemCount: _posts.length + 1,
-      padding: const EdgeInsets.only(top: Sizing.horizontalPadding),
       itemBuilder: (context, index) {
         if (index == _posts.length - 1 && _hasMore) {
           _offset += 10;

@@ -45,11 +45,18 @@ class TagWidget extends StatelessWidget {
             horizontal: 16,
             vertical: 4,
           ),
-          child: child ?? Text(
-            tag!.translations[AppLocalizations.of(context)!.localeName.toLowerCase()] ?? tag!.translations['en']!,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: selected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              child ?? Text(
+                tag!.translations[AppLocalizations.of(context)!.localeName.toLowerCase()] ?? tag!.translations['en']!,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: selected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ],
           ),
         ),
       )
