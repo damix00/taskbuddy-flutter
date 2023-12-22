@@ -205,5 +205,7 @@
   "bookmarks": "Spremljenih",
   "reserved": "Rezervirano",
   "deleteText": "Obriši",
-  "successfullyDeleted": "Uspješno obrisano!"
+  "successfullyDeleted": "Uspješno obrisano!",
+  "search": "Pretraga",
+  "searchHistory": "Povijest pretrage"
 }

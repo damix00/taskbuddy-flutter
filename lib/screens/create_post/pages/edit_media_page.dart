@@ -7,6 +7,7 @@ import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:reorderables/reorderables.dart';
+import 'dart:math' as math;
 
 class CreatePostMediaEdit extends StatefulWidget {
   final List<XFile> items;
@@ -150,6 +151,7 @@ class _Item extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 200,
+                  width: math.min(MediaQuery.of(context).size.width - Sizing.horizontalPadding * 2 - 56, 500),
                   child: Image.file(
                     File(item.path),
                     fit: BoxFit.cover,

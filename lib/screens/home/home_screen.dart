@@ -339,10 +339,10 @@ class _HomeAppbarHandlerState extends State<_HomeAppbarHandler> {
       forceDisableBlur: 4 == widget.currentIndex,
       child: [
         Text('Home'),
+        const SearchAppbar(),
         Container(),
         Container(),
-        Container(),
-        ProfileAppbar(),
+        const ProfileAppbar(),
       ][widget.currentIndex],
     );
   }

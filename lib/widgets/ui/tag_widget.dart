@@ -42,7 +42,7 @@ class TagWidget extends StatelessWidget {
             ),
           ),
           padding: const EdgeInsets.symmetric(
-            horizontal: 16,
+            horizontal: 20,
             vertical: 4,
           ),
           child: Row(

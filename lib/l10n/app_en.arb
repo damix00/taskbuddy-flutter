@@ -315,5 +315,7 @@
   "bookmarks": "Bookmarks",
   "reserved": "Reserved",
   "deleteText": "Delete",
-  "successfullyDeleted": "Successfully deleted!"
+  "successfullyDeleted": "Successfully deleted!",
+  "search": "Search",
+  "searchHistory": "Search history"
 }

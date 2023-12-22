@@ -193,6 +193,9 @@ class _ScreenContentState extends State<_ScreenContent> {
                 SnackbarPresets.error(context, l10n.somethingWentWrong);
               }
 
+              // Clear the state (resets all fields to default)
+              CreatePostState.clear();
+
               setState(() {
                 _loading = false;
               });

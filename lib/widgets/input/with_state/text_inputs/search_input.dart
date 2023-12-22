@@ -6,6 +6,7 @@ class SearchInput extends StatelessWidget {
   final Function(String)? onChanged;
   final Function()? onSearch;
   final Function()? onTap;
+  final Color? fillColor;
 
   const SearchInput({
     this.controller,
@@ -13,6 +14,7 @@ class SearchInput extends StatelessWidget {
     this.onChanged,
     this.onSearch,
     this.onTap,
+    this.fillColor,
     Key? key
   }) : super(key: key);
 
@@ -39,7 +41,7 @@ class SearchInput extends StatelessWidget {
             borderSide: BorderSide.none,
           ),
           hintStyle: Theme.of(context).textTheme.labelMedium,
-          fillColor: Theme.of(context).colorScheme.background,
+          fillColor: fillColor ?? Theme.of(context).colorScheme.background,
           filled: true,
           prefixIcon: Icon(Icons.search),
         ),

@@ -77,7 +77,7 @@ class _LocationInputBottomSheetState extends State<LocationInputBottomSheet> {
                     // Search input
                     child: Padding(
                       padding: const EdgeInsets.only(top: 32.0),
-                      child: SearchInput (
+                      child: SearchInput(
                         hintText: l10n.searchPlaceholder,
                         onTap: () {
                           // Expand the sheet
