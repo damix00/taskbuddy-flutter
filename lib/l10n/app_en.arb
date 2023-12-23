@@ -321,5 +321,7 @@
   "nearbyPosts": "Nearby posts",
   "noPostsFound": "No posts found.",
   "accounts": "Accounts",
-  "unfollow": "Unfollow"
+  "unfollow": "Unfollow",
+  "successfullyUnfollowed": "Successfully unfollowed!",
+  "successfullyFollowed": "Successfully followed!"
 }

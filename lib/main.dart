@@ -105,6 +105,10 @@ class _AppState extends State<App> {
       fontWeight: FontWeight.w700,
       color: Colors.grey[500],
     ),
+    labelSmall: TextStyle(
+      fontSize: 12,
+      color: Colors.grey[500],
+    ),
     labelMedium: TextStyle(
       fontSize: 14,
       color: Colors.grey[500],
@@ -238,6 +242,9 @@ class _AppState extends State<App> {
                   color: Colors.grey[600],
                 ),
                 displaySmall: _textTheme.displaySmall!.copyWith(
+                  color: Colors.grey[600],
+                ),
+                labelSmall: _textTheme.labelSmall!.copyWith(
                   color: Colors.grey[600],
                 ),
                 labelMedium: _textTheme.labelMedium!.copyWith(

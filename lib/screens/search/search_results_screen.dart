@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/cache/search_history_cache.dart';
 import 'package:taskbuddy/screens/search/account_search.dart';
+import 'package:taskbuddy/screens/search/post_search.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_inputs/search_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -37,7 +38,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
           fillColor: Theme.of(context).colorScheme.surface,
           borderRadius: 0,
           enabled: true,
-          showIcon: false,
+          showIcon: true,
           onSearch: () async {
             if (_value.isEmpty || _value == widget.query) {
               return;
@@ -95,7 +96,7 @@ class _SearchResults extends StatelessWidget {
             child: TabBarView(
               children: [
                 SearchResultsAccounts(query: query),
-                Text('Listings'),
+                PostSearch(query: query),
               ],
             ),
           ),

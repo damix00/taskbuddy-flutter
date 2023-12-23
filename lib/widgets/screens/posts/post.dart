@@ -134,14 +134,7 @@ class _PostLayoutState extends State<PostLayout> {
                   ),
                   PostTags(post: _post),
                   const SizedBox(height: 12),
-                  Touchable(
-                    child: PostAuthor(post: _post),
-                    onTap: () {
-                      if (widget.post.user.isMe) {
-                        // TODO: add profile screen
-                      }
-                    },
-                  ),
+                  PostAuthor(post: _post),
                   const SizedBox(height: 8),
                   // PostJobType(post: _post),
                   PostPrice(post: _post),

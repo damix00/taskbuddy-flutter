@@ -95,6 +95,7 @@ class _SearchResultsAccountsState extends State<SearchResultsAccounts> with Auto
               );
             },
           ),
+        SliverToBoxAdapter(child: SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding,))
       ],
     );
   }
@@ -163,8 +164,16 @@ class _SearchResultsAccountState extends State<_SearchResultsAccount> {
 
               if (_account.isFollowing) {
                 res = await Api.v1.accounts.unfollow(token, _account.UUID);
+
+                if (res) {
+                  SnackbarPresets.show(context, text: l10n.successfullyUnfollowed);
+                }
               } else {
                 res = await Api.v1.accounts.follow(token, _account.UUID);
+
+                if (res) {
+                  SnackbarPresets.show(context, text: l10n.successfullyFollowed);
+                }
               }
 
               if (res) {

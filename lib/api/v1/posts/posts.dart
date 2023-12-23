@@ -152,4 +152,35 @@ class Posts {
       return ApiResponse(status: 500, message: "", ok: false);
     }
   }
+
+  Future<ApiResponse<List<PostResultsResponse>?>> searchPosts(String token, String query, int offset) async {
+    try {
+      var response = await Requests.fetchEndpoint(
+        "${ApiOptions.path}/search?query=${Uri.encodeComponent(query)}&offset=${Uri.encodeComponent(offset.toString())}&type=post",
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer $token",
+        }
+      );
+
+      if (response == null) {
+        return ApiResponse(status: 500, message: "", ok: false);
+      }
+
+      if (response.timedOut || response.response?.statusCode != 200) {
+        return ApiResponse(status: 500, message: "", ok: false);
+      }
+
+      return ApiResponse(
+        status: response.response!.statusCode!,
+        message: 'OK',
+        ok: response.response!.statusCode! == 200,
+        data: (response.response!.data["posts"] as List).map((e) => PostResultsResponse.fromJson(e)).toList(),
+        response: response.response,
+      );
+    }
+    catch (e) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+  }
 }

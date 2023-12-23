@@ -211,5 +211,7 @@
   "nearbyPosts": "Objave u blizini",
   "noPostsFound": "Nismo mogli pronaći nijednu objavu.",
   "accounts": "Računi",
-  "unfollow": "Otprati"
+  "unfollow": "Otprati",
+  "successfullyUnfollowed": "Uspješno otpraćeno!",
+  "successfullyFollowed": "Uspješno praćeno!"
 }
