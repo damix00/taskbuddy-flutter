@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:taskbuddy/api/options.dart';
+import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/account/account_response.dart';
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
@@ -79,10 +80,37 @@ class Accounts {
         files: files));
   }
 
-  Future<ApiResponse<PublicAccountResponse?>> search(String token, {
+  Future<ApiResponse<List<PublicAccountResponse>?>> search(String token, {
     required String query,
     int offset = 0,
   }) async {
-    return ApiResponse(status: 500, message: 'Not implemented', ok: false);
+    try {
+      var response = await Requests.fetchEndpoint(
+        "${ApiOptions.path}/search?query=${Uri.encodeComponent(query)}&offset=${Uri.encodeComponent(offset.toString())}&type=user",
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer $token",
+        }
+      );
+
+      if (response == null) {
+        return ApiResponse(status: 500, message: "", ok: false);
+      }
+
+      if (response.timedOut || response.response?.statusCode != 200) {
+        return ApiResponse(status: 500, message: "", ok: false);
+      }
+
+      return ApiResponse(
+        status: response.response!.statusCode!,
+        message: 'OK',
+        ok: response.response!.statusCode! == 200,
+        data: (response.response!.data["users"] as List).map((e) => PublicAccountResponse.fromJson(e)).toList(),
+        response: response.response,
+      );
+    }
+    catch (e) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
   }
 }

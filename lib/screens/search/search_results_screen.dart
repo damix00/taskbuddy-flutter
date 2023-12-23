@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/api.dart';
-import 'package:taskbuddy/api/responses/account/public_account_response.dart';
-import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/search_history_cache.dart';
+import 'package:taskbuddy/screens/search/account_search.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_inputs/search_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -70,29 +68,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   }
 }
 
-class _SearchResults extends StatefulWidget {
+class _SearchResults extends StatelessWidget {
   final String query;
 
   const _SearchResults({Key? key, required this.query}) : super(key: key);
-
-  @override
-  State<_SearchResults> createState() => _SearchResultsState();
-}
-
-class _SearchResultsState extends State<_SearchResults> {
-  bool _loadingAccounts = true;
-  bool _loadingPosts = true;
-  List<PublicAccountResponse> _accounts = [];
-  List<PostResultsResponse> _posts = [];
-
-  Future<void> _loadAccounts() async {
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadAccounts();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +94,7 @@ class _SearchResultsState extends State<_SearchResults> {
           Expanded(
             child: TabBarView(
               children: [
-                Text('Accounts'),
+                SearchResultsAccounts(query: query),
                 Text('Listings'),
               ],
             ),

@@ -161,7 +161,7 @@ class _SearchPageState extends State<SearchPage> {
           if (!_loading && !_error && _isLocationEnabled)
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
+                padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding).copyWith(bottom: Sizing.horizontalPadding / 2),
                 child: Text(
                   l10n.nearbyPosts,
                   style: Theme.of(context).textTheme.labelLarge!.copyWith(
