@@ -2,6 +2,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_tags_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
@@ -119,5 +120,36 @@ class Posts {
     }
 
     return true;
+  }
+
+  Future<ApiResponse<List<PostResultsResponse>?>> getNearbyPosts(String token, double lat, double lon, int offset) async {
+    try {
+      var response = await Requests.fetchEndpoint(
+        "${ApiOptions.path}/posts/nearby?lat=${Uri.encodeComponent(lat.toString())}&lon=${Uri.encodeComponent(lon.toString())}&offset=${Uri.encodeComponent(offset.toString())}",
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer $token",
+        }
+      );
+
+      if (response == null) {
+        return ApiResponse(status: 500, message: "", ok: false);
+      }
+
+      if (response.timedOut || response.response?.statusCode != 200) {
+        return ApiResponse(status: 500, message: "", ok: false);
+      }
+
+      return ApiResponse(
+        status: response.response!.statusCode!,
+        message: 'OK',
+        ok: response.response!.statusCode! == 200,
+        data: (response.response!.data["posts"] as List).map((e) => PostResultsResponse.fromJson(e)).toList(),
+        response: response.response,
+      );
+    }
+    catch (e) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
   }
 }

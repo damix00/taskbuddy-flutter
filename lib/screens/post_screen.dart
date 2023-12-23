@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/screens/posts/post.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostScreenArguments {
-  final PostResponse post;
+  final PostResultsResponse post;
 
   PostScreenArguments({ required this.post });
 }

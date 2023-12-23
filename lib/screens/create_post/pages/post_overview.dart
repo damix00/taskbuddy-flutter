@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
 import 'package:taskbuddy/screens/create_post/value_display.dart';
@@ -203,7 +204,7 @@ class _ScreenContentState extends State<_ScreenContent> {
               Navigator.of(context).pushNamedAndRemoveUntil(
                 '/post',
                 (route) => route.isFirst,
-                arguments: PostScreenArguments(post: result.data!)
+                arguments: PostScreenArguments(post: PostResultsResponse.fromPostResponse(result.data!))
               );
             },
           ),

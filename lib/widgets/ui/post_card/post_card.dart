@@ -1,17 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class PostCard extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
+  final bool padding;
 
-  const PostCard({Key? key, required this.post}) : super(key: key);
+  const PostCard({Key? key, required this.post, this.padding = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding, top: Sizing.horizontalPadding),
+      padding: padding ? const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding, top: Sizing.horizontalPadding) : EdgeInsets.zero,
       child: Row(
         children: [
           SizedBox(

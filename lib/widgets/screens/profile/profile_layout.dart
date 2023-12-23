@@ -76,10 +76,6 @@ class _ProfileLayoutState extends State<ProfileLayout> {
             AccountCache.saveAccountResponse(data.data!);
           }
         },
-        notificationPredicate: (notification) {
-          // with NestedScrollView local(depth == 2) OverscrollNotification are not sent
-          return notification.depth == 2 || notification.depth == 0;
-        },
         child: NestedScrollView(
           body: Column(
             children: [

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class PostJobType extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
 
   const PostJobType({ Key? key, required this.post }) : super(key: key);
 

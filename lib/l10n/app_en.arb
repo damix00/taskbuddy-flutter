@@ -317,5 +317,7 @@
   "deleteText": "Delete",
   "successfullyDeleted": "Successfully deleted!",
   "search": "Search",
-  "searchHistory": "Search history"
+  "searchHistory": "Search history",
+  "nearbyPosts": "Nearby posts",
+  "noPostsFound": "No posts found."
 }

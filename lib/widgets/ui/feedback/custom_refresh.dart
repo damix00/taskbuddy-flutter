@@ -7,8 +7,9 @@ class CustomRefresh extends StatelessWidget {
   final Widget child;
   final bool Function(ScrollNotification)? notificationPredicate;
   final Future<void> Function() onRefresh;
+  final double paddingTop;
 
-  const CustomRefresh({required this.onRefresh, required this.child, this.notificationPredicate, Key? key}) : super(key: key);
+  const CustomRefresh({required this.onRefresh, required this.child, this.notificationPredicate, this.paddingTop = 0, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class CustomRefresh extends StatelessWidget {
       },
       builder: (
         MaterialIndicatorDelegate(
-          displacement: 0,
+          displacement: paddingTop,
           builder: (context, controller) {
             return Transform.rotate(
               angle: clampDouble(controller.value, 0, 1) * 3.14,
@@ -33,7 +34,7 @@ class CustomRefresh extends StatelessWidget {
           },
           scrollableBuilder: (context, child, controller) {
             return Padding(
-              padding: EdgeInsets.only(top: controller.value * 40),
+              padding: EdgeInsets.only(top: controller.value * 40 + paddingTop),
               child: child,
             );
           },

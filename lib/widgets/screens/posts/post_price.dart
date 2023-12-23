@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostPrice extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
 
   const PostPrice({ Key? key, required this.post }) : super(key: key);
 

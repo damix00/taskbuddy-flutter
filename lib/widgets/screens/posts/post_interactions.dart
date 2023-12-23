@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
@@ -36,7 +36,7 @@ class PostInteractionButton extends StatelessWidget {
 }
 
 class PostInteractions extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
 
   const PostInteractions({ Key? key, required this.post }) : super(key: key);
 

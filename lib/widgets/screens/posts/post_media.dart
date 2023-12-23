@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 
 class PostMedia extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
   final Function(int) onPageChanged;
 
   const PostMedia({ Key? key, required this.post, required this.onPageChanged }) : super(key: key);

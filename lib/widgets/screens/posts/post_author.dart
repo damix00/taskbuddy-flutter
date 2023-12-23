@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostAuthor extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
 
   const PostAuthor({ Key? key, required this.post }) : super(key: key);
 
@@ -25,7 +25,7 @@ class PostAuthor extends StatelessWidget {
             SizedBox(
               width: 36,
               height: 36,
-              child: ProfilePictureDisplay(size: 36, iconSize: 20, profilePicture: post.user.profile.profilePicture)
+              child: ProfilePictureDisplay(size: 36, iconSize: 20, profilePicture: post.user.profilePicture)
             ),
             const SizedBox(width: 12,),
             Flexible(

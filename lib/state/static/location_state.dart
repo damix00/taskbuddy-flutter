@@ -6,7 +6,7 @@ class LocationState {
   static double currentLat = 1000;
   static double currentLon = 1000;
 
-  static void updateLocation() async {
+  static Future<void> updateLocation() async {
     if (await Utils.canGetLocation()) {
       var loc = await Utils.getCurrentLocation();
 
@@ -18,7 +18,9 @@ class LocationState {
   }
 
   static void setInterval() {
-    Timer.periodic(const Duration(minutes: 10), (timer) {
+    updateLocation();
+    
+    Timer.periodic(const Duration(minutes: 1), (timer) {
       updateLocation();
     });
   }

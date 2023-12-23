@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/widgets/ui/tag_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostTags extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
 
   const PostTags({ Key? key, required this.post }) : super(key: key);
 

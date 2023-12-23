@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 
 class PostTitle extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
 
   const PostTitle({ Key? key, required this.post }) : super(key: key);
 

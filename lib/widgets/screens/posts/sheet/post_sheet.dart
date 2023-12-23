@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_author.dart';
@@ -16,7 +16,7 @@ import 'package:taskbuddy/widgets/ui/visual/divider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostSheet extends StatelessWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
   final double paddingBottom;
 
   const PostSheet({ Key? key, required this.post, required this.paddingBottom }) : super(key: key);

@@ -1,10 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:taskbuddy/api/api.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/utils/haptic_feedback.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
@@ -24,7 +23,7 @@ import 'package:taskbuddy/widgets/screens/posts/post_title.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostLayout extends StatefulWidget {
-  final PostResponse post;
+  final PostResultsResponse post;
 
   const PostLayout({ Key? key, required this.post }) : super(key: key);
 
@@ -35,7 +34,7 @@ class PostLayout extends StatefulWidget {
 class _PostLayoutState extends State<PostLayout> {
   int _page = 0;
 
-  late PostResponse _post;
+  late PostResultsResponse _post;
 
   @override
   void initState() {
