@@ -320,5 +320,6 @@
   "searchHistory": "Search history",
   "nearbyPosts": "Nearby posts",
   "noPostsFound": "No posts found.",
-  "accounts": "Accounts"
+  "accounts": "Accounts",
+  "unfollow": "Unfollow"
 }

@@ -1,15 +1,15 @@
 import 'package:taskbuddy/api/responses/account/profile_response.dart';
 
 class PublicAccountResponse {
-  final ProfileResponse profile;
-  final String UUID;
-  final String username;
-  final String firstName;
-  final String lastName;
-  final bool hasPremium;
-  final bool verified;
-  final bool isFollowing;
-  final bool isMe;
+  ProfileResponse profile;
+  String UUID;
+  String username;
+  String firstName;
+  String lastName;
+  bool hasPremium;
+  bool verified;
+  bool isFollowing;
+  bool isMe;
 
   PublicAccountResponse({
     required this.profile,

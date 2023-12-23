@@ -113,4 +113,54 @@ class Accounts {
       return ApiResponse(status: 500, message: "", ok: false);
     }
   }
+
+  Future<bool> follow(String token, String uuid) async {
+    try {
+      var response = await Requests.fetchEndpoint(
+        "${ApiOptions.path}/accounts/${Uri.encodeComponent(uuid)}/follow",
+        method: "PUT",
+        headers: {
+          "Authorization": "Bearer $token",
+        }
+      );
+
+      if (response == null) {
+        return false;
+      }
+
+      if (response.timedOut || response.response?.statusCode != 200) {
+        return false;
+      }
+
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> unfollow(String token, String uuid) async {
+    try {
+      var response = await Requests.fetchEndpoint(
+        "${ApiOptions.path}/accounts/${Uri.encodeComponent(uuid)}/follow",
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer $token",
+        }
+      );
+
+      if (response == null) {
+        return false;
+      }
+
+      if (response.timedOut || response.response?.statusCode != 200) {
+        return false;
+      }
+
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
 }

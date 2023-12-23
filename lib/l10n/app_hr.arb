@@ -210,5 +210,6 @@
   "searchHistory": "Povijest pretrage",
   "nearbyPosts": "Objave u blizini",
   "noPostsFound": "Nismo mogli pronaći nijednu objavu.",
-  "accounts": "Računi"
+  "accounts": "Računi",
+  "unfollow": "Otprati"
 }

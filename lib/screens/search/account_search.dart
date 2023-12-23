@@ -5,6 +5,7 @@ import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
@@ -102,10 +103,24 @@ class _SearchResultsAccountsState extends State<SearchResultsAccounts> with Auto
   bool get wantKeepAlive => true;
 }
 
-class _SearchResultsAccount extends StatelessWidget {
+class _SearchResultsAccount extends StatefulWidget {
   final PublicAccountResponse account;
 
   const _SearchResultsAccount({Key? key, required this.account}) : super(key: key);
+
+  @override
+  State<_SearchResultsAccount> createState() => _SearchResultsAccountState();
+}
+
+class _SearchResultsAccountState extends State<_SearchResultsAccount> {
+  late PublicAccountResponse _account;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _account = widget.account;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,28 +134,51 @@ class _SearchResultsAccount extends StatelessWidget {
         SizedBox(
           width: 36,
           height: 36,
-          child: ProfilePictureDisplay(size: 36, iconSize: 20, profilePicture: account.profile.profilePicture)
+          child: ProfilePictureDisplay(size: 36, iconSize: 20, profilePicture: _account.profile.profilePicture)
         ),
         const SizedBox(width: 12,),
         Flexible(
           flex: 1,
           fit: FlexFit.tight,
           child: Text(
-            "@${account.username}",
+            "@${_account.username}",
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
         ),
-        
-        if (account.verified)
+
+        if (_account.verified)
           const SizedBox(width: 4,),
-        if (account.verified)
+        if (_account.verified)
           const Icon(Icons.verified, size: 16, color: Colors.blue,),
 
-        if (!account.isFollowing && !account.isMe)
+        if (!_account.isMe)
           const Spacer(),
-        if (!account.isFollowing && !account.isMe)
-          FeedSlimButton(onPressed: () {}, child: Text(l10n.follow))
+        if (!_account.isMe)
+          FeedSlimButton(
+            onPressed: () async {
+              String token = (await AccountCache.getToken())!;
+
+              bool res = false;
+
+              if (_account.isFollowing) {
+                res = await Api.v1.accounts.unfollow(token, _account.UUID);
+              } else {
+                res = await Api.v1.accounts.follow(token, _account.UUID);
+              }
+
+              if (res) {
+                setState(() {
+                  _account.isFollowing = !_account.isFollowing;
+                });
+              }
+
+              else {
+                SnackbarPresets.error(context, l10n.somethingWentWrong);
+              }
+            },
+            child: _account.isFollowing ? Text(l10n.unfollow) : Text(l10n.follow),
+          )
       ],
     );
   }
