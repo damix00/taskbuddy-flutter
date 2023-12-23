@@ -10,6 +10,8 @@ class SearchInput extends StatelessWidget {
   final Color? fillColor;
   final bool? enabled;
   final double? borderRadius;
+  final bool showIcon;
+  final String? initialValue;
 
   const SearchInput({
     this.controller,
@@ -20,6 +22,8 @@ class SearchInput extends StatelessWidget {
     this.fillColor,
     this.enabled,
     this.borderRadius,
+    this.showIcon = true,
+    this.initialValue,
     Key? key
   }) : super(key: key);
 
@@ -29,16 +33,17 @@ class SearchInput extends StatelessWidget {
       onPointerDown: (e) {
         onTap?.call();
       },
-      child: TextField(
+      child: TextFormField(
         enabled: enabled,
         style: TextStyle(
           fontSize: 14,
         ),
+        initialValue: initialValue,
         controller: controller,
         onChanged: onChanged,
         textInputAction: TextInputAction.search,
         keyboardType: TextInputType.streetAddress,
-        onSubmitted: (_) => onSearch?.call(),
+        onFieldSubmitted: (_) => onSearch?.call(),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(borderRadius ?? 8),
           hintText: hintText,
@@ -49,7 +54,7 @@ class SearchInput extends StatelessWidget {
           hintStyle: Theme.of(context).textTheme.labelMedium,
           fillColor: fillColor ?? Theme.of(context).colorScheme.background,
           filled: true,
-          prefixIcon: const Icon(Icons.search),
+          prefixIcon: showIcon ? const Icon(Icons.search) : null,
         ),
       ),
     );

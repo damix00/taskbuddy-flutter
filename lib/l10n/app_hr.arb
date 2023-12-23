@@ -209,5 +209,6 @@
   "search": "Pretraga",
   "searchHistory": "Povijest pretrage",
   "nearbyPosts": "Objave u blizini",
-  "noPostsFound": "Nismo mogli pronaći nijednu objavu."
+  "noPostsFound": "Nismo mogli pronaći nijednu objavu.",
+  "accounts": "Računi"
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/responses/account/account_response.dart';
+import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/api/v1/accounts/check_existence.dart';
 import 'package:dio/dio.dart' as diolib;
@@ -76,5 +77,12 @@ class Accounts {
           'profile_picture': filename,
         },
         files: files));
+  }
+
+  Future<ApiResponse<PublicAccountResponse?>> search(String token, {
+    required String query,
+    int offset = 0,
+  }) async {
+    return ApiResponse(status: 500, message: 'Not implemented', ok: false);
   }
 }

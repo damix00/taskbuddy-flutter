@@ -319,5 +319,6 @@
   "search": "Search",
   "searchHistory": "Search history",
   "nearbyPosts": "Nearby posts",
-  "noPostsFound": "No posts found."
+  "noPostsFound": "No posts found.",
+  "accounts": "Accounts"
 }
