@@ -102,6 +102,23 @@ class _PostLayoutState extends State<PostLayout> {
         Stack(
           children: [
             Positioned(
+              bottom: 0,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.4,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Theme.of(context).colorScheme.inverseSurface.withOpacity(0),
+                      Theme.of(context).colorScheme.inverseSurface.withOpacity(1),
+                    ]
+                  )
+                ),
+              ),
+            ),
+            Positioned(
               bottom: MediaQuery.of(context).padding.bottom,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,6 +4,7 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/post_screen.dart';
+import 'package:taskbuddy/screens/search/search_screen.dart';
 import 'package:taskbuddy/state/static/location_state.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
@@ -111,9 +112,22 @@ class _SearchPageState extends State<SearchPage> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
-              child: SearchInput(
-                fillColor: Theme.of(context).colorScheme.surface,
-                hintText: l10n.search
+              child: Hero(
+                tag: 'search',
+                child: Material(
+                  child: SearchInput(
+                    hintText: l10n.search,
+                    fillColor: Theme.of(context).colorScheme.surface,
+                    enabled: false,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SearchScreen()
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
           ),
