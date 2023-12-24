@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/feedback/custom_refresh.dart';
 
 class ProfileLayout extends StatefulWidget {
+  final String? UUID;
   final String profilePicture;
   final List<Widget> actions;
   final String fullName;
@@ -41,6 +42,7 @@ class ProfileLayout extends StatefulWidget {
       required this.employeeCancelRate,
       required this.locationText,
       this.isMe = false,
+      this.UUID,
       Key? key})
       : super(key: key);
 

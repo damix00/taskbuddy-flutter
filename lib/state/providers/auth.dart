@@ -3,6 +3,7 @@ import 'package:taskbuddy/api/responses/account/account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 
 class AuthModel extends ChangeNotifier {
+  String _uuid = '';
   bool _finishedLoading = false;
   bool _loggedIn = false;
   String _username = '';
@@ -18,6 +19,8 @@ class AuthModel extends ChangeNotifier {
   num _employeeRating = 0;
   int _employerCancelled = 0;
   int _employeeCancelled = 0;
+  int _completedEmployee = 0;
+  int _completedEmployer = 0;
   String _fullName = '';
   String _firstName = '';
   String _lastName = '';
@@ -26,6 +29,7 @@ class AuthModel extends ChangeNotifier {
   String _locationText = '';
   AccountResponseRequiredActions? _requiredActions;
 
+  String get UUID => _uuid;
   bool get finishedLoading => _finishedLoading;
   bool get loggedIn => _loggedIn;
   String get username => _username;
@@ -36,6 +40,8 @@ class AuthModel extends ChangeNotifier {
   int get following => _following;
   int get listings => _listings;
   int get jobsDone => _jobsDone;
+  int get completedEmployee => _completedEmployee;
+  int get completedEmployer => _completedEmployer;
   String get bio => _bio;
   num get employerRating => _employerRating;
   num get employeeRating => _employeeRating;
@@ -52,6 +58,21 @@ class AuthModel extends ChangeNotifier {
   }
   String get locationText => _locationText;
   AccountResponseRequiredActions? get requiredActions => _requiredActions;
+
+  set UUID(String value) {
+    _uuid = value;
+    notifyListeners();
+  }
+
+  set completedEmployee(int value) {
+    _completedEmployee = value;
+    notifyListeners();
+  }
+
+  set completedEmployer(int value) {
+    _completedEmployer = value;
+    notifyListeners();
+  }
 
   set finishedLoading(bool value) {
     _finishedLoading = value;
@@ -187,6 +208,7 @@ class AuthModel extends ChangeNotifier {
       var lat = await AccountCache.getLatitude();
       var lon = await AccountCache.getLongitude();
       var requiredActions = await AccountCache.getRequiredActions();
+      var uuid = await AccountCache.getUUID();
 
       _username = username;
       _profilePicture = profilePicture;
@@ -208,6 +230,7 @@ class AuthModel extends ChangeNotifier {
       _email = email;
       _lat = lat;
       _lon = lon;
+      _uuid = uuid;
     }
 
     _loggedIn = loggedIn;
@@ -224,6 +247,8 @@ class AuthModel extends ChangeNotifier {
     _listings = response.profile!.posts;
     _jobsDone = response.profile!.completedEmployee +
         response.profile!.completedEmployer;
+    _completedEmployee = response.profile!.completedEmployee;
+    _completedEmployer = response.profile!.completedEmployer;
     _bio = response.profile!.bio;
     _employerRating = response.profile!.ratingEmployer;
     _employeeRating = response.profile!.ratingEmployee;
@@ -239,6 +264,7 @@ class AuthModel extends ChangeNotifier {
     _finishedLoading = true;
     _lat = response.profile!.locationLat;
     _lon = response.profile!.locationLon;
+    _uuid = response.user.uuid;
 
     notifyListeners();
   }

@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/profile_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
@@ -123,6 +126,18 @@ class _SearchResultsAccountState extends State<_SearchResultsAccount> {
     _account = widget.account;
   }
 
+  void _openAccount() {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => ProfileScreen(
+          UUID: _account.UUID,
+          username: _account.username,
+          // account: _account,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
@@ -132,19 +147,25 @@ class _SearchResultsAccountState extends State<_SearchResultsAccount> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
-        SizedBox(
-          width: 36,
-          height: 36,
-          child: ProfilePictureDisplay(size: 36, iconSize: 20, profilePicture: _account.profile.profilePicture)
+        Touchable(
+          onTap: _openAccount,
+          child: SizedBox(
+            width: 36,
+            height: 36,
+            child: ProfilePictureDisplay(size: 36, iconSize: 20, profilePicture: _account.profile.profilePicture)
+          ),
         ),
         const SizedBox(width: 12,),
-        Flexible(
-          flex: 1,
-          fit: FlexFit.tight,
-          child: Text(
-            "@${_account.username}",
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+        Touchable(
+          onTap: _openAccount,
+          child: Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: Text(
+              "@${_account.username}",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
         ),
 

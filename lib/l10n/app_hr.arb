@@ -213,5 +213,6 @@
   "accounts": "Računi",
   "unfollow": "Otprati",
   "successfullyUnfollowed": "Uspješno otpraćeno!",
-  "successfullyFollowed": "Uspješno praćeno!"
+  "successfullyFollowed": "Uspješno praćeno!",
+  "notFound": "Nismo mogli pronaći vaš traženi sadržaj."
 }

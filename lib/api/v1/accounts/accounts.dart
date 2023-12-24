@@ -163,4 +163,35 @@ class Accounts {
       return false;
     }
   }
+
+  Future<ApiResponse<PublicAccountResponse?>> fetchAccount(String token, String uuid) async {
+    try {
+      var response = await Requests.fetchEndpoint(
+        "${ApiOptions.path}/accounts/${Uri.encodeComponent(uuid)}",
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer $token",
+        }
+      );
+
+      if (response == null) {
+        return ApiResponse(status: 500, message: "", ok: false);
+      }
+
+      if (response.timedOut || response.response?.statusCode != 200) {
+        return ApiResponse(status: 500, message: "", ok: false);
+      }
+
+      return ApiResponse(
+        status: response.response!.statusCode!,
+        message: 'OK',
+        ok: response.response!.statusCode! == 200,
+        data: PublicAccountResponse.fromJson(response.response!.data["user"]),
+        response: response.response,
+      );
+    }
+    catch (e) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+  }
 }

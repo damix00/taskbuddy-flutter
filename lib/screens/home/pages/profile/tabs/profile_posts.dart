@@ -14,9 +14,10 @@ class ProfilePostsController {
 
 class ProfilePosts extends StatefulWidget {
   final bool isMe;
+  final String? UUID;
   final ProfilePostsController? controller;
 
-  const ProfilePosts({Key? key, required this.isMe, this.controller}) : super(key: key);
+  const ProfilePosts({Key? key, required this.isMe, this.controller, this.UUID}) : super(key: key);
 
   @override
   State<ProfilePosts> createState() => _ProfilePostsState();

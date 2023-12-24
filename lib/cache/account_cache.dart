@@ -54,6 +54,10 @@ class AccountCache {
         'fullName', '$firstName $lastName');
   }
 
+  static Future<void> setUUID(String uuid) async {
+    await _writeKey('uuid', uuid);
+  }
+
   static Future<void> setFirstName(String firstName) async {
     await _writeKey('firstName', firstName);
   }
@@ -124,6 +128,10 @@ class AccountCache {
 
   static Future<void> setEmployeeCancelled(int employeeCancelRate) async {
     await _writeKey('employeeCancelRate', employeeCancelRate.toString());
+  }
+
+  static Future<String> getUUID() async {
+    return await _readKey('uuid') ?? '';
   }
 
   static Future<String> getFullName() async {
@@ -251,6 +259,7 @@ class AccountCache {
     await setLastName(value.user.lastName);
     await setUsername(value.user.username);
     await setEmail(value.user.email);
+    await setUUID(value.user.uuid);
 
     if (value.profile != null) {
       await saveProfile(value.profile!);

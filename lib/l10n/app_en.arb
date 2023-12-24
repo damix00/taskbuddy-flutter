@@ -323,5 +323,6 @@
   "accounts": "Accounts",
   "unfollow": "Unfollow",
   "successfullyUnfollowed": "Successfully unfollowed!",
-  "successfullyFollowed": "Successfully followed!"
+  "successfullyFollowed": "Successfully followed!",
+  "notFound": "We couldn''t find what you were looking for."
 }
