@@ -97,6 +97,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
                     ProfilePosts(
                       isMe: widget.isMe,
                       controller: _postsController,
+                      UUID: widget.UUID,
                     ),
                     ListView(
                       padding: EdgeInsets.zero,

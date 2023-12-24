@@ -132,6 +132,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       employeeCancelRate: widget.account.profile.cancelledEmployee > 0 ? widget.account.profile.cancelledEmployee / widget.account.profile.posts : 0,
       locationText: widget.account.profile.locationText,
       isMe: widget.isMe,
+      UUID: widget.account.UUID,
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
