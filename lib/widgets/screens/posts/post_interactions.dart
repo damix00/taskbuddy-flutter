@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
@@ -39,8 +43,9 @@ class PostInteractions extends StatelessWidget {
   final PostResultsResponse post;
   final VoidCallback? onLiked;
   final VoidCallback? onBookmarked;
+  final VoidCallback? onMore;
 
-  const PostInteractions({ Key? key, required this.post, this.onLiked, this.onBookmarked }) : super(key: key);
+  const PostInteractions({ Key? key, required this.post, this.onLiked, this.onBookmarked, this.onMore }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +105,12 @@ class PostInteractions extends StatelessWidget {
             PostInteractionButton(
               icon: Icons.share_outlined,
               text: post.shares.toString(),
-              onTap: () {},
+              onTap: () async {
+                String token = (await AccountCache.getToken())!;
+                Api.v1.posts.interactions.share(token, post.UUID);
+                
+                Share.share("${ApiOptions.fullDomain}/posts/${post.UUID}");
+              },
             ),
     
             SizedBox(
@@ -109,7 +119,9 @@ class PostInteractions extends StatelessWidget {
     
             PostInteractionButton(
               icon: Icons.more_vert,
-              onTap: () {},
+              onTap: () {
+                onMore?.call();
+              },
             ),
 
             const SizedBox(

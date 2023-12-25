@@ -49,7 +49,7 @@ class PostResultsUser {
       isMe: response.isMe,
       hasPremium: response.hasPremium,
       verified: response.verified,
-      profilePicture: response.profile.profilePicture ?? "",
+      profilePicture: response.profile.profilePicture,
     );
   }
 }

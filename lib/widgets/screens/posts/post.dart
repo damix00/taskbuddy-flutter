@@ -252,12 +252,15 @@ class _PostLayoutState extends State<PostLayout> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
                       child: SlimButton(
-                        child: Text(l10n.sendAMessage, style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontSize: 12
-                        )),
                         onPressed: () {},
                         type: ButtonType.outlined,
+                        child: Text(
+                          l10n.sendAMessage,
+                            style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontSize: 12
+                          )
+                        ),
                       ),
                     ),
                   )
@@ -271,6 +274,7 @@ class _PostLayoutState extends State<PostLayout> {
                 post: _post,
                 onLiked: _onLiked,
                 onBookmarked: _onBookmarked,
+                onMore: _openOptionsMenu
               )
             ),
           ],

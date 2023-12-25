@@ -81,4 +81,14 @@ class PostInteractionsApi {
 
     return true;
   }
+
+  Future<void> share(String token, String postUuid) async {
+    await Requests.fetchEndpoint(
+      "${ApiOptions.path}/posts/${Uri.encodeComponent(postUuid)}/interactions/share",
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer $token",
+      }
+    );
+  }
 }
