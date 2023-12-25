@@ -29,6 +29,7 @@ class PostScreen extends StatelessWidget {
         child: PostLayout(post: args.post),
       ),
       extendBodyBehindAppBar: true,
+      extendBody: true,
     );
   }
 }

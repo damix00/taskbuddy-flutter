@@ -218,10 +218,7 @@ class _PostLayoutState extends State<PostLayout> {
                   PostTitle(post: _post),
                   const SizedBox(height: 2),
                   PostDescription(post: _post),
-                  const SizedBox(height: 4),
-                  // const SizedBox(height: 4),
-                  // PostData(post: _post),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
                     child: Touchable(
@@ -246,24 +243,27 @@ class _PostLayoutState extends State<PostLayout> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
-                      child: SlimButton(
-                        onPressed: () {},
-                        type: ButtonType.outlined,
-                        child: Text(
-                          l10n.sendAMessage,
-                            style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            fontSize: 12
-                          )
+                  if (!_post.user.isMe)
+                    const SizedBox(height: 12),
+
+                  if (!_post.user.isMe)
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
+                        child: SlimButton(
+                          onPressed: () {},
+                          type: ButtonType.outlined,
+                          child: Text(
+                            l10n.sendAMessage,
+                              style: TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontSize: 12
+                            )
+                          ),
                         ),
                       ),
                     ),
-                  )
                 ],
               )
             ),

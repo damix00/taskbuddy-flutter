@@ -42,25 +42,27 @@ class PostSheet extends StatelessWidget {
         PostData(post: post),
         const SizedBox(height: 16),
         PostAuthor(post: post),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizing.horizontalPadding,
-            ),
-            child: SlimButton(
-              type: ButtonType.outlined,
-              child: Center(
-                child: Text(
-                  l10n.sendAMessage,
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface)
-                )
+        if (!post.user.isMe)
+          const SizedBox(height: 16),
+        if (!post.user.isMe)
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizing.horizontalPadding,
               ),
-              onPressed: () {},
+              child: SlimButton(
+                type: ButtonType.outlined,
+                child: Center(
+                  child: Text(
+                    l10n.sendAMessage,
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface)
+                  )
+                ),
+                onPressed: () {},
+              ),
             ),
           ),
-        ),
         CustomDivider(color: Theme.of(context).colorScheme.outline, padding: dividerPadding,),
         SizedBox(
           width: MediaQuery.of(context).size.width,

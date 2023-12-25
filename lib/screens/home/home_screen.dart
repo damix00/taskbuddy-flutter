@@ -13,7 +13,7 @@ import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/firebase_options.dart';
 import 'package:taskbuddy/screens/home/pages/home_page.dart';
-import 'package:taskbuddy/screens/home/pages/messages_page.dart';
+import 'package:taskbuddy/screens/home/pages/chats/chats_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
@@ -197,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
             TextButton(
               child: Text(l10n.continueText),
               onPressed: () async {
-                var res = await Geolocator.requestPermission();
+                await Geolocator.requestPermission();
 
                 Navigator.of(ctx).pop();
               },
@@ -266,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const HomePage(),
     const SearchPage(),
     Container(),
-    const MessagesPage(),
+    const ChatsPage(),
     const ProfilePage(),
   ];
 
@@ -341,7 +341,7 @@ class _HomeAppbarHandlerState extends State<_HomeAppbarHandler> {
         Text('Home'),
         const SearchAppbar(),
         Container(),
-        Container(),
+        const ChatsAppbar(),
         const ProfileAppbar(),
       ][widget.currentIndex],
     );
