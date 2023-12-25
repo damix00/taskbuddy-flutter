@@ -76,7 +76,7 @@ class _PostLayoutState extends State<PostLayout> {
     );
   }
 
-  void _onLiked() async {
+  Future<void> _onLiked() async {
     int likes = _post.likes;
     bool isLiked = _post.isLiked;
 
@@ -92,10 +92,10 @@ class _PostLayoutState extends State<PostLayout> {
       bool res = false;
 
       if (isLiked) {
-        res = await Api.v1.posts.unlikePost(token, _post.UUID);
+        res = await Api.v1.posts.interactions.unlikePost(token, _post.UUID);
       }
       else {
-        res = await Api.v1.posts.likePost(token, _post.UUID);
+        res = await Api.v1.posts.interactions.likePost(token, _post.UUID);
       }
       
       if (!res) {
@@ -104,6 +104,43 @@ class _PostLayoutState extends State<PostLayout> {
         setState(() {
           _post.likes = likes;
           _post.isLiked = isLiked;
+        });
+      }
+
+    }
+    catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> _onBookmarked() async {
+    int bookmarks = _post.bookmarks;
+    bool isBookmarked = _post.isBookmarked;
+
+    setState(() {
+      _post.bookmarks += _post.isBookmarked ? -1 : 1;
+
+      _post.isBookmarked = !_post.isBookmarked;
+    });
+
+    String token = (await AccountCache.getToken())!;
+
+    try {
+      bool res = false;
+
+      if (isBookmarked) {
+        res = await Api.v1.posts.interactions.unbookmarkPost(token, _post.UUID);
+      }
+      else {
+        res = await Api.v1.posts.interactions.bookmarkPost(token, _post.UUID);
+      }
+      
+      if (!res) {
+        SnackbarPresets.show(context, text: AppLocalizations.of(context)!.somethingWentWrong);
+
+        setState(() {
+          _post.bookmarks = bookmarks;
+          _post.isBookmarked = isBookmarked;
         });
       }
 
@@ -123,6 +160,10 @@ class _PostLayoutState extends State<PostLayout> {
           onLongPress: _openOptionsMenu,
           onDoubleTap: () {
             HapticFeedbackUtils.mediumImpact(context);
+            if (_post.isLiked) {
+              return;
+            }
+            
             _onLiked();
           },
           child: PostMedia(
@@ -229,6 +270,7 @@ class _PostLayoutState extends State<PostLayout> {
               child: PostInteractions(
                 post: _post,
                 onLiked: _onLiked,
+                onBookmarked: _onBookmarked,
               )
             ),
           ],

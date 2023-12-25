@@ -38,8 +38,9 @@ class PostInteractionButton extends StatelessWidget {
 class PostInteractions extends StatelessWidget {
   final PostResultsResponse post;
   final VoidCallback? onLiked;
+  final VoidCallback? onBookmarked;
 
-  const PostInteractions({ Key? key, required this.post, this.onLiked }) : super(key: key);
+  const PostInteractions({ Key? key, required this.post, this.onLiked, this.onBookmarked }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,9 @@ class PostInteractions extends StatelessWidget {
               activeIcon: Icons.bookmark,
               text: post.bookmarks.toString(),
               isActive: post.isBookmarked,
-              onTap: () {},
+              onTap: () {
+                onBookmarked?.call();
+              },
             ),
     
             SizedBox(

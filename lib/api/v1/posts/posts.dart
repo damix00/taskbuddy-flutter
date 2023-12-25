@@ -5,6 +5,7 @@ import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_tags_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
+import 'package:taskbuddy/api/v1/posts/interactions.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:dio/dio.dart' as diolib;
 import 'package:taskbuddy/utils/utils.dart';
@@ -12,6 +13,8 @@ import 'package:taskbuddy/utils/utils.dart';
 final dio = diolib.Dio();
 
 class Posts {
+  PostInteractionsApi get interactions => PostInteractionsApi();
+
   Future<ApiResponse<PostTagsResponse?>> tags() async {
     var response = await Requests.fetchEndpoint(
       "${ApiOptions.path}/posts/tags",
@@ -182,45 +185,5 @@ class Posts {
     catch (e) {
       return ApiResponse(status: 500, message: "", ok: false);
     }
-  }
-
-  Future<bool> likePost(String token, String postUuid) async {
-    var response = await Requests.fetchEndpoint(
-      "${ApiOptions.path}/posts/${Uri.encodeComponent(postUuid)}/interactions/like",
-      method: "PUT",
-      headers: {
-        "Authorization": "Bearer $token",
-      }
-    );
-
-    if (response == null) {
-      return false;
-    }
-
-    if (response.timedOut || response.response?.statusCode != 200) {
-      return false;
-    }
-
-    return true;
-  }
-
-  Future<bool> unlikePost(String token, String postUuid) async {
-    var response = await Requests.fetchEndpoint(
-      "${ApiOptions.path}/posts/${Uri.encodeComponent(postUuid)}/interactions/like",
-      method: "DELETE",
-      headers: {
-        "Authorization": "Bearer $token",
-      }
-    );
-
-    if (response == null) {
-      return false;
-    }
-
-    if (response.timedOut || response.response?.statusCode != 200) {
-      return false;
-    }
-
-    return true;
   }
 }

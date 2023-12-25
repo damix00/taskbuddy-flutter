@@ -137,8 +137,8 @@ class PostResultsResponse {
       impressions: json['analytics']['impressions'],
       isRemote: json['is_remote'] ?? false,
       isUrgent: json['is_urgent'] ?? false,
-      isLiked: json['is_liked'] ?? false,
-      isBookmarked: json['is_bookmarked'] ?? false,
+      isLiked: json['liked'] ?? false,
+      isBookmarked: json['bookmarked'] ?? false,
       isReserved: json['reserved'] ?? false,
     );
   }
