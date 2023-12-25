@@ -71,6 +71,7 @@ class _ProfileAppbarState extends State<ProfileAppbar> {
                     title: l10n.saved,
                     icon: Icons.bookmark_border,
                     onTap: (v) {
+                      Navigator.of(context).pushNamed('/bookmarks');
                     }
                   ),
 

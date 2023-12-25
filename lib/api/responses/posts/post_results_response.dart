@@ -35,7 +35,7 @@ class PostResultsUser {
       isMe: json['is_me'],
       hasPremium: json['has_premium'],
       verified: json['verified'],
-      profilePicture: json['profile']['profile_picture'],
+      profilePicture: json['profile']?['profile_picture'] ?? "",
     );
   }
 
@@ -49,7 +49,7 @@ class PostResultsUser {
       isMe: response.isMe,
       hasPremium: response.hasPremium,
       verified: response.verified,
-      profilePicture: response.profile.profilePicture,
+      profilePicture: response.profile.profilePicture ?? "",
     );
   }
 }

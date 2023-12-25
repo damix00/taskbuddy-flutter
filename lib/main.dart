@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/bookmarks.dart';
 import 'package:taskbuddy/screens/create_post/pages/create_post_screen.dart';
 import 'package:taskbuddy/screens/create_post/pages/date_and_price.dart';
 import 'package:taskbuddy/screens/create_post/pages/location_page.dart';
@@ -284,6 +285,7 @@ class _AppState extends State<App> {
               '/profile/edit': (context) => const ProfileEditScreen(),
               '/location-chooser': (context) => const LocationInputScreen(),
               '/post': (context) => const PostScreen(),
+              '/bookmarks': (context) => const BookmarksScreen(),
             },
             localeListResolutionCallback: (__, supportedLocales) {
               // If the locale is supported, return it
