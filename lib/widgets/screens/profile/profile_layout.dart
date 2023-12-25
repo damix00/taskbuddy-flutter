@@ -63,6 +63,8 @@ class _ProfileLayoutState extends State<ProfileLayout> {
 
           if (token == null) return;
 
+          _postsController.refresh!();
+
           if (widget.isMe) {
             var data = await Api.v1.accounts.me(token);
             
@@ -71,8 +73,6 @@ class _ProfileLayoutState extends State<ProfileLayout> {
             if (!data.ok) {
               return;
             }
-
-            _postsController.refresh!();
 
             Provider.of<AuthModel>(context, listen: false).setAccountResponse(data.data!);
             AccountCache.saveAccountResponse(data.data!);

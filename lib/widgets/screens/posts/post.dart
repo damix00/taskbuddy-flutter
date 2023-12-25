@@ -76,6 +76,43 @@ class _PostLayoutState extends State<PostLayout> {
     );
   }
 
+  void _onLiked() async {
+    int likes = _post.likes;
+    bool isLiked = _post.isLiked;
+
+    setState(() {
+      _post.likes += _post.isLiked ? -1 : 1;
+
+      _post.isLiked = !_post.isLiked;
+    });
+
+    String token = (await AccountCache.getToken())!;
+
+    try {
+      bool res = false;
+
+      if (isLiked) {
+        res = await Api.v1.posts.unlikePost(token, _post.UUID);
+      }
+      else {
+        res = await Api.v1.posts.likePost(token, _post.UUID);
+      }
+      
+      if (!res) {
+        SnackbarPresets.show(context, text: AppLocalizations.of(context)!.somethingWentWrong);
+
+        setState(() {
+          _post.likes = likes;
+          _post.isLiked = isLiked;
+        });
+      }
+
+    }
+    catch (e) {
+      log(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
@@ -86,9 +123,7 @@ class _PostLayoutState extends State<PostLayout> {
           onLongPress: _openOptionsMenu,
           onDoubleTap: () {
             HapticFeedbackUtils.mediumImpact(context);
-            setState(() {
-              _post.isLiked = !_post.isLiked;
-            });
+            _onLiked();
           },
           child: PostMedia(
             post: widget.post,
@@ -191,7 +226,10 @@ class _PostLayoutState extends State<PostLayout> {
             Positioned(
               bottom: MediaQuery.of(context).padding.bottom,
               right: 0,
-              child: PostInteractions(post: _post)
+              child: PostInteractions(
+                post: _post,
+                onLiked: _onLiked,
+              )
             ),
           ],
         ),

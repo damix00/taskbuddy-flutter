@@ -37,8 +37,9 @@ class PostInteractionButton extends StatelessWidget {
 
 class PostInteractions extends StatelessWidget {
   final PostResultsResponse post;
+  final VoidCallback? onLiked;
 
-  const PostInteractions({ Key? key, required this.post }) : super(key: key);
+  const PostInteractions({ Key? key, required this.post, this.onLiked }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,9 @@ class PostInteractions extends StatelessWidget {
               activeColor: Colors.red,
               text: post.likes.toString(),
               isActive: post.isLiked,
-              onTap: () {},
+              onTap: () {
+                onLiked?.call();
+              },
             ),
     
             SizedBox(

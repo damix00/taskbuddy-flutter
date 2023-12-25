@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/post_screen.dart';
+import 'package:taskbuddy/screens/profile_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
@@ -124,7 +126,14 @@ class _PostDisplay extends StatefulWidget {
 
 class _PostDisplayState extends State<_PostDisplay> {
   void _openProfile() {
-    // Navigator.of(context).pushNamed("/profile", arguments: widget.post.user.UUID);
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => ProfileScreen(
+          UUID: widget.post.user.UUID,
+          username: widget.post.user.username,
+        )
+      )
+    );
   }
 
   void _openPost() {
@@ -143,31 +152,37 @@ class _PostDisplayState extends State<_PostDisplay> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 36,
-                height: 36,
-                child: ProfilePictureDisplay(
-                  size: 36,
-                  iconSize: 36,
-                  profilePicture: widget.post.user.profilePicture
+              Touchable(
+                onTap: _openProfile,
+                child: SizedBox(
+                  width: 36,
+                  height: 36,
+                  child: ProfilePictureDisplay(
+                    size: 36,
+                    iconSize: 36,
+                    profilePicture: widget.post.user.profilePicture
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${widget.post.user.firstName} ${widget.post.user.lastName}",
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium
-                    ),
-                    Text(
-                      "@${widget.post.user.username}",
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.labelSmall
-                    ),
-                  ],
+                child: Touchable(
+                  onTap: _openProfile,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${widget.post.user.firstName} ${widget.post.user.lastName}",
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyMedium
+                      ),
+                      Text(
+                        "@${widget.post.user.username}",
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelSmall
+                      ),
+                    ],
+                  ),
                 )
               ),
               const SizedBox(width: 12),
@@ -177,15 +192,15 @@ class _PostDisplayState extends State<_PostDisplay> {
                 ),
                 onPressed: () async {
                   String token = (await AccountCache.getToken())!;
-
+          
                   if (widget.post.user.isFollowing) {
                     await Api.v1.accounts.unfollow(token, widget.post.user.UUID);
                   } else {
                     await Api.v1.accounts.follow(token, widget.post.user.UUID);
                   }
-
+          
                   widget.post.user.isFollowing = !widget.post.user.isFollowing;
-
+          
                   setState(() {});
                 },
               )

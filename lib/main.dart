@@ -18,7 +18,6 @@ import 'package:taskbuddy/screens/create_post/pages/title_page.dart';
 import 'package:taskbuddy/screens/home/home_screen.dart';
 import 'package:taskbuddy/screens/home/pages/profile/edit/profile_edit.dart';
 import 'package:taskbuddy/screens/post_screen.dart';
-import 'package:taskbuddy/screens/profile_screen.dart';
 import 'package:taskbuddy/screens/settings/account/account_settings.dart';
 import 'package:taskbuddy/screens/settings/appearance/appearance_settings.dart';
 import 'package:taskbuddy/screens/settings/appearance/appearance_theme.dart';
@@ -285,7 +284,6 @@ class _AppState extends State<App> {
               '/profile/edit': (context) => const ProfileEditScreen(),
               '/location-chooser': (context) => const LocationInputScreen(),
               '/post': (context) => const PostScreen(),
-              '/profile': (context) => const ProfileScreen()
             },
             localeListResolutionCallback: (__, supportedLocales) {
               // If the locale is supported, return it

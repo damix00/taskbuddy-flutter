@@ -34,7 +34,7 @@ class TagWidget extends StatelessWidget {
         child: Container(
           height: 30,
           decoration: BoxDecoration(
-            color: selected ? Theme.of(context).colorScheme.primary : (transparent ? Colors.transparent : Theme.of(context).colorScheme.surface),
+            color: selected ? Theme.of(context).colorScheme.primary : (transparent ? Theme.of(context).colorScheme.inverseSurface.withOpacity(0.4) : Theme.of(context).colorScheme.surface),
             borderRadius: BorderRadius.circular(56),
             border: Border.all(
               color: selected ? Colors.transparent : Theme.of(context).colorScheme.outline,

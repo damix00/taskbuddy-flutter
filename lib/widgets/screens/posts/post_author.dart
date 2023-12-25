@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/profile_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
@@ -29,6 +31,14 @@ class _PostAuthorState extends State<PostAuthor> {
   }
 
   void _openProfile() {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => ProfileScreen(
+          UUID: widget.post.user.UUID,
+          username: widget.post.user.username,
+        )
+      )
+    );
   }
 
   @override

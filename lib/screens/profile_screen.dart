@@ -139,9 +139,14 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
           child: SlimButton(
             type: ButtonType.outlined,
             child: Text(
-              widget.account.isFollowing ? AppLocalizations.of(context)!.unfollow : AppLocalizations.of(context)!.follow,
+              widget.isMe ? l10n.editProfile : (widget.account.isFollowing ? AppLocalizations.of(context)!.unfollow : AppLocalizations.of(context)!.follow),
             ),
             onPressed: () async {
+              if (widget.isMe) {
+                Navigator.of(context).pushNamed('/profile/edit');
+                return;
+              }
+
               String token = (await AccountCache.getToken())!;
 
               bool res = false;

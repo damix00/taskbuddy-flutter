@@ -132,7 +132,7 @@ class _SearchResultsAccountState extends State<_SearchResultsAccount> {
         builder: (context) => ProfileScreen(
           UUID: _account.UUID,
           username: _account.username,
-          // account: _account,
+          account: _account,
         ),
       ),
     );

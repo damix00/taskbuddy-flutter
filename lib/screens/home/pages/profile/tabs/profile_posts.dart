@@ -31,8 +31,6 @@ class _ProfilePostsState extends State<ProfilePosts> with AutomaticKeepAliveClie
   void _getPosts() async {
     String token = (await AccountCache.getToken())!;
 
-    print(widget.UUID);
-
     List<PostResponse> posts = [];
 
     if (widget.isMe) {
