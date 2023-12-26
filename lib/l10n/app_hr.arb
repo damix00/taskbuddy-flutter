@@ -215,5 +215,7 @@
   "successfullyUnfollowed": "Uspješno otpraćeno!",
   "successfullyFollowed": "Uspješno praćeno!",
   "notFound": "Nismo mogli pronaći vaš traženi sadržaj.",
-  "chats": "Razgovori"
+  "chats": "Razgovori",
+  "incoming": "Pristignuto",
+  "outgoing": "Odlazno"
 }

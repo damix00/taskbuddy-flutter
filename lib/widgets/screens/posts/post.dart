@@ -231,6 +231,7 @@ class _PostLayoutState extends State<PostLayout> {
                       onTap: () {
                         showModalBottomSheet(
                           enableDrag: true,
+                          backgroundColor: Theme.of(context).colorScheme.surface,
                           context: context,
                           constraints: BoxConstraints(
                             maxHeight: MediaQuery.of(context).size.height * 0.4

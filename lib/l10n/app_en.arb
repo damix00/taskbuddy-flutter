@@ -325,5 +325,7 @@
   "successfullyUnfollowed": "Successfully unfollowed!",
   "successfullyFollowed": "Successfully followed!",
   "notFound": "We couldn''t find what you were looking for.",
-  "chats": "Chats"
+  "chats": "Chats",
+  "incoming": "Incoming",
+  "outgoing": "Outgoing"
 }
