@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -11,14 +10,12 @@ import 'package:taskbuddy/api/responses/account/account_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_tags_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/firebase_options.dart';
 import 'package:taskbuddy/screens/home/pages/home_page.dart';
 import 'package:taskbuddy/screens/home/pages/chats/chats_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
-import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/state/static/location_state.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/bottom_navbar.dart';
@@ -118,18 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<bool> _fetchData(String token) async {
-    try {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform
-      ); // Initialize firebase
-      await RemoteConfigData.init(); // Initialize the remote config data
-    }
-
-    catch (e) {
-      log('Failed to fetch remote config data');
-      log(e.toString());
-    }
-
     if (!(await _fetchMe(token))) {
       log('Failed to fetch auth data');
       return false;

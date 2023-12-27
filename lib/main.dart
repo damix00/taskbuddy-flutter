@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +10,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/bookmarks.dart';
+import 'package:taskbuddy/firebase/fcm.dart';
+import 'package:taskbuddy/firebase_options.dart';
+import 'package:taskbuddy/screens/bookmarks_screen.dart';
 import 'package:taskbuddy/screens/create_post/pages/create_post_screen.dart';
 import 'package:taskbuddy/screens/create_post/pages/date_and_price.dart';
 import 'package:taskbuddy/screens/create_post/pages/location_page.dart';
@@ -32,6 +36,7 @@ import 'package:taskbuddy/screens/signin/register/pages/credentials_page.dart';
 import 'package:taskbuddy/screens/signin/register/register_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
+import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/utils/initializers.dart';
@@ -43,8 +48,6 @@ void main() {
   // Add a custom splash screen so we can manually remove it
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
     MultiProvider(
@@ -139,6 +142,21 @@ class _AppState extends State<App> {
 
     // Re-render the UI
     setState(() {});
+
+
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform
+      ); // Initialize firebase
+      await RemoteConfigData.init(); // Initialize the remote config data
+
+      FirebaseMessagingApi.init();
+    }
+
+    catch (e) {
+      log('Failed to init firebase');
+      log(e.toString());
+    }
 
     // Remove the splash screen after initialization
     FlutterNativeSplash.remove();

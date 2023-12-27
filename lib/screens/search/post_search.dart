@@ -159,7 +159,7 @@ class _PostDisplayState extends State<_PostDisplay> {
                   height: 36,
                   child: ProfilePictureDisplay(
                     size: 36,
-                    iconSize: 36,
+                    iconSize: 20,
                     profilePicture: widget.post.user.profilePicture
                   ),
                 ),

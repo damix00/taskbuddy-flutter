@@ -265,11 +265,13 @@ class _PostLayoutState extends State<PostLayout> {
                         ),
                       ),
                     ),
+                  
+                  const SizedBox(height: Sizing.horizontalPadding),
                 ],
               )
             ),
             Positioned(
-              bottom: MediaQuery.of(context).padding.bottom,
+              bottom: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding,
               right: 0,
               child: PostInteractions(
                 post: _post,

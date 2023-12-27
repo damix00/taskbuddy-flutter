@@ -4,7 +4,15 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:taskbuddy/widgets/ui/notification.dart';
 
 class SnackbarPresets {
-  static void show(BuildContext context, { required String text, Color? backgroundColor, Color? textColor }) {
+  static void show(
+    BuildContext context,
+    {
+      required String text,
+      Color? backgroundColor,
+      Color? textColor,
+      NotificationPosition position = NotificationPosition.bottom
+      }
+    ) {
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     //   content: Text(
     //     text,
@@ -24,7 +32,7 @@ class SnackbarPresets {
           ),
         ),
       ),
-      position: NotificationPosition.bottom,
+      position: position,
       duration: const Duration(seconds: 5)
     );
   }

@@ -51,7 +51,7 @@ dependencies:
   firebase_core: ^2.16.0
   image_picker: ^1.0.4
   flutter_launcher_icons: ^0.13.1
-  firebase_messaging: ^14.4.1
+  firebase_messaging: ^14.7.9
   image_cropper: ^5.0.0
   cached_network_image: ^3.3.0
   flutter_rating_bar: ^4.0.1
