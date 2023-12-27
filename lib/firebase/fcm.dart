@@ -1,13 +1,28 @@
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/widgets/ui/notification.dart';
 
 class FirebaseMessagingApi {
   static Future<void> updateToken() async {
+    // Get the firebase token
     String? token = await FirebaseMessaging.instance.getToken();
 
-    print(token);
+    // Log it
+    log('FirebaseMessaging token: $token');
+
+    // Send it to server
+    if (token == null) {
+      return;
+    }
+
+    String accountToken = (await AccountCache.getToken())!;
+
+    await Api.v1.accounts.meRoute.updateFCMToken(accountToken, token);
   }
 
   static Future<void> init() async {
@@ -41,6 +56,11 @@ class FirebaseMessagingApi {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
       print('Message data: ${message.data}');
+    });
+
+    FirebaseMessaging.onBackgroundMessage((message) async {
+      print('Handling a background message ${message.messageId}');
+      print(message.notification?.title);
     });
   }
 }

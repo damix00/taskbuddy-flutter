@@ -8,6 +8,8 @@ import 'package:taskbuddy/api/responses/account/profile_response.dart';
 
 // Class responsible for caching account-related data using secure storage
 class AccountCache {
+  static Map _cache = {}; // Cache map
+
   // Read a value from the storage based on a given key
   static Future<String?> _readKey(String key) async {
     var storage = const FlutterSecureStorage(); // Initialize the secure storage
@@ -41,7 +43,23 @@ class AccountCache {
 
   // Get the token from the storage
   static Future<String?> getToken() async {
-    return await _readKey('token'); // Read the token value
+    // Check if the token is cached
+    if (_cache['token'] != null) {
+      return _cache['token']; // Return the cached token value
+    }
+
+    var token = await _readKey('token');
+
+    // Cache the token value
+    if (token != null && token.isNotEmpty) {
+      if (_cache['token'] == null) {
+        _cache['token'] = token;
+      }
+
+      return token;
+    }
+
+    return null;
   }
 
   // Set the token in the storage
