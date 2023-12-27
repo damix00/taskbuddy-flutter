@@ -1,10 +1,14 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/chat_screen.dart';
+import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/haptic_feedback.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
@@ -150,6 +154,19 @@ class _PostLayoutState extends State<PostLayout> {
     }
   }
 
+  void _sendMessage() {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (ctx) => ChatScreen(
+          post: _post,
+          currentUserUuid: Provider.of<AuthModel>(context, listen: false).UUID,
+          isPostCreator: false,
+          isChannelCreated: false,
+        )
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
@@ -239,6 +256,7 @@ class _PostLayoutState extends State<PostLayout> {
                           builder: (ctx) => PostSheet(
                             post: widget.post,
                             paddingBottom: MediaQuery.of(context).padding.bottom,
+                            sendMessage: _sendMessage,
                           )
                         );
                       },
@@ -253,7 +271,8 @@ class _PostLayoutState extends State<PostLayout> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
                         child: SlimButton(
-                          onPressed: () {},
+                          disabled: _post.endDate.isBefore(DateTime.now()),
+                          onPressed: _sendMessage,
                           type: ButtonType.outlined,
                           child: Text(
                             l10n.sendAMessage,

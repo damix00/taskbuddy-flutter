@@ -18,8 +18,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PostSheet extends StatelessWidget {
   final PostResultsResponse post;
   final double paddingBottom;
+  final VoidCallback sendMessage;
 
-  const PostSheet({ Key? key, required this.post, required this.paddingBottom }) : super(key: key);
+  const PostSheet({ Key? key, required this.post, required this.paddingBottom, required this.sendMessage }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +53,7 @@ class PostSheet extends StatelessWidget {
                 horizontal: Sizing.horizontalPadding,
               ),
               child: SlimButton(
+                disabled: post.endDate.isBefore(DateTime.now()),
                 type: ButtonType.outlined,
                 child: Center(
                   child: Text(
@@ -59,7 +61,7 @@ class PostSheet extends StatelessWidget {
                     style: TextStyle(color: Theme.of(context).colorScheme.onSurface)
                   )
                 ),
-                onPressed: () {},
+                onPressed: sendMessage,
               ),
             ),
           ),

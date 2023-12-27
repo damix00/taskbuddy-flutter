@@ -6,12 +6,14 @@ class SlimButton extends StatelessWidget {
   final Widget child;
   final ButtonType type;
   final VoidCallback onPressed;
+  final bool disabled;
 
-  const SlimButton({Key? key, required this.onPressed, required this.child, this.type = ButtonType.primary}) : super(key: key);
+  const SlimButton({Key? key, required this.onPressed, required this.child, this.type = ButtonType.primary, this.disabled = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Button(
+      disabled: disabled,
       onPressed: onPressed,
       type: type,
       height: 32,
