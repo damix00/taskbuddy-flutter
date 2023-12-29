@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
+import 'package:taskbuddy/api/responses/account/public_account_response.dart';
+import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/screens/profile_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
@@ -54,7 +55,7 @@ class ChatScreenAppbar extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    " • €${price}",
+                    " • €$price",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w900
@@ -76,40 +77,33 @@ class ChatScreenAppbar extends StatelessWidget {
 }
 
 class ChatScreen extends StatelessWidget {
-  final String? channelUuid;
-  final String currentUserUuid;
-  final PostResultsResponse post;
-  final bool isChannelCreated;
-  final bool isPostCreator;
+  final ChannelResponse channel;
 
   const ChatScreen({
     Key? key,
-    this.channelUuid,
-    required this.currentUserUuid,
-    required this.post,
-    this.isChannelCreated = true,
-    this.isPostCreator = false
+    required this.channel
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    PublicAccountResponse otherUser = channel.otherUser == "recipient" ? channel.channelRecipient : channel.channelCreator;
+
     return Scaffold(
       appBar: BlurAppbar.appBar(
         child: Touchable(
           onTap: () => {
             Navigator.of(context).push(
               CupertinoPageRoute(builder: (context) => ProfileScreen(
-                UUID: post.user.UUID,
-                username: post.user.username,
+                account: otherUser
               ))
             )
           },
           child: ChatScreenAppbar(
-            profilePicture: post.user.profilePicture,
-            title: post.title,
-            price: post.price.toString(),
-            firstName: post.user.firstName,
-            lastName: post.user.lastName
+            profilePicture: otherUser.profile.profilePicture,
+            title: channel.post.title,
+            price: channel.post.price.toString(),
+            firstName: otherUser.firstName,
+            lastName: otherUser.lastName
           )
         )
       ),

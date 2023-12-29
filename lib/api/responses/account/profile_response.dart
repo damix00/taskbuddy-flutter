@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class ProfileResponse {
   String bio;
   String profilePicture;
@@ -52,5 +54,25 @@ class ProfileResponse {
       locationLon: json['location_lon'] ?? 1000,
       isPrivate: json['is_private'] ?? false,
     );
+  }
+
+  String toJson() {
+    return jsonEncode({
+      "bio": bio,
+      "profile_picture": profilePicture,
+      "rating_employer": ratingEmployer,
+      "rating_employee": ratingEmployee,
+      "cancelled_employer": cancelledEmployer,
+      "cancelled_employee": cancelledEmployee,
+      "completed_employer": completedEmployer,
+      "completed_employee": completedEmployee,
+      "followers": followers,
+      "following": following,
+      "posts": posts,
+      "location_text": locationText,
+      "location_lat": locationLat,
+      "location_lon": locationLon,
+      "is_private": isPrivate,
+    });
   }
 }

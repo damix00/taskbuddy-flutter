@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:taskbuddy/api/responses/account/profile_response.dart';
 
 class PublicAccountResponse {
@@ -36,5 +38,19 @@ class PublicAccountResponse {
       isFollowing: json['is_following'] ?? false,
       isMe: json['is_me'] ?? false,
     );
+  }
+
+  String toJson() {
+    return jsonEncode({
+      "profile": profile.toJson(),
+      "uuid": UUID,
+      "username": username,
+      "first_name": firstName,
+      "last_name": lastName,
+      "has_premium": hasPremium,
+      "verified": verified,
+      "is_following": isFollowing,
+      "is_me": isMe,
+    });
   }
 }

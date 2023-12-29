@@ -4,9 +4,12 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/chat_screen.dart';
+import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/utils/haptic_feedback.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
@@ -154,6 +157,22 @@ class _PostLayoutState extends State<PostLayout> {
   }
 
   void _sendMessage() {
+    MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+
+    var channel = model.hasPost(_post.UUID);
+
+    if (channel != null) {
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(
+          builder: (context) => ChatScreen(
+            channel: channel
+          ),
+        ),
+      );
+
+      return;
+    }
+
     double h = min(MediaQuery.of(context).size.height * 0.4, 400);
 
     // Show a bottom sheet
