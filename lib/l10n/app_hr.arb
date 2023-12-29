@@ -217,5 +217,7 @@
   "notFound": "Nismo mogli pronaći vaš traženi sadržaj.",
   "chats": "Razgovori",
   "incoming": "Pristignuto",
-  "outgoing": "Odlazno"
+  "outgoing": "Odlazno",
+  "initiateConversation": "Započni razgovor o ovom poslu.",
+  "typeAMessage": "Napiši poruku..."
 }

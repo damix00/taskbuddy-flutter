@@ -63,7 +63,7 @@ class _PageContentState extends State<_PageContent> {
   void initState() {
     super.initState();
 
-    var now = DateTime.now();
+    var now = DateTime.now().toUtc();
 
     _startDate = CreatePostState.startDate ?? now;
     _endDate = CreatePostState.endDate ?? now.add(const Duration(days: 1));

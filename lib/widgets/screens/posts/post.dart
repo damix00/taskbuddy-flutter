@@ -1,18 +1,17 @@
-import 'dart:developer';
+import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
-import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/chat_screen.dart';
-import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/haptic_feedback.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
+import 'package:taskbuddy/widgets/screens/compose_message/compose_message.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_description.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
 import 'package:taskbuddy/widgets/screens/posts/sheet/post_sheet.dart';
@@ -68,7 +67,7 @@ class _PostLayoutState extends State<PostLayout> {
             }
           } catch (e) {
             SnackbarPresets.show(context, text: l10n.somethingWentWrong);
-            log(e.toString());
+            dev.log(e.toString());
           }
         },
       ));
@@ -113,7 +112,7 @@ class _PostLayoutState extends State<PostLayout> {
 
     }
     catch (e) {
-      log(e.toString());
+      dev.log(e.toString());
     }
   }
 
@@ -150,19 +149,26 @@ class _PostLayoutState extends State<PostLayout> {
 
     }
     catch (e) {
-      log(e.toString());
+      dev.log(e.toString());
     }
   }
 
   void _sendMessage() {
-    Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (ctx) => ChatScreen(
-          post: _post,
-          currentUserUuid: Provider.of<AuthModel>(context, listen: false).UUID,
-          isPostCreator: false,
-          isChannelCreated: false,
-        )
+    double h = min(MediaQuery.of(context).size.height * 0.4, 400);
+
+    // Show a bottom sheet
+    showModalBottomSheet(
+      enableDrag: true,
+      isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height,
+        minHeight: 0,
+      ),
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (ctx) => ComposeMessageSheet(
+        post: _post,
+        height: h
       )
     );
   }
@@ -171,10 +177,15 @@ class _PostLayoutState extends State<PostLayout> {
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
+    // Stack
+    // On the bottom, the post media (images, videos, etc)
+    // On the top, the post information (title, description, etc)
+    // On the top of the post information, the post interactions (like, bookmark, etc)
     return Stack(
       children: [
         GestureDetector(
           onLongPress: _openOptionsMenu,
+          // When the screen is double tapped, like the post
           onDoubleTap: () {
             HapticFeedbackUtils.mediumImpact(context);
             if (_post.isLiked) {
@@ -183,6 +194,7 @@ class _PostLayoutState extends State<PostLayout> {
             
             _onLiked();
           },
+          // Media
           child: PostMedia(
             post: widget.post,
             onPageChanged: (page) {
@@ -192,8 +204,10 @@ class _PostLayoutState extends State<PostLayout> {
             },
           ),
         ),
+        // Post information
         Stack(
           children: [
+            // A gradient so it's easier to read the post information
             Positioned(
               bottom: 0,
               child: Container(
@@ -216,6 +230,7 @@ class _PostLayoutState extends State<PostLayout> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Page indicator (dots)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 0, vertical: Sizing.horizontalPadding),
                     child: PageViewDotIndicator(
@@ -225,17 +240,22 @@ class _PostLayoutState extends State<PostLayout> {
                       selectedColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
+                  // Post tags (categories)
                   PostTags(post: _post),
                   const SizedBox(height: 12),
+                  // Post author (user)
                   PostAuthor(post: _post),
                   const SizedBox(height: 8),
-                  // PostJobType(post: _post),
+                  // Post price
                   PostPrice(post: _post),
                   const SizedBox(height: 4),
+                  // Post title
                   PostTitle(post: _post),
                   const SizedBox(height: 2),
+                  // Post description
                   PostDescription(post: _post),
                   const SizedBox(height: 8),
+                  // Tap to read more button (opens a bottom sheet)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
                     child: Touchable(

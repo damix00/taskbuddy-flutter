@@ -150,7 +150,7 @@ class _AppState extends State<App> {
       ); // Initialize firebase
       await RemoteConfigData.init(); // Initialize the remote config data
 
-      FirebaseMessagingApi.init();
+      await FirebaseMessagingApi.init();
     }
 
     catch (e) {

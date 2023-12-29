@@ -6,6 +6,75 @@ import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dar
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 
+class ChatScreenAppbar extends StatelessWidget {
+  final String profilePicture;
+  final String title;
+  final String price;
+  final String firstName;
+  final String lastName;
+
+  const ChatScreenAppbar({
+    Key? key,
+    required this.profilePicture,
+    required this.title,
+    required this.price,
+    required this.firstName,
+    required this.lastName
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 32,
+          height: 32,
+          child: ProfilePictureDisplay(
+            size: 32,
+            iconSize: 20,
+            profilePicture: profilePicture
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.loose,
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    " • €${price}",
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w900
+                    )
+                  )
+                ],
+              ),
+              Text(
+                "${firstName} ${lastName}",
+                style: Theme.of(context).textTheme.labelSmall
+              )
+            ],
+          ),
+        ),
+        const SizedBox(width: 24,)
+      ],
+      );
+  }
+}
+
 class ChatScreen extends StatelessWidget {
   final String? channelUuid;
   final String currentUserUuid;
@@ -35,54 +104,13 @@ class ChatScreen extends StatelessWidget {
               ))
             )
           },
-          child: Row(
-            children: [
-              SizedBox(
-                width: 32,
-                height: 32,
-                child: ProfilePictureDisplay(
-                  size: 32,
-                  iconSize: 20,
-                  profilePicture: post.user.profilePicture
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          fit: FlexFit.loose,
-                          child: Text(
-                            post.title,
-                            style: Theme.of(context).textTheme.titleSmall,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Text(
-                          " • €${post.price}",
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.w900
-                          )
-                        )
-                      ],
-                    ),
-                    Text(
-                      "${post.user.firstName} ${post.user.lastName}",
-                      style: Theme.of(context).textTheme.labelSmall
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(width: 24,)
-            ],
-          ),
+          child: ChatScreenAppbar(
+            profilePicture: post.user.profilePicture,
+            title: post.title,
+            price: post.price.toString(),
+            firstName: post.user.firstName,
+            lastName: post.user.lastName
+          )
         )
       ),
     );

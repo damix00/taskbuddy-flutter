@@ -49,6 +49,9 @@ class BottomSheetBase extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final MainAxisSize mainAxisSize;
+  final Color backgroundColor;
+  final Color topBarColor;
+  final bool scrollable;
 
   const BottomSheetBase({
     Key? key,
@@ -56,39 +59,59 @@ class BottomSheetBase extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.min,
+    this.backgroundColor = Colors.transparent,
+    this.topBarColor = Colors.transparent,
+    this.scrollable = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       bottom: false,
-      child: Column(
-        mainAxisSize: mainAxisSize,
-        mainAxisAlignment: mainAxisAlignment,
-        crossAxisAlignment: crossAxisAlignment,
-        children: [
-          Center(
-            child: Container(
-              height: 4,
-              width: 40,
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(4),
-              )
-            ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: backgroundColor,
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: mainAxisSize,
-                mainAxisAlignment: mainAxisAlignment,
-                crossAxisAlignment: crossAxisAlignment,
-                children: children,
+          child: Column(
+            mainAxisSize: mainAxisSize,
+            mainAxisAlignment: mainAxisAlignment,
+            crossAxisAlignment: crossAxisAlignment,
+            children: [
+              Container(
+                width: double.infinity,
+                color: topBarColor,
+                child: Center(
+                  child: Container(
+                    height: 4,
+                    width: 40,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(4),
+                    )
+                  ),
+                ),
               ),
-            ),
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: scrollable ? null : const NeverScrollableScrollPhysics(),
+                  child: Column(
+                    mainAxisSize: mainAxisSize,
+                    mainAxisAlignment: mainAxisAlignment,
+                    crossAxisAlignment: crossAxisAlignment,
+                    children: children,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

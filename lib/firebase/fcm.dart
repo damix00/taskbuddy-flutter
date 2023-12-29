@@ -15,14 +15,20 @@ class FirebaseMessagingApi {
     // Log it
     log('FirebaseMessaging token: $token');
 
+    String? accountToken = await AccountCache.getToken();
+
     // Send it to server
-    if (token == null) {
+    if (token == null || accountToken == null) {
+      log('FirebaseMessaging token or account token is null');
       return;
     }
 
-    String accountToken = (await AccountCache.getToken())!;
-
     await Api.v1.accounts.meRoute.updateFCMToken(accountToken, token);
+  }
+
+  static Future<void> onBackgroundMessage(RemoteMessage message) async {
+    print('Handling a background message ${message.messageId}');
+    print(message.notification?.title);
   }
 
   static Future<void> init() async {
@@ -41,11 +47,13 @@ class FirebaseMessagingApi {
     }
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('A new onMessage event was published!');
+
       showOverlayNotification((ctx) =>
         CustomNotification(
           child: Center(
             child: Text(
-              message.notification!.title!,
+              message.notification?.title ?? 'Unknown title',
             ),
           ),
         ),
@@ -58,9 +66,6 @@ class FirebaseMessagingApi {
       print('Message data: ${message.data}');
     });
 
-    FirebaseMessaging.onBackgroundMessage((message) async {
-      print('Handling a background message ${message.messageId}');
-      print(message.notification?.title);
-    });
+    FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   }
 }

@@ -327,5 +327,7 @@
   "notFound": "We couldn''t find what you were looking for.",
   "chats": "Chats",
   "incoming": "Incoming",
-  "outgoing": "Outgoing"
+  "outgoing": "Outgoing",
+  "initiateConversation": "Initiate a conversation about this job.",
+  "typeAMessage": "Type a message..."
 }
