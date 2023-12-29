@@ -268,4 +268,35 @@ class AuthModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> logout() async {
+    await AccountCache.setLoggedIn(false);
+    await AccountCache.clear();
+
+    _loggedIn = false;
+    _finishedLoading = true;
+    _username = '';
+    _profilePicture = '';
+    _isPrivate = false;
+    _followers = 0;
+    _following = 0;
+    _listings = 0;
+    _jobsDone = 0;
+    _bio = '';
+    _employerRating = 0;
+    _employeeRating = 0;
+    _employerCancelled = 0;
+    _employeeCancelled = 0;
+    _fullName = '';
+    _firstName = '';
+    _lastName = '';
+    _locationText = '';
+    _requiredActions = null;
+    _email = '';
+    _lat = null;
+    _lon = null;
+    _uuid = '';
+
+    notifyListeners();
+  }
 }

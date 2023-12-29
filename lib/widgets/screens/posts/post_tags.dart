@@ -42,7 +42,11 @@ class PostTags extends StatelessWidget {
                       isSelectable: false,
                       child: Row(
                         children: [
-                          const Icon(Icons.schedule, size: 18),
+                          Icon(
+                            Icons.schedule,
+                            size: 18,
+                            color: Theme.of(context).colorScheme.onBackground
+                          ),
                           const SizedBox(width: 8),
                           Text(
                             l10n.urgentText,

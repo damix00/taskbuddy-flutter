@@ -37,9 +37,12 @@ class ComposeMessageSheet extends StatelessWidget {
                 children: [
                   Touchable(
                     onTap: () => Navigator.of(context).pop(),
-                    child: const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Icon(Icons.close),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Icon(
+                        Icons.close,
+                        color: Theme.of(context).colorScheme.onSurface
+                      ),
                     ),
                   ),
                   Expanded(

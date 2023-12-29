@@ -13,7 +13,7 @@ class PostInteractionButton extends StatelessWidget {
   final String? text;
   final bool isActive;
   final VoidCallback onTap;
-  final Color activeColor;
+  final Color? activeColor;
 
   const PostInteractionButton({
     Key? key,
@@ -22,7 +22,7 @@ class PostInteractionButton extends StatelessWidget {
     this.text,
     this.isActive = false,
     this.activeIcon,
-    this.activeColor = Colors.white,
+    this.activeColor,
   }) : super(key: key);
 
   @override
@@ -31,7 +31,15 @@ class PostInteractionButton extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          isActive ? Icon(activeIcon!, size: 28, color: activeColor) : Icon(icon, size: 28, color: Theme.of(context).colorScheme.onBackground),
+          isActive ? Icon(
+            activeIcon!,
+            size: 28,
+            color: activeColor ?? Theme.of(context).colorScheme.onBackground
+          ) : Icon(
+            icon,
+            size: 28,
+            color: Theme.of(context).colorScheme.onBackground
+          ),
           if (text != null) Text(text!),
         ],
       ),

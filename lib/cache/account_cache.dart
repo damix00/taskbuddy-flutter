@@ -289,8 +289,12 @@ class AccountCache {
   }
 
   // Clear the storage
-  static Future<void> clear() {
+  static Future<void> clear() async {
     var storage = const FlutterSecureStorage();
-    return storage.deleteAll();
+    
+    storage.delete(key: 'token');
+    _cache = {};
+
+    return await storage.deleteAll();
   }
 }

@@ -29,7 +29,7 @@ class BlurAppbar extends StatelessWidget {
             // If UI blur is disabled, display a non-blurred version with surface color
             return Container(
               decoration: BoxDecoration(
-                color: transparent ? Colors.transparent : Theme.of(context).colorScheme.surface,
+                color: transparent ? Theme.of(context).colorScheme.inverseSurface.withOpacity(0.5) : Theme.of(context).colorScheme.surface,
               ),
               child: _AppbarChildren(
                 context: context,
@@ -55,7 +55,7 @@ class BlurAppbar extends StatelessWidget {
                   ImageFilter.blur(sigmaX: 30, sigmaY: 30), // Apply blur effect
               child: Container(
                 decoration: BoxDecoration(
-                  color: transparent ? Colors.transparent : Theme.of(context).colorScheme.surfaceVariant,
+                  color: transparent ? Theme.of(context).colorScheme.inverseSurface.withOpacity(0.5) : Theme.of(context).colorScheme.surfaceVariant,
                 ),
                 child: _AppbarChildren(
                   context: context,

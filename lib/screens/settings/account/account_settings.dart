@@ -66,10 +66,9 @@ class AccountSettings extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
-                  await AccountCache.setLoggedIn(false);
-                  await AccountCache.clear();
+                  await Provider.of<AuthModel>(context, listen: false).logout();
         
-                  Utils.restartLoggedOut(context);  
+                  Utils.restartLoggedOut(context);
                 }
               )
             ],
