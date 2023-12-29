@@ -39,7 +39,7 @@ class ChannelResponse {
       lastMessageTime: DateTime.parse(json['last_message_time']),
       lastMessages: json['last_messages'].map<MessageResponse>((message) => MessageResponse.fromJson(message)).toList(),
       otherUser: json['other_user'],
-      negotiatedPrice: json['negotiated_price'],
+      negotiatedPrice: double.parse(json['negotiated_price'].toString()),
       negotiatedDate: DateTime.parse(json['negotiated_date']),
     );
   }

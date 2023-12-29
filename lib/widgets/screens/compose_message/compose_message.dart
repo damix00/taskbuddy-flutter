@@ -5,6 +5,7 @@ import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/chat_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
@@ -22,6 +23,7 @@ class ComposeMessageSheet extends StatefulWidget {
 
 class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
   bool _loading = true;
+  bool _sending = false;
   final TextEditingController _textController = TextEditingController();
 
   Future<void> _init() async {
@@ -97,7 +99,7 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
       ),
       // Initiate conversation text
       Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Text(
           l10n.initiateConversation,
           style: Theme.of(context).textTheme.labelMedium,
@@ -140,12 +142,46 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
             ),
             // Send button
             Touchable(
-              onTap: () {
+              disabled: _sending,
+              onTap: () async {
                 if (_textController.text.isEmpty) {
                   return;
                 }
-                
-                Navigator.of(context).pop();
+
+                setState(() {
+                  _sending = true;
+                });
+
+                String token = (await AccountCache.getToken())!;
+
+                var channel = await Api.v1.channels.initiateConversation(
+                  token,
+                  postUUID: widget.post.UUID,
+                  message: _textController.text
+                );
+
+                setState(() {
+                  _sending = false;
+                });
+
+                if (channel.ok && channel.data != null) {
+                  Navigator.of(context).pushReplacement(
+                    CupertinoPageRoute(
+                      builder: (context) => ChatScreen(
+                        channel: channel.data!
+                      ),
+                    ),
+                  );
+                }
+
+                else {
+                  SnackbarPresets.error(
+                    context,
+                    l10n.somethingWentWrong
+                  );
+
+                  Navigator.of(context).pop();
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
