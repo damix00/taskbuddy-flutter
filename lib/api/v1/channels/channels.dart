@@ -61,4 +61,70 @@ class Channels {
       response: response.response,
     );
   }
+
+  Future<ApiResponse<List<ChannelResponse>>> getIncomingMessages(String token, {
+    int offset = 0,
+  }) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/incoming",
+      method: "GET",
+      headers: {
+        'Authorization': 'Bearer $token',
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+
+    List<ChannelResponse> channels = [];
+
+    for (var channel in response.response!.data["channels"]) {
+      channels.add(ChannelResponse.fromJson(channel));
+    }
+
+    return ApiResponse(
+      status: response.response!.statusCode!,
+      message: 'OK',
+      ok: response.response!.statusCode! == 200,
+      data: channels,
+      response: response.response,
+    );
+  }
+
+  Future<ApiResponse<List<ChannelResponse>>> getOutgoingMessages(String token, {
+    int offset = 0,
+  }) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/outgoing",
+      method: "GET",
+      headers: {
+        'Authorization': 'Bearer $token',
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+
+    List<ChannelResponse> channels = [];
+
+    for (var channel in response.response!.data["channels"]) {
+      channels.add(ChannelResponse.fromJson(channel));
+    }
+
+    return ApiResponse(
+      status: response.response!.statusCode!,
+      message: 'OK',
+      ok: response.response!.statusCode! == 200,
+      data: channels,
+      response: response.response,
+    );
+  }
 }

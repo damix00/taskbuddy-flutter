@@ -1,16 +1,27 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 
 class MessagesModel extends ChangeNotifier {
   int _incomingOffset = 0;
   int _outgoingOffset = 0;
+  
+  bool _hasMoreIncoming = true;
+  bool _hasMoreOutgoing = true;
+
+  bool _loadingOutgoing = true;
+  bool _loadingIncoming = true;
 
   List<ChannelResponse> _incomingMessages = [];
   List<ChannelResponse> _outgoingMessages = [];
 
   List<ChannelResponse> get incomingMessages => _incomingMessages;
   List<ChannelResponse> get outgoingMessages => _outgoingMessages;
+
+  bool get loadingIncoming => _loadingIncoming;
+  bool get loadingOutgoing => _loadingOutgoing;
 
   Future<void> readFromCache() async {
     FlutterSecureStorage storage = FlutterSecureStorage();
@@ -37,12 +48,45 @@ class MessagesModel extends ChangeNotifier {
     await storage.write(key: 'outgoingMessages', value: _outgoingMessages.map((e) => e.toJson()).toList().toString());
   }
 
-  Future<void> fetchIncomingMessages() async {
-    // TODO Fetch incoming messages from API
-  }
+  Future<void> fetchMessages() async {
+    // Read the auth token
+    String token = (await AccountCache.getToken())!;
 
-  Future<void> fetchOutgoingMessages() async {
-    // TODO: Fetch outgoing messages from API
+    _loadingIncoming = true;
+    notifyListeners();
+
+    // Fetch incoming messages
+    var incoming = await Api.v1.channels.getIncomingMessages(token, offset: _incomingOffset);
+    
+    if (incoming.ok) {
+      if (incoming.data!.length < 20) {
+        _hasMoreIncoming = false;
+      } else {
+        _incomingOffset += incoming.data!.length;
+        _incomingMessages.addAll(incoming.data!);
+      }
+    }
+
+    _loadingIncoming = false;
+    notifyListeners();
+
+    // Fetch outgoing messages
+    _loadingOutgoing = true;
+    notifyListeners();
+
+    var outgoing = await Api.v1.channels.getOutgoingMessages(token, offset: _outgoingOffset);
+
+    if (outgoing.ok) {
+      if (outgoing.data!.length < 20) {
+        _hasMoreOutgoing = false;
+      } else {
+        _outgoingOffset += outgoing.data!.length;
+        _outgoingMessages.addAll(outgoing.data!);
+      }
+    }
+
+    _loadingOutgoing = false;
+    notifyListeners();
   }
 
   ChannelResponse? hasPost(String postUUID) {
@@ -61,13 +105,25 @@ class MessagesModel extends ChangeNotifier {
     return null;
   }
 
-  void addIncomingMessage(ChannelResponse message) {
-    _incomingMessages.add(message);
+  void addIncomingChannel(ChannelResponse channel) {
+    if (_incomingMessages.indexWhere((element) => element.uuid == channel.uuid) == -1) {
+      _incomingMessages.add(channel);
+    }
+
+    // Sort by last message time
+    _incomingMessages.sort((a, b) => b.lastMessageTime.compareTo(a.lastMessageTime));
+
     notifyListeners();
   }
 
-  void addOutgoingMessage(ChannelResponse message) {
-    _outgoingMessages.add(message);
+  void addOutgoingChannel(ChannelResponse channel) {
+    if (_outgoingMessages.indexWhere((element) => element.uuid == channel.uuid) == -1) {
+      _outgoingMessages.add(channel);
+    }
+
+    // Sort by last message time
+    _outgoingMessages.sort((a, b) => b.lastMessageTime.compareTo(a.lastMessageTime));
+
     notifyListeners();
   }
 

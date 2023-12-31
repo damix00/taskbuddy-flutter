@@ -6,6 +6,7 @@ import 'package:taskbuddy/screens/profile_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
+import 'package:taskbuddy/widgets/screens/chat/chat_layout.dart';
 
 class ChatScreenAppbar extends StatelessWidget {
   final String profilePicture;
@@ -107,6 +108,7 @@ class ChatScreen extends StatelessWidget {
           )
         )
       ),
+      body: ChatLayout(channel: channel)
     );
   }
 }
