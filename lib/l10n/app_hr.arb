@@ -221,5 +221,7 @@
   "initiateConversation": "Započni razgovor o ovom poslu.",
   "typeAMessage": "Napiši poruku...",
   "youMessage": "Vi: {message}",
-  "noMessageYet": "Još nema poruka"
+  "noMessagesYet": "Još nema poruka",
+  "messageDeleted": "Ova je poruka izbrisana.",
+  "seen": "Viđeno"
 }

@@ -2,8 +2,11 @@ import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
+import 'package:taskbuddy/api/v1/channels/messages.dart';
 
 class Channels {
+  Messages get messages => Messages();
+
   Future<ApiResponse<ChannelResponse?>> initiateConversation(String token, {
     required String postUUID,
     required String message,
@@ -126,5 +129,24 @@ class Channels {
       data: channels,
       response: response.response,
     );
+  }
+
+  Future<bool> markAsSeen(String token, String channelId) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(channelId)}/seen",
+      method: "POST",
+      headers: {
+        'Authorization': 'Bearer $token'
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return false;
+    }
+
+    return true;
   }
 }

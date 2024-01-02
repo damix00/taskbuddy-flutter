@@ -52,28 +52,30 @@ class ChannelTile extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text(
-                      lastMessage != null
-                        ? (
-                          lastMessage.sender.UUID == otherUser.UUID
-                            ? "${lastMessage.sender.firstName}: ${lastMessage.message}"
-                            : l10n.youMessage(lastMessage.message)
-                        )
-                        : l10n.noMessagesYet,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: (lastMessage != null && !lastMessage.seen && lastMessage.sender.UUID == otherUser.UUID) ? FontWeight.w600 : FontWeight.w400,
-                        color: (lastMessage != null && !lastMessage.seen && lastMessage.sender.UUID == otherUser.UUID)
-                          ? Theme.of(context).colorScheme.onBackground
-                          : Theme.of(context).textTheme.labelMedium!.color
+                    Flexible(
+                      child: Text(
+                        lastMessage != null
+                          ? (
+                            lastMessage.sender.UUID == otherUser.UUID
+                              ? "${lastMessage.sender.firstName}: ${lastMessage.message}"
+                              : l10n.youMessage(lastMessage.message)
+                          )
+                          : l10n.noMessagesYet,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: (lastMessage != null && !lastMessage.seen && lastMessage.sender.UUID == otherUser.UUID) ? FontWeight.w600 : FontWeight.w400,
+                          color: (lastMessage != null && !lastMessage.seen && lastMessage.sender.UUID == otherUser.UUID)
+                            ? Theme.of(context).colorScheme.onBackground
+                            : Theme.of(context).textTheme.labelMedium!.color
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
                     ),
                     // Show the time of the last message
                     if (lastMessage != null)
                       Text(
-                        " • ${Dates.timeAgo(lastMessage.createdAt, Localizations.localeOf(context))}",
+                        " • ${Dates.timeAgo(channel.lastMessageTime, Localizations.localeOf(context))}",
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: (lastMessage.sender.UUID == otherUser.UUID && !lastMessage.seen) ? FontWeight.w600 : FontWeight.w400,

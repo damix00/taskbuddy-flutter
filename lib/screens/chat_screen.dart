@@ -73,7 +73,7 @@ class ChatScreenAppbar extends StatelessWidget {
         ),
         const SizedBox(width: 24,)
       ],
-      );
+    );
   }
 }
 
@@ -108,6 +108,8 @@ class ChatScreen extends StatelessWidget {
           )
         )
       ),
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       body: ChatLayout(channel: channel)
     );
   }

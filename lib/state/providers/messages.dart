@@ -26,6 +26,36 @@ class MessagesModel extends ChangeNotifier {
   bool get hasMoreIncoming => _hasMoreIncoming;
   bool get hasMoreOutgoing => _hasMoreOutgoing;
 
+  set incomingOffset(int value) {
+    _incomingOffset = value;
+    notifyListeners();
+  }
+
+  set outgoingOffset(int value) {
+    _outgoingOffset = value;
+    notifyListeners();
+  }
+
+  set hasMoreIncoming(bool value) {
+    _hasMoreIncoming = value;
+    notifyListeners();
+  }
+
+  set hasMoreOutgoing(bool value) {
+    _hasMoreOutgoing = value;
+    notifyListeners();
+  }
+
+  set outgoingMessages(List<ChannelResponse> value) {
+    _outgoingMessages = value;
+    notifyListeners();
+  }
+
+  set incomingMessages(List<ChannelResponse> value) {
+    _incomingMessages = value;
+    notifyListeners();
+  }
+
   Future<void> readFromCache() async {
     FlutterSecureStorage storage = FlutterSecureStorage();
 
@@ -52,6 +82,8 @@ class MessagesModel extends ChangeNotifier {
   }
 
   Future<void> fetchIncoming() async {
+    if (!_hasMoreIncoming) return;
+
     // Read the auth token
     String token = (await AccountCache.getToken())!;
 
@@ -75,6 +107,8 @@ class MessagesModel extends ChangeNotifier {
   }
 
   Future<void> fetchOutgoing() async {
+    if (!_hasMoreOutgoing) return;
+
     // Read the auth token
     String token = (await AccountCache.getToken())!;
 

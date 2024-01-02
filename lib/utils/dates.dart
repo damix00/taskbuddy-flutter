@@ -3,13 +3,15 @@ import 'dart:ui';
 import 'package:intl/intl.dart';
 
 class Dates {
-  static String formatDate(DateTime date) {
-    return '${DateFormat.yMMMd().format(date)} ${DateFormat.Hm().format(date)}';
+  static String formatDate(DateTime date, {bool showTime = true}) {
+    return '${DateFormat.yMMMd().format(date.toLocal())}${showTime ? " ${DateFormat.Hm().format(date.toLocal())}" : ""}';
   }
 
   static String timeAgo(DateTime date, Locale locale) {
     final now = DateTime.now();
-    final difference = now.difference(date);
+    // TODO: Fix timezones
+    var d = date.add(const Duration(hours: 1));
+    final difference = now.difference(d);
 
     if (difference.inSeconds < 0) {
       if (difference.inSeconds > -60) {

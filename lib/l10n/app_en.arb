@@ -340,5 +340,7 @@
       }
     }
   },
-  "noMessagesYet": "No messages yet"
+  "noMessagesYet": "No messages yet",
+  "messageDeleted": "This message was deleted.",
+  "seen": "Seen"
 }
