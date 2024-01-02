@@ -66,8 +66,11 @@ class ChatBubble extends StatelessWidget {
             ],
           ),
           showSeen && message.sender.isMe ? Padding(
-            padding: const EdgeInsets.only(left: 48.0),
-            child: Text(l10n.seen)
+            padding: const EdgeInsets.only(left: 48.0, top: 4),
+            child: Text(
+              l10n.seen,
+              style: Theme.of(context).textTheme.labelSmall
+            )
           ) : Container(),
         ],
       ),

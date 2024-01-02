@@ -78,17 +78,24 @@ class _ChatLayoutState extends State<ChatLayout> {
                   && index == widget.channel.lastMessages.length - 1
                   && widget.channel.lastMessages[index].seen;
 
+                bool showPfp = index == widget.channel.lastMessages.length - 1 ||
+                  widget.channel.lastMessages[index + 1].sender.UUID != widget.channel.lastMessages[index].sender.UUID;
+
                 // Show date header
                 if (index == 0 || widget.channel.lastMessages[index].createdAt.day != widget.channel.lastMessages[index - 1].createdAt.day) {
                   return Column(
                     children: [
-                      Text(
-                        Dates.formatDate(widget.channel.lastMessages[index].createdAt, showTime: false),
-                        style: Theme.of(context).textTheme.labelSmall,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          Dates.formatDate(widget.channel.lastMessages[index].createdAt, showTime: false),
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
                       ),
                       ChatBubble(
                         message: widget.channel.lastMessages[index],
                         showSeen: showSeen,
+                        showProfilePicture: showPfp,
                       ),
                     ],
                   );
@@ -97,6 +104,7 @@ class _ChatLayoutState extends State<ChatLayout> {
                 return ChatBubble(
                   message: widget.channel.lastMessages[index],
                   showSeen: showSeen,
+                  showProfilePicture: showPfp,
                 );
               },
             ),
