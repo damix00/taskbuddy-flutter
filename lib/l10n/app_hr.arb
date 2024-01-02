@@ -219,5 +219,7 @@
   "incoming": "Pristignuto",
   "outgoing": "Odlazno",
   "initiateConversation": "Započni razgovor o ovom poslu.",
-  "typeAMessage": "Napiši poruku..."
+  "typeAMessage": "Napiši poruku...",
+  "youMessage": "Vi: {message}",
+  "noMessageYet": "Još nema poruka"
 }

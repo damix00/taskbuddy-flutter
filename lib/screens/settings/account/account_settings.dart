@@ -4,6 +4,7 @@ import 'package:taskbuddy/screens/settings/items/button.dart';
 import 'package:taskbuddy/screens/settings/items/navigation.dart';
 import 'package:taskbuddy/screens/settings/section.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
+import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -66,6 +67,7 @@ class AccountSettings extends StatelessWidget {
                 ),
                 onTap: () async {
                   await Provider.of<AuthModel>(context, listen: false).logout();
+                  Provider.of<MessagesModel>(context, listen: false).clear();
         
                   Utils.restartLoggedOut(context);
                 }

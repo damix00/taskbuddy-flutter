@@ -66,7 +66,7 @@ class Channels {
     int offset = 0,
   }) async {
     var response = await Requests.fetchEndpoint(
-      "${ApiOptions.path}/channels/incoming",
+      "${ApiOptions.path}/channels/incoming?offset=$offset",
       method: "GET",
       headers: {
         'Authorization': 'Bearer $token',
@@ -89,7 +89,7 @@ class Channels {
     return ApiResponse(
       status: response.response!.statusCode!,
       message: 'OK',
-      ok: response.response!.statusCode! == 200,
+      ok: true,
       data: channels,
       response: response.response,
     );
@@ -99,7 +99,7 @@ class Channels {
     int offset = 0,
   }) async {
     var response = await Requests.fetchEndpoint(
-      "${ApiOptions.path}/channels/outgoing",
+      "${ApiOptions.path}/channels/outgoing?offset=$offset",
       method: "GET",
       headers: {
         'Authorization': 'Bearer $token',
@@ -122,7 +122,7 @@ class Channels {
     return ApiResponse(
       status: response.response!.statusCode!,
       message: 'OK',
-      ok: response.response!.statusCode! == 200,
+      ok: true,
       data: channels,
       response: response.response,
     );

@@ -23,6 +23,9 @@ class MessagesModel extends ChangeNotifier {
   bool get loadingIncoming => _loadingIncoming;
   bool get loadingOutgoing => _loadingOutgoing;
 
+  bool get hasMoreIncoming => _hasMoreIncoming;
+  bool get hasMoreOutgoing => _hasMoreOutgoing;
+
   Future<void> readFromCache() async {
     FlutterSecureStorage storage = FlutterSecureStorage();
 
@@ -48,7 +51,7 @@ class MessagesModel extends ChangeNotifier {
     await storage.write(key: 'outgoingMessages', value: _outgoingMessages.map((e) => e.toJson()).toList().toString());
   }
 
-  Future<void> fetchMessages() async {
+  Future<void> fetchIncoming() async {
     // Read the auth token
     String token = (await AccountCache.getToken())!;
 
@@ -63,17 +66,22 @@ class MessagesModel extends ChangeNotifier {
         _hasMoreIncoming = false;
       } else {
         _incomingOffset += incoming.data!.length;
-        _incomingMessages.addAll(incoming.data!);
       }
+      _incomingMessages.addAll(incoming.data!);
     }
 
     _loadingIncoming = false;
     notifyListeners();
+  }
 
-    // Fetch outgoing messages
+  Future<void> fetchOutgoing() async {
+    // Read the auth token
+    String token = (await AccountCache.getToken())!;
+
     _loadingOutgoing = true;
     notifyListeners();
 
+    // Fetch outgoing messages
     var outgoing = await Api.v1.channels.getOutgoingMessages(token, offset: _outgoingOffset);
 
     if (outgoing.ok) {
@@ -81,12 +89,17 @@ class MessagesModel extends ChangeNotifier {
         _hasMoreOutgoing = false;
       } else {
         _outgoingOffset += outgoing.data!.length;
-        _outgoingMessages.addAll(outgoing.data!);
       }
+      _outgoingMessages.addAll(outgoing.data!);
     }
 
     _loadingOutgoing = false;
     notifyListeners();
+  }
+
+  Future<void> fetchMessages() async {
+    await fetchIncoming();
+    await fetchOutgoing();
   }
 
   ChannelResponse? hasPost(String postUUID) {
@@ -127,22 +140,6 @@ class MessagesModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearIncomingMessages() {
-    _incomingMessages.clear();
-    notifyListeners();
-  }
-
-  void clearOutgoingMessages() {
-    _outgoingMessages.clear();
-    notifyListeners();
-  }
-
-  void clearAllMessages() {
-    _incomingMessages.clear();
-    _outgoingMessages.clear();
-    notifyListeners();
-  }
-
   void removeIncomingChannel(ChannelResponse channel) {
     _incomingMessages.remove(channel);
     notifyListeners();
@@ -164,6 +161,18 @@ class MessagesModel extends ChangeNotifier {
     if (index != -1) {
       _incomingMessages[index] = channel;
     }
+    notifyListeners();
+  }
+
+  void clear() {
+    _incomingOffset = 0;
+    _outgoingOffset = 0;
+    _hasMoreIncoming = true;
+    _hasMoreOutgoing = true;
+    _loadingOutgoing = true;
+    _loadingIncoming = true;
+    _incomingMessages = [];
+    _outgoingMessages = [];
     notifyListeners();
   }
 }

@@ -162,7 +162,7 @@ class _PostLayoutState extends State<PostLayout> {
     var channel = model.hasPost(_post.UUID);
 
     if (channel != null) {
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         CupertinoPageRoute(
           builder: (context) => ChatScreen(
             channel: channel

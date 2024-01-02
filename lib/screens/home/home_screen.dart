@@ -15,6 +15,7 @@ import 'package:taskbuddy/screens/home/pages/chats/chats_page.dart';
 import 'package:taskbuddy/screens/home/pages/profile/profile_page.dart';
 import 'package:taskbuddy/screens/home/pages/search_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
+import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/state/static/location_state.dart';
 import 'package:taskbuddy/utils/utils.dart';
@@ -124,6 +125,9 @@ class _HomeScreenState extends State<HomeScreen> {
       log('Failed to fetch tags data');
       return false;
     }
+
+    var messages = Provider.of<MessagesModel>(context, listen: false);
+    await messages.fetchMessages();
 
     return true;
   }

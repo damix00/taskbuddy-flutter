@@ -329,5 +329,16 @@
   "incoming": "Incoming",
   "outgoing": "Outgoing",
   "initiateConversation": "Initiate a conversation about this job.",
-  "typeAMessage": "Type a message..."
+  "typeAMessage": "Type a message...",
+  "youMessage": "You: {message}",
+  "@youMessage": {
+    "description": "This is the message sent by the user.",
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Hello!"
+      }
+    }
+  },
+  "noMessagesYet": "No messages yet"
 }
