@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/chat_screen.dart';
+import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
@@ -164,11 +166,14 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
                   _sending = false;
                 });
 
+                MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+                model.addOutgoingChannel(channel.data!);
+
                 if (channel.ok && channel.data != null) {
                   Navigator.of(context).pushReplacement(
                     CupertinoPageRoute(
                       builder: (context) => ChatScreen(
-                        channel: channel.data!
+                        channel: channel.data!.clone()
                       ),
                     ),
                   );

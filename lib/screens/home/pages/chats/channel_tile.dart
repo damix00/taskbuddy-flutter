@@ -46,9 +46,14 @@ class ChannelTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
+                  "@${channel.otherUserAccount.username}",
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+                Text(
                   channel.post.title,
                   style: Theme.of(context).textTheme.bodyLarge,
                   maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Row(
                   children: [

@@ -63,9 +63,9 @@ class _PostAuthorState extends State<PostAuthor> {
               ),
             ),
             const SizedBox(width: 12,),
-            Touchable(
-              onTap: _openProfile,
-              child: Flexible(
+            Expanded(
+              child: Touchable(
+                onTap: _openProfile,
                 child: Text(
                   "@${widget.post.user.username}",
                   overflow: TextOverflow.ellipsis,

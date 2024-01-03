@@ -2,9 +2,15 @@ import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/chat_screen.dart';
+import 'package:taskbuddy/state/providers/messages.dart';
+import 'package:taskbuddy/state/static/messages_state.dart';
 import 'package:taskbuddy/widgets/ui/notification.dart';
 
 class FirebaseMessagingApi {
@@ -49,13 +55,31 @@ class FirebaseMessagingApi {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('A new onMessage event was published!');
 
+      if (MessagesState.currentChannel == message.data['channel_uuid']) {
+        return;
+      }
+
       showOverlayNotification((ctx) =>
         CustomNotification(
-          child: Center(
-            child: Text(
-              message.notification?.title ?? 'Unknown title',
-            ),
-          ),
+          title: message.notification?.title ?? "New notification",
+          subtitle: message.notification?.body,
+          image: message.notification?.android?.imageUrl,
+          onTap: () {
+            MessagesModel model = Provider.of<MessagesModel>(ctx, listen: false);
+            ChannelResponse? channel = model.getChannelByUuid(message.data['channel_uuid']!);
+
+            if (channel == null) return;
+
+            OverlaySupportEntry.of(ctx)!.dismiss();
+
+            Navigator.of(ctx).push(
+              CupertinoPageRoute(
+                builder: (context) => ChatScreen(
+                  channel: channel.clone(),
+                )
+              )
+            );
+          }
         ),
         duration: const Duration(seconds: 5)
       );

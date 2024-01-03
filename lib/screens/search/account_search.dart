@@ -156,11 +156,9 @@ class _SearchResultsAccountState extends State<_SearchResultsAccount> {
           ),
         ),
         const SizedBox(width: 12,),
-        Touchable(
-          onTap: _openAccount,
-          child: Flexible(
-            flex: 1,
-            fit: FlexFit.tight,
+        Expanded(
+          child: Touchable(
+            onTap: _openAccount,
             child: Text(
               "@${_account.username}",
               overflow: TextOverflow.ellipsis,
@@ -174,8 +172,6 @@ class _SearchResultsAccountState extends State<_SearchResultsAccount> {
         if (_account.verified)
           const Icon(Icons.verified, size: 16, color: Colors.blue,),
 
-        if (!_account.isMe)
-          const Spacer(),
         if (!_account.isMe)
           FeedSlimButton(
             onPressed: () async {

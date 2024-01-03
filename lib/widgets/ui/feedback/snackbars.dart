@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:taskbuddy/widgets/ui/notification.dart';
+import 'package:taskbuddy/widgets/ui/snackbar.dart';
 
 class SnackbarPresets {
   static void show(
@@ -23,7 +23,7 @@ class SnackbarPresets {
     //   backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
     // ));
     showOverlayNotification((ctx) =>
-      CustomNotification(
+      CustomSnackbar(
         backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
         child: Center(
           child: Text(

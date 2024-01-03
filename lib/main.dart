@@ -212,6 +212,7 @@ class _AppState extends State<App> {
                 onError: Colors.white,
                 outline: Constants.borderColor,
                 shadow: Colors.black.withOpacity(0.8),
+                primaryContainer: Color.fromARGB(255, 30, 26, 41)
               ),
               pageTransitionsTheme: PageTransitionsTheme(builders: {
                 TargetPlatform.android: SlideTransitionBuilder(),
@@ -242,6 +243,7 @@ class _AppState extends State<App> {
                 onError: Colors.white, // Color that is used for error messages (text)
                 outline: Color.fromARGB(255, 156, 144, 184),
                 shadow: Colors.black.withOpacity(0.5),
+                primaryContainer: const Color.fromARGB(255, 236, 236, 236)
               ),
               textTheme: _textTheme.copyWith(
                 titleLarge: _textTheme.titleLarge!.copyWith(

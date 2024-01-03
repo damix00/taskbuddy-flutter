@@ -230,6 +230,7 @@ class MessagesModel extends ChangeNotifier {
         // Check if the message already exists
         if (channel.lastMessages.indexWhere((element) => element.UUID == response.UUID) == -1) {
           channel.lastMessages.add(response);
+          channel.lastMessageTime = DateTime.now();
         }
       }
     }
@@ -239,10 +240,27 @@ class MessagesModel extends ChangeNotifier {
         // Check if the message already exists
         if (channel.lastMessages.indexWhere((element) => element.UUID == response.UUID) == -1) {
           channel.lastMessages.add(response);
+          channel.lastMessageTime = DateTime.now();
         }
       }
     }
 
     notifyListeners();
+  }
+
+  ChannelResponse? getChannelByUuid(String uuid) {
+    for (ChannelResponse channel in _incomingMessages) {
+      if (channel.uuid == uuid) {
+        return channel;
+      }
+    }
+
+    for (ChannelResponse channel in _outgoingMessages) {
+      if (channel.uuid == uuid) {
+        return channel;
+      }
+    }
+
+    return null;
   }
 }

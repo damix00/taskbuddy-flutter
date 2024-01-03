@@ -7,6 +7,7 @@ import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/api/socket/socket.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
+import 'package:taskbuddy/state/static/messages_state.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
@@ -56,9 +57,10 @@ class _ChatLayoutState extends State<ChatLayout> {
   void _onMessage(dynamic data) async {
     MessageResponse message = MessageResponse.fromJson(data["message"]);
 
+    print("Received message: ${message.message}");
+
     if (message.channelUUID == widget.channel.uuid) {
       MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
-      model.onMessage(widget.channel.uuid, message);
 
       setState(() {
         widget.channel.lastMessages.add(message);
@@ -84,12 +86,14 @@ class _ChatLayoutState extends State<ChatLayout> {
       MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
       model.setAsSeen(widget.channel);
 
-      for (var message in widget.channel.lastMessages) {
-        if (message.sender.isMe && !message.seen) {
-          message.seen = true;
-          message.seenAt = DateTime.now();
+      setState(() {
+        for (var message in widget.channel.lastMessages) {
+          if (message.sender.isMe && !message.seen) {
+            message.seen = true;
+            message.seenAt = DateTime.now();
+          }
         }
-      }
+      });
     }
   }
 
@@ -97,9 +101,12 @@ class _ChatLayoutState extends State<ChatLayout> {
   void initState() {
     super.initState();
 
+    MessagesState.currentChannel = widget.channel.uuid;
+
     _init();
 
     SocketClient.addListener("chat", _onMessage);
+    SocketClient.addListener("channel_seen", _onSeen);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Mark as seen locally
@@ -161,9 +168,12 @@ class _ChatLayoutState extends State<ChatLayout> {
 
   @override
   void dispose() {
-    super.dispose();
-
     SocketClient.disposeListener("chat", _onMessage);
+    SocketClient.disposeListener("channel_seen", _onSeen);
+
+    MessagesState.currentChannel = "";
+
+    super.dispose();
   }
 
   @override
