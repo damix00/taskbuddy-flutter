@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taskbuddy/api/socket/socket.dart';
 import 'package:taskbuddy/screens/settings/items/button.dart';
 import 'package:taskbuddy/screens/settings/items/navigation.dart';
 import 'package:taskbuddy/screens/settings/section.dart';
@@ -68,6 +69,9 @@ class AccountSettings extends StatelessWidget {
                 onTap: () async {
                   await Provider.of<AuthModel>(context, listen: false).logout();
                   Provider.of<MessagesModel>(context, listen: false).clear();
+
+                  // Disconnect from socket
+                  SocketClient.disconnect();
         
                   Utils.restartLoggedOut(context);
                 }

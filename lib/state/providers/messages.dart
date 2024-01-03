@@ -118,6 +118,12 @@ class MessagesModel extends ChangeNotifier {
     // Fetch outgoing messages
     var outgoing = await Api.v1.channels.getOutgoingMessages(token, offset: _outgoingOffset);
 
+    for (var channel in outgoing.data!) {
+      for (var message in channel.lastMessages) {
+        print("Message: ${message.message}, seen: ${message.seen}");
+      }
+    }
+
     if (outgoing.ok) {
       if (outgoing.data!.length < 20) {
         _hasMoreOutgoing = false;
@@ -207,6 +213,19 @@ class MessagesModel extends ChangeNotifier {
     _loadingIncoming = true;
     _incomingMessages = [];
     _outgoingMessages = [];
+    notifyListeners();
+  }
+
+  void setAsSeen(ChannelResponse channel) {
+    int index = _incomingMessages.indexWhere((element) => element.uuid == channel.uuid);
+    if (index != -1 && !_incomingMessages[index].lastMessages.last.sender.isMe) {
+      _incomingMessages[index].lastMessages.last.seen = true;
+    }
+
+    index = _outgoingMessages.indexWhere((element) => element.uuid == channel.uuid);
+    if (index != -1 && !_outgoingMessages[index].lastMessages.last.sender.isMe) {
+      _outgoingMessages[index].lastMessages.last.seen = true;
+    }
     notifyListeners();
   }
 }

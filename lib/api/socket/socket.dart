@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:taskbuddy/api/options.dart';
@@ -24,7 +25,7 @@ class SocketClient {
   );
 
   static Future<void> connect() async {
-    print("Connecting to socket...");
+    dev.log("Connecting to socket...");
     String token = (await AccountCache.getToken())!;
 
     socket.io.options?['extraHeaders'] = {
@@ -34,14 +35,22 @@ class SocketClient {
     socket.connect();
 
     socket.onAny((event, data) {
-      print('Socket event: $event');
-      print('Socket data: $data');
+      dev.log('Socket event: $event');
+      dev.log('Socket data: $data');
       _listeners.forEach((listener) {
         if (event == listener.eventName) {
           listener.callback(data);
         }
       });
     });
+  }
+
+  static void disconnect() {
+    dev.log("Disconnecting from socket...");
+    socket.disconnect();
+
+    // Clear listeners
+    _listeners.clear();
   }
 
   static void addListener(String eventName, Function(String) callback) {

@@ -18,7 +18,7 @@ class ChannelTile extends StatelessWidget {
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
     PublicAccountResponse otherUser = channel.otherUser == "recipient" ? channel.channelRecipient : channel.channelCreator;
-    MessageResponse? lastMessage = channel.lastMessages.isNotEmpty ? channel.lastMessages[0] : null;
+    MessageResponse? lastMessage = channel.lastMessages.isNotEmpty ? channel.lastMessages.last : null;
 
     return Touchable(
       onTap: () {

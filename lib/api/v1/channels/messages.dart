@@ -44,4 +44,39 @@ class Messages {
       response: response.response,
     );
   }
+
+  Future<ApiResponse<List<MessageResponse>>> getMessages(
+    String token,
+    String channelUuid,
+    int offset
+  ) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUuid)}/messages?offset=$offset",
+      method: "GET",
+      headers: {
+        'Authorization': 'Bearer $token'
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+
+    List<MessageResponse> messages = [];
+
+    for (var message in response.response!.data["messages"]) {
+      messages.add(MessageResponse.fromJson(message));
+    }
+
+    return ApiResponse(
+      status: response.response!.statusCode!,
+      message: 'OK',
+      ok: true,
+      data: messages,
+      response: response.response,
+    );
+  }
 }

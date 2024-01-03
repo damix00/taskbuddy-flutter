@@ -9,6 +9,7 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account/account_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_tags_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
+import 'package:taskbuddy/api/socket/socket.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/home/pages/home_page.dart';
 import 'package:taskbuddy/screens/home/pages/chats/chats_page.dart';
@@ -200,6 +201,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _init() async {
     String? token = await AccountCache.getToken();
+
+    // Connect to the socket
+    SocketClient.connect();
 
     _askPermissions();
 
