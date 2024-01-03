@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taskbuddy/api/responses/account/public_account_response.dart';
+import 'package:provider/provider.dart';
+import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/profile_screen.dart';
+import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
@@ -77,40 +80,89 @@ class ChatScreenAppbar extends StatelessWidget {
   }
 }
 
-class ChatScreen extends StatelessWidget {
-  final ChannelResponse channel;
+class ChatScreen extends StatefulWidget {
+  final ChannelResponse? channel;
+  final String? channelUuid;
 
   const ChatScreen({
     Key? key,
-    required this.channel
+    this.channel,
+    this.channelUuid
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    PublicAccountResponse otherUser = channel.otherUser == "recipient" ? channel.channelRecipient : channel.channelCreator;
+  State<ChatScreen> createState() => _ChatScreenState();
+}
 
+class _ChatScreenState extends State<ChatScreen> {
+  ChannelResponse? _channel;
+  bool _loading = false;
+
+  void _loadChannel() async {
+    String token = (await AccountCache.getToken())!;
+
+    var data = await Api.v1.channels.getChannelByUuid(token, widget.channelUuid!);
+
+    if (data.ok) {
+      setState(() {
+        _channel = data.data;
+        _loading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _channel = widget.channel;
+
+    // Assert that either channel or channelUuid is not null
+    assert(widget.channelUuid != null || widget.channel != null);
+
+    if (_channel == null) {
+      MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+
+      _channel = model.getChannelByUuid(widget.channelUuid!);
+
+      if (_channel == null) {
+        _loading = true;
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _loadChannel();
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: BlurAppbar.appBar(
-        child: Touchable(
+        child: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : Touchable(
           onTap: () => {
             Navigator.of(context).push(
               CupertinoPageRoute(builder: (context) => ProfileScreen(
-                account: otherUser
+                account: _channel!.otherUserAccount
               ))
             )
           },
           child: ChatScreenAppbar(
-            profilePicture: otherUser.profile.profilePicture,
-            title: channel.post.title,
-            price: channel.post.price.toString(),
-            firstName: otherUser.firstName,
-            lastName: otherUser.lastName
+            profilePicture: _channel!.otherUserAccount.profile.profilePicture,
+            title: _channel!.post.title,
+            price: _channel!.post.price.toString(),
+            firstName: _channel!.otherUserAccount.firstName,
+            lastName: _channel!.otherUserAccount.lastName
           )
         )
       ),
       extendBodyBehindAppBar: true,
       extendBody: true,
-      body: ChatLayout(channel: channel)
+      body: _loading
+        ? const Center(child: CircularProgressIndicator())
+        : ChatLayout(channel: _channel!)
     );
   }
 }

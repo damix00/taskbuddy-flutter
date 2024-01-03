@@ -7,6 +7,31 @@ import 'package:taskbuddy/api/v1/channels/messages.dart';
 class Channels {
   Messages get messages => Messages();
 
+  Future<ApiResponse<ChannelResponse?>> getChannelByUuid(String token, String uuid) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(uuid)}",
+      method: "GET",
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+
+    return ApiResponse(
+      status: response.response!.statusCode!,
+      message: 'OK',
+      ok: response.response!.statusCode! == 200,
+      data: ChannelResponse.fromJson(response.response!.data["channel"]),
+      response: response.response,
+    );
+  }
+
   Future<ApiResponse<ChannelResponse?>> initiateConversation(String token, {
     required String postUUID,
     required String message,

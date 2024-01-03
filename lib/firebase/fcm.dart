@@ -59,6 +59,12 @@ class FirebaseMessagingApi {
         return;
       }
 
+      if (message.data['message_uuid'] != null && MessagesState.notificationHistory.contains(message.data['message_uuid'])) {
+        return;
+      }
+
+      MessagesState.notificationHistory.add(message.data['message_uuid']!);
+
       showOverlayNotification((ctx) =>
         CustomNotification(
           title: message.notification?.title ?? "New notification",
@@ -68,14 +74,13 @@ class FirebaseMessagingApi {
             MessagesModel model = Provider.of<MessagesModel>(ctx, listen: false);
             ChannelResponse? channel = model.getChannelByUuid(message.data['channel_uuid']!);
 
-            if (channel == null) return;
-
             OverlaySupportEntry.of(ctx)!.dismiss();
 
             Navigator.of(ctx).push(
               CupertinoPageRoute(
                 builder: (context) => ChatScreen(
-                  channel: channel.clone(),
+                  channel: channel?.clone(),
+                  channelUuid: message.data['channel_uuid']!,
                 )
               )
             );
