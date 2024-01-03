@@ -6,7 +6,7 @@ import 'package:taskbuddy/cache/account_cache.dart';
 
 class SocketListener {
   final String eventName;
-  final Function(String) callback;
+  final Function(dynamic) callback;
 
   SocketListener(this.eventName, this.callback);
 }
@@ -35,8 +35,6 @@ class SocketClient {
     socket.connect();
 
     socket.onAny((event, data) {
-      dev.log('Socket event: $event');
-      dev.log('Socket data: $data');
       _listeners.forEach((listener) {
         if (event == listener.eventName) {
           listener.callback(data);
@@ -53,11 +51,11 @@ class SocketClient {
     _listeners.clear();
   }
 
-  static void addListener(String eventName, Function(String) callback) {
+  static void addListener(String eventName, Function(dynamic) callback) {
     _listeners.add(SocketListener(eventName, callback));
   }
   
-  static void disposeListener(String eventName, Function(String) callback) {
+  static void disposeListener(String eventName, Function(dynamic) callback) {
     _listeners.removeWhere((listener) => listener.eventName == eventName && listener.callback == callback);
   }
 }

@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var hasPermission = await Geolocator.checkPermission();
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
-    if (hasPermission == LocationPermission.denied) {
+    if (hasPermission == LocationPermission.denied || hasPermission == LocationPermission.deniedForever) {
       showDialog(
         context: context,
         builder: (BuildContext ctx) => AlertDialog(

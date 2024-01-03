@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
+import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 
 class MessagesModel extends ChangeNotifier {
@@ -118,12 +119,6 @@ class MessagesModel extends ChangeNotifier {
     // Fetch outgoing messages
     var outgoing = await Api.v1.channels.getOutgoingMessages(token, offset: _outgoingOffset);
 
-    for (var channel in outgoing.data!) {
-      for (var message in channel.lastMessages) {
-        print("Message: ${message.message}, seen: ${message.seen}");
-      }
-    }
-
     if (outgoing.ok) {
       if (outgoing.data!.length < 20) {
         _hasMoreOutgoing = false;
@@ -226,6 +221,28 @@ class MessagesModel extends ChangeNotifier {
     if (index != -1 && !_outgoingMessages[index].lastMessages.last.sender.isMe) {
       _outgoingMessages[index].lastMessages.last.seen = true;
     }
+    notifyListeners();
+  }
+  
+  void onMessage(String channelUuid, MessageResponse response) {
+    for (ChannelResponse channel in _incomingMessages) {
+      if (channel.uuid == channelUuid) {
+        // Check if the message already exists
+        if (channel.lastMessages.indexWhere((element) => element.UUID == response.UUID) == -1) {
+          channel.lastMessages.add(response);
+        }
+      }
+    }
+
+    for (ChannelResponse channel in _outgoingMessages) {
+      if (channel.uuid == channelUuid) {
+        // Check if the message already exists
+        if (channel.lastMessages.indexWhere((element) => element.UUID == response.UUID) == -1) {
+          channel.lastMessages.add(response);
+        }
+      }
+    }
+
     notifyListeners();
   }
 }

@@ -4,6 +4,7 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
+import 'package:taskbuddy/api/socket/socket.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/utils/dates.dart';
@@ -52,11 +53,53 @@ class _ChatLayoutState extends State<ChatLayout> {
     }
   }
 
+  void _onMessage(dynamic data) async {
+    MessageResponse message = MessageResponse.fromJson(data["message"]);
+
+    if (message.channelUUID == widget.channel.uuid) {
+      MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+      model.onMessage(widget.channel.uuid, message);
+
+      setState(() {
+        widget.channel.lastMessages.add(message);
+      });
+
+      _markAsSeen();
+      model.setAsSeen(widget.channel);
+
+      await Future.delayed(const Duration(milliseconds: 100));
+      // Scroll to bottom
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    }
+  }
+
+  void _onSeen(dynamic data) async {
+    if (data["channel_uuid"] == widget.channel.uuid) {
+      MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+      model.setAsSeen(widget.channel);
+
+      for (var message in widget.channel.lastMessages) {
+        if (message.sender.isMe && !message.seen) {
+          message.seen = true;
+          message.seenAt = DateTime.now();
+        }
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
     _init();
+
+    SocketClient.addListener("chat", _onMessage);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Mark as seen locally
@@ -114,6 +157,13 @@ class _ChatLayoutState extends State<ChatLayout> {
         }
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    SocketClient.disposeListener("chat", _onMessage);
   }
 
   @override
@@ -231,11 +281,11 @@ class _ChatLayoutState extends State<ChatLayout> {
                       });
 
                       // Scroll to bottom
-                      if (widget.channel.lastMessages.length > 0) {
-                        await Future.delayed(Duration(milliseconds: 100));
+                      if (widget.channel.lastMessages.isNotEmpty) {
+                        await Future.delayed(const Duration(milliseconds: 100));
                         _scrollController.animateTo(
                           _scrollController.position.maxScrollExtent,
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeOut,
                         );
                       }
@@ -250,6 +300,9 @@ class _ChatLayoutState extends State<ChatLayout> {
                       );
 
                       if (result.ok) {
+                        MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+                        model.onMessage(widget.channel.uuid, result.data!);
+
                         setState(() {
                           _sending.remove(message);
                           widget.channel.lastMessages.add(result.data!);

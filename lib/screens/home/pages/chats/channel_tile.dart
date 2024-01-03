@@ -25,7 +25,7 @@ class ChannelTile extends StatelessWidget {
         Navigator.of(context).push(
           CupertinoPageRoute(
             builder: (ctx) => ChatScreen(
-              channel: channel,
+              channel: channel.clone(),
             )
           )
         );

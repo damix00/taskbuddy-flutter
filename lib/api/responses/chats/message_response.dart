@@ -83,6 +83,7 @@ class MessageAttachment {
 class MessageResponse {
   MessageSender sender;
   String UUID;
+  String channelUUID;
   bool deleted;
   String message;
   MessageRequest? request;
@@ -96,6 +97,7 @@ class MessageResponse {
   MessageResponse({
     required this.sender,
     required this.UUID,
+    required this.channelUUID,
     required this.deleted,
     required this.message,
     required this.request,
@@ -111,6 +113,7 @@ class MessageResponse {
     return MessageResponse(
       sender: MessageSender.fromJson(json['sender']),
       UUID: json['uuid'],
+      channelUUID: json['channel_uuid'],
       deleted: json['deleted'],
       message: json['message'],
       request: json['request'] != null
@@ -148,5 +151,22 @@ class MessageResponse {
       "seen": seen,
       "seen_at": seenAt?.toIso8601String(),
     });
+  }
+
+  MessageResponse clone() {
+    return MessageResponse(
+      sender: sender,
+      UUID: UUID,
+      channelUUID: channelUUID,
+      deleted: deleted,
+      message: message,
+      request: request,
+      attachments: attachments,
+      createdAt: createdAt,
+      edited: edited,
+      editedAt: editedAt,
+      seen: seen,
+      seenAt: seenAt,
+    );
   }
 }

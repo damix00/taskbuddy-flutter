@@ -9,9 +9,7 @@ class Dates {
 
   static String timeAgo(DateTime date, Locale locale) {
     final now = DateTime.now();
-    // TODO: Fix timezones
-    var d = date.add(const Duration(hours: 1));
-    final difference = now.difference(d);
+    final difference = now.difference(date);
 
     if (difference.inSeconds < 0) {
       if (difference.inSeconds > -60) {

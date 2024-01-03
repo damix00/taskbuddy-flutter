@@ -60,4 +60,19 @@ class ChannelResponse {
       "negotiated_date": negotiatedDate.toIso8601String(),
     });
   }
+
+  ChannelResponse clone() {
+    return ChannelResponse(
+      uuid: uuid,
+      post: post,
+      channelCreator: channelCreator,
+      channelRecipient: channelRecipient,
+      createdAt: createdAt,
+      lastMessageTime: lastMessageTime,
+      lastMessages: lastMessages.map((message) => message.clone()).toList(),
+      otherUser: otherUser,
+      negotiatedPrice: negotiatedPrice,
+      negotiatedDate: negotiatedDate,
+    );
+  }
 }
