@@ -5,12 +5,14 @@ import 'package:taskbuddy/widgets/ui/visual/divider.dart';
 
 class ChatInput extends StatelessWidget {
   final Function(String) onSend;
+  final VoidCallback onMorePressed;
   final TextEditingController controller;
 
   const ChatInput({
     Key? key,
     required this.onSend,
-    required this.controller
+    required this.controller,
+    required this.onMorePressed
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class ChatInput extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Touchable(
+            onTap: onMorePressed,
             child: Icon(
               Icons.add,
               size: 22,

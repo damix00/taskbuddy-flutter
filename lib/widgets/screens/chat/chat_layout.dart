@@ -13,6 +13,7 @@ import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_input.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_post_info.dart';
+import 'package:taskbuddy/widgets/screens/chat/menu/menu_sheet.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/bubble_overlay.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/chat_screen_overlay.dart';
 
@@ -430,6 +431,15 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                       child: ChatInput(
                         controller: _textController,
                         onSend: _sendMessage,
+                        onMorePressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) {
+                              return const MenuSheet();
+                            }
+                          );
+                        },
                       ),
                     ),
                   ),
