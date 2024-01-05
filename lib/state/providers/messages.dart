@@ -278,4 +278,20 @@ class MessagesModel extends ChangeNotifier {
 
     return null;
   }
+
+  void deleteMessage(MessageResponse message) {
+    for (ChannelResponse channel in _incomingMessages) {
+      if (channel.uuid == message.channelUUID) {
+        message.deleted = true;
+      }
+    }
+
+    for (ChannelResponse channel in _outgoingMessages) {
+      if (channel.uuid == message.channelUUID) {
+        message.deleted = true;
+      }
+    }
+
+    notifyListeners();
+  } 
 }

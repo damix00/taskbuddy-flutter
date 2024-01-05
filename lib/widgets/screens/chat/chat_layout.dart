@@ -336,6 +336,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                                 profilePicture: message.sender.profilePicture,
                                 showSeen: showSeen,
                                 showProfilePicture: showPfp,
+                                deleted: message.deleted,
                               ),
                             ),
                           ),
@@ -357,6 +358,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                           seen: message.seen,
                           showSeen: showSeen,
                           showProfilePicture: showPfp,
+                          deleted: message.deleted,
                         ),
                       ),
                     );
@@ -431,6 +433,11 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
             BubbleOverlay(
               message: _currentMessage!,
               y: _messageY.toDouble(),
+              onDismiss: () {
+                setState(() {
+                  _currentMessage = null;
+                });
+              },
             ),
         ],
       ),

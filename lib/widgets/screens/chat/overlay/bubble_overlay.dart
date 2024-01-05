@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/chat_menu_button.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
 class BubbleOverlay extends StatefulWidget {
   final MessageResponse message;
   final double y;
+  final VoidCallback onDismiss;
 
   const BubbleOverlay({
     Key? key,
     required this.message,
-    required this.y
+    required this.y,
+    required this.onDismiss
   }) : super(key: key);
 
   @override
@@ -69,6 +76,7 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
               showTime: true,
               sentAt: widget.message.createdAt,
               seenAt: widget.message.seenAt,
+              deleted: widget.message.deleted,
             ),
             if (!widget.message.seen && widget.message.sender.isMe)
               Padding(
@@ -102,8 +110,29 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
                       child: ChatMenuButton(
                         text: l10n.deleteText,
                         icon: Icons.delete_outline,
-                        onTap: () {
-                          // widget.message.delete();
+                        onTap: () async {
+                          String token = (await AccountCache.getToken())!;
+
+                          var response = await Api.v1.channels.messages.deleteMessage(
+                            token,
+                            widget.message.channelUUID,
+                            widget.message.UUID
+                          );
+
+                          if (response) {
+                            MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+
+                            model.deleteMessage(widget.message);
+
+                            setState(() {
+                              widget.message.deleted = true;
+                            });
+                            widget.onDismiss();
+                          }
+
+                          else {
+                            SnackbarPresets.error(context, l10n.somethingWentWrong);
+                          }
                         },
                       ),
                     )

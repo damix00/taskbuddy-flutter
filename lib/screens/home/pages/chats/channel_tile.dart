@@ -20,6 +20,18 @@ class ChannelTile extends StatelessWidget {
     PublicAccountResponse otherUser = channel.otherUser == "recipient" ? channel.channelRecipient : channel.channelCreator;
     MessageResponse? lastMessage = channel.lastMessages.isNotEmpty ? channel.lastMessages.last : null;
 
+    var messageContent = lastMessage != null
+      ? (
+        lastMessage.deleted
+          ? l10n.messageDeleted
+          : (
+            lastMessage.sender.UUID == otherUser.UUID
+              ? "${lastMessage.sender.firstName}: ${lastMessage.message}"
+              : l10n.youMessage(lastMessage.message)
+          )
+      )
+      : l10n.noMessagesYet;
+
     return Touchable(
       onTap: () {
         Navigator.of(context).push(
@@ -62,8 +74,8 @@ class ChannelTile extends StatelessWidget {
                         lastMessage != null
                           ? (
                             lastMessage.sender.UUID == otherUser.UUID
-                              ? "${lastMessage.sender.firstName}: ${lastMessage.message}"
-                              : l10n.youMessage(lastMessage.message)
+                              ? "${lastMessage.sender.firstName}: $messageContent"
+                              : l10n.youMessage(messageContent)
                           )
                           : l10n.noMessagesYet,
                         style: TextStyle(
@@ -71,7 +83,8 @@ class ChannelTile extends StatelessWidget {
                           fontWeight: (lastMessage != null && !lastMessage.seen && lastMessage.sender.UUID == otherUser.UUID) ? FontWeight.w600 : FontWeight.w400,
                           color: (lastMessage != null && !lastMessage.seen && lastMessage.sender.UUID == otherUser.UUID)
                             ? Theme.of(context).colorScheme.onBackground
-                            : Theme.of(context).textTheme.labelMedium!.color
+                            : Theme.of(context).textTheme.labelMedium!.color,
+                          fontStyle: lastMessage != null && lastMessage.deleted ? FontStyle.italic : FontStyle.normal,
                         ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
