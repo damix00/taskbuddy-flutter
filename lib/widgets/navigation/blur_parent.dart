@@ -8,8 +8,17 @@ class BlurParent extends StatefulWidget {
   final Widget child;
   final double? height;
   final bool forceDisableBlur;
+  final Color? blurColor;
+  final Color? noBlurColor;
 
-  const BlurParent({this.forceDisableBlur = false, required this.child, this.height, Key? key}) : super(key: key);
+  const BlurParent({
+    this.forceDisableBlur = false,
+    required this.child,
+    this.height,
+    this.blurColor,
+    this.noBlurColor,
+    Key? key
+  }) : super(key: key);
 
   @override
   State<BlurParent> createState() => _BlurParentState();
@@ -24,7 +33,7 @@ class _BlurParentState extends State<BlurParent> {
         builder: (context, prefs, child) {
           var noBlurChild = Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
+              color: widget.noBlurColor ?? Theme.of(context).colorScheme.surface,
             ),
             child: widget.child,
           );
@@ -51,7 +60,7 @@ class _BlurParentState extends State<BlurParent> {
             filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceVariant,
+                color: widget.blurColor ?? Theme.of(context).colorScheme.surfaceVariant,
               ),
               child: widget.child,
             ),

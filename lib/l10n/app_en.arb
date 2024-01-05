@@ -343,5 +343,6 @@
   "noMessagesYet": "No messages yet",
   "messageDeleted": "This message was deleted.",
   "seen": "Seen",
-  "sent": "Sent"
+  "sent": "Sent",
+  "copy": "Copy"
 }

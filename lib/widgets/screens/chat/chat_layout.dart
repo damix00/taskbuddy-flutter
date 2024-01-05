@@ -14,7 +14,7 @@ import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_input.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_post_info.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/bubble_overlay.dart';
-import 'package:taskbuddy/widgets/screens/chat/overlay/message_screen_overlay.dart';
+import 'package:taskbuddy/widgets/screens/chat/overlay/chat_screen_overlay.dart';
 
 class ChatLayout extends StatefulWidget {
   final ChannelResponse channel;
@@ -261,158 +261,179 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: CustomScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            controller: _scrollController,
-            slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(height: MediaQuery.of(context).padding.top),
-              ),
-              SliverToBoxAdapter(
-                child: ChatPostInfo(channel: widget.channel),
-              ),
-        
-              // Chat messages
-              SliverList.builder(
-                itemCount: widget.channel.lastMessages.length,
-                itemBuilder: (context, index) {
-                  GlobalKey bubbleKey = GlobalKey();
+    return WillPopScope(
+      onWillPop: () async {
+        MessagesState.currentChannel = "";
 
-                  List<MessageResponse> lastMessages = widget.channel.lastMessages;
-                  bool showSeen = false;
-                  
-                  if (lastMessages.last.seen && lastMessages.last.sender.isMe && index == lastMessages.length - 1) {
-                    showSeen = true;
-                  } else if (index < lastMessages.length - 1 && lastMessages[index].sender.isMe && lastMessages[index + 1].sender.isMe && !lastMessages[index + 1].seen) {
-                    showSeen = true;
-                  }
-        
-                  bool showPfp = index == widget.channel.lastMessages.length - 1 ||
-                    widget.channel.lastMessages[index + 1].sender.UUID != widget.channel.lastMessages[index].sender.UUID;
+        if (_currentMessage != null) {
+          setState(() {
+            _currentMessage = null;
+          });
+          return false;
+        }
 
-                  
-                  var message = widget.channel.lastMessages[index];
-        
-                  // Show date header
-                  if (index == 0 || widget.channel.lastMessages[index].createdAt.day != widget.channel.lastMessages[index - 1].createdAt.day) {
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Text(
-                            Dates.formatDate(widget.channel.lastMessages[index].createdAt, showTime: false),
-                            style: Theme.of(context).textTheme.labelSmall,
-                          ),
-                        ),
-                        GestureDetector(
-                          onLongPress: () {
-                            _showMenu(bubbleKey, message);
-                          },
-                          child: Opacity(
-                            opacity: _currentMessage == message ? 0 : 1,
-                            child: ChatBubble(
-                              key: bubbleKey,
-                              message: message.message,
-                              isMe: message.sender.isMe,
-                              profilePicture: message.sender.profilePicture,
-                              showSeen: showSeen,
-                              showProfilePicture: showPfp,
+        return true;
+      },
+      child: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: CustomScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              controller: _scrollController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: SizedBox(height: MediaQuery.of(context).padding.top),
+                ),
+                SliverToBoxAdapter(
+                  child: ChatPostInfo(channel: widget.channel),
+                ),
+          
+                // Chat messages
+                SliverList.builder(
+                  itemCount: widget.channel.lastMessages.length,
+                  itemBuilder: (context, index) {
+                    GlobalKey bubbleKey = GlobalKey();
+    
+                    List<MessageResponse> lastMessages = widget.channel.lastMessages;
+                    bool showSeen = false;
+                    
+                    if (lastMessages.last.seen && lastMessages.last.sender.isMe && index == lastMessages.length - 1) {
+                      showSeen = true;
+                    } else if (index < lastMessages.length - 1 && lastMessages[index].sender.isMe && lastMessages[index + 1].sender.isMe && !lastMessages[index + 1].seen) {
+                      showSeen = true;
+                    }
+          
+                    bool showPfp = index == widget.channel.lastMessages.length - 1 ||
+                      widget.channel.lastMessages[index + 1].sender.UUID != widget.channel.lastMessages[index].sender.UUID;
+    
+                    
+                    var message = widget.channel.lastMessages[index];
+          
+                    // Show date header
+                    if (index == 0 || widget.channel.lastMessages[index].createdAt.day != widget.channel.lastMessages[index - 1].createdAt.day) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Text(
+                              Dates.formatDate(widget.channel.lastMessages[index].createdAt, showTime: false),
+                              style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ),
+                          GestureDetector(
+                            onLongPress: () {
+                              _showMenu(bubbleKey, message);
+                            },
+                            child: Opacity(
+                              opacity: _currentMessage == message ? 0 : 1,
+                              child: ChatBubble(
+                                key: bubbleKey,
+                                message: message.message,
+                                isMe: message.sender.isMe,
+                                profilePicture: message.sender.profilePicture,
+                                showSeen: showSeen,
+                                showProfilePicture: showPfp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+          
+                    return GestureDetector(
+                      onLongPress: () {
+                        _showMenu(bubbleKey, message);
+                      },
+                      child: Opacity(
+                        opacity: _currentMessage == message ? 0 : 1,
+                        child: ChatBubble(
+                          key: bubbleKey,
+                          message: message.message,
+                          isMe: message.sender.isMe,
+                          profilePicture: message.sender.profilePicture,
+                          seen: message.seen,
+                          showSeen: showSeen,
+                          showProfilePicture: showPfp,
                         ),
-                      ],
+                      ),
                     );
-                  }
-        
-                  return GestureDetector(
-                    onLongPress: () {
-                      _showMenu(bubbleKey, message);
-                    },
-                    child: Opacity(
-                      opacity: _currentMessage == message ? 0 : 1,
+                  },
+                ),
+          
+                // Pending messages
+                SliverList.builder(
+                  itemCount: _sending.length,
+                  itemBuilder: (context, index) {
+                    return Opacity(
+                      opacity: 0.5,
                       child: ChatBubble(
-                        key: bubbleKey,
-                        message: message.message,
-                        isMe: message.sender.isMe,
-                        profilePicture: message.sender.profilePicture,
-                        seen: message.seen,
-                        showSeen: showSeen,
-                        showProfilePicture: showPfp,
+                        message: _sending[index],
+                        isMe: true,
+                        profilePicture: "",
+                        seen: false,
+                        showSeen: false,
+                        showProfilePicture: true,
+                      ),
+                    );
+                  },
+                ),
+          
+                // Padding
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).padding.bottom + 44 + 12 + 16,
+                  )
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 0,
+            right: 0,
+            child: BlurParent(
+              blurColor: Theme.of(context).colorScheme.background.withOpacity(0.75),
+              noBlurColor: Theme.of(context).colorScheme.background,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Container(
+                  height: MediaQuery.of(context).padding.bottom + 44 + 12,
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom + 12,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(32)),
+                    child: BlurParent(
+                      child: ChatInput(
+                        controller: _textController,
+                        onSend: _sendMessage,
                       ),
                     ),
-                  );
-                },
-              ),
-        
-              // Pending messages
-              SliverList.builder(
-                itemCount: _sending.length,
-                itemBuilder: (context, index) {
-                  return Opacity(
-                    opacity: 0.5,
-                    child: ChatBubble(
-                      message: _sending[index],
-                      isMe: true,
-                      profilePicture: "",
-                      seen: false,
-                      showSeen: false,
-                      showProfilePicture: true,
-                    ),
-                  );
-                },
-              ),
-        
-              // Padding
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: MediaQuery.of(context).padding.bottom + 44 + 12 + 16,
-                )
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          left: 0,
-          right: 0,
-          child: Container(
-            height: MediaQuery.of(context).padding.bottom + 44 + 12,
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).padding.bottom + 12,
-              left: 16,
-              right: 16,
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(32)),
-              child: BlurParent(
-                child: ChatInput(
-                  controller: _textController,
-                  onSend: _sendMessage,
+                  ),
                 ),
               ),
-            ),
-          )
-        ),
-        MessageScreenOverlay(
-          show: _currentMessage != null,
-          onDismiss: () {
-            setState(() {
-              _currentMessage = null;
-            });
-          }
-        ),
-        if (_currentMessage != null)
-          BubbleOverlay(
-            message: _currentMessage!,
-            y: _messageY.toDouble(),
+            )
           ),
-      ],
+          ChatScreenOverlay(
+            show: _currentMessage != null,
+            onDismiss: () {
+              setState(() {
+                _currentMessage = null;
+              });
+            }
+          ),
+          if (_currentMessage != null)
+            BubbleOverlay(
+              message: _currentMessage!,
+              y: _messageY.toDouble(),
+            ),
+        ],
+      ),
     );
   }
 }
