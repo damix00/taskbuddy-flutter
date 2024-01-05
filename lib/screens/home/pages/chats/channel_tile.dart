@@ -24,11 +24,7 @@ class ChannelTile extends StatelessWidget {
       ? (
         lastMessage.deleted
           ? l10n.messageDeleted
-          : (
-            lastMessage.sender.UUID == otherUser.UUID
-              ? "${lastMessage.sender.firstName}: ${lastMessage.message}"
-              : l10n.youMessage(lastMessage.message)
-          )
+          : lastMessage.message
       )
       : l10n.noMessagesYet;
 
