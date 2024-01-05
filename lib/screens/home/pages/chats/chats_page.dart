@@ -1,9 +1,12 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/api/socket/socket.dart';
+import 'package:taskbuddy/screens/chat_screen.dart';
 import 'package:taskbuddy/screens/home/pages/chats/incoming_chats.dart';
 import 'package:taskbuddy/screens/home/pages/chats/outgoing_chats.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
@@ -51,9 +54,36 @@ class _ChatsPageState extends State<ChatsPage> {
     print("New channel received: ${response.uuid}");
   }
 
+  Future<void> _checkInitialNotification() async {
+    // Open notifications if the user tapped on a notification
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      // If the initial message is not null, then the user tapped on a notification
+      // So open the chat
+      _handleMessage(initialMessage);
+    }
+
+    // Also listen for new notifications
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    // Handle the message
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => ChatScreen(
+          channelUuid: message.data["channel_uuid"]!,
+        )
+      )
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _checkInitialNotification();
 
     SocketClient.addListener("chat", _onMessage);
     SocketClient.addListener("new_channel", _onNewChannel);

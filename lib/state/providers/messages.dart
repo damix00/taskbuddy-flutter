@@ -175,30 +175,6 @@ class MessagesModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeIncomingChannel(ChannelResponse channel) {
-    _incomingMessages.remove(channel);
-    notifyListeners();
-  }
-
-  void removeOutgoingChannel(ChannelResponse channel) {
-    _outgoingMessages.remove(channel);
-    notifyListeners();
-  }
-
-  void removeChannel(ChannelResponse channel) {
-    _incomingMessages.remove(channel);
-    _outgoingMessages.remove(channel);
-    notifyListeners();
-  }
-
-  void updateChannel(ChannelResponse channel) {
-    int index = _incomingMessages.indexWhere((element) => element.uuid == channel.uuid);
-    if (index != -1) {
-      _incomingMessages[index] = channel;
-    }
-    notifyListeners();
-  }
-
   void clear() {
     _incomingOffset = 0;
     _outgoingOffset = 0;
@@ -245,6 +221,45 @@ class MessagesModel extends ChangeNotifier {
       }
     }
 
+    notifyListeners();
+  }
+
+  void insertMessage(MessageResponse response, { bool notify = true }) {
+    for (ChannelResponse channel in _incomingMessages) {
+      if (channel.uuid == response.channelUUID) {
+        // Check if the message already exists
+        if (channel.lastMessages.indexWhere((element) => element.UUID == response.UUID) == -1) {
+          channel.lastMessages.insert(0, response);
+        }
+      }
+    }
+
+    for (ChannelResponse channel in _outgoingMessages) {
+      if (channel.uuid == response.channelUUID) {
+        // Check if the message already exists
+        if (channel.lastMessages.indexWhere((element) => element.UUID == response.UUID) == -1) {
+          channel.lastMessages.insert(0, response);
+        }
+      }
+    }
+
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  void insertMessages(List<MessageResponse> responses) {
+    for (MessageResponse response in responses) {
+      insertMessage(response, notify: false);
+    }
+
+    notifyListeners();
+  }
+
+  void sortChannels() {
+    _incomingMessages.sort((a, b) => b.lastMessageTime.compareTo(a.lastMessageTime));
+    _outgoingMessages.sort((a, b) => b.lastMessageTime.compareTo(a.lastMessageTime));
+    
     notifyListeners();
   }
 

@@ -13,6 +13,8 @@ import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_input.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_post_info.dart';
+import 'package:taskbuddy/widgets/screens/chat/overlay/bubble_overlay.dart';
+import 'package:taskbuddy/widgets/screens/chat/overlay/message_screen_overlay.dart';
 
 class ChatLayout extends StatefulWidget {
   final ChannelResponse channel;
@@ -26,7 +28,7 @@ class ChatLayout extends StatefulWidget {
   State<ChatLayout> createState() => _ChatLayoutState();
 }
 
-class _ChatLayoutState extends State<ChatLayout> {
+class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -35,6 +37,10 @@ class _ChatLayoutState extends State<ChatLayout> {
 
   // Messages that are currently being sent
   List<String> _sending = [];
+
+  int _messageY = 0;
+
+  MessageResponse? _currentMessage;
 
   Future<void> _markAsSeen() async {
     String token = (await AccountCache.getToken())!;
@@ -97,9 +103,62 @@ class _ChatLayoutState extends State<ChatLayout> {
     }
   }
 
+  Future<void> _sendMessage(String message) async {
+    if (message.isNotEmpty) {
+      _textController.clear();
+      FocusScope.of(context).unfocus();
+
+      setState(() {
+        _sending.add(message);
+      });
+
+      // Scroll to bottom
+      if (widget.channel.lastMessages.isNotEmpty) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+
+      String token = (await AccountCache.getToken())!;
+
+      // Send message
+      var result = await Api.v1.channels.messages.sendMessage(
+        token,
+        channelUUID: widget.channel.uuid,
+        message: message
+      );
+
+      if (result.ok) {
+        MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+
+        model.onMessage(widget.channel.uuid, result.data!);
+        model.sortChannels();
+
+        setState(() {
+          _sending.remove(message);
+          widget.channel.lastMessages.add(result.data!);
+        });
+      }
+    }
+  }
+
+  void _showMenu(GlobalKey key, MessageResponse message) {
+    var pos = key.currentContext!.findRenderObject() as RenderBox;
+    
+    setState(() {
+      _messageY = pos.localToGlobal(Offset.zero).dy.toInt();
+      _currentMessage = message;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
 
     MessagesState.currentChannel = widget.channel.uuid;
 
@@ -124,7 +183,7 @@ class _ChatLayoutState extends State<ChatLayout> {
           return;
         }
 
-        if (_scrollController.position.pixels == _scrollController.position.minScrollExtent && _hasMoreMessages && !_loading) {
+        if (_scrollController.position.pixels > _scrollController.position.minScrollExtent - 50 && _hasMoreMessages && !_loading) {
           setState(() {
             _loading = true;
           });
@@ -139,7 +198,7 @@ class _ChatLayoutState extends State<ChatLayout> {
           );
 
           if (result.ok) {
-            if (result.data!.length == 0) {
+            if (result.data!.isEmpty) {
               setState(() {
                 _loading = false;
                 _hasMoreMessages = false;
@@ -153,6 +212,9 @@ class _ChatLayoutState extends State<ChatLayout> {
                   toAdd.add(message);
                 }
               }
+
+              model.insertMessages(result.data!);
+              model.sortChannels();
 
               setState(() {
                 _loading = false;
@@ -173,100 +235,150 @@ class _ChatLayoutState extends State<ChatLayout> {
 
     MessagesState.currentChannel = "";
 
+    WidgetsBinding.instance.removeObserver(this);
+
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final value = MediaQuery.of(context).viewInsets.bottom;
+
+    print(value);
+
+
+    if (value > 0) {
+      // Keyboard is visible
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverToBoxAdapter(
-              child: SizedBox(height: MediaQuery.of(context).padding.top),
-            ),
-            SliverToBoxAdapter(
-              child: ChatPostInfo(channel: widget.channel),
-            ),
+        Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: CustomScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            controller: _scrollController,
+            slivers: [
+              SliverToBoxAdapter(
+                child: SizedBox(height: MediaQuery.of(context).padding.top),
+              ),
+              SliverToBoxAdapter(
+                child: ChatPostInfo(channel: widget.channel),
+              ),
+        
+              // Chat messages
+              SliverList.builder(
+                itemCount: widget.channel.lastMessages.length,
+                itemBuilder: (context, index) {
+                  GlobalKey bubbleKey = GlobalKey();
 
-            // Chat messages
-            SliverList.builder(
-              itemCount: widget.channel.lastMessages.length,
-              itemBuilder: (context, index) {
-                List<MessageResponse> lastMessages = widget.channel.lastMessages;
-                bool showSeen = false;
-                
-                if (lastMessages.last.seen && lastMessages.last.sender.isMe && index == lastMessages.length - 1) {
-                  showSeen = true;
-                } else if (index < lastMessages.length - 1 && lastMessages[index].sender.isMe && lastMessages[index + 1].sender.isMe && !lastMessages[index + 1].seen) {
-                  showSeen = true;
-                }
+                  List<MessageResponse> lastMessages = widget.channel.lastMessages;
+                  bool showSeen = false;
+                  
+                  if (lastMessages.last.seen && lastMessages.last.sender.isMe && index == lastMessages.length - 1) {
+                    showSeen = true;
+                  } else if (index < lastMessages.length - 1 && lastMessages[index].sender.isMe && lastMessages[index + 1].sender.isMe && !lastMessages[index + 1].seen) {
+                    showSeen = true;
+                  }
+        
+                  bool showPfp = index == widget.channel.lastMessages.length - 1 ||
+                    widget.channel.lastMessages[index + 1].sender.UUID != widget.channel.lastMessages[index].sender.UUID;
 
-                bool showPfp = index == widget.channel.lastMessages.length - 1 ||
-                  widget.channel.lastMessages[index + 1].sender.UUID != widget.channel.lastMessages[index].sender.UUID;
-
-                // Show date header
-                if (index == 0 || widget.channel.lastMessages[index].createdAt.day != widget.channel.lastMessages[index - 1].createdAt.day) {
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Text(
-                          Dates.formatDate(widget.channel.lastMessages[index].createdAt, showTime: false),
-                          style: Theme.of(context).textTheme.labelSmall,
+                  
+                  var message = widget.channel.lastMessages[index];
+        
+                  // Show date header
+                  if (index == 0 || widget.channel.lastMessages[index].createdAt.day != widget.channel.lastMessages[index - 1].createdAt.day) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Text(
+                            Dates.formatDate(widget.channel.lastMessages[index].createdAt, showTime: false),
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
                         ),
-                      ),
-                      ChatBubble(
-                        message: widget.channel.lastMessages[index].message,
-                        isMe: widget.channel.lastMessages[index].sender.isMe,
-                        profilePicture: widget.channel.lastMessages[index].sender.profilePicture,
+                        GestureDetector(
+                          onLongPress: () {
+                            _showMenu(bubbleKey, message);
+                          },
+                          child: Opacity(
+                            opacity: _currentMessage == message ? 0 : 1,
+                            child: ChatBubble(
+                              key: bubbleKey,
+                              message: message.message,
+                              isMe: message.sender.isMe,
+                              profilePicture: message.sender.profilePicture,
+                              showSeen: showSeen,
+                              showProfilePicture: showPfp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+        
+                  return GestureDetector(
+                    onLongPress: () {
+                      _showMenu(bubbleKey, message);
+                    },
+                    child: Opacity(
+                      opacity: _currentMessage == message ? 0 : 1,
+                      child: ChatBubble(
+                        key: bubbleKey,
+                        message: message.message,
+                        isMe: message.sender.isMe,
+                        profilePicture: message.sender.profilePicture,
+                        seen: message.seen,
                         showSeen: showSeen,
                         showProfilePicture: showPfp,
                       ),
-                    ],
+                    ),
                   );
-                }
-
-                return ChatBubble(
-                  message: widget.channel.lastMessages[index].message,
-                  isMe: widget.channel.lastMessages[index].sender.isMe,
-                  profilePicture: widget.channel.lastMessages[index].sender.profilePicture,
-                  seen: widget.channel.lastMessages[index].seen,
-                  showSeen: showSeen,
-                  showProfilePicture: showPfp,
-                );
-              },
-            ),
-
-            // Pending messages
-            SliverList.builder(
-              itemCount: _sending.length,
-              itemBuilder: (context, index) {
-                return Opacity(
-                  opacity: 0.5,
-                  child: ChatBubble(
-                    message: _sending[index],
-                    isMe: true,
-                    profilePicture: "",
-                    seen: false,
-                    showSeen: false,
-                    showProfilePicture: true,
-                  ),
-                );
-              },
-            ),
-
-            // Padding
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: MediaQuery.of(context).padding.bottom + 44 + 12 + 16,
-              )
-            ),
-          ],
+                },
+              ),
+        
+              // Pending messages
+              SliverList.builder(
+                itemCount: _sending.length,
+                itemBuilder: (context, index) {
+                  return Opacity(
+                    opacity: 0.5,
+                    child: ChatBubble(
+                      message: _sending[index],
+                      isMe: true,
+                      profilePicture: "",
+                      seen: false,
+                      showSeen: false,
+                      showProfilePicture: true,
+                    ),
+                  );
+                },
+              ),
+        
+              // Padding
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).padding.bottom + 44 + 12 + 16,
+                )
+              ),
+            ],
+          ),
         ),
         Positioned(
-          bottom: 0,
+          bottom: MediaQuery.of(context).viewInsets.bottom,
           left: 0,
           right: 0,
           child: Container(
@@ -277,54 +389,29 @@ class _ChatLayoutState extends State<ChatLayout> {
               right: 16,
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(32)),
+              borderRadius: const BorderRadius.all(Radius.circular(32)),
               child: BlurParent(
                 child: ChatInput(
                   controller: _textController,
-                  onSend: (message) async {
-                    if (message.isNotEmpty) {
-                      _textController.clear();
-                      FocusScope.of(context).unfocus();
-
-                      setState(() {
-                        _sending.add(message);
-                      });
-
-                      // Scroll to bottom
-                      if (widget.channel.lastMessages.isNotEmpty) {
-                        await Future.delayed(const Duration(milliseconds: 100));
-                        _scrollController.animateTo(
-                          _scrollController.position.maxScrollExtent,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOut,
-                        );
-                      }
-
-                      String token = (await AccountCache.getToken())!;
-
-                      // Send message
-                      var result = await Api.v1.channels.messages.sendMessage(
-                        token,
-                        channelUUID: widget.channel.uuid,
-                        message: message
-                      );
-
-                      if (result.ok) {
-                        MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
-                        model.onMessage(widget.channel.uuid, result.data!);
-
-                        setState(() {
-                          _sending.remove(message);
-                          widget.channel.lastMessages.add(result.data!);
-                        });
-                      }
-                    }
-                  },
+                  onSend: _sendMessage,
                 ),
               ),
             ),
           )
         ),
+        MessageScreenOverlay(
+          show: _currentMessage != null,
+          onDismiss: () {
+            setState(() {
+              _currentMessage = null;
+            });
+          }
+        ),
+        if (_currentMessage != null)
+          BubbleOverlay(
+            message: _currentMessage!,
+            y: _messageY.toDouble(),
+          ),
       ],
     );
   }

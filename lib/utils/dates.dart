@@ -7,6 +7,21 @@ class Dates {
     return '${DateFormat.yMMMd().format(date.toLocal())}${showTime ? " ${DateFormat.Hm().format(date.toLocal())}" : ""}';
   }
 
+  // Only shows the date if it's not today
+  // Same with year
+  static String formatDateCompact(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays < 1) {
+      return DateFormat.Hm().format(date.toLocal());
+    } else if (difference.inDays < 365) {
+      return "${DateFormat.MMMd().format(date.toLocal())} ${DateFormat.Hm().format(date.toLocal())}";
+    } else {
+      return "${DateFormat.yMMMd().format(date.toLocal())} ${DateFormat.Hm().format(date.toLocal())}";
+    }
+  }
+
   static String timeAgo(DateTime date, Locale locale) {
     final now = DateTime.now();
     final difference = now.difference(date);

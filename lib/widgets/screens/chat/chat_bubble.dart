@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 
 class ChatBubble extends StatelessWidget {
   final String message;
   final String profilePicture;
+  final DateTime? seenAt;
+  final DateTime? sentAt;
   final bool isMe;
   final bool showProfilePicture;
   final bool showSeen;
   final bool deleted;
   final bool seen;
+  final bool showTime;
 
   const ChatBubble({
     Key? key,
@@ -19,7 +23,10 @@ class ChatBubble extends StatelessWidget {
     this.showSeen = false,
     this.profilePicture = "",
     this.deleted = false,
-    this.seen = false
+    this.seen = false,
+    this.showTime = false,
+    this.seenAt,
+    this.sentAt,
   }) : super(key: key);
 
   @override
@@ -50,7 +57,7 @@ class ChatBubble extends StatelessWidget {
               const SizedBox(width: 8),
               Flexible(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     color: isMe
                       ? Theme.of(context).colorScheme.primary
@@ -66,6 +73,7 @@ class ChatBubble extends StatelessWidget {
                       color: isMe
                         ? Theme.of(context).colorScheme.onPrimary
                         : Theme.of(context).colorScheme.onSurface,
+                      fontStyle: deleted ? FontStyle.italic : FontStyle.normal,
                     ),
                   ),
                 ),
@@ -75,7 +83,7 @@ class ChatBubble extends StatelessWidget {
           showSeen && seen && isMe ? Padding(
             padding: const EdgeInsets.only(left: 48.0, top: 4),
             child: Text(
-              l10n.seen,
+              "${l10n.seen}${showTime ? " ${Dates.formatDateCompact(seenAt!)}" : ""}",
               style: Theme.of(context).textTheme.labelSmall
             )
           ) : Container(),
