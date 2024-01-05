@@ -43,6 +43,12 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
           _y = height - 200;
         });
       }
+
+      if (_y < MediaQuery.of(context).padding.top + 32) {
+        setState(() {
+          _y = MediaQuery.of(context).padding.top + 32;
+        });
+      }
     });
   }
 
@@ -96,15 +102,17 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
               child: ListView(
                 padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: 8),
                 children: [
-                  ChatMenuButton(
-                    text: l10n.copy,
-                    icon: Icons.copy_outlined,
-                    onTap: () {
-                      Clipboard.setData(ClipboardData(text: widget.message.message));
-                    },
-                  ),
+                  if (!widget.message.deleted)
+                    ChatMenuButton(
+                      text: l10n.copy,
+                      icon: Icons.copy_outlined,
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: widget.message.message));
+                        widget.onDismiss();
+                      },
+                    ),
               
-                  if (widget.message.sender.isMe)
+                  if (widget.message.sender.isMe && !widget.message.deleted)
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: ChatMenuButton(
@@ -122,7 +130,7 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
                           if (response) {
                             MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
-                            model.deleteMessage(widget.message);
+                            model.deleteMessage(widget.message.UUID);
 
                             setState(() {
                               widget.message.deleted = true;

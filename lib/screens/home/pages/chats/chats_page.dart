@@ -43,6 +43,7 @@ class _ChatsPageState extends State<ChatsPage> {
     MessageResponse response = MessageResponse.fromJson(data["message"]);
 
     model.onMessage(response.channelUUID, response);
+    model.sortChannels();
   }
 
   void _onNewChannel(dynamic data) {
@@ -50,8 +51,7 @@ class _ChatsPageState extends State<ChatsPage> {
     ChannelResponse response = ChannelResponse.fromJson(data["channel"]);
 
     model.addIncomingChannel(response);
-
-    print("New channel received: ${response.uuid}");
+    model.sortChannels();
   }
 
   Future<void> _checkInitialNotification() async {
@@ -79,6 +79,12 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
+  void _onDeleted(dynamic data) {
+    MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+
+    model.deleteMessage(data["message_uuid"]!);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -87,12 +93,14 @@ class _ChatsPageState extends State<ChatsPage> {
 
     SocketClient.addListener("chat", _onMessage);
     SocketClient.addListener("new_channel", _onNewChannel);
+    SocketClient.addListener("message_deleted", _onDeleted);
   }
 
   @override
   void dispose() {
     SocketClient.disposeListener("chat", _onMessage);
     SocketClient.disposeListener("new_channel", _onNewChannel);
+    SocketClient.disposeListener("message_deleted", _onDeleted);
 
     super.dispose();
   }

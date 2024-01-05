@@ -279,16 +279,20 @@ class MessagesModel extends ChangeNotifier {
     return null;
   }
 
-  void deleteMessage(MessageResponse message) {
+  void deleteMessage(String messageUuid) {
     for (ChannelResponse channel in _incomingMessages) {
-      if (channel.uuid == message.channelUUID) {
-        message.deleted = true;
+      int index = channel.lastMessages.indexWhere((element) => element.UUID == messageUuid);
+
+      if (index != -1) {
+        channel.lastMessages[index].deleted = true;
       }
     }
 
     for (ChannelResponse channel in _outgoingMessages) {
-      if (channel.uuid == message.channelUUID) {
-        message.deleted = true;
+      int index = channel.lastMessages.indexWhere((element) => element.UUID == messageUuid);
+
+      if (index != -1) {
+        channel.lastMessages[index].deleted = true;
       }
     }
 

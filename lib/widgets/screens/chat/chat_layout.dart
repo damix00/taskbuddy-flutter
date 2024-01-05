@@ -66,6 +66,11 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     print("Received message: ${message.message}");
 
     if (message.channelUUID == widget.channel.uuid) {
+      // check if the message is already in the list
+      if (widget.channel.lastMessages.contains(message)) {
+        return;
+      }
+
       MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
       setState(() {
@@ -97,6 +102,18 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
           if (message.sender.isMe && !message.seen) {
             message.seen = true;
             message.seenAt = DateTime.now();
+          }
+        }
+      });
+    }
+  }
+
+  void _onDeleted(dynamic data) async {
+    if (data["channel_uuid"] == widget.channel.uuid) {
+      setState(() {
+        for (var message in widget.channel.lastMessages) {
+          if (message.UUID == data["message_uuid"]) {
+            message.deleted = true;
           }
         }
       });
@@ -166,6 +183,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
 
     SocketClient.addListener("chat", _onMessage);
     SocketClient.addListener("channel_seen", _onSeen);
+    SocketClient.addListener("message_deleted", _onDeleted);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Mark as seen locally
@@ -232,6 +250,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   void dispose() {
     SocketClient.disposeListener("chat", _onMessage);
     SocketClient.disposeListener("channel_seen", _onSeen);
+    SocketClient.disposeListener("message_deleted", _onDeleted);
 
     MessagesState.currentChannel = "";
 
@@ -243,9 +262,6 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   @override
   void didChangeMetrics() {
     final value = MediaQuery.of(context).viewInsets.bottom;
-
-    print(value);
-
 
     if (value > 0) {
       // Keyboard is visible
