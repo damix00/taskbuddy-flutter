@@ -344,5 +344,13 @@
   "messageDeleted": "This message was deleted.",
   "seen": "Seen",
   "sent": "Sent",
-  "copy": "Copy"
+  "copy": "Copy",
+  "files": "Files",
+  "chooseEmployee": "Accept employee",
+  "rejectEmployee": "Reject employee",
+  "negotiatePrice": "Negotiate price",
+  "changeDate": "Change date",
+  "cancelJob": "Cancel job",
+  "employerOptions": "Employer options",
+  "jobOptions": "Job options"
 }

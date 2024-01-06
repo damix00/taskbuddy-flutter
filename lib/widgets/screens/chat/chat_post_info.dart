@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_only_response.dart';
 import 'package:taskbuddy/state/static/location_state.dart';
+import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class ChatPostInfo extends StatelessWidget {
@@ -45,7 +46,7 @@ class ChatPostInfo extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                " • €${post.price}",
+                " • €${channel.negotiatedPrice}",
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.primary
                 ),
@@ -89,6 +90,22 @@ class ChatPostInfo extends StatelessWidget {
                   ) / 1000).round()} km",
                   style: Theme.of(context).textTheme.labelMedium
                 ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+                size: 16,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                Dates.formatDate(channel.negotiatedDate),
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
             ],
           ),
         ],

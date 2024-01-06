@@ -225,5 +225,13 @@
   "messageDeleted": "Ova je poruka izbrisana.",
   "seen": "Viđeno",
   "sent": "Poslano",
-  "copy": "Kopiraj"
+  "copy": "Kopiraj",
+  "files": "Datoteke",
+  "chooseEmployee": "Prihvati radnika",
+  "rejectEmployee": "Odbij radnika",
+  "negotiatePrice": "Pregovori cijenu",
+  "changeDate": "Promijeni datum",
+  "cancelJob": "Otkaži posao",
+  "employerOptions": "Opcije poslodavca",
+  "jobOptions": "Opcije posla"
 }

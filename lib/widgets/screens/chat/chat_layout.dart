@@ -434,9 +434,12 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                         onMorePressed: () {
                           showModalBottomSheet(
                             context: context,
+                            isScrollControlled: true,
                             backgroundColor: Colors.transparent,
                             builder: (context) {
-                              return const MenuSheet();
+                              return MenuSheet(
+                                channel: widget.channel,
+                              );
                             }
                           );
                         },

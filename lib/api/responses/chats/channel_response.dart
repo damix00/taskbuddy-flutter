@@ -15,6 +15,7 @@ class ChannelResponse {
   List<MessageResponse> lastMessages;
   double negotiatedPrice;
   DateTime negotiatedDate;
+  bool isPostCreator;
 
   ChannelResponse({
     required this.uuid,
@@ -27,6 +28,7 @@ class ChannelResponse {
     required this.otherUser,
     required this.negotiatedPrice,
     required this.negotiatedDate,
+    required this.isPostCreator,
   });
 
   PublicAccountResponse get otherUserAccount => otherUser == "recipient" ? channelRecipient : channelCreator;
@@ -43,6 +45,7 @@ class ChannelResponse {
       otherUser: json['other_user'],
       negotiatedPrice: double.parse(json['negotiated_price'].toString()),
       negotiatedDate: DateTime.parse(json['negotiated_date']),
+      isPostCreator: json['is_post_creator'],
     );
   }
 
@@ -58,6 +61,7 @@ class ChannelResponse {
       "other_user": otherUser,
       "negotiated_price": negotiatedPrice,
       "negotiated_date": negotiatedDate.toIso8601String(),
+      "is_post_creator": isPostCreator,
     });
   }
 
@@ -73,6 +77,7 @@ class ChannelResponse {
       otherUser: otherUser,
       negotiatedPrice: negotiatedPrice,
       negotiatedDate: negotiatedDate,
+      isPostCreator: isPostCreator,
     );
   }
 }
