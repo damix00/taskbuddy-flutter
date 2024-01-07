@@ -233,5 +233,7 @@
   "changeDate": "Promijeni datum",
   "cancelJob": "Otkaži posao",
   "employerOptions": "Opcije poslodavca",
-  "jobOptions": "Opcije posla"
+  "jobOptions": "Opcije posla",
+  "completeJob": "Završi posao",
+  "sharePostLocation": "Podijeli lokaciju posla"
 }

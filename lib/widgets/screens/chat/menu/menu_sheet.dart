@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
+import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/sheet_action.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,8 +8,9 @@ import 'package:taskbuddy/widgets/screens/chat/menu/sheet_divider.dart';
 
 class MenuSheet extends StatelessWidget {
   final ChannelResponse channel;
+  final Function(MessageResponse) onMessage;
 
-  const MenuSheet({Key? key, required this.channel}) : super(key: key);
+  const MenuSheet({Key? key, required this.channel, required this.onMessage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +22,21 @@ class MenuSheet extends StatelessWidget {
       child: BlurParent(
         blurColor: Theme.of(context).colorScheme.background.withOpacity(0.75),
         noBlurColor: Theme.of(context).colorScheme.surface,
-        child: SizedBox(
-          width: double.infinity,
+        child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: padding.top),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onBackground.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(4),
+                child: Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onBackground.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
               ),
@@ -49,17 +52,23 @@ class MenuSheet extends StatelessWidget {
               ),
               if (channel.isPostCreator)
                 SheetDivider(label: l10n.employerOptions),
-              if (channel.isPostCreator)
+              if (channel.isPostCreator && channel.status == ChannelStatus.PENDING)
                 SheetAction(
                   onPressed: () {},
                   label: l10n.chooseEmployee,
                   icon: Icons.check
                 ),
-              if (channel.isPostCreator)
+              if (channel.isPostCreator && channel.status == ChannelStatus.PENDING)
                 SheetAction(
                   onPressed: () {},
                   label: l10n.rejectEmployee,
                   icon: Icons.close
+                ),
+              if (channel.isPostCreator)
+                SheetAction(
+                  onPressed: () {},
+                  label: l10n.sharePostLocation,
+                  icon: Icons.location_on_outlined,
                 ),
               SheetDivider(label: l10n.jobOptions),
               SheetAction(
@@ -73,7 +82,20 @@ class MenuSheet extends StatelessWidget {
                 label: l10n.changeDate,
                 icon: Icons.calendar_today_outlined,
               ),
-              SizedBox(height: padding.bottom + MediaQuery.of(context).viewInsets.bottom + 16),
+              if (channel.status == ChannelStatus.ACCEPTED)
+                SheetAction(
+                  onPressed: () {},
+                  label: l10n.cancelJob,
+                  icon: Icons.close,
+                ),
+              if (channel.status == ChannelStatus.ACCEPTED && !channel.isPostCreator)
+                SheetAction(
+                  onPressed: () {},
+                  label: l10n.completeJob,
+                  icon: Icons.check,
+                ),
+        
+              SizedBox(height: padding.bottom + 16),
             ],
           ),
         )

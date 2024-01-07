@@ -1,6 +1,7 @@
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
+import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:taskbuddy/api/v1/channels/messages.dart';
 
@@ -173,5 +174,30 @@ class Channels {
     }
 
     return true;
+  }
+
+  Future<ApiResponse<MessageResponse?>> employeeVerdict(String token, String channelUUID, bool accepted) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUUID)}/actions/worker?verdict=${accepted ? 1 : 0}",
+      method: "POST",
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+
+    return ApiResponse(
+      status: response.response!.statusCode!,
+      message: 'OK',
+      ok: response.response!.statusCode! == 200,
+      data: MessageResponse.fromJson(response.response!.data["message"]),
+      response: response.response,
+    );
   }
 }

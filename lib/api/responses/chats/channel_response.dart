@@ -4,6 +4,14 @@ import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_only_response.dart';
 
+class ChannelStatus {
+  static const int PENDING = 0;
+  static const int ACCEPTED = 1;
+  static const int REJECTED = 2;
+  static const int COMPLETED = 3;
+  static const int CANCELLED = 4;
+}
+
 class ChannelResponse {
   String otherUser;
   String uuid;
@@ -16,6 +24,7 @@ class ChannelResponse {
   double negotiatedPrice;
   DateTime negotiatedDate;
   bool isPostCreator;
+  int status;
 
   ChannelResponse({
     required this.uuid,
@@ -29,6 +38,7 @@ class ChannelResponse {
     required this.negotiatedPrice,
     required this.negotiatedDate,
     required this.isPostCreator,
+    required this.status,
   });
 
   PublicAccountResponse get otherUserAccount => otherUser == "recipient" ? channelRecipient : channelCreator;
@@ -46,6 +56,7 @@ class ChannelResponse {
       negotiatedPrice: double.parse(json['negotiated_price'].toString()),
       negotiatedDate: DateTime.parse(json['negotiated_date']),
       isPostCreator: json['is_post_creator'],
+      status: json['status'],
     );
   }
 
@@ -62,6 +73,7 @@ class ChannelResponse {
       "negotiated_price": negotiatedPrice,
       "negotiated_date": negotiatedDate.toIso8601String(),
       "is_post_creator": isPostCreator,
+      "status": status,
     });
   }
 
@@ -78,6 +90,7 @@ class ChannelResponse {
       negotiatedPrice: negotiatedPrice,
       negotiatedDate: negotiatedDate,
       isPostCreator: isPostCreator,
+      status: status,
     );
   }
 }

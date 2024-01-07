@@ -79,6 +79,7 @@ class PostResultsResponse {
   bool isLiked;
   bool isBookmarked;
   bool isReserved = false;
+  int status;
 
   PostResultsResponse({
     required this.user,
@@ -105,6 +106,7 @@ class PostResultsResponse {
     this.isLiked = false,
     this.isBookmarked = false,
     this.isReserved = false,
+    this.status = 0
   });
 
   // Factory method to create a PostResponse from JSON data
@@ -140,6 +142,7 @@ class PostResultsResponse {
       isLiked: json['liked'] ?? false,
       isBookmarked: json['bookmarked'] ?? false,
       isReserved: json['reserved'] ?? false,
+      status: json['status'] ?? 0
     );
   }
 
@@ -169,6 +172,7 @@ class PostResultsResponse {
       isLiked: response.isLiked,
       isBookmarked: response.isBookmarked,
       isReserved: response.isReserved,
+      status: response.status
     );
   }
 }

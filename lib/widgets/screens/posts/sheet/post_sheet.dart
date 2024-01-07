@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/responses/posts/post_only_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
@@ -53,15 +54,15 @@ class PostSheet extends StatelessWidget {
                 horizontal: Sizing.horizontalPadding,
               ),
               child: SlimButton(
-                disabled: post.endDate.isBefore(DateTime.now()),
+                disabled: post.endDate.isBefore(DateTime.now()) || post.status == PostStatus.RESERVED || post.status == PostStatus.CLOSED,
                 type: ButtonType.outlined,
+                onPressed: sendMessage,
                 child: Center(
                   child: Text(
                     l10n.sendAMessage,
                     style: TextStyle(color: Theme.of(context).colorScheme.onSurface)
                   )
                 ),
-                onPressed: sendMessage,
               ),
             ),
           ),

@@ -2,6 +2,15 @@ import 'dart:convert';
 
 import 'package:taskbuddy/state/static/create_post_state.dart';
 
+class PostStatus {
+  static const int OPEN = 0;
+  static const int CLOSED = 1;
+  static const int RESERVED = 2;
+  static const int COMPLETED = 3;
+  static const int CANCELLED = 4;
+  static const int EXPIRED = 5;
+}
+
 class PostOnlyResponse {
   final String UUID;
   final String title;
@@ -26,6 +35,7 @@ class PostOnlyResponse {
   bool isLiked;
   bool isBookmarked;
   bool isReserved = false;
+  int status;
 
   PostOnlyResponse({
     required this.UUID,
@@ -51,6 +61,7 @@ class PostOnlyResponse {
     this.isLiked = false,
     this.isBookmarked = false,
     this.isReserved = false,
+    this.status = 0
   });
 
   factory PostOnlyResponse.fromJson(Map<String, dynamic> json) {
@@ -84,6 +95,7 @@ class PostOnlyResponse {
       isLiked: json['liked'] ?? false,
       isBookmarked: json['bookmarked'] ?? false,
       isReserved: json['reserved'] ?? false,
+      status: json['status'] ?? 0,
     );
   }
 
@@ -116,6 +128,7 @@ class PostOnlyResponse {
       "liked": isLiked,
       "bookmarked": isBookmarked,
       "reserved": isReserved,
+      "status": status,
     });
   }
 }

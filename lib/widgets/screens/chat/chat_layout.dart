@@ -121,6 +121,17 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     }
   }
 
+  void _addMessage(MessageResponse message) {
+    MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+
+    model.onMessage(widget.channel.uuid, message);
+    model.sortChannels();
+
+    setState(() {
+      widget.channel.lastMessages.add(message);
+    });
+  }
+
   Future<void> _sendMessage(String message) async {
     if (message.isNotEmpty) {
       _textController.clear();
@@ -434,11 +445,11 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                         onMorePressed: () {
                           showModalBottomSheet(
                             context: context,
-                            isScrollControlled: true,
                             backgroundColor: Colors.transparent,
-                            builder: (context) {
+                            builder: (context,) {
                               return MenuSheet(
                                 channel: widget.channel,
+                                onMessage: _addMessage
                               );
                             }
                           );

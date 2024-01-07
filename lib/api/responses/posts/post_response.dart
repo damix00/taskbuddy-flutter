@@ -16,6 +16,7 @@ class PostResponse {
   final DateTime createdAt;
   final DateTime startDate;
   final DateTime endDate;
+  int status;
   int likes;
   int comments;
   int shares;
@@ -52,6 +53,7 @@ class PostResponse {
     this.isLiked = false,
     this.isBookmarked = false,
     this.isReserved = false,
+    this.status = 0
   });
 
   // Factory method to create a PostResponse from JSON data
@@ -87,6 +89,7 @@ class PostResponse {
       isLiked: json['liked'] ?? false,
       isBookmarked: json['bookmarked'] ?? false,
       isReserved: json['reserved'] ?? false,
+      status: json['status'] ?? 0
     );
   }
 }

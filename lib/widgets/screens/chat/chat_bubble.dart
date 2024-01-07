@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
+import 'package:taskbuddy/widgets/screens/chat/request_messages/request_message.dart';
 
 class ChatBubble extends StatelessWidget {
   final String message;
@@ -14,6 +16,7 @@ class ChatBubble extends StatelessWidget {
   final bool deleted;
   final bool seen;
   final bool showTime;
+  final MessageRequest? messageRequest;
 
   const ChatBubble({
     Key? key,
@@ -27,6 +30,7 @@ class ChatBubble extends StatelessWidget {
     this.showTime = false,
     this.seenAt,
     this.sentAt,
+    this.messageRequest,
   }) : super(key: key);
 
   @override
@@ -39,6 +43,7 @@ class ChatBubble extends StatelessWidget {
         crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
               if (!isMe)
@@ -55,29 +60,31 @@ class ChatBubble extends StatelessWidget {
                   ),
                 ),
               const SizedBox(width: 8),
-              Flexible(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: isMe
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7,
-                  ),
-                  child: Text(
-                    deleted ? l10n.messageDeleted : message,
-                    style: TextStyle(
+              messageRequest == null
+                ? Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
                       color: isMe
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.onSurface,
-                      fontStyle: deleted ? FontStyle.italic : FontStyle.normal,
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                    ),
+                    child: Text(
+                      deleted ? l10n.messageDeleted : message,
+                      style: TextStyle(
+                        color: isMe
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : Theme.of(context).colorScheme.onSurface,
+                        fontStyle: deleted ? FontStyle.italic : FontStyle.normal,
+                      ),
                     ),
                   ),
-                ),
-              ),
+                )
+                : RequestMessageWidget(type: messageRequest!.type, status: messageRequest!.status)
             ],
           ),
           showSeen && seen && isMe ? Padding(

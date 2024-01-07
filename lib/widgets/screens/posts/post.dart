@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/api/responses/posts/post_only_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/chat_screen.dart';
@@ -310,7 +311,7 @@ class _PostLayoutState extends State<PostLayout> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
                         child: SlimButton(
-                          disabled: _post.endDate.isBefore(DateTime.now()),
+                          disabled: _post.endDate.isBefore(DateTime.now()) || _post.status == PostStatus.RESERVED || _post.status == PostStatus.CLOSED,
                           onPressed: _sendMessage,
                           type: ButtonType.outlined,
                           child: Text(

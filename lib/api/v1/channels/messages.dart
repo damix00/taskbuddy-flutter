@@ -9,24 +9,17 @@ class Messages {
     {
       required String channelUUID,
       required String message,
-      int? requestType,
     }
   ) async {
-    var data = {
-      'content': message,
-    };
-
-    if (requestType != null) {
-      data['request_type'] = requestType.toString();
-    }
-
     var response = await Requests.fetchEndpoint(
       "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUUID)}/messages/send",
       method: "POST",
       headers: {
         'Authorization': 'Bearer $token'
       },
-      data: data,
+      data: {
+        'content': message,
+      }
     );
 
     if (response == null ||

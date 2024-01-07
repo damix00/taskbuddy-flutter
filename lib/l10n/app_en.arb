@@ -352,5 +352,7 @@
   "changeDate": "Change date",
   "cancelJob": "Cancel job",
   "employerOptions": "Employer options",
-  "jobOptions": "Job options"
+  "jobOptions": "Job options",
+  "completeJob": "Complete job",
+  "sharePostLocation": "Share post location"
 }

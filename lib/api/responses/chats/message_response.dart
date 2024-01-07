@@ -40,15 +40,25 @@ class MessageSender {
   }
 }
 
+class RequestMessageType {
+  static const int LOCATION = 0;
+  static const int PRICE = 1;
+  static const int DATE = 2;
+  static const int PHONE_NUMBER = 3;
+  static const int DEAL = 4;
+}
+
 class MessageRequest {
   static int PENDING = 0;
   static int ACCEPTED = 1;
   static int DECLINED = 2;
 
   int status;
+  int type;
 
   MessageRequest({
     required this.status,
+    required this.type,
   });
 
   String toJson() {
@@ -119,6 +129,7 @@ class MessageResponse {
       request: json['request'] != null
           ? MessageRequest(
               status: json['request']['status'],
+              type: json['request']['type'],
             )
           : null,
       attachments: json['attachments']
