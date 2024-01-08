@@ -84,7 +84,15 @@ class ChatBubble extends StatelessWidget {
                     ),
                   ),
                 )
-                : RequestMessageWidget(type: messageRequest!.type, status: messageRequest!.status)
+                : Container(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                    ),
+                    child: RequestMessageWidget(
+                      type: messageRequest!.type,
+                      status: messageRequest!.status
+                    ),
+                  )
             ],
           ),
           showSeen && seen && isMe ? Padding(

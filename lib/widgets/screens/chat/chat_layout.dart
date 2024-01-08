@@ -365,6 +365,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                                 showSeen: showSeen,
                                 showProfilePicture: showPfp,
                                 deleted: message.deleted,
+                                messageRequest: message.request
                               ),
                             ),
                           ),
@@ -387,6 +388,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                           showSeen: showSeen,
                           showProfilePicture: showPfp,
                           deleted: message.deleted,
+                          messageRequest: message.request
                         ),
                       ),
                     );

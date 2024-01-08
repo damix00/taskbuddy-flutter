@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
+import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/sheet_action.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/sheet_divider.dart';
@@ -54,7 +57,23 @@ class MenuSheet extends StatelessWidget {
                 SheetDivider(label: l10n.employerOptions),
               if (channel.isPostCreator && channel.status == ChannelStatus.PENDING)
                 SheetAction(
-                  onPressed: () {},
+                  onPressed: () async {
+                    LoadingOverlay.showLoader(context);
+
+                    String token = (await AccountCache.getToken())!;
+
+                    var res = await Api.v1.channels.actions.manageWorker(
+                      token,
+                      channel.uuid,
+                      true
+                    );
+
+                    if (res.ok) {
+                      onMessage(res.data!);
+                    }
+
+                    LoadingOverlay.hideLoader(context);
+                  },
                   label: l10n.chooseEmployee,
                   icon: Icons.check
                 ),

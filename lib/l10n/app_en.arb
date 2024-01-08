@@ -354,5 +354,9 @@
   "employerOptions": "Employer options",
   "jobOptions": "Job options",
   "completeJob": "Complete job",
-  "sharePostLocation": "Share post location"
+  "sharePostLocation": "Share post location",
+  "iChooseYou": "I choose you!",
+  "iChooseYouDesc": "I have selected you for this job. If you want to work for me, press the Accept button below.",
+  "accept": "Accept",
+  "reject": "Reject"
 }

@@ -3,10 +3,12 @@ import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
+import 'package:taskbuddy/api/v1/channels/actions.dart';
 import 'package:taskbuddy/api/v1/channels/messages.dart';
 
 class Channels {
   Messages get messages => Messages();
+  Actions get actions => Actions();
 
   Future<ApiResponse<ChannelResponse?>> getChannelByUuid(String token, String uuid) async {
     var response = await Requests.fetchEndpoint(

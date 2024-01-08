@@ -235,5 +235,9 @@
   "employerOptions": "Opcije poslodavca",
   "jobOptions": "Opcije posla",
   "completeJob": "Završi posao",
-  "sharePostLocation": "Podijeli lokaciju posla"
+  "sharePostLocation": "Podijeli lokaciju posla",
+  "iChooseYou": "Odabrao sam te!",
+  "iChooseYouDesc": "Odabrao sam te za ovaj posao. Ako želiš raditi za mene, pritisni gumb Prihvati u nastavku.",
+  "accept": "Prihvati",
+  "reject": "Odbij"
 }
