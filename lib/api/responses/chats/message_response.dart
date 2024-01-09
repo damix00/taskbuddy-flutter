@@ -120,8 +120,6 @@ class MessageResponse {
   });
 
   factory MessageResponse.fromJson(Map<String, dynamic> json) {
-    print(json['request']);
-
     return MessageResponse(
       sender: MessageSender.fromJson(json['sender']),
       UUID: json['uuid'],

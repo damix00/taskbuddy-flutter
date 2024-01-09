@@ -358,5 +358,7 @@
   "iChooseYou": "I choose you!",
   "iChooseYouDesc": "I have selected you for this job. If you want to work for me, press the Accept button below.",
   "accept": "Accept",
-  "reject": "Reject"
+  "reject": "Reject",
+  "appOutdatedMsg": "App outdated",
+  "appOutdatedMsgDesc": "Your app is outdated. Please update it so you can see this message."
 }

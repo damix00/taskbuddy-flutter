@@ -4,19 +4,22 @@ import 'package:taskbuddy/widgets/screens/chat/request_messages/app_outdated.dar
 import 'package:taskbuddy/widgets/screens/chat/request_messages/deal_request.dart';
 
 class RequestMessageWidget extends StatelessWidget {
-  final int type;
-  final int status;
+  final bool isMe;
+  final MessageRequest messageRequest;
 
   const RequestMessageWidget({
     Key? key,
-    required this.type,
-    required this.status,
+    required this.messageRequest,
+    required this.isMe,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (type == RequestMessageType.DEAL) {
-      return DealRequestMessage(status: status);
+    if (messageRequest.type == RequestMessageType.DEAL) {
+      return DealRequestMessage(
+        status: messageRequest.status,
+        isMe: isMe,
+      );
     }
 
     return const AppOutdated();

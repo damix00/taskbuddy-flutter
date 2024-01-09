@@ -83,6 +83,7 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
               sentAt: widget.message.createdAt,
               seenAt: widget.message.seenAt,
               deleted: widget.message.deleted,
+              messageRequest: widget.message.request
             ),
             if (!widget.message.seen && widget.message.sender.isMe)
               Padding(

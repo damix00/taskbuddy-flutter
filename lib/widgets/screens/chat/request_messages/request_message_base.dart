@@ -9,7 +9,7 @@ class RequestMessageBase extends StatelessWidget {
     Key? key,
     required this.title,
     required this.body,
-    required this.actions,
+    this.actions = const [],
   }) : super(key: key);
 
   @override
@@ -30,8 +30,9 @@ class RequestMessageBase extends StatelessWidget {
           width: 1,
         ),
       ),
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -43,10 +44,13 @@ class RequestMessageBase extends StatelessWidget {
             body,
             style: Theme.of(context).textTheme.labelMedium,
           ),
-          const SizedBox(height: 16),
+          if (actions.isNotEmpty)
+            const SizedBox(height: 16),
+
           SizedBox(
             width: double.infinity,
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               children: actions,
             ),

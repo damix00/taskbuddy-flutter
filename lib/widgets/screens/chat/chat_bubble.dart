@@ -89,8 +89,8 @@ class ChatBubble extends StatelessWidget {
                       maxWidth: MediaQuery.of(context).size.width * 0.7,
                     ),
                     child: RequestMessageWidget(
-                      type: messageRequest!.type,
-                      status: messageRequest!.status
+                      messageRequest: messageRequest!,
+                      isMe: isMe,
                     ),
                   )
             ],

@@ -32,6 +32,7 @@ class ChatLayout extends StatefulWidget {
 class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final GlobalKey<SliverAnimatedListState> _listKey = GlobalKey<SliverAnimatedListState>();
 
   bool _hasMoreMessages = true;
   bool _loading = false;
@@ -71,6 +72,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
       if (widget.channel.lastMessages.contains(message)) {
         return;
       }
+
+      _listKey.currentState!.insertItem(widget.channel.lastMessages.length);
 
       MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
@@ -127,6 +130,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     model.onMessage(widget.channel.uuid, message);
     model.sortChannels();
 
+    _listKey.currentState!.insertItem(widget.channel.lastMessages.length);
+
     setState(() {
       widget.channel.lastMessages.add(message);
     });
@@ -165,6 +170,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
 
         model.onMessage(widget.channel.uuid, result.data!);
         model.sortChannels();
+
+        _listKey.currentState!.insertItem(widget.channel.lastMessages.length - 1);
 
         setState(() {
           _sending.remove(message);
@@ -246,6 +253,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
               model.insertMessages(result.data!);
               model.sortChannels();
 
+              _listKey.currentState!.insertAllItems(0, toAdd.length);
+
               setState(() {
                 _loading = false;
                 _hasMoreMessages = result.data!.length == 25;
@@ -320,9 +329,10 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                 ),
           
                 // Chat messages
-                SliverList.builder(
-                  itemCount: widget.channel.lastMessages.length,
-                  itemBuilder: (context, index) {
+                SliverAnimatedList(
+                  key: _listKey,
+                  initialItemCount: widget.channel.lastMessages.length,
+                  itemBuilder: (context, index, anim) {
                     GlobalKey bubbleKey = GlobalKey();
     
                     List<MessageResponse> lastMessages = widget.channel.lastMessages;
