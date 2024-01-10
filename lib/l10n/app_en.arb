@@ -360,5 +360,12 @@
   "accept": "Accept",
   "reject": "Reject",
   "appOutdatedMsg": "App outdated",
-  "appOutdatedMsgDesc": "Your app is outdated. Please update it so you can see this message."
+  "appOutdatedMsgDesc": "Your app is outdated. Please update it so you can see this message.",
+  "requestRejected": "Request rejected",
+  "requestAccepted": "Request accepted",
+  "acceptRequestTitle": "Accept job",
+  "acceptRequestDesc": "Are you sure you want to accept this job?",
+  "rejectRequestTitle": "Reject job",
+  "rejectRequestDesc": "Are you sure you want to reject this job?",
+  "noLongerSend": "You can no longer send messages to this chat."
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
@@ -16,6 +18,7 @@ import 'package:taskbuddy/widgets/screens/chat/chat_post_info.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/menu_sheet.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/bubble_overlay.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/chat_screen_overlay.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatLayout extends StatefulWidget {
   final ChannelResponse channel;
@@ -32,7 +35,6 @@ class ChatLayout extends StatefulWidget {
 class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final GlobalKey<SliverAnimatedListState> _listKey = GlobalKey<SliverAnimatedListState>();
 
   bool _hasMoreMessages = true;
   bool _loading = false;
@@ -72,8 +74,6 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
       if (widget.channel.lastMessages.contains(message)) {
         return;
       }
-
-      _listKey.currentState!.insertItem(widget.channel.lastMessages.length);
 
       MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
@@ -124,13 +124,28 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     }
   }
 
+  void _onUpdated(dynamic data) async {
+    print(data);
+    if (data["channel_uuid"] == widget.channel.uuid) {
+      var msg = MessageResponse.fromJson(data["message"]);
+
+      var index = widget.channel.lastMessages.indexWhere((element) => element.UUID == msg.UUID);
+
+      if (index == -1) {
+        return;
+      }
+
+      setState(() {
+        widget.channel.lastMessages[index] = msg;
+      });
+    }
+  }
+
   void _addMessage(MessageResponse message) {
     MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
     model.onMessage(widget.channel.uuid, message);
     model.sortChannels();
-
-    _listKey.currentState!.insertItem(widget.channel.lastMessages.length);
 
     setState(() {
       widget.channel.lastMessages.add(message);
@@ -171,8 +186,6 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
         model.onMessage(widget.channel.uuid, result.data!);
         model.sortChannels();
 
-        _listKey.currentState!.insertItem(widget.channel.lastMessages.length - 1);
-
         setState(() {
           _sending.remove(message);
           widget.channel.lastMessages.add(result.data!);
@@ -203,6 +216,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     SocketClient.addListener("chat", _onMessage);
     SocketClient.addListener("channel_seen", _onSeen);
     SocketClient.addListener("message_deleted", _onDeleted);
+    SocketClient.addListener("message_updated", _onUpdated);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Mark as seen locally
@@ -211,7 +225,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
 
       // Scroll to bottom when the page is loaded
       if (_scrollController.hasClients) {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent + 100);
       }
 
       // Lazy load more messages when the user scrolls to the top
@@ -220,7 +234,9 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
           return;
         }
 
-        if (_scrollController.position.pixels > _scrollController.position.minScrollExtent - 50 && _hasMoreMessages && !_loading) {
+        if (_scrollController.position.pixels == _scrollController.position.minScrollExtent && _hasMoreMessages && !_loading) {
+          print("I am loading for some fucking reason");
+
           setState(() {
             _loading = true;
           });
@@ -253,8 +269,6 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
               model.insertMessages(result.data!);
               model.sortChannels();
 
-              _listKey.currentState!.insertAllItems(0, toAdd.length);
-
               setState(() {
                 _loading = false;
                 _hasMoreMessages = result.data!.length == 25;
@@ -272,6 +286,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     SocketClient.disposeListener("chat", _onMessage);
     SocketClient.disposeListener("channel_seen", _onSeen);
     SocketClient.disposeListener("message_deleted", _onDeleted);
+    SocketClient.disposeListener("message_updated", _onUpdated);
 
     MessagesState.currentChannel = "";
 
@@ -298,6 +313,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     return WillPopScope(
       onWillPop: () async {
         MessagesState.currentChannel = "";
@@ -329,10 +346,9 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                 ),
           
                 // Chat messages
-                SliverAnimatedList(
-                  key: _listKey,
-                  initialItemCount: widget.channel.lastMessages.length,
-                  itemBuilder: (context, index, anim) {
+                SliverList.builder(
+                  itemCount: widget.channel.lastMessages.length,
+                  itemBuilder: (context, index) {
                     GlobalKey bubbleKey = GlobalKey();
     
                     List<MessageResponse> lastMessages = widget.channel.lastMessages;
@@ -375,7 +391,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                                 showSeen: showSeen,
                                 showProfilePicture: showPfp,
                                 deleted: message.deleted,
-                                messageRequest: message.request
+                                messageRequest: message.request,
+                                messageResponse: message
                               ),
                             ),
                           ),
@@ -398,7 +415,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                           showSeen: showSeen,
                           showProfilePicture: showPfp,
                           deleted: message.deleted,
-                          messageRequest: message.request
+                          messageRequest: message.request,
+                          messageResponse: message
                         ),
                       ),
                     );
@@ -436,42 +454,52 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
             bottom: MediaQuery.of(context).viewInsets.bottom,
             left: 0,
             right: 0,
-            child: BlurParent(
-              blurColor: Theme.of(context).colorScheme.background.withOpacity(0.75),
-              noBlurColor: Theme.of(context).colorScheme.background,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: Container(
-                  height: MediaQuery.of(context).padding.bottom + 44 + 12,
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).padding.bottom + 12,
-                    left: 16,
-                    right: 16,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(32)),
-                    child: BlurParent(
-                      child: ChatInput(
-                        controller: _textController,
-                        onSend: _sendMessage,
-                        onMorePressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            backgroundColor: Colors.transparent,
-                            builder: (context,) {
-                              return MenuSheet(
-                                channel: widget.channel,
-                                onMessage: _addMessage
-                              );
-                            }
-                          );
-                        },
+            child: widget.channel.status != ChannelStatus.REJECTED
+              ? BlurParent(
+                blurColor: Theme.of(context).colorScheme.background.withOpacity(0.75),
+                noBlurColor: Theme.of(context).colorScheme.background,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Container(
+                    height: MediaQuery.of(context).padding.bottom + 44 + 12,
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom + 12,
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(32)),
+                      child: BlurParent(
+                        child: ChatInput(
+                          controller: _textController,
+                          onSend: _sendMessage,
+                          onMorePressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (context,) {
+                                return MenuSheet(
+                                  channel: widget.channel,
+                                  onMessage: _addMessage
+                                );
+                              }
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
+              )
+              : SafeArea(
+                child: Center(
+                  child: Text(
+                    l10n.noLongerSend,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelMedium
+                  ),
+                )
+              )
           ),
           ChatScreenOverlay(
             show: _currentMessage != null,

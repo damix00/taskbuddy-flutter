@@ -241,5 +241,12 @@
   "accept": "Prihvati",
   "reject": "Odbij",
   "appOutdatedMsg": "Aplikacija zastarjela",
-  "appOutdatedMsgDesc": "Vaša je aplikacija zastarjela. Ažurirajte ju kako biste mogli vidjeti ovu poruku."
+  "appOutdatedMsgDesc": "Vaša je aplikacija zastarjela. Ažurirajte ju kako biste mogli vidjeti ovu poruku.",
+  "requestRejected": "Zahtjev odbijen",
+  "requestAccepted": "Zahtjev prihvaćen",
+  "acceptRequestTitle": "Prihvati posao",
+  "acceptRequestDesc": "Jesi li siguran da želiš prihvatiti ovaj posao?",
+  "rejectRequestTitle": "Odbij posao",
+  "rejectRequestDesc": "Jesi li siguran da želiš odbiti ovaj posao?",
+  "noLongerSend": "Više ne možete slati poruke u ovaj razgovor."
 }

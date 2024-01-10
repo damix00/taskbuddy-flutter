@@ -17,6 +17,7 @@ class ChatBubble extends StatelessWidget {
   final bool seen;
   final bool showTime;
   final MessageRequest? messageRequest;
+  final MessageResponse? messageResponse;
 
   const ChatBubble({
     Key? key,
@@ -31,6 +32,7 @@ class ChatBubble extends StatelessWidget {
     this.seenAt,
     this.sentAt,
     this.messageRequest,
+    this.messageResponse,
   }) : super(key: key);
 
   @override
@@ -44,6 +46,7 @@ class ChatBubble extends StatelessWidget {
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
             children: [
               if (!isMe)
@@ -60,8 +63,17 @@ class ChatBubble extends StatelessWidget {
                   ),
                 ),
               const SizedBox(width: 8),
-              messageRequest == null
-                ? Flexible(
+              messageRequest != null && !deleted
+                ? Container(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                    ),
+                    child: RequestMessageWidget(
+                      messageRequest: messageRequest!,
+                      message: messageResponse!,
+                    ),
+                  )
+                : Flexible(
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
@@ -84,15 +96,6 @@ class ChatBubble extends StatelessWidget {
                     ),
                   ),
                 )
-                : Container(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.7,
-                    ),
-                    child: RequestMessageWidget(
-                      messageRequest: messageRequest!,
-                      isMe: isMe,
-                    ),
-                  )
             ],
           ),
           showSeen && seen && isMe ? Padding(

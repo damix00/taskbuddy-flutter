@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/responses/chats/message_response.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RequestMessageBase extends StatelessWidget {
   final String title;
   final String body;
   final List<Widget> actions;
+  final int status;
 
   const RequestMessageBase({
     Key? key,
     required this.title,
     required this.body,
     this.actions = const [],
+    this.status = 0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -35,6 +41,18 @@ class RequestMessageBase extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (status != MessageRequest.PENDING)
+            Text(
+              status == MessageRequest.ACCEPTED
+                ? l10n.requestAccepted
+                : l10n.requestRejected,
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                fontWeight: FontWeight.w900,
+                color: status == MessageRequest.DECLINED
+                  ? Theme.of(context).colorScheme.error
+                  : Theme.of(context).colorScheme.primary
+              )
+            ),
           Text(
             title,
             style: Theme.of(context).textTheme.titleSmall
@@ -44,9 +62,10 @@ class RequestMessageBase extends StatelessWidget {
             body,
             style: Theme.of(context).textTheme.labelMedium,
           ),
-          if (actions.isNotEmpty)
+          if (actions.isNotEmpty && status == MessageRequest.PENDING)
             const SizedBox(height: 16),
 
+          if (actions.isNotEmpty && status == MessageRequest.PENDING)
           SizedBox(
             width: double.infinity,
             child: Row(

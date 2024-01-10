@@ -21,6 +21,8 @@ class SocketClient {
       .enableReconnection()
       .setReconnectionAttempts(1e5) // Really high number
       .disableAutoConnect()
+      .setReconnectionDelay(1000)
+      .setReconnectionDelayMax(1000)
       .build()
   );
 

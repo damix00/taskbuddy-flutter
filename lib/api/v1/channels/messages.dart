@@ -99,9 +99,24 @@ class Messages {
   Future<bool> updateMessageStatus(
     String token,
     String channelUuid,
-    String messageUuid
+    String messageUuid,
+    int status
   ) async {
-    // TODO: implement
-    return false;
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUuid)}/messages/${Uri.encodeComponent(messageUuid)}/status?action=${status == 1 ? "accept" : "reject"}",
+      method: "PATCH",
+      headers: {
+        'Authorization': 'Bearer $token'
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return false;
+    }
+
+    return true;
   }
 }
