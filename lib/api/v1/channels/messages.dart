@@ -95,4 +95,13 @@ class Messages {
 
     return true;
   }
+
+  Future<bool> updateMessageStatus(
+    String token,
+    String channelUuid,
+    String messageUuid
+  ) async {
+    // TODO: implement
+    return false;
+  }
 }

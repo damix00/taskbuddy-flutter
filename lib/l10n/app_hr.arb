@@ -239,5 +239,7 @@
   "iChooseYou": "Odabrao sam te!",
   "iChooseYouDesc": "Odabrao sam te za ovaj posao. Ako želiš raditi za mene, pritisni gumb Prihvati u nastavku.",
   "accept": "Prihvati",
-  "reject": "Odbij"
+  "reject": "Odbij",
+  "appOutdatedMsg": "Aplikacija zastarjela",
+  "appOutdatedMsgDesc": "Vaša je aplikacija zastarjela. Ažurirajte ju kako biste mogli vidjeti ovu poruku."
 }
