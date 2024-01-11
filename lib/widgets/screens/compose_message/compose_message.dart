@@ -170,10 +170,11 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
                 model.addOutgoingChannel(channel.data!);
 
                 if (channel.ok && channel.data != null) {
+                  var cloned = channel.data!.clone();
                   Navigator.of(context).pushReplacement(
                     CupertinoPageRoute(
                       builder: (context) => ChatScreen(
-                        channel: channel.data!.clone()
+                        channel: cloned
                       ),
                     ),
                   );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,9 @@ class _ChatsPageState extends State<ChatsPage> {
     MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
     MessageResponse response = MessageResponse.fromJson(data["message"]);
 
-    model.onMessage(response.channelUUID, response);
+    log("Received message (main screen): ${response.message}");
+
+    model.onMessage(response.channelUUID, response.clone());
     model.sortChannels();
   }
 
@@ -50,7 +54,7 @@ class _ChatsPageState extends State<ChatsPage> {
     MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
     ChannelResponse response = ChannelResponse.fromJson(data["channel"]);
 
-    model.addIncomingChannel(response);
+    model.addIncomingChannel(response.clone());
     model.sortChannels();
   }
 

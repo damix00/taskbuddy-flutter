@@ -13,8 +13,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostAuthor extends StatefulWidget {
   final PostResultsResponse post;
+  final bool rightPadding;
 
-  const PostAuthor({ Key? key, required this.post }) : super(key: key);
+  const PostAuthor({ Key? key, required this.post, this.rightPadding = true }) : super(key: key);
 
   @override
   State<PostAuthor> createState() => _PostAuthorState();
@@ -49,7 +50,7 @@ class _PostAuthorState extends State<PostAuthor> {
       height: 36,
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
+        padding: EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + (widget.rightPadding ? Sizing.interactionsWidth : 0)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

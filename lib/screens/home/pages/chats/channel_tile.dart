@@ -68,11 +68,13 @@ class ChannelTile extends StatelessWidget {
                     Flexible(
                       child: Text(
                         lastMessage != null
-                          ? (
-                            lastMessage.sender.UUID == otherUser.UUID
-                              ? "${lastMessage.sender.firstName}: $messageContent"
-                              : l10n.youMessage(messageContent)
-                          )
+                          ? lastMessage.request != null
+                            ? l10n.userSentAMessage(lastMessage.sender.firstName)
+                            : (
+                              lastMessage.sender.UUID == otherUser.UUID
+                                ? "${lastMessage.sender.firstName}: $messageContent"
+                                : l10n.youMessage(messageContent)
+                            )
                           : l10n.noMessagesYet,
                         style: TextStyle(
                           fontSize: 12,

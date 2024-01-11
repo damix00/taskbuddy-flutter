@@ -43,7 +43,7 @@ class PostSheet extends StatelessWidget {
         const SizedBox(height: 4),
         PostData(post: post),
         const SizedBox(height: 16),
-        PostAuthor(post: post),
+        PostAuthor(post: post, rightPadding: false,),
         if (!post.user.isMe)
           const SizedBox(height: 16),
         if (!post.user.isMe)

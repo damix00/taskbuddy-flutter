@@ -38,9 +38,9 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var height = MediaQuery.of(context).size.height;
 
-      if (_y > height - 200) {
+      if (_y > height - 300) {
         setState(() {
-          _y = height - 200;
+          _y = height - 300;
         });
       }
 
@@ -104,7 +104,7 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
               child: ListView(
                 padding: EdgeInsets.only(left: leftPadding, right: rightPadding, top: 8),
                 children: [
-                  if (!widget.message.deleted)
+                  if (!widget.message.deleted && widget.message.request == null)
                     ChatMenuButton(
                       text: l10n.copy,
                       icon: Icons.copy_outlined,

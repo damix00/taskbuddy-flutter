@@ -367,5 +367,15 @@
   "acceptRequestDesc": "Are you sure you want to accept this job?",
   "rejectRequestTitle": "Reject job",
   "rejectRequestDesc": "Are you sure you want to reject this job?",
-  "noLongerSend": "You can no longer send messages to this chat."
+  "noLongerSend": "You can no longer send messages to this chat.",
+  "userSentAMessage": "{username} sent a message.",
+  "@userSentAMessage": {
+    "description": "This is the message sent by the user.",
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  }
 }

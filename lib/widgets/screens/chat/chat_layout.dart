@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,10 +11,10 @@ import 'package:taskbuddy/api/socket/socket.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/state/static/messages_state.dart';
-import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_input.dart';
+import 'package:taskbuddy/widgets/screens/chat/chat_list.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_post_info.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/menu_sheet.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/bubble_overlay.dart';
@@ -67,7 +68,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   void _onMessage(dynamic data) async {
     MessageResponse message = MessageResponse.fromJson(data["message"]);
 
-    print("Received message: ${message.message}");
+    log("Received message: ${message.message}");
 
     if (message.channelUUID == widget.channel.uuid) {
       // check if the message is already in the list
@@ -346,81 +347,10 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                 ),
           
                 // Chat messages
-                SliverList.builder(
-                  itemCount: widget.channel.lastMessages.length,
-                  itemBuilder: (context, index) {
-                    GlobalKey bubbleKey = GlobalKey();
-    
-                    List<MessageResponse> lastMessages = widget.channel.lastMessages;
-                    bool showSeen = false;
-                    
-                    if (lastMessages.last.seen && lastMessages.last.sender.isMe && index == lastMessages.length - 1) {
-                      showSeen = true;
-                    } else if (index < lastMessages.length - 1 && lastMessages[index].sender.isMe && lastMessages[index + 1].sender.isMe && !lastMessages[index + 1].seen) {
-                      showSeen = true;
-                    }
-          
-                    bool showPfp = index == widget.channel.lastMessages.length - 1 ||
-                      widget.channel.lastMessages[index + 1].sender.UUID != widget.channel.lastMessages[index].sender.UUID;
-    
-                    
-                    var message = widget.channel.lastMessages[index];
-          
-                    // Show date header
-                    if (index == 0 || widget.channel.lastMessages[index].createdAt.day != widget.channel.lastMessages[index - 1].createdAt.day) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Text(
-                              Dates.formatDate(widget.channel.lastMessages[index].createdAt, showTime: false),
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ),
-                          GestureDetector(
-                            onLongPress: () {
-                              _showMenu(bubbleKey, message);
-                            },
-                            child: Opacity(
-                              opacity: _currentMessage == message ? 0 : 1,
-                              child: ChatBubble(
-                                key: bubbleKey,
-                                message: message.message,
-                                isMe: message.sender.isMe,
-                                profilePicture: message.sender.profilePicture,
-                                showSeen: showSeen,
-                                showProfilePicture: showPfp,
-                                deleted: message.deleted,
-                                messageRequest: message.request,
-                                messageResponse: message
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-          
-                    return GestureDetector(
-                      onLongPress: () {
-                        _showMenu(bubbleKey, message);
-                      },
-                      child: Opacity(
-                        opacity: _currentMessage == message ? 0 : 1,
-                        child: ChatBubble(
-                          key: bubbleKey,
-                          message: message.message,
-                          isMe: message.sender.isMe,
-                          profilePicture: message.sender.profilePicture,
-                          seen: message.seen,
-                          showSeen: showSeen,
-                          showProfilePicture: showPfp,
-                          deleted: message.deleted,
-                          messageRequest: message.request,
-                          messageResponse: message
-                        ),
-                      ),
-                    );
-                  },
+                ChatList(
+                  lastMessages: widget.channel.lastMessages,
+                  onSelected: _showMenu,
+                  currentMessage: _currentMessage
                 ),
           
                 // Pending messages
@@ -456,50 +386,50 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
             right: 0,
             child: widget.channel.status != ChannelStatus.REJECTED
               ? BlurParent(
-                blurColor: Theme.of(context).colorScheme.background.withOpacity(0.75),
-                noBlurColor: Theme.of(context).colorScheme.background,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: Container(
-                    height: MediaQuery.of(context).padding.bottom + 44 + 12,
-                    padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom + 12,
-                      left: 16,
-                      right: 16,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(32)),
-                      child: BlurParent(
-                        child: ChatInput(
-                          controller: _textController,
-                          onSend: _sendMessage,
-                          onMorePressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              backgroundColor: Colors.transparent,
-                              builder: (context,) {
-                                return MenuSheet(
-                                  channel: widget.channel,
-                                  onMessage: _addMessage
-                                );
-                              }
-                            );
-                          },
+                  blurColor: Theme.of(context).colorScheme.background.withOpacity(0.75),
+                  noBlurColor: Theme.of(context).colorScheme.background,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Container(
+                      height: MediaQuery.of(context).padding.bottom + 44 + 12,
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).padding.bottom + 12,
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(Radius.circular(32)),
+                        child: BlurParent(
+                          child: ChatInput(
+                            controller: _textController,
+                            onSend: _sendMessage,
+                            onMorePressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                builder: (context,) {
+                                  return MenuSheet(
+                                    channel: widget.channel,
+                                    onMessage: _addMessage
+                                  );
+                                }
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
-              : SafeArea(
-                child: Center(
-                  child: Text(
-                    l10n.noLongerSend,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.labelMedium
-                  ),
                 )
-              )
+                : SafeArea(
+                  child: Center(
+                    child: Text(
+                      l10n.noLongerSend,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.labelMedium
+                    ),
+                  )
+                )
           ),
           ChatScreenOverlay(
             show: _currentMessage != null,

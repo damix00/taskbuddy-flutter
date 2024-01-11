@@ -248,5 +248,6 @@
   "acceptRequestDesc": "Jesi li siguran da želiš prihvatiti ovaj posao?",
   "rejectRequestTitle": "Odbij posao",
   "rejectRequestDesc": "Jesi li siguran da želiš odbiti ovaj posao?",
-  "noLongerSend": "Više ne možete slati poruke u ovaj razgovor."
+  "noLongerSend": "Više ne možete slati poruke u ovaj razgovor.",
+  "userSentAMessage": "{username} poslao je poruku."
 }
