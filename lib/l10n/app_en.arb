@@ -377,5 +377,6 @@
         "example": "John"
       }
     }
-  }
+  },
+  "jobSuccessfullyDeclined": "Job successfully declined!"
 }

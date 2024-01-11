@@ -8,6 +8,7 @@ import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/sheet_action.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/sheet_divider.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
 class MenuSheet extends StatelessWidget {
   final ChannelResponse channel;
@@ -79,7 +80,23 @@ class MenuSheet extends StatelessWidget {
                 ),
               if (channel.isPostCreator && channel.status == ChannelStatus.PENDING)
                 SheetAction(
-                  onPressed: () {},
+                  onPressed: () async {
+                    LoadingOverlay.showLoader(context);
+
+                    String token = (await AccountCache.getToken())!;
+
+                    var res = await Api.v1.channels.actions.manageWorker(
+                      token,
+                      channel.uuid,
+                      false
+                    );
+
+                    if (res.ok) {
+                      SnackbarPresets.show(context, text: l10n.jobSuccessfullyDeclined);
+                    }
+
+                    LoadingOverlay.hideLoader(context);
+                  },
                   label: l10n.rejectEmployee,
                   icon: Icons.close
                 ),

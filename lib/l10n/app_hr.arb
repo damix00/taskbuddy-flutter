@@ -249,5 +249,6 @@
   "rejectRequestTitle": "Odbij posao",
   "rejectRequestDesc": "Jesi li siguran da želiš odbiti ovaj posao?",
   "noLongerSend": "Više ne možete slati poruke u ovaj razgovor.",
-  "userSentAMessage": "{username} poslao je poruku."
+  "userSentAMessage": "{username} poslao je poruku.",
+  "jobSuccessfullyDeclined": "Posao uspjšeno odbijen!"
 }

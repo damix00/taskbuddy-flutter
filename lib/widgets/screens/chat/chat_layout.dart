@@ -142,6 +142,10 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     }
   }
 
+  void _onChannelUpdate(dynamic data) async {
+
+  }
+
   void _addMessage(MessageResponse message) {
     MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
@@ -218,6 +222,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     SocketClient.addListener("channel_seen", _onSeen);
     SocketClient.addListener("message_deleted", _onDeleted);
     SocketClient.addListener("message_updated", _onUpdated);
+    SocketClient.addListener("channel_update", _onChannelUpdate);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Mark as seen locally
@@ -288,6 +293,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     SocketClient.disposeListener("channel_seen", _onSeen);
     SocketClient.disposeListener("message_deleted", _onDeleted);
     SocketClient.disposeListener("message_updated", _onUpdated);
+    SocketClient.disposeListener("channel_update", _onChannelUpdate);
 
     MessagesState.currentChannel = "";
 

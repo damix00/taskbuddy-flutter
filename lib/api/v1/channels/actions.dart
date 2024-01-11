@@ -24,6 +24,16 @@ class Actions {
       return ApiResponse(status: 500, message: "", ok: false);
     }
 
+    if (!accept) {
+      return ApiResponse(
+        status: response.response!.statusCode!,
+        message: 'OK',
+        ok: response.response!.statusCode! == 200,
+        data: null,
+        response: response.response,
+      );
+    }
+
     return ApiResponse(
       status: response.response!.statusCode!,
       message: 'OK',
