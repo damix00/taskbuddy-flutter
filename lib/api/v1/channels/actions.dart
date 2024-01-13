@@ -96,4 +96,36 @@ class Actions {
       response: response.response,
     );
   }
+
+  Future<ApiResponse<MessageResponse?>> negotiateDate(
+    String token,
+    String channelUuid,
+    DateTime date
+  ) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUuid)}/actions/negotiate/date",
+      method: "POST",
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+      data: {
+        "date": date.toUtc().toIso8601String()
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+
+    return ApiResponse(
+      status: response.response!.statusCode!,
+      message: 'OK',
+      ok: response.response!.statusCode! == 200,
+      data: MessageResponse.fromJson(response.response!.data["message"]),
+      response: response.response,
+    );
+  }
 }

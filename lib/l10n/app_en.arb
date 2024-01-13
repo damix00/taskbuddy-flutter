@@ -391,5 +391,9 @@
     }
   },
   "negotiatePriceDesc": "I would like to change the price of this job. You can accept or reject my request.",
-  "changePrice": "Change price"
+  "changePrice": "Change price",
+  "confirmPriceNegotiation": "Confirm price negotiation",
+  "confirmPriceNegotiationDesc": "Are you sure you want to change the price of this job?",
+  "rejectPriceNegotiation": "Reject price negotiation",
+  "rejectPriceNegotiationDesc": "Are you sure you want to reject this price negotiation?"
 }

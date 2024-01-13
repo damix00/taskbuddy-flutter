@@ -10,19 +10,19 @@ import 'package:taskbuddy/widgets/screens/chat/request_messages/request_message_
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
-class PriceNegotiateRequest extends StatefulWidget {
+class DateNegotiateRequest extends StatefulWidget {
   final MessageResponse message;
 
-  const PriceNegotiateRequest({
+  const DateNegotiateRequest({
     Key? key,
     required this.message,
   }) : super(key: key);
 
   @override
-  State<PriceNegotiateRequest> createState() => _PriceNegotiateRequestState();
+  State<DateNegotiateRequest> createState() => _PriceNegotiateRequestState();
 }
 
-class _PriceNegotiateRequestState extends State<PriceNegotiateRequest> {
+class _PriceNegotiateRequestState extends State<DateNegotiateRequest> {
  void _sendRequest(
     BuildContext context, {
       required String title,
@@ -73,7 +73,7 @@ class _PriceNegotiateRequestState extends State<PriceNegotiateRequest> {
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
-    var price = jsonDecode(widget.message.request!.data!)["price"];
+    var price = jsonDecode(widget.message.request!.data!)["date"];
 
     return RequestMessageBase(
       title: l10n.negotiatePriceMessage("€$price"),

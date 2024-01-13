@@ -254,5 +254,9 @@
   "invalidPrice": "Neispravna cijena",
   "negotiatePriceMessage": "Zahtjev za pregovaranje cijene (<primary>{price}</primary>)",
   "negotiatePriceDesc": "Želim promijeniti cijenu ovog posla. Možete prihvatiti ili odbiti ovaj zahtjev.",
-  "changePrice": "Promijeni cijenu"
+  "changePrice": "Promijeni cijenu",
+  "confirmPriceNegotiation": "Potvrdi pregovaranje cijene",
+  "confirmPriceNegotiationDesc": "Jeste li sigurni da želite promijeniti cijenu ovog posla?",
+  "rejectPriceNegotiation": "Odbij pregovaranje cijene",
+  "rejectPriceNegotiationDesc": "Jeste li sigurni da želite odbiti pregovaranje cijene?"
 }
