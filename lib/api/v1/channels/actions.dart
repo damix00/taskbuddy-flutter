@@ -42,4 +42,58 @@ class Actions {
       response: response.response,
     );
   }
+
+  Future<bool> cancelJob(
+    String token,
+    String channelUuid,
+  ) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUuid)}/actions/cancel",
+      method: "POST",
+      headers: {
+        'Authorization': 'Bearer $token'
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<ApiResponse<MessageResponse?>> negotiatePrice(
+    String token,
+    String channelUuid,
+    double price
+  ) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUuid)}/actions/negotiate/price",
+      method: "POST",
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+      data: {
+        "price": price
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return ApiResponse(status: 500, message: "", ok: false);
+    }
+
+    return ApiResponse(
+      status: response.response!.statusCode!,
+      message: 'OK',
+      ok: response.response!.statusCode! == 200,
+      data: MessageResponse.fromJson(response.response!.data["message"]),
+      response: response.response,
+    );
+  }
 }

@@ -68,18 +68,22 @@ class ChannelTile extends StatelessWidget {
                     Flexible(
                       child: Text(
                         lastMessage != null
-                          ? lastMessage.request != null
-                            ? l10n.userSentAMessage(lastMessage.sender.firstName)
-                            : (
-                              lastMessage.sender.UUID == otherUser.UUID
-                                ? "${lastMessage.sender.firstName}: $messageContent"
-                                : l10n.youMessage(messageContent)
-                            )
+                          ? lastMessage.sender != null
+                            ? lastMessage.request != null
+                              ? l10n.userSentAMessage(lastMessage.sender!.firstName)
+                              : (
+                                lastMessage.sender!.UUID == otherUser.UUID
+                                  ? "${lastMessage.sender!.firstName}: $messageContent"
+                                  : l10n.youMessage(messageContent)
+                              )
+                            : messageContent
                           : l10n.noMessagesYet,
                         style: TextStyle(
                           fontSize: 12,
-                          fontWeight: (lastMessage != null && !lastMessage.seen && lastMessage.sender.UUID == otherUser.UUID) ? FontWeight.w600 : FontWeight.w400,
-                          color: (lastMessage != null && !lastMessage.seen && lastMessage.sender.UUID == otherUser.UUID)
+                          fontWeight: (lastMessage != null && !lastMessage.seen && lastMessage.sender != null && lastMessage.sender!.UUID == otherUser.UUID)
+                            ? FontWeight.w600
+                            : FontWeight.w400,
+                          color: (lastMessage != null && !lastMessage.seen && lastMessage.sender != null && lastMessage.sender!.UUID == otherUser.UUID)
                             ? Theme.of(context).colorScheme.onBackground
                             : Theme.of(context).textTheme.labelMedium!.color,
                           fontStyle: lastMessage != null && lastMessage.deleted ? FontStyle.italic : FontStyle.normal,
@@ -94,8 +98,8 @@ class ChannelTile extends StatelessWidget {
                         " • ${Dates.timeAgo(channel.lastMessageTime, Localizations.localeOf(context))}",
                         style: TextStyle(
                           fontSize: 12,
-                          fontWeight: (lastMessage.sender.UUID == otherUser.UUID && !lastMessage.seen) ? FontWeight.w600 : FontWeight.w400,
-                          color: (lastMessage.sender.UUID == otherUser.UUID && !lastMessage.seen)
+                          fontWeight: (lastMessage.sender != null && lastMessage.sender!.UUID == otherUser.UUID && !lastMessage.seen) ? FontWeight.w600 : FontWeight.w400,
+                          color: (lastMessage.sender != null && lastMessage.sender!.UUID == otherUser.UUID && !lastMessage.seen)
                             ? Theme.of(context).colorScheme.onBackground
                             : Theme.of(context).textTheme.labelMedium!.color
                         ),

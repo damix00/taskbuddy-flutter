@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
@@ -9,17 +10,20 @@ import 'package:taskbuddy/widgets/screens/chat/request_messages/request_message_
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
-class DealRequestMessage extends StatelessWidget {
-  final int status;
+class PriceNegotiateRequest extends StatefulWidget {
   final MessageResponse message;
 
-  const DealRequestMessage({
+  const PriceNegotiateRequest({
     Key? key,
-    required this.status,
     required this.message,
   }) : super(key: key);
 
-  void _sendRequest(
+  @override
+  State<PriceNegotiateRequest> createState() => _PriceNegotiateRequestState();
+}
+
+class _PriceNegotiateRequestState extends State<PriceNegotiateRequest> {
+ void _sendRequest(
     BuildContext context, {
       required String title,
       required String body,
@@ -53,53 +57,59 @@ class DealRequestMessage extends StatelessWidget {
 
     String token = (await AccountCache.getToken())!;
 
-    var res = await Api.v1.channels.messages.updateMessageStatus(token, message.channelUUID, message.UUID, action);
+    var res = await Api.v1.channels.messages.updateMessageStatus(token, widget.message.channelUUID, widget.message.UUID, action);
 
     if (!res) {
       SnackbarPresets.error(context, l10n.somethingWentWrong);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
+    var price = jsonDecode(widget.message.request!.data!)["price"];
+
     return RequestMessageBase(
-      status: status,
-      title: l10n.iChooseYou,
-      body: l10n.iChooseYouDesc,
+      title: l10n.negotiatePriceMessage("€$price"),
+      body: l10n.negotiatePriceDesc,
+      status: widget.message.request!.status,
       actions: [
         Expanded(
           child: SlimButton(
-            disabled: message.sender.isMe,
+            disabled: widget.message.sender!.isMe,
             onPressed: () {
               _sendRequest(
                 context,
-                title: l10n.acceptRequestTitle,
-                body: l10n.acceptRequestDesc,
-                action: 1,
+                title: l10n.accept,
+                body: l10n.accept,
+                action: 1
               );
             },
-            child: ButtonText(l10n.accept),
+            child: ButtonText(
+              l10n.accept
+            ),
           ),
         ),
         const SizedBox(width: 8),
         Expanded(
           child: SlimButton(
-            disabled: message.sender.isMe,
-            type: ButtonType.outlined,
+            disabled: widget.message.sender!.isMe,
             onPressed: () {
               _sendRequest(
                 context,
-                title: l10n.rejectRequestTitle,
-                body: l10n.rejectRequestDesc,
-                action: 0,
+                title: l10n.reject,
+                body: l10n.reject,
+                action: 0
               );
             },
-            child: Text(l10n.reject),
+            type: ButtonType.outlined,
+            child: Text(
+              l10n.reject
+            ),
           ),
         ),
-      ]
+      ],
     );
   }
 }

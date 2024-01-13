@@ -89,6 +89,19 @@ class _ChatsPageState extends State<ChatsPage> {
     model.deleteMessage(data["message_uuid"]!);
   }
 
+  void _onChannelUpdate(dynamic data) {
+    MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+    ChannelResponse response = ChannelResponse.fromJson(data["channel"]);
+
+    model.updateChannel(response.clone());
+  }
+
+  void _onSeen(dynamic data) {
+    MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+
+    model.setAsSeen(data["channel_uuid"]);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -96,15 +109,19 @@ class _ChatsPageState extends State<ChatsPage> {
     _checkInitialNotification();
 
     SocketClient.addListener("chat", _onMessage);
+    SocketClient.addListener("channel_seen", _onSeen);
     SocketClient.addListener("new_channel", _onNewChannel);
     SocketClient.addListener("message_deleted", _onDeleted);
+    SocketClient.addListener("channel_update", _onChannelUpdate);
   }
 
   @override
   void dispose() {
     SocketClient.disposeListener("chat", _onMessage);
+    SocketClient.disposeListener("channel_seen", _onSeen);
     SocketClient.disposeListener("new_channel", _onNewChannel);
     SocketClient.disposeListener("message_deleted", _onDeleted);
+    SocketClient.disposeListener("channel_update", _onChannelUpdate);
 
     super.dispose();
   }

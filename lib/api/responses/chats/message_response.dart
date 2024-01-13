@@ -55,15 +55,19 @@ class MessageRequest {
 
   int status;
   int type;
+  String? data;
 
   MessageRequest({
     required this.status,
     required this.type,
+    this.data,
   });
 
   String toJson() {
     return jsonEncode({
       "status": status,
+      "type": type,
+      "data": data,
     });
   }
 }
@@ -91,7 +95,7 @@ class MessageAttachment {
 }
 
 class MessageResponse {
-  MessageSender sender;
+  MessageSender? sender;
   String UUID;
   String channelUUID;
   bool deleted;
@@ -105,7 +109,7 @@ class MessageResponse {
   DateTime? seenAt;
 
   MessageResponse({
-    required this.sender,
+    this.sender,
     required this.UUID,
     required this.channelUUID,
     required this.deleted,
@@ -121,7 +125,7 @@ class MessageResponse {
 
   factory MessageResponse.fromJson(Map<String, dynamic> json) {
     return MessageResponse(
-      sender: MessageSender.fromJson(json['sender']),
+      sender: json['sender'] != null ? MessageSender.fromJson(json['sender']) : null,
       UUID: json['uuid'],
       channelUUID: json['channel_uuid'],
       deleted: json['deleted'],
@@ -130,6 +134,7 @@ class MessageResponse {
           ? MessageRequest(
               status: json['request']['status'],
               type: json['request']['type'],
+              data: json['request']?['data'],
             )
           : null,
       attachments: json['attachments']
@@ -150,7 +155,7 @@ class MessageResponse {
 
   String toJson() {
     return jsonEncode({
-      "sender": sender.toJson(),
+      "sender": sender?.toJson(),
       "uuid": UUID,
       "deleted": deleted,
       "message": message,

@@ -117,9 +117,17 @@ class ProfilePage extends StatelessWidget {
           jobsDone: Utils.formatNumber(auth.jobsDone),
           bio: auth.bio,
           employerRating: auth.employerRating,
-          employerCancelRate: auth.employerCancelled > 0 ? (auth.employerCancelled / auth.completedEmployer) * 100 : 0,
-          employeeRating: auth.listings > 0 ? (auth.employerCancelled / auth.listings) * 100 : 0,
-          employeeCancelRate: auth.jobsDone > 0 ? (auth.employeeCancelled / auth.completedEmployee) * 100 : 0,
+          employerCancelRate: auth.employerCancelled > 0 && auth.completedEmployer == 0 
+            ? 100
+            : auth.employerCancelled > 0 && auth.completedEmployer > 0
+              ? (auth.employerCancelled / auth.completedEmployer) * 100
+              : 0,
+          employeeRating: auth.employeeRating,
+          employeeCancelRate: auth.employeeCancelled > 0 && auth.completedEmployee == 0 
+            ? 100
+            : auth.employeeCancelled > 0 && auth.completedEmployee > 0
+              ? (auth.employeeCancelled / auth.completedEmployee) * 100
+              : 0,
           isMe: true,
           locationText: auth.locationText,
           actions: [

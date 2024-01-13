@@ -249,6 +249,10 @@
   "rejectRequestTitle": "Odbij posao",
   "rejectRequestDesc": "Jesi li siguran da želiš odbiti ovaj posao?",
   "noLongerSend": "Više ne možete slati poruke u ovaj razgovor.",
-  "userSentAMessage": "{username} poslao je poruku.",
-  "jobSuccessfullyDeclined": "Posao uspjšeno odbijen!"
+  "userSentAMessage": "{username} je poslao poruku.",
+  "jobSuccessfullyDeclined": "Posao uspjšeno odbijen!",
+  "invalidPrice": "Neispravna cijena",
+  "negotiatePriceMessage": "Zahtjev za pregovaranje cijene (<primary>{price}</primary>)",
+  "negotiatePriceDesc": "Želim promijeniti cijenu ovog posla. Možete prihvatiti ili odbiti ovaj zahtjev.",
+  "changePrice": "Promijeni cijenu"
 }

@@ -153,7 +153,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: ChatScreenAppbar(
             profilePicture: _channel!.otherUserAccount.profile.profilePicture,
             title: _channel!.post.title,
-            price: _channel!.post.price.toString(),
+            price: _channel!.negotiatedPrice.toString(),
             firstName: _channel!.otherUserAccount.firstName,
             lastName: _channel!.otherUserAccount.lastName
           )

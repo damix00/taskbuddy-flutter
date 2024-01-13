@@ -187,14 +187,21 @@ class MessagesModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAsSeen(ChannelResponse channel) {
-    int index = _incomingMessages.indexWhere((element) => element.uuid == channel.uuid);
-    if (index != -1 && !_incomingMessages[index].lastMessages.last.sender.isMe) {
+  void setAsSeen(String uuid) {
+    int index = _incomingMessages.indexWhere((element) => element.uuid == uuid);
+    if (
+      index != -1 &&
+      _incomingMessages[index].lastMessages.last.sender != null &&
+      !_incomingMessages[index].lastMessages.last.sender!.isMe
+    ) {
       _incomingMessages[index].lastMessages.last.seen = true;
     }
 
-    index = _outgoingMessages.indexWhere((element) => element.uuid == channel.uuid);
-    if (index != -1 && !_outgoingMessages[index].lastMessages.last.sender.isMe) {
+    index = _outgoingMessages.indexWhere((element) => element.uuid == uuid);
+    if (index != -1 &&
+      _outgoingMessages[index].lastMessages.last.sender != null &&
+      !_outgoingMessages[index].lastMessages.last.sender!.isMe
+    ) {
       _outgoingMessages[index].lastMessages.last.seen = true;
     }
     notifyListeners();
@@ -297,5 +304,21 @@ class MessagesModel extends ChangeNotifier {
     }
 
     notifyListeners();
-  } 
+  }
+
+  void updateChannel(ChannelResponse channel) {
+    int index = _incomingMessages.indexWhere((element) => element.uuid == channel.uuid);
+
+    if (index != -1) {
+      _incomingMessages[index] = channel;
+    }
+
+    index = _outgoingMessages.indexWhere((element) => element.uuid == channel.uuid);
+
+    if (index != -1) {
+      _outgoingMessages[index] = channel;
+    }
+
+    notifyListeners();
+  }
 }

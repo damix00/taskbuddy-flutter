@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:styled_text/styled_text.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -53,8 +54,16 @@ class RequestMessageBase extends StatelessWidget {
                   : Theme.of(context).colorScheme.primary
               )
             ),
-          Text(
-            title,
+          StyledText(
+            text: title,
+            tags: {
+              "primary": StyledTextTag(
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeight.w900,
+                  color: Theme.of(context).colorScheme.primary
+                )
+              ),
+            },
             style: Theme.of(context).textTheme.titleSmall
           ),
           const SizedBox(height: 4),

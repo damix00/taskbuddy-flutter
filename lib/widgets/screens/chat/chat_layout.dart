@@ -35,13 +35,18 @@ class ChatLayout extends StatefulWidget {
 
 class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   final TextEditingController _textController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController(
+    initialScrollOffset: 0,
+    keepScrollOffset: true
+  );
 
   bool _hasMoreMessages = true;
   bool _loading = false;
 
   // Messages that are currently being sent
   List<String> _sending = [];
+
+  late ChannelResponse channel;
 
   int _messageY = 0;
 
@@ -50,15 +55,16 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   Future<void> _markAsSeen() async {
     String token = (await AccountCache.getToken())!;
     // Mark as seen
-    await Api.v1.channels.markAsSeen(token, widget.channel.uuid);
+    await Api.v1.channels.markAsSeen(token, channel.uuid);
   }
 
   void _init() async {
-    PublicAccountResponse otherUser = widget.channel.otherUser == "recipient" ? widget.channel.channelRecipient : widget.channel.channelCreator;
+    PublicAccountResponse otherUser = channel.otherUser == "recipient" ? channel.channelRecipient : channel.channelCreator;
 
     if (
       widget.channel.lastMessages.isNotEmpty &&
-      widget.channel.lastMessages.last.sender.UUID == otherUser.UUID &&
+      widget.channel.lastMessages.last.sender != null &&
+      widget.channel.lastMessages.last.sender!.UUID == otherUser.UUID &&
       !widget.channel.lastMessages.last.seen
     ) {
       _markAsSeen();
@@ -70,7 +76,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
 
     log("Received message: ${message.message}");
 
-    if (message.channelUUID == widget.channel.uuid) {
+    if (message.channelUUID == channel.uuid) {
       // check if the message is already in the list
       if (widget.channel.lastMessages.contains(message)) {
         return;
@@ -83,7 +89,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
       });
 
       _markAsSeen();
-      model.setAsSeen(widget.channel);
+      model.setAsSeen(channel.uuid);
 
       await Future.delayed(const Duration(milliseconds: 100));
       // Scroll to bottom
@@ -98,23 +104,34 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   }
 
   void _onSeen(dynamic data) async {
-    if (data["channel_uuid"] == widget.channel.uuid) {
+    if (data["channel_uuid"] == channel.uuid) {
       MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
-      model.setAsSeen(widget.channel);
+      model.setAsSeen(channel.uuid);
 
       setState(() {
         for (var message in widget.channel.lastMessages) {
-          if (message.sender.isMe && !message.seen) {
+          if (message.sender != null && message.sender!.isMe && !message.seen) {
             message.seen = true;
             message.seenAt = DateTime.now();
           }
         }
       });
+
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      // Scroll to bottom
+      if (_scrollController.hasClients && _scrollController.position.pixels > _scrollController.position.maxScrollExtent - 100) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
     }
   }
 
   void _onDeleted(dynamic data) async {
-    if (data["channel_uuid"] == widget.channel.uuid) {
+    if (data["channel_uuid"] == channel.uuid) {
       setState(() {
         for (var message in widget.channel.lastMessages) {
           if (message.UUID == data["message_uuid"]) {
@@ -126,35 +143,58 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   }
 
   void _onUpdated(dynamic data) async {
-    print(data);
-    if (data["channel_uuid"] == widget.channel.uuid) {
-      var msg = MessageResponse.fromJson(data["message"]);
+    var msg = MessageResponse.fromJson(data["message"]);
 
-      var index = widget.channel.lastMessages.indexWhere((element) => element.UUID == msg.UUID);
-
-      if (index == -1) {
-        return;
-      }
-
-      setState(() {
-        widget.channel.lastMessages[index] = msg;
-      });
+    if (msg.channelUUID != channel.uuid) {
+      return;
     }
+
+    var index = widget.channel.lastMessages.indexWhere((element) => element.UUID == msg.UUID);
+
+    if (index == -1) {
+      log("Message not found");
+      return;
+    }
+
+    setState(() {
+      widget.channel.lastMessages[index] = msg;
+    });
   }
 
   void _onChannelUpdate(dynamic data) async {
+    var _channel = ChannelResponse.fromJson(data["channel"]);
 
+    if (_channel.uuid != channel.uuid) {
+      return;
+    }
+
+    setState(() {
+      channel = _channel;
+    });
   }
 
-  void _addMessage(MessageResponse message) {
+  void _addMessage(MessageResponse message) async {
     MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
-    model.onMessage(widget.channel.uuid, message);
+    model.onMessage(channel.uuid, message);
     model.sortChannels();
 
     setState(() {
       widget.channel.lastMessages.add(message);
     });
+
+    // Scroll to bottom
+    if (widget.channel.lastMessages.isNotEmpty &&
+      _scrollController.hasClients &&
+      _scrollController.position.pixels > _scrollController.position.maxScrollExtent - 400
+    ) {
+      await Future.delayed(const Duration(milliseconds: 100));
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
   }
 
   Future<void> _sendMessage(String message) async {
@@ -181,14 +221,14 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
       // Send message
       var result = await Api.v1.channels.messages.sendMessage(
         token,
-        channelUUID: widget.channel.uuid,
+        channelUUID: channel.uuid,
         message: message
       );
 
       if (result.ok) {
         MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
-        model.onMessage(widget.channel.uuid, result.data!);
+        model.onMessage(channel.uuid, result.data!);
         model.sortChannels();
 
         setState(() {
@@ -216,6 +256,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
 
     MessagesState.currentChannel = widget.channel.uuid;
 
+    channel = widget.channel;
+
     _init();
 
     SocketClient.addListener("chat", _onMessage);
@@ -227,11 +269,20 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Mark as seen locally
       MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
-      model.setAsSeen(widget.channel);
+      model.setAsSeen(channel.uuid);
 
       // Scroll to bottom when the page is loaded
       if (_scrollController.hasClients) {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent + 100);
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+
+        Future.delayed(const Duration(milliseconds: 100))
+          .then((value) =>
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            )
+          );
       }
 
       // Lazy load more messages when the user scrolls to the top
@@ -241,8 +292,6 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
         }
 
         if (_scrollController.position.pixels == _scrollController.position.minScrollExtent && _hasMoreMessages && !_loading) {
-          print("I am loading for some fucking reason");
-
           setState(() {
             _loading = true;
           });
@@ -252,7 +301,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
           // Get messages
           var result = await Api.v1.channels.messages.getMessages(
             token,
-            widget.channel.uuid,
+            channel.uuid,
             widget.channel.lastMessages.length
           );
 
@@ -342,6 +391,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: CustomScrollView(
+              shrinkWrap: true,
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               controller: _scrollController,
               slivers: [
@@ -349,7 +399,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                   child: SizedBox(height: MediaQuery.of(context).padding.top),
                 ),
                 SliverToBoxAdapter(
-                  child: ChatPostInfo(channel: widget.channel),
+                  child: ChatPostInfo(channel: channel),
                 ),
           
                 // Chat messages
@@ -390,7 +440,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
             bottom: MediaQuery.of(context).viewInsets.bottom,
             left: 0,
             right: 0,
-            child: widget.channel.status != ChannelStatus.REJECTED
+            child: channel.status != ChannelStatus.REJECTED
               ? BlurParent(
                   blurColor: Theme.of(context).colorScheme.background.withOpacity(0.75),
                   noBlurColor: Theme.of(context).colorScheme.background,
@@ -415,7 +465,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                                 backgroundColor: Colors.transparent,
                                 builder: (context,) {
                                   return MenuSheet(
-                                    channel: widget.channel,
+                                    channel: channel,
                                     onMessage: _addMessage
                                   );
                                 }

@@ -20,18 +20,38 @@ class ChatList extends StatelessWidget {
     return SliverList.builder(
       itemCount: lastMessages.length,
       itemBuilder: (context, index) {
+        if (lastMessages[index].sender == null) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Center(
+              child: Text(
+                lastMessages[index].message,
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            ),
+          );
+        }
+
         GlobalKey bubbleKey = GlobalKey();
 
         bool showSeen = false;
-        
-        if (lastMessages.last.seen && lastMessages.last.sender.isMe && index == lastMessages.length - 1) {
+
+        if (lastMessages.last.seen && lastMessages.last.sender!.isMe && index == lastMessages.length - 1) {
           showSeen = true;
-        } else if (index < lastMessages.length - 1 && lastMessages[index].sender.isMe && lastMessages[index + 1].sender.isMe && !lastMessages[index + 1].seen) {
+        } else if (
+          index < lastMessages.length - 1 &&
+          lastMessages.last.sender != null &&
+          lastMessages[index].sender!.isMe &&
+          lastMessages[index + 1].sender != null && 
+          lastMessages[index + 1].sender!.isMe &&
+          !lastMessages[index + 1].seen
+        ) {
           showSeen = true;
         }
 
         bool showPfp = index == lastMessages.length - 1 ||
-          lastMessages[index + 1].sender.UUID != lastMessages[index].sender.UUID;
+          lastMessages[index + 1].sender == null ||
+          lastMessages[index + 1].sender!.UUID != lastMessages[index].sender!.UUID;
 
         
         var message = lastMessages[index];
@@ -56,8 +76,8 @@ class ChatList extends StatelessWidget {
                   child: ChatBubble(
                     key: bubbleKey,
                     message: message.message,
-                    isMe: message.sender.isMe,
-                    profilePicture: message.sender.profilePicture,
+                    isMe: message.sender!.isMe,
+                    profilePicture: message.sender!.profilePicture,
                     showSeen: showSeen,
                     showProfilePicture: showPfp,
                     deleted: message.deleted,
@@ -79,8 +99,8 @@ class ChatList extends StatelessWidget {
             child: ChatBubble(
               key: bubbleKey,
               message: message.message,
-              isMe: message.sender.isMe,
-              profilePicture: message.sender.profilePicture,
+              isMe: message.sender!.isMe,
+              profilePicture: message.sender!.profilePicture,
               seen: message.seen,
               showSeen: showSeen,
               showProfilePicture: showPfp,

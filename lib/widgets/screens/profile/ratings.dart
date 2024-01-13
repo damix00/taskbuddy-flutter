@@ -83,7 +83,7 @@ class _Rating extends StatelessWidget {
             direction: Axis.horizontal,
           ),
           const SizedBox(height: 4,),
-          Text('$rating/5', style: TextStyle(fontSize: 14)),
+          Text('$rating/5', style: const TextStyle(fontSize: 14)),
           const SizedBox(height: 2,),
           Text(
             AppLocalizations.of(context)!.cancellationRate(cancelRate),

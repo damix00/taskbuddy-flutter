@@ -56,10 +56,10 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
-    double leftPadding = widget.message.sender.isMe ? 0 : 56;
-    double rightPadding = widget.message.sender.isMe ? 16 : 0;
+    double leftPadding = widget.message.sender!.isMe ? 0 : 56;
+    double rightPadding = widget.message.sender!.isMe ? 16 : 0;
 
-    CrossAxisAlignment crossAlignment = widget.message.sender.isMe
+    CrossAxisAlignment crossAlignment = widget.message.sender!.isMe
         ? CrossAxisAlignment.end
         : CrossAxisAlignment.start;
 
@@ -74,8 +74,8 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
           children: [
             ChatBubble(
               message: widget.message.message,
-              isMe: widget.message.sender.isMe,
-              profilePicture: widget.message.sender.profilePicture,
+              isMe: widget.message.sender!.isMe,
+              profilePicture: widget.message.sender!.profilePicture,
               seen: widget.message.seen,
               showSeen: true,
               showProfilePicture: true,
@@ -86,7 +86,7 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
               messageRequest: widget.message.request,
               messageResponse: widget.message
             ),
-            if (!widget.message.seen && widget.message.sender.isMe)
+            if (!widget.message.seen && widget.message.sender!.isMe)
               Padding(
                 padding: EdgeInsets.only(left: leftPadding, right: rightPadding),
                 child: Text(
@@ -114,7 +114,7 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
                       },
                     ),
               
-                  if (widget.message.sender.isMe && !widget.message.deleted)
+                  if (widget.message.sender!.isMe && !widget.message.deleted)
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: ChatMenuButton(

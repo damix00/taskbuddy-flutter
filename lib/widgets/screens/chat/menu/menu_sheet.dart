@@ -3,6 +3,7 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/sheet_action.dart';
@@ -74,11 +75,13 @@ class MenuSheet extends StatelessWidget {
                     }
 
                     LoadingOverlay.hideLoader(context);
+
+                    Navigator.pop(context);
                   },
                   label: l10n.chooseEmployee,
                   icon: Icons.check
                 ),
-              if (channel.isPostCreator && channel.status == ChannelStatus.PENDING)
+              if (channel.isPostCreator && channel.status != ChannelStatus.REJECTED && channel.status != ChannelStatus.ACCEPTED)
                 SheetAction(
                   onPressed: () async {
                     LoadingOverlay.showLoader(context);
@@ -96,6 +99,8 @@ class MenuSheet extends StatelessWidget {
                     }
 
                     LoadingOverlay.hideLoader(context);
+
+                    Navigator.pop(context);
                   },
                   label: l10n.rejectEmployee,
                   icon: Icons.close
@@ -108,7 +113,70 @@ class MenuSheet extends StatelessWidget {
                 ),
               SheetDivider(label: l10n.jobOptions),
               SheetAction(
-                onPressed: () {
+                onPressed: () async {
+                  String value = "";
+
+                  // Open a popup to enter the price
+                  String? price = await showDialog<String>(
+                    context: context,
+                    builder: (context) => AlertDialog.adaptive(
+                      title: Text(
+                        l10n.negotiatePrice,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      content: TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: l10n.pricePlaceholder,
+                        ),
+                        onChanged: (v) => value = v,
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(l10n.cancel),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, value),
+                          child: Text(l10n.accept),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (price == null) return;
+
+                  if (double.tryParse(price) == null) {
+                    SnackbarPresets.error(context, l10n.invalidPrice);
+                    return;
+                  }
+
+                  var priceNum = double.parse(price);
+
+                  if (priceNum < RemoteConfigData.minPrice || priceNum > RemoteConfigData.maxPrice) {
+                    SnackbarPresets.error(context, l10n.numRange(RemoteConfigData.minPrice, RemoteConfigData.maxPrice));
+                    return;
+                  }
+                  
+                  LoadingOverlay.showLoader(context);
+
+                  String token = (await AccountCache.getToken())!;
+
+                  var res = await Api.v1.channels.actions.negotiatePrice(
+                    token,
+                    channel.uuid,
+                    priceNum
+                  );
+
+                  if (res.ok) {
+                    onMessage(res.data!);
+                  }
+                  
+                  else {
+                    SnackbarPresets.error(context, l10n.somethingWentWrong);
+                  }
+
+                  LoadingOverlay.hideLoader(context);
                 },
                 label: l10n.negotiatePrice,
                 icon: Icons.attach_money_outlined,
@@ -120,7 +188,24 @@ class MenuSheet extends StatelessWidget {
               ),
               if (channel.status == ChannelStatus.ACCEPTED)
                 SheetAction(
-                  onPressed: () {},
+                  onPressed: () async {
+                    LoadingOverlay.showLoader(context);
+
+                    String token = (await AccountCache.getToken())!;
+
+                    var res = await Api.v1.channels.actions.cancelJob(
+                      token,
+                      channel.uuid,
+                    );
+                    
+                    if (!res) {
+                      SnackbarPresets.error(context, l10n.somethingWentWrong);
+                    }
+
+                    LoadingOverlay.hideLoader(context);
+
+                    Navigator.pop(context);
+                  },
                   label: l10n.cancelJob,
                   icon: Icons.close,
                 ),
