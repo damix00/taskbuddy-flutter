@@ -55,9 +55,9 @@ class MenuSheet extends StatelessWidget {
                 label: l10n.files,
                 icon: Icons.insert_drive_file_outlined,
               ),
-              if (channel.isPostCreator)
+              if (channel.isPostCreator && (channel.status == ChannelStatus.PENDING || channel.status == ChannelStatus.CANCELLED))
                 SheetDivider(label: l10n.employerOptions),
-              if (channel.isPostCreator && channel.status == ChannelStatus.PENDING)
+              if (channel.isPostCreator && (channel.status == ChannelStatus.PENDING || channel.status == ChannelStatus.CANCELLED))
                 SheetAction(
                   onPressed: () async {
                     LoadingOverlay.showLoader(context);
@@ -104,12 +104,6 @@ class MenuSheet extends StatelessWidget {
                   },
                   label: l10n.rejectEmployee,
                   icon: Icons.close
-                ),
-              if (channel.isPostCreator)
-                SheetAction(
-                  onPressed: () {},
-                  label: l10n.sharePostLocation,
-                  icon: Icons.location_on_outlined,
                 ),
               SheetDivider(label: l10n.jobOptions),
               SheetAction(

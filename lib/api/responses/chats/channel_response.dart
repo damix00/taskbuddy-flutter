@@ -44,7 +44,7 @@ class ChannelResponse {
   PublicAccountResponse get otherUserAccount => otherUser == "recipient" ? channelRecipient : channelCreator;
 
   factory ChannelResponse.fromJson(Map<String, dynamic> json) {
-    print(json);
+    print(json['status']);
 
     return ChannelResponse(
       uuid: json['uuid'],

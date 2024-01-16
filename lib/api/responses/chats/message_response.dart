@@ -46,6 +46,7 @@ class RequestMessageType {
   static const int DATE = 2;
   static const int PHONE_NUMBER = 3;
   static const int DEAL = 4;
+  static const int COMPLETE = 5;
 }
 
 class MessageRequest {
