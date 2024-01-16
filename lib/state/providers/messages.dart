@@ -321,4 +321,24 @@ class MessagesModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void updateMessage(MessageResponse message) {
+    for (ChannelResponse channel in _incomingMessages) {
+      int index = channel.lastMessages.indexWhere((element) => element.UUID == message.UUID);
+
+      if (index != -1) {
+        channel.lastMessages[index] = message;
+      }
+    }
+
+    for (ChannelResponse channel in _outgoingMessages) {
+      int index = channel.lastMessages.indexWhere((element) => element.UUID == message.UUID);
+
+      if (index != -1) {
+        channel.lastMessages[index] = message;
+      }
+    }
+
+    notifyListeners();
+  }
 }

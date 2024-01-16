@@ -395,5 +395,20 @@
   "confirmPriceNegotiation": "Confirm price negotiation",
   "confirmPriceNegotiationDesc": "Are you sure you want to change the price of this job?",
   "rejectPriceNegotiation": "Reject price negotiation",
-  "rejectPriceNegotiationDesc": "Are you sure you want to reject this price negotiation?"
+  "rejectPriceNegotiationDesc": "Are you sure you want to reject this price negotiation?",
+  "negotiateDateMessage": "Date negotiation request (<primary>{date}</primary>)",
+  "@negotiateDateMessage": {
+    "description": "This is the message sent by the user.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "10.10.2020"
+      }
+    }
+  },
+  "negotiateDateDesc": "I would like to change the date of this job. You can accept or reject my request.",
+  "confirmDateNegotiation": "Confirm date negotiation",
+  "confirmDateNegotiationDesc": "Are you sure you want to change the date of this job?",
+  "rejectDateNegotiation": "Reject date negotiation",
+  "rejectDateNegotiationDesc": "Are you sure you want to reject this date negotiation?"
 }

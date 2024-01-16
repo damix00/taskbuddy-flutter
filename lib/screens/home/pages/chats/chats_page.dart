@@ -102,6 +102,13 @@ class _ChatsPageState extends State<ChatsPage> {
     model.setAsSeen(data["channel_uuid"]);
   }
 
+  void _onMessageUpdated(dynamic data) {
+    MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
+    MessageResponse response = MessageResponse.fromJson(data["message"]);
+
+    model.updateMessage(response.clone());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -113,6 +120,7 @@ class _ChatsPageState extends State<ChatsPage> {
     SocketClient.addListener("new_channel", _onNewChannel);
     SocketClient.addListener("message_deleted", _onDeleted);
     SocketClient.addListener("channel_update", _onChannelUpdate);
+    SocketClient.addListener("message_updated", _onMessageUpdated);
   }
 
   @override
@@ -122,6 +130,7 @@ class _ChatsPageState extends State<ChatsPage> {
     SocketClient.disposeListener("new_channel", _onNewChannel);
     SocketClient.disposeListener("message_deleted", _onDeleted);
     SocketClient.disposeListener("channel_update", _onChannelUpdate);
+    SocketClient.disposeListener("message_updated", _onMessageUpdated);
 
     super.dispose();
   }

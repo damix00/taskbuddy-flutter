@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/screens/chat/request_messages/request_message_base.dart';
@@ -19,10 +20,10 @@ class DateNegotiateRequest extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DateNegotiateRequest> createState() => _PriceNegotiateRequestState();
+  State<DateNegotiateRequest> createState() => _DateNegotiationRequestState();
 }
 
-class _PriceNegotiateRequestState extends State<DateNegotiateRequest> {
+class _DateNegotiationRequestState extends State<DateNegotiateRequest> {
  void _sendRequest(
     BuildContext context, {
       required String title,
@@ -73,11 +74,11 @@ class _PriceNegotiateRequestState extends State<DateNegotiateRequest> {
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
-    var price = jsonDecode(widget.message.request!.data!)["date"];
+    var date = jsonDecode(widget.message.request!.data!)["date"];
 
     return RequestMessageBase(
-      title: l10n.negotiatePriceMessage("€$price"),
-      body: l10n.negotiatePriceDesc,
+      title: l10n.negotiateDateMessage(Dates.formatDate(DateTime.parse(date))),
+      body: l10n.negotiateDateDesc,
       status: widget.message.request!.status,
       actions: [
         Expanded(
@@ -86,8 +87,8 @@ class _PriceNegotiateRequestState extends State<DateNegotiateRequest> {
             onPressed: () {
               _sendRequest(
                 context,
-                title: l10n.confirmPriceNegotiation,
-                body: l10n.confirmPriceNegotiationDesc,
+                title: l10n.confirmDateNegotiation,
+                body: l10n.confirmDateNegotiationDesc,
                 action: 1,
                 primaryButton: l10n.accept
               );
@@ -104,8 +105,8 @@ class _PriceNegotiateRequestState extends State<DateNegotiateRequest> {
             onPressed: () {
               _sendRequest(
                 context,
-                title: l10n.rejectPriceNegotiation,
-                body: l10n.rejectPriceNegotiationDesc,
+                title: l10n.rejectDateNegotiation,
+                body: l10n.rejectDateNegotiationDesc,
                 action: 0,
                 primaryButton: l10n.reject
               );

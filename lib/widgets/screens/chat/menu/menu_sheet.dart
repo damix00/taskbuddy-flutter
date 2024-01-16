@@ -182,7 +182,49 @@ class MenuSheet extends StatelessWidget {
                 icon: Icons.attach_money_outlined,
               ),
               SheetAction(
-                onPressed: () {},
+                onPressed: () async {
+                  DateTime? date;
+
+                  // Open a popup to enter the date
+                  date = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 365)),
+                  );
+
+                  if (date == null) return;
+
+                  // Choose time
+                  var d = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+
+                  if (d == null) return;
+
+                  date = DateTime(date.year, date.month, date.day, d.hour, d.minute);
+
+                  LoadingOverlay.showLoader(context);
+
+                  String token = (await AccountCache.getToken())!;
+
+                  var res = await Api.v1.channels.actions.negotiateDate(
+                    token,
+                    channel.uuid,
+                    date
+                  );
+
+                  if (res.ok) {
+                    onMessage(res.data!);
+                  }
+                  
+                  else {
+                    SnackbarPresets.error(context, l10n.somethingWentWrong);
+                  }
+                  
+                  LoadingOverlay.hideLoader(context);
+                },
                 label: l10n.changeDate,
                 icon: Icons.calendar_today_outlined,
               ),
