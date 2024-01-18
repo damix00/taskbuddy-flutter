@@ -264,5 +264,19 @@
   "confirmDateNegotiation": "Potvrdi pregovaranje datuma",
   "confirmDateNegotiationDesc": "Jeste li sigurni da želite promijeniti datum ovog posla?",
   "rejectDateNegotiation": "Odbij pregovaranje datuma",
-  "rejectDateNegotiationDesc": "Jeste li sigurni da želite odbiti pregovaranje datuma?"
+  "rejectDateNegotiationDesc": "Jeste li sigurni da želite odbiti pregovaranje datuma?",
+  "cancelJobDesc": "Jeste li sigurni da želite otkazati ovaj posao?",
+  "employeeOptions": "Opcije radnika",
+  "completeJobDesc": "Jeste li sigurni da želite završiti ovaj posao?",
+  "pending": "Čeka se",
+  "accepted": "Prihvaćeno",
+  "completed": "Završeno",
+  "cancelled": "Otkazano",
+  "rejected": "Odbijeno",
+  "jobFinished": "Posao završen",
+  "jobFinishedDesc": "Završio sam posao. Molim Vas da potvrdite da je posao završen.",
+  "confirmJobFinished": "Potvrdi završetak posla",
+  "confirmJobFinishedDesc": "Jeste li sigurni da želite potvrditi završetak posla?",
+  "rejectJobFinished": "Odbij završetak posla",
+  "rejectJobFinishedDesc": "Jeste li sigurni da želite odbiti završetak posla?"
 }

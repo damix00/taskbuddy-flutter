@@ -222,9 +222,36 @@ class MenuSheet extends StatelessWidget {
                 label: l10n.changeDate,
                 icon: Icons.calendar_today_outlined,
               ),
+              if (channel.status == ChannelStatus.ACCEPTED && !channel.isPostCreator)
+                SheetDivider(label: l10n.employeeOptions),
+
               if (channel.status == ChannelStatus.ACCEPTED)
                 SheetAction(
                   onPressed: () async {
+                    // Show a popup to confirm
+                    bool? confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog.adaptive(
+                        title: Text(
+                          l10n.cancelJob,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        content: Text(l10n.cancelJobDesc),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(l10n.cancel),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: Text(l10n.accept),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    if (confirm == null || !confirm) return;
+
                     LoadingOverlay.showLoader(context);
 
                     String token = (await AccountCache.getToken())!;
@@ -247,7 +274,52 @@ class MenuSheet extends StatelessWidget {
                 ),
               if (channel.status == ChannelStatus.ACCEPTED && !channel.isPostCreator)
                 SheetAction(
-                  onPressed: () {},
+                  onPressed: () async {
+                    // Show a popup to confirm
+                    bool? confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog.adaptive(
+                        title: Text(
+                          l10n.completeJob,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        content: Text(l10n.completeJobDesc),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(l10n.cancel),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: Text(l10n.accept),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    if (confirm == null || !confirm) return;
+
+                    LoadingOverlay.showLoader(context);
+
+                    String token = (await AccountCache.getToken())!;
+
+                    var res = await Api.v1.channels.actions.completeJob(
+                      token,
+                      channel.uuid,
+                    );
+                    
+                    if (!res.ok) {
+                      SnackbarPresets.error(context, l10n.somethingWentWrong);
+                    }
+
+                    else {
+                      onMessage(res.data!);
+                    }
+
+                    LoadingOverlay.hideLoader(context);
+
+                    Navigator.pop(context);
+                  },
                   label: l10n.completeJob,
                   icon: Icons.check,
                 ),

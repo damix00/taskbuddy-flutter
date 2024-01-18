@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,6 +39,7 @@ import 'package:taskbuddy/screens/signin/register/register_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/state/remote_config.dart';
+import 'package:taskbuddy/state/static/navigation_state.dart';
 import 'package:taskbuddy/utils/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/utils/initializers.dart';
@@ -153,6 +155,12 @@ class _AppState extends State<App> {
       await RemoteConfigData.init(); // Initialize the remote config data
 
       await FirebaseMessagingApi.init();
+
+      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
     }
 
     catch (e) {
@@ -179,6 +187,7 @@ class _AppState extends State<App> {
       child: Consumer<PreferencesModel>(
         builder: (context, value, child) {
           return MaterialApp(
+            navigatorKey: NavigationState.navigatorKey,
             debugShowCheckedModeBanner: false,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,

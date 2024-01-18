@@ -11,9 +11,27 @@ import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/chat_screen.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/state/static/messages_state.dart';
+import 'package:taskbuddy/state/static/navigation_state.dart';
 import 'package:taskbuddy/widgets/ui/notification.dart';
 
 class FirebaseMessagingApi {
+  static Future<void> checkInitialNotification() async {
+    // Open notifications if the user tapped on a notification
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+  if (initialMessage != null) {
+      // If the initial message is not null, then the user tapped on a notification
+      // So open the chat
+      NavigationState.navigatorKey.currentState!.push(
+        MaterialPageRoute(
+          builder: (context) => ChatScreen(
+            channelUuid: initialMessage.data['channel_uuid']!,
+          )
+        )
+      );
+    }
+  }
+  
   static Future<void> updateToken() async {
     // Get the firebase token
     String? token = await FirebaseMessaging.instance.getToken();

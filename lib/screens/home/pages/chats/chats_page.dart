@@ -58,20 +58,6 @@ class _ChatsPageState extends State<ChatsPage> {
     model.sortChannels();
   }
 
-  Future<void> _checkInitialNotification() async {
-    // Open notifications if the user tapped on a notification
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
-
-    if (initialMessage != null) {
-      // If the initial message is not null, then the user tapped on a notification
-      // So open the chat
-      _handleMessage(initialMessage);
-    }
-
-    // Also listen for new notifications
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  }
-
   void _handleMessage(RemoteMessage message) {
     // Handle the message
     Navigator.of(context).push(
@@ -112,8 +98,6 @@ class _ChatsPageState extends State<ChatsPage> {
   @override
   void initState() {
     super.initState();
-
-    _checkInitialNotification();
 
     SocketClient.addListener("chat", _onMessage);
     SocketClient.addListener("channel_seen", _onSeen);

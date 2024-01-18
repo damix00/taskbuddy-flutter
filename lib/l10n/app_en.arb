@@ -410,5 +410,19 @@
   "confirmDateNegotiation": "Confirm date negotiation",
   "confirmDateNegotiationDesc": "Are you sure you want to change the date of this job?",
   "rejectDateNegotiation": "Reject date negotiation",
-  "rejectDateNegotiationDesc": "Are you sure you want to reject this date negotiation?"
+  "rejectDateNegotiationDesc": "Are you sure you want to reject this date negotiation?",
+  "cancelJobDesc": "Are you sure you want to cancel this job?",
+  "employeeOptions": "Employee options",
+  "completeJobDesc": "Are you sure you want to complete this job?",
+  "pending": "Pending",
+  "accepted": "Accepted",
+  "completed": "Completed",
+  "cancelled": "Cancelled",
+  "rejected": "Rejected",
+  "jobFinished": "Job finished",
+  "jobFinishedDesc": "I have finished the job. Please confirm that the job is finished.",
+  "confirmJobFinished": "Confirm job finished",
+  "confirmJobFinishedDesc": "Are you sure you want to confirm that the job is finished?",
+  "rejectJobFinished": "Reject job finished",
+  "rejectJobFinishedDesc": "Are you sure you want to reject that the job is finished?"
 }

@@ -57,11 +57,50 @@ class ChannelTile extends StatelessWidget {
                   "@${channel.otherUserAccount.username}",
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
-                Text(
-                  channel.post.title,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        channel.post.title,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (channel.status == ChannelStatus.ACCEPTED)
+                      Text(
+                        " • ${l10n.accepted}",
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.primary
+                        )
+                      ),
+                    if (channel.status == ChannelStatus.PENDING)
+                      Text(
+                        " • ${l10n.pending}",
+                        style: Theme.of(context).textTheme.labelSmall
+                      ),
+                    if (channel.status == ChannelStatus.CANCELLED)
+                      Text(
+                        " • ${l10n.cancelled}",
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.error
+                        )
+                      ),
+                    if (channel.status == ChannelStatus.REJECTED)
+                      Text(
+                        " • ${l10n.rejected}",
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.error
+                        )
+                      ),
+                    if (channel.status == ChannelStatus.COMPLETED)
+                      Text(
+                        " • ${l10n.completed}",
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: Colors.green
+                        )
+                      ),
+                  ],
                 ),
                 Row(
                   children: [

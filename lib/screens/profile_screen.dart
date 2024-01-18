@@ -127,9 +127,17 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       jobsDone: Utils.formatNumber(widget.account.profile.completedEmployee + widget.account.profile.completedEmployer),
       bio: widget.account.profile.bio,
       employerRating: widget.account.profile.posts > 0 ? widget.account.profile.ratingEmployer / widget.account.profile.posts : 0,
-      employerCancelRate: widget.account.profile.cancelledEmployer > 0 ? widget.account.profile.cancelledEmployer / widget.account.profile.posts : 0,
+      employerCancelRate: widget.account.profile.cancelledEmployer > 0 && widget.account.profile.completedEmployer == 0 
+        ? 100
+        : widget.account.profile.cancelledEmployer > 0 && widget.account.profile.completedEmployer > 0
+          ? (widget.account.profile.cancelledEmployer / widget.account.profile.completedEmployer) * 100
+          : 0,
       employeeRating: widget.account.profile.posts > 0 ? widget.account.profile.ratingEmployee / widget.account.profile.posts : 0,
-      employeeCancelRate: widget.account.profile.cancelledEmployee > 0 ? widget.account.profile.cancelledEmployee / widget.account.profile.posts : 0,
+      employeeCancelRate: widget.account.profile.cancelledEmployee > 0 && widget.account.profile.completedEmployee == 0 
+        ? 100
+        : widget.account.profile.cancelledEmployee > 0 && widget.account.profile.completedEmployee > 0
+          ? (widget.account.profile.cancelledEmployee / widget.account.profile.completedEmployee) * 100
+          : 0,
       locationText: widget.account.profile.locationText,
       isMe: widget.isMe,
       UUID: widget.account.UUID,
