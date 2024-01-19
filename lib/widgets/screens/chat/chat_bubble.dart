@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
@@ -18,6 +19,7 @@ class ChatBubble extends StatelessWidget {
   final bool showTime;
   final MessageRequest? messageRequest;
   final MessageResponse? messageResponse;
+  final ChannelResponse? channelResponse;
 
   const ChatBubble({
     Key? key,
@@ -33,6 +35,7 @@ class ChatBubble extends StatelessWidget {
     this.sentAt,
     this.messageRequest,
     this.messageResponse,
+    this.channelResponse,
   }) : super(key: key);
 
   @override
@@ -70,6 +73,7 @@ class ChatBubble extends StatelessWidget {
                     ),
                     child: RequestMessageWidget(
                       message: messageResponse!,
+                      channel: channelResponse!,
                     ),
                   )
                 : Flexible(

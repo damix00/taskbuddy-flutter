@@ -406,7 +406,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                 ChatList(
                   lastMessages: widget.channel.lastMessages,
                   onSelected: _showMenu,
-                  currentMessage: _currentMessage
+                  currentMessage: _currentMessage,
+                  channel: channel,
                 ),
           
                 // Pending messages
@@ -498,6 +499,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
           if (_currentMessage != null)
             BubbleOverlay(
               message: _currentMessage!,
+              channel: channel,
               y: _messageY.toDouble(),
               onDismiss: () {
                 setState(() {

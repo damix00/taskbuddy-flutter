@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
@@ -7,11 +8,13 @@ class ChatList extends StatelessWidget {
   final List<MessageResponse> lastMessages;
   final Function(GlobalKey, MessageResponse) onSelected;
   final MessageResponse? currentMessage;
+  final ChannelResponse channel;
 
   const ChatList({
     Key? key,
     required this.lastMessages,
     required this.onSelected,
+    required this.channel,
     this.currentMessage,
   }) : super(key: key);
 
@@ -82,7 +85,8 @@ class ChatList extends StatelessWidget {
                     showProfilePicture: showPfp,
                     deleted: message.deleted,
                     messageRequest: message.request,
-                    messageResponse: message
+                    messageResponse: message,
+                    channelResponse: channel,
                   ),
                 ),
               ),
@@ -106,7 +110,8 @@ class ChatList extends StatelessWidget {
               showProfilePicture: showPfp,
               deleted: message.deleted,
               messageRequest: message.request,
-              messageResponse: message
+              messageResponse: message,
+              channelResponse: channel,
             ),
           ),
         );

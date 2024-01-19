@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/widgets/screens/chat/request_messages/app_outdated.dart';
 import 'package:taskbuddy/widgets/screens/chat/request_messages/requests/deal_request.dart';
@@ -8,10 +9,12 @@ import 'package:taskbuddy/widgets/screens/chat/request_messages/requests/negotia
 
 class RequestMessageWidget extends StatelessWidget {
   final MessageResponse message;
+  final ChannelResponse channel;
 
   const RequestMessageWidget({
     Key? key,
     required this.message,
+    required this.channel,
   }) : super(key: key);
 
   @override
@@ -40,7 +43,8 @@ class RequestMessageWidget extends StatelessWidget {
 
     if (message.request!.type == RequestMessageType.COMPLETE) {
       return FinishRequestMessage(
-        message: message
+        message: message,
+        channel: channel,
       );
     }
 

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
@@ -11,10 +14,12 @@ import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
 class FinishRequestMessage extends StatelessWidget {
   final MessageResponse message;
+  final ChannelResponse channel;
 
   const FinishRequestMessage({
     Key? key,
     required this.message,
+    required this.channel,
   }) : super(key: key);
 
   void _sendRequest(
@@ -62,6 +67,8 @@ class FinishRequestMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
+    Map<String, dynamic> data = jsonDecode(message.request!.data!);
+
     return RequestMessageBase(
       status: message.request!.status,
       title: l10n.jobFinished,
@@ -99,14 +106,15 @@ class FinishRequestMessage extends StatelessWidget {
         ),
       ],
       finishedActions: [
-        Expanded(
-          child: SlimButton(
-            type: ButtonType.outlined,
-            onPressed: () async {
-              // Show a popup to leave a review
-            },
-            child: Text(l10n.leaveAReview),
-          ),
+        if ((channel.isPostCreator && !data['left_review_by_employer']) || (!channel.isPostCreator && !data['left_review_by_employee']))
+          Expanded(
+            child: SlimButton(
+              type: ButtonType.outlined,
+              onPressed: () async {
+                // Show a popup to leave a review
+              },
+              child: Text(l10n.leaveAReview),
+            ),
         ),
       ],
     );

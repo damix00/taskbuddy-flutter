@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
+import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
@@ -14,12 +15,14 @@ class BubbleOverlay extends StatefulWidget {
   final MessageResponse message;
   final double y;
   final VoidCallback onDismiss;
+  final ChannelResponse channel;
 
   const BubbleOverlay({
     Key? key,
     required this.message,
     required this.y,
-    required this.onDismiss
+    required this.onDismiss,
+    required this.channel
   }) : super(key: key);
 
   @override
@@ -84,7 +87,8 @@ class _BubbleOverlayState extends State<BubbleOverlay> {
               seenAt: widget.message.seenAt,
               deleted: widget.message.deleted,
               messageRequest: widget.message.request,
-              messageResponse: widget.message
+              messageResponse: widget.message,
+              channelResponse: widget.channel,
             ),
             if (!widget.message.seen && widget.message.sender!.isMe)
               Padding(
