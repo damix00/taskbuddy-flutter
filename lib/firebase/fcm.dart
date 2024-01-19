@@ -19,7 +19,14 @@ class FirebaseMessagingApi {
     // Open notifications if the user tapped on a notification
     RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
 
-  if (initialMessage != null) {
+    // Show a snackbar to debug
+    // ScaffoldMessenger.of(NavigationState.navigatorKey.currentContext!).showSnackBar(
+    //   SnackBar(
+    //     content: Text('Initial message: ${initialMessage?.data}'),
+    //   )
+    // );
+
+    if (initialMessage != null) {
       // If the initial message is not null, then the user tapped on a notification
       // So open the chat
       NavigationState.navigatorKey.currentState!.push(
@@ -69,6 +76,8 @@ class FirebaseMessagingApi {
     } else {
       print('User declined or has not accepted permission');
     }
+
+    checkInitialNotification();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('A new onMessage event was published!');

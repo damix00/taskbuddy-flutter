@@ -421,8 +421,8 @@
   "rejected": "Rejected",
   "jobFinished": "Job finished",
   "jobFinishedDesc": "I have finished the job. Please confirm that the job is finished.",
-  "confirmJobFinished": "Confirm job finished",
+  "confirmJobFinished": "This job is finished",
   "confirmJobFinishedDesc": "Are you sure you want to confirm that the job is finished?",
-  "rejectJobFinished": "Reject job finished",
+  "rejectJobFinished": "It''s not finished yet",
   "rejectJobFinishedDesc": "Are you sure you want to reject that the job is finished?"
 }

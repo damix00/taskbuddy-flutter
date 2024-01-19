@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/home/pages/profile/tabs/profile_posts.dart';
+import 'package:taskbuddy/screens/home/pages/profile/tabs/profile_reviews.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/widgets/screens/profile/header.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -99,12 +100,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
                       controller: _postsController,
                       UUID: widget.UUID,
                     ),
-                    ListView(
-                      padding: EdgeInsets.zero,
-                      children: Colors.primaries.map((color) {
-                        return Container(color: color, height: 150.0);
-                      }).toList(),
-                    )
+                    ProfileReviews(isMe: widget.isMe, UUID: widget.UUID)
                   ],
                 ),
               ),
