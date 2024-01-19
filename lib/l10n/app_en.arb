@@ -424,5 +424,6 @@
   "confirmJobFinished": "This job is finished",
   "confirmJobFinishedDesc": "Are you sure you want to confirm that the job is finished?",
   "rejectJobFinished": "It''s not finished yet",
-  "rejectJobFinishedDesc": "Are you sure you want to reject that the job is finished?"
+  "rejectJobFinishedDesc": "Are you sure you want to reject that the job is finished?",
+  "leaveAReview": "Leave a review"
 }

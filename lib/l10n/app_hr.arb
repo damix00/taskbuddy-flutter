@@ -278,5 +278,6 @@
   "confirmJobFinished": "Potvrdi završetak posla",
   "confirmJobFinishedDesc": "Jeste li sigurni da želite potvrditi završetak posla?",
   "rejectJobFinished": "Odbij završetak posla",
-  "rejectJobFinishedDesc": "Jeste li sigurni da želite odbiti završetak posla?"
+  "rejectJobFinishedDesc": "Jeste li sigurni da želite odbiti završetak posla?",
+  "leaveAReview": "Ostavi recenziju"
 }

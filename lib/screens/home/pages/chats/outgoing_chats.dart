@@ -12,9 +12,14 @@ class OutgoingChats extends StatefulWidget {
   State<OutgoingChats> createState() => _OutgoingChatsState();
 }
 
-class _OutgoingChatsState extends State<OutgoingChats> {
+class _OutgoingChatsState extends State<OutgoingChats> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Consumer<MessagesModel>(
       builder: (ctx, model, child) {
         return CustomRefresh(

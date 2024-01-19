@@ -22,6 +22,12 @@ class MenuSheet extends StatelessWidget {
     AppLocalizations l10n = AppLocalizations.of(context)!;
     var padding = MediaQuery.of(context).padding;
 
+    bool showEmployerOptions = channel.isPostCreator && (
+      channel.status == ChannelStatus.PENDING ||
+      channel.status == ChannelStatus.CANCELLED ||
+      channel.status == ChannelStatus.ACCEPTED
+    );
+
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       child: BlurParent(
@@ -55,9 +61,9 @@ class MenuSheet extends StatelessWidget {
                 label: l10n.files,
                 icon: Icons.insert_drive_file_outlined,
               ),
-              if (channel.isPostCreator && (channel.status == ChannelStatus.PENDING || channel.status == ChannelStatus.CANCELLED))
+              if (showEmployerOptions)
                 SheetDivider(label: l10n.employerOptions),
-              if (channel.isPostCreator && (channel.status == ChannelStatus.PENDING || channel.status == ChannelStatus.CANCELLED))
+              if (showEmployerOptions)
                 SheetAction(
                   onPressed: () async {
                     LoadingOverlay.showLoader(context);
@@ -81,7 +87,7 @@ class MenuSheet extends StatelessWidget {
                   label: l10n.chooseEmployee,
                   icon: Icons.check
                 ),
-              if (channel.isPostCreator && channel.status != ChannelStatus.REJECTED && channel.status != ChannelStatus.ACCEPTED)
+              if (showEmployerOptions)
                 SheetAction(
                   onPressed: () async {
                     LoadingOverlay.showLoader(context);

@@ -7,6 +7,7 @@ class RequestMessageBase extends StatelessWidget {
   final String title;
   final String body;
   final List<Widget> actions;
+  final List<Widget> finishedActions;
   final int status;
 
   const RequestMessageBase({
@@ -14,6 +15,7 @@ class RequestMessageBase extends StatelessWidget {
     required this.title,
     required this.body,
     this.actions = const [],
+    this.finishedActions = const [],
     this.status = 0,
   }) : super(key: key);
 
@@ -75,14 +77,27 @@ class RequestMessageBase extends StatelessWidget {
             const SizedBox(height: 16),
 
           if (actions.isNotEmpty && status == MessageRequest.PENDING)
-          SizedBox(
-            width: double.infinity,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: actions,
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: actions,
+              ),
             ),
-          ),
+            
+          if (finishedActions.isNotEmpty && status == MessageRequest.ACCEPTED)
+            const SizedBox(height: 16),
+
+          if (finishedActions.isNotEmpty && status == MessageRequest.ACCEPTED)
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: finishedActions,
+              ),
+            ),
         ],
       ),
     );

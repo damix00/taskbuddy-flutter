@@ -97,7 +97,18 @@ class FinishRequestMessage extends StatelessWidget {
             child: Text(l10n.reject),
           ),
         ),
-      ]
+      ],
+      finishedActions: [
+        Expanded(
+          child: SlimButton(
+            type: ButtonType.outlined,
+            onPressed: () async {
+              // Show a popup to leave a review
+            },
+            child: Text(l10n.leaveAReview),
+          ),
+        ),
+      ],
     );
   }
 }
