@@ -6,6 +6,7 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/screens/leave_review/leave_review.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/screens/chat/request_messages/request_message_base.dart';
@@ -106,12 +107,23 @@ class FinishRequestMessage extends StatelessWidget {
         ),
       ],
       finishedActions: [
+        // Show leave review button if the review is not left yet
         if ((channel.isPostCreator && !data['left_review_by_employer']) || (!channel.isPostCreator && !data['left_review_by_employee']))
           Expanded(
             child: SlimButton(
               type: ButtonType.outlined,
               onPressed: () async {
-                // Show a popup to leave a review
+                // Open leave review screen
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LeaveReviewScreen(
+                      user: channel.otherUserAccount.UUID == channel.channelCreator.UUID ? channel.channelRecipient : channel.channelCreator,
+                      otherUser: channel.otherUserAccount,
+                      post: channel.post,
+                      isEmployee: !channel.isPostCreator,
+                    ),
+                  ),
+                );
               },
               child: Text(l10n.leaveAReview),
             ),

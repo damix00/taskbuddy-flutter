@@ -425,5 +425,31 @@
   "confirmJobFinishedDesc": "Are you sure you want to confirm that the job is finished?",
   "rejectJobFinished": "It''s not finished yet",
   "rejectJobFinishedDesc": "Are you sure you want to reject that the job is finished?",
-  "leaveAReview": "Leave a review"
+  "leaveAReview": "Leave a review",
+  "youWorkedFor": "You worked for @{username}",
+  "@youWorkedFor": {
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "youHired": "You hired @{username}",
+  "@youHired": {
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "reviewTitle": "Review title",
+  "reviewTitlePlaceholder": "e.g. \"Great job!\"",
+  "reviewDesc": "Review description",
+  "reviewDescPlaceholder": "e.g. \"Did a great job cleaning my car. Would recommend!\"",
+  "rating": "Rating",
+  "ratingDesc": "How would you rate this user?",
+  "submitReview": "Submit review",
+  "ratingRequired": "You must choose a rating."
 }

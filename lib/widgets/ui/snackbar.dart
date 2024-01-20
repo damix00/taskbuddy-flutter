@@ -10,23 +10,34 @@ class CustomSnackbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        child: Touchable(
-          enableAnimation: onTap != null,
-          onTap: onTap,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: backgroundColor ?? Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: child,
-            ),
-          )
+    return Dismissible(
+      key: const Key('snackbar'),
+      direction: DismissDirection.down,
+      onDismissed: (_) {
+      },
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 16
+          ).copyWith(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 16
+          ),
+          child: Touchable(
+            enableAnimation: onTap != null,
+            onTap: onTap,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: backgroundColor ?? Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: child,
+              ),
+            )
+          ),
         ),
       ),
     );

@@ -279,5 +279,15 @@
   "confirmJobFinishedDesc": "Jeste li sigurni da želite potvrditi završetak posla?",
   "rejectJobFinished": "Odbij završetak posla",
   "rejectJobFinishedDesc": "Jeste li sigurni da želite odbiti završetak posla?",
-  "leaveAReview": "Ostavi recenziju"
+  "leaveAReview": "Ostavi recenziju",
+  "youWorkedFor": "Radili ste za @{username}",
+  "youHired": "Zaposlili ste @{username}",
+  "reviewTitle": "Naslov recenzije",
+  "reviewTitlePlaceholder": "npr. \"Odličan posao!\"",
+  "reviewDesc": "Opis recenzije",
+  "reviewDescPlaceholder": "npr. \"Odradio je odličan posao čišćenja mog automobila. Preporučio bih ga!\"",
+  "rating": "Ocjena",
+  "ratingDesc": "Kako biste ocijenili ovog korisnika?",
+  "submitReview": "Pošalji recenziju",
+  "ratingRequired": "Ocjena je obavezna."
 }
