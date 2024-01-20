@@ -119,4 +119,37 @@ class Messages {
 
     return true;
   }
+
+  Future<bool> writeReview(
+    String token,
+    {
+      required String channelUuid,
+      required String messageUuid,
+      required double rating,
+      required String title,
+      String description = '',
+    }
+  ) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUuid)}/messages/${Uri.encodeComponent(messageUuid)}/review",
+      method: "POST",
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+      data: {
+        'rating': rating,
+        'title': title,
+        'description': description,
+      }
+    );
+
+    if (response == null ||
+      response.timedOut ||
+      response.response?.statusCode != 200
+    ) {
+      return false;
+    }
+
+    return true;
+  }
 }

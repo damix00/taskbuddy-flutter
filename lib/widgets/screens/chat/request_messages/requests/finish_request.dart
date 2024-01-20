@@ -13,7 +13,7 @@ import 'package:taskbuddy/widgets/screens/chat/request_messages/request_message_
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
-class FinishRequestMessage extends StatelessWidget {
+class FinishRequestMessage extends StatefulWidget {
   final MessageResponse message;
   final ChannelResponse channel;
 
@@ -23,6 +23,11 @@ class FinishRequestMessage extends StatelessWidget {
     required this.channel,
   }) : super(key: key);
 
+  @override
+  State<FinishRequestMessage> createState() => _FinishRequestMessageState();
+}
+
+class _FinishRequestMessageState extends State<FinishRequestMessage> {
   void _sendRequest(
     BuildContext context, {
       required String title,
@@ -57,27 +62,27 @@ class FinishRequestMessage extends StatelessWidget {
 
     String token = (await AccountCache.getToken())!;
 
-    var res = await Api.v1.channels.messages.updateMessageStatus(token, message.channelUUID, message.UUID, action);
+    var res = await Api.v1.channels.messages.updateMessageStatus(token, widget.message.channelUUID, widget.message.UUID, action);
 
     if (!res) {
       SnackbarPresets.error(context, l10n.somethingWentWrong);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
-    Map<String, dynamic> data = jsonDecode(message.request!.data!);
+    Map<String, dynamic> data = jsonDecode(widget.message.request!.data!);
 
     return RequestMessageBase(
-      status: message.request!.status,
+      status: widget.message.request!.status,
       title: l10n.jobFinished,
       body: l10n.jobFinishedDesc,
       actions: [
         Expanded(
           child: SlimButton(
-            disabled: message.sender!.isMe,
+            disabled: widget.message.sender!.isMe,
             onPressed: () {
               _sendRequest(
                 context,
@@ -92,7 +97,7 @@ class FinishRequestMessage extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: SlimButton(
-            disabled: message.sender!.isMe,
+            disabled: widget.message.sender!.isMe,
             type: ButtonType.outlined,
             onPressed: () {
               _sendRequest(
@@ -108,7 +113,7 @@ class FinishRequestMessage extends StatelessWidget {
       ],
       finishedActions: [
         // Show leave review button if the review is not left yet
-        if ((channel.isPostCreator && !data['left_review_by_employer']) || (!channel.isPostCreator && !data['left_review_by_employee']))
+        if ((widget.channel.isPostCreator && !data['left_review_by_employer']) || (!widget.channel.isPostCreator && !data['left_review_by_employee']))
           Expanded(
             child: SlimButton(
               type: ButtonType.outlined,
@@ -117,10 +122,18 @@ class FinishRequestMessage extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => LeaveReviewScreen(
-                      user: channel.otherUserAccount.UUID == channel.channelCreator.UUID ? channel.channelRecipient : channel.channelCreator,
-                      otherUser: channel.otherUserAccount,
-                      post: channel.post,
-                      isEmployee: !channel.isPostCreator,
+                      user: widget.channel.otherUserAccount.UUID == widget.channel.channelCreator.UUID ? widget.channel.channelRecipient : widget.channel.channelCreator,
+                      otherUser: widget.channel.otherUserAccount,
+                      post: widget.channel.post,
+                      isEmployee: !widget.channel.isPostCreator,
+                      messageUuid: widget.message.UUID,
+                      channelUuid: widget.message.channelUUID,
+                      onReviewSubmitted: () {
+                        widget.message.request!.data = jsonEncode({
+                          'left_review_by_employee': !widget.channel.isPostCreator,
+                          'left_review_by_employer': widget.channel.isPostCreator,
+                        });
+                      },
                     ),
                   ),
                 );

@@ -341,4 +341,24 @@ class MessagesModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  MessageResponse? findMessage(String uuid) {
+    for (ChannelResponse channel in _incomingMessages) {
+      int index = channel.lastMessages.indexWhere((element) => element.UUID == uuid);
+
+      if (index != -1) {
+        return channel.lastMessages[index];
+      }
+    }
+
+    for (ChannelResponse channel in _outgoingMessages) {
+      int index = channel.lastMessages.indexWhere((element) => element.UUID == uuid);
+
+      if (index != -1) {
+        return channel.lastMessages[index];
+      }
+    }
+
+    return null;
+  }
 }
