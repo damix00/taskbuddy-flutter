@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
-import 'package:taskbuddy/api/responses/posts/post_response.dart';
+import 'package:taskbuddy/api/responses/reviews/review_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/home/pages/profile/tabs/review.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
@@ -22,24 +22,23 @@ class ProfileReviews extends StatefulWidget {
 
 class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveClientMixin {
   int _offset = 0;
-  List<PostResponse> _posts = [];
+  List<ReviewResponse> _reviews = [];
   bool _hasMore = true;
 
-  void _getPosts() async {
+  void _getReviews() async {
     String token = (await AccountCache.getToken())!;
 
-    List<PostResponse> posts = [];
+    List<ReviewResponse> posts = [];
 
     if (widget.isMe) {
-      posts = await Api.v1.accounts.meRoute.posts.get(token, offset: _offset);
+      posts = await Api.v1.accounts.meRoute.reviews.get(token, offset: _offset);
     }
 
     else if (widget.UUID != null) {
-      posts = await Api.v1.accounts.getUserPosts(token, widget.UUID!, offset: _offset);
     }
 
     setState(() {
-      _posts.addAll(posts);
+      _reviews.addAll(posts);
       _hasMore = posts.length == 10;
     });
   }
@@ -52,16 +51,16 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
       widget.controller!.refresh = refresh;
     }
 
-    _getPosts();
+    _getReviews();
   }
 
   void refresh() {
     setState(() {
       _offset = 0;
-      _posts = [];
+      _reviews = [];
       _hasMore = true;
     });
-    _getPosts();
+    _getReviews();
   }
 
   @override
@@ -72,14 +71,14 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
     super.build(context);
 
     return ListView.builder(
-      itemCount: _posts.length + 1,
+      itemCount: _reviews.length + 1,
       itemBuilder: (context, index) {
-        if (index == _posts.length - 1 && _hasMore) {
+        if (index == _reviews.length - 1 && _hasMore) {
           _offset += 10;
-          _getPosts();
+          _getReviews();
         }
 
-        if (index == _posts.length) {
+        if (index == _reviews.length) {
           if (!_hasMore) {
             return const SizedBox();
           }
@@ -92,7 +91,9 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
           );
         }
 
-        return const Review();
+        return Review(
+          review: _reviews[index],
+        );
       },
     );
   }

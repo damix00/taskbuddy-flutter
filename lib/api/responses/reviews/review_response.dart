@@ -33,7 +33,7 @@ class ReviewResponse {
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
       user: PublicAccountResponse.fromJson(json['user']),
-      ratingForUUID: json['ratingForUUID']
+      ratingForUUID: json['rating_for_uuid']
     );
   }
 }

@@ -2,10 +2,12 @@ import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/v1/accounts/me/posts/posts.dart';
 import 'package:taskbuddy/api/v1/accounts/me/profile/profile.dart';
+import 'package:taskbuddy/api/v1/accounts/me/reviews/reviews.dart';
 
 class MeRoute {
   ProfileRoute get profile => ProfileRoute();
   MyPostsRoute get posts => MyPostsRoute();
+  Reviews get reviews => Reviews();
 
   Future<bool> updateFCMToken(String authToken, String fcmToken) async {
     var response = await Requests.fetchEndpoint(

@@ -53,6 +53,7 @@ class ProfileLayout extends StatefulWidget {
 
 class _ProfileLayoutState extends State<ProfileLayout> {
   final ProfilePostsController _postsController = ProfilePostsController();
+  final ProfileReviewsController _reviewsController = ProfileReviewsController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
           if (token == null) return;
 
           _postsController.refresh!();
+          _reviewsController.refresh!();
 
           if (widget.isMe) {
             var data = await Api.v1.accounts.me(token);
@@ -100,7 +102,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
                       controller: _postsController,
                       UUID: widget.UUID,
                     ),
-                    ProfileReviews(isMe: widget.isMe, UUID: widget.UUID)
+                    ProfileReviews(isMe: widget.isMe, UUID: widget.UUID, controller: _reviewsController)
                   ],
                 ),
               ),
