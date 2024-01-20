@@ -82,15 +82,17 @@ class PostInteractions extends StatelessWidget {
               },
             ),
     
-            SizedBox(
-              height: spacing,
-            ),
+            // Removed for now
+
+            // SizedBox(
+            //   height: spacing,
+            // ),
     
-            PostInteractionButton(
-              icon: Icons.comment_outlined,
-              text: post.comments.toString(),
-              onTap: () {},
-            ),
+            // PostInteractionButton(
+            //   icon: Icons.comment_outlined,
+            //   text: post.comments.toString(),
+            //   onTap: () {},
+            // ),
     
             SizedBox(
               height: spacing,
