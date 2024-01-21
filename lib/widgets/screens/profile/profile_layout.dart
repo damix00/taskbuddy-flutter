@@ -27,6 +27,7 @@ class ProfileLayout extends StatefulWidget {
   final num employeeCancelRate;
   final String locationText;
   final bool isMe;
+  final String username;
 
   const ProfileLayout(
       {required this.profilePicture,
@@ -42,6 +43,7 @@ class ProfileLayout extends StatefulWidget {
       required this.employeeRating,
       required this.employeeCancelRate,
       required this.locationText,
+      required this.username,
       this.isMe = false,
       this.UUID,
       Key? key})
@@ -102,7 +104,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
                       controller: _postsController,
                       UUID: widget.UUID,
                     ),
-                    ProfileReviews(isMe: widget.isMe, UUID: widget.UUID, controller: _reviewsController)
+                    ProfileReviews(isMe: widget.isMe, UUID: widget.UUID, username: widget.username, controller: _reviewsController)
                   ],
                 ),
               ),

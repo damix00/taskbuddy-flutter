@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:dio/dio.dart' as diolib;
@@ -50,7 +52,7 @@ class Requests {
         timedOut: timedOut,
       );
     } catch (e) {
-      print(e);
+      log(e.toString());
 
       if (e is diolib.DioException) {
         return Response(

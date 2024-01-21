@@ -4,6 +4,8 @@ import 'package:taskbuddy/api/responses/reviews/review_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/home/pages/profile/tabs/review.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileReviewsController {
   void Function()? refresh;
@@ -11,10 +13,11 @@ class ProfileReviewsController {
 
 class ProfileReviews extends StatefulWidget {
   final bool isMe;
-  final String? UUID;
   final ProfileReviewsController? controller;
+  final String? UUID;
+  final String username;
 
-  const ProfileReviews({Key? key, required this.isMe, this.controller, this.UUID}) : super(key: key);
+  const ProfileReviews({Key? key, required this.isMe, this.controller, this.UUID, required this.username}) : super(key: key);
 
   @override
   State<ProfileReviews> createState() => _ProfilePostsState();
@@ -24,6 +27,7 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
   int _offset = 0;
   List<ReviewResponse> _reviews = [];
   bool _hasMore = true;
+  int _currentFilter = 0;
 
   void _getReviews() async {
     String token = (await AccountCache.getToken())!;
@@ -71,8 +75,53 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
     super.build(context);
 
     return ListView.builder(
-      itemCount: _reviews.length + 1,
+      padding: const EdgeInsets.symmetric(vertical: Sizing.horizontalPadding / 2),
+      itemCount: _reviews.length + 2,
       itemBuilder: (context, index) {
+        AppLocalizations l10n = AppLocalizations.of(context)!;
+
+        if (index == 0) {
+          return DropdownButton(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizing.horizontalPadding,
+              vertical: Sizing.horizontalPadding / 2
+            ),
+            isDense: true,
+            value: _currentFilter,
+            underline: const SizedBox(),
+            onChanged: (value) {
+              setState(() {
+                _currentFilter = value as int;
+              });
+            },
+            items: [
+              DropdownMenuItem(
+                value: 0,
+                child: Text(
+                  l10n.all,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+              DropdownMenuItem(
+                value: 1,
+                child: Text(
+                  l10n.asEmployer,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+              DropdownMenuItem(
+                value: 2,
+                child: Text(
+                  l10n.asEmployee,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            ],
+          );
+        }
+
+        index--;
+
         if (index == _reviews.length - 1 && _hasMore) {
           _offset += 10;
           _getReviews();
@@ -91,8 +140,12 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
           );
         }
 
-        return Review(
-          review: _reviews[index],
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding, vertical: Sizing.horizontalPadding / 2),
+          child: Review(
+            review: _reviews[index],
+            otherUsername: widget.username,
+          ),
         );
       },
     );

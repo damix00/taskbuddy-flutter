@@ -289,5 +289,12 @@
   "rating": "Ocjena",
   "ratingDesc": "Kako biste ocijenili ovog korisnika?",
   "submitReview": "Pošalji recenziju",
-  "ratingRequired": "Ocjena je obavezna."
+  "ratingRequired": "Ocjena je obavezna.",
+  "hiredUser": "Zaposlili @{username}",
+  "workedForUser": "Radili za @{username}",
+  "asEmployee": "Kao radnik",
+  "asEmployer": "Kao poslodavac",
+  "all": "Sve",
+  "readMore": "Pročitaj više",
+  "seeLess": "Prikaži manje"
 }

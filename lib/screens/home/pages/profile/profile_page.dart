@@ -115,6 +115,7 @@ class ProfilePage extends StatelessWidget {
           following: Utils.formatNumber(auth.following),
           listings: Utils.formatNumber(auth.listings),
           jobsDone: Utils.formatNumber(auth.jobsDone),
+          username: auth.username,
           bio: auth.bio,
           employerRating: auth.employerRating,
           employerCancelRate: auth.employerCancelled > 0 && auth.completedEmployer == 0 

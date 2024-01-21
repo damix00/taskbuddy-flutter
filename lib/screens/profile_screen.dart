@@ -141,6 +141,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       locationText: widget.account.profile.locationText,
       isMe: widget.isMe,
       UUID: widget.account.UUID,
+      username: widget.account.username,
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),

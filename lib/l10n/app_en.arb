@@ -451,5 +451,20 @@
   "rating": "Rating",
   "ratingDesc": "How would you rate this user?",
   "submitReview": "Submit review",
-  "ratingRequired": "You must choose a rating."
+  "ratingRequired": "You must choose a rating.",
+  "hiredUser": "Hired @{username}",
+  "@hiredUser": {
+    "placeholders": {
+      "username": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "workedForUser": "Worked for @{username}",
+  "asEmployee": "As employee",
+  "asEmployer": "As employer",
+  "all": "All",
+  "readMore": "Read more",
+  "seeLess": "See less"
 }
