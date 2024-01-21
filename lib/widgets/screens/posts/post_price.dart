@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/responses/posts/post_only_response.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,16 +25,24 @@ class PostPrice extends StatelessWidget {
                 fontWeight: FontWeight.bold
               ),
             ),
-            if (post.isReserved)
+            if (post.status == PostStatus.RESERVED || post.status == PostStatus.COMPLETED)
               Text(
                 ' • ',
                 style: Theme.of(context).textTheme.labelMedium,
               ),
-            if (post.isReserved)
+            if (post.status == PostStatus.RESERVED)
               Text(
                 l10n.reserved,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.error,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            if (post.status == PostStatus.COMPLETED)
+              Text(
+                l10n.completed,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Colors.green,
                   fontWeight: FontWeight.bold
                 ),
               ),

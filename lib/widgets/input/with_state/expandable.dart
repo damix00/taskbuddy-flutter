@@ -49,7 +49,7 @@ class _ExpandableState extends State<Expandable> {
           const SizedBox(height: 8),
 
           Text(
-            _expanded ? l10n.readMore : l10n.seeLess,
+            _expanded ? l10n.seeLess : l10n.readMore,
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
               color: Theme.of(context).colorScheme.onBackground,
             )

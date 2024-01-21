@@ -171,6 +171,7 @@ class _ReviewScreenContentState extends State<_ReviewScreenContent> {
                     maxLines: 5,
                     maxLength: 512,
                     optional: true,
+                    keyboardType: TextInputType.multiline,
                     onChanged: (value) {
                       _description = value;
                     },

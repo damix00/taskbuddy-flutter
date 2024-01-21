@@ -35,7 +35,7 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
     List<ReviewResponse> posts = [];
 
     if (widget.isMe) {
-      posts = await Api.v1.accounts.meRoute.reviews.get(token, offset: _offset);
+      posts = await Api.v1.accounts.meRoute.reviews.get(token, offset: _offset, type: _currentFilter);
     }
 
     else if (widget.UUID != null) {
@@ -93,6 +93,8 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
               setState(() {
                 _currentFilter = value as int;
               });
+
+              refresh();
             },
             items: [
               DropdownMenuItem(

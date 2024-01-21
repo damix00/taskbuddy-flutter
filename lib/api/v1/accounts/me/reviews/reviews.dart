@@ -3,9 +3,9 @@ import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/reviews/review_response.dart';
 
 class Reviews {
-  Future<List<ReviewResponse>> get(String token, {int offset = 0}) async {
+  Future<List<ReviewResponse>> get(String token, {int offset = 0, int type = 0}) async {
     var response = await Requests.fetchEndpoint(
-      "${ApiOptions.path}/accounts/me/reviews?offset=$offset",
+      "${ApiOptions.path}/accounts/me/reviews?offset=$offset&type=$type",
       method: "GET",
       headers: {
         'Authorization': "Bearer ${token}",

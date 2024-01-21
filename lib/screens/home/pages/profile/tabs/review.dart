@@ -37,6 +37,7 @@ class ReviewAccountData extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(review.postTitle, style: Theme.of(context).textTheme.labelMedium),
             Text(
               "${review.user.firstName} ${review.user.lastName}",
               style: Theme.of(context).textTheme.bodyLarge
