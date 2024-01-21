@@ -332,7 +332,7 @@ class _HomeAppbarHandlerState extends State<_HomeAppbarHandler> {
     return HomescreenAppbar(
       forceDisableBlur: 4 == widget.currentIndex,
       child: [
-        Text('Home'),
+        const HomePageAppbar(),
         const SearchAppbar(),
         Container(),
         const ChatsAppbar(),
