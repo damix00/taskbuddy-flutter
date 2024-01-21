@@ -32,18 +32,19 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
   void _getReviews() async {
     String token = (await AccountCache.getToken())!;
 
-    List<ReviewResponse> posts = [];
+    List<ReviewResponse> reviews = [];
 
     if (widget.isMe) {
-      posts = await Api.v1.accounts.meRoute.reviews.get(token, offset: _offset, type: _currentFilter);
+      reviews = await Api.v1.accounts.meRoute.reviews.get(token, offset: _offset, type: _currentFilter);
     }
 
     else if (widget.UUID != null) {
+      reviews = await Api.v1.accounts.getUserReviews(token, widget.UUID!, offset: _offset, type: _currentFilter);
     }
 
     setState(() {
-      _reviews.addAll(posts);
-      _hasMore = posts.length == 10;
+      _reviews.addAll(reviews);
+      _hasMore = reviews.length == 10;
     });
   }
 

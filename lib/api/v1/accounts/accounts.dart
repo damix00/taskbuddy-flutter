@@ -6,6 +6,7 @@ import 'package:taskbuddy/api/responses/account/account_response.dart';
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
+import 'package:taskbuddy/api/responses/reviews/review_response.dart';
 import 'package:taskbuddy/api/v1/accounts/check_existence.dart';
 import 'package:dio/dio.dart' as diolib;
 import 'package:taskbuddy/api/v1/accounts/me/me.dart';
@@ -220,5 +221,46 @@ class Accounts {
     }
 
     return posts;
+  }
+
+  Future<List<ReviewResponse>> getUserReviews(String token, String UUID, {int offset = 0, int type = 0}) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/accounts/${Uri.encodeComponent(UUID)}/reviews?offset=$offset&type=$type",
+      method: "GET",
+      headers: {
+        'Authorization': "Bearer $token",
+      }
+    );
+
+    if (response == null) {
+      return [];
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return [];
+    }
+
+    var tmpReviews = <ReviewResponse>[];
+
+    for (var review in response.response!.data["written"]) {
+      tmpReviews.add(ReviewResponse.fromJson(review));
+    }
+
+    for (var review in response.response!.data["received"]) {
+      tmpReviews.add(ReviewResponse.fromJson(review));
+    }
+
+    // Remove duplicates by UUID
+    List<String> uuids = [];
+    List<ReviewResponse> reviews = [];
+
+    for (var review in tmpReviews) {
+      if (!uuids.contains(review.UUID)) {
+        uuids.add(review.UUID);
+        reviews.add(review);
+      }
+    }
+
+    return reviews;
   }
 }

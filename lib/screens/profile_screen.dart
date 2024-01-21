@@ -84,13 +84,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     if (widget.UUID == null && widget.account == null) {
       throw Exception('UUID and account cannot both be null');
     }
 
     return Scaffold(
       appBar: BlurAppbar.appBar(
-        child: AppbarTitle("@${_account?.username ?? widget.username ?? 'TaskBuddy'}"),
+        child: AppbarTitle("@${_account?.username ?? widget.username ?? l10n.username}"),
       ),
       body: _loading
         ? const Center(
