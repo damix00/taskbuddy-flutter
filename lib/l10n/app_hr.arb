@@ -216,7 +216,7 @@
   "successfullyFollowed": "Uspješno praćeno!",
   "notFound": "Nismo mogli pronaći vaš traženi sadržaj.",
   "chats": "Razgovori",
-  "incoming": "Pristignuto",
+  "incoming": "Moji poslovi",
   "outgoing": "Odlazno",
   "initiateConversation": "Započni razgovor o ovom poslu.",
   "typeAMessage": "Napiši poruku...",
@@ -297,5 +297,6 @@
   "all": "Sve",
   "readMore": "Pročitaj više",
   "seeLess": "Prikaži manje",
-  "suggested": "Predloženo"
+  "suggested": "Predloženo",
+  "swipeUpToBegin": "Povuci gore da započneš."
 }

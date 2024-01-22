@@ -326,7 +326,7 @@
   "successfullyFollowed": "Successfully followed!",
   "notFound": "We couldn''t find what you were looking for.",
   "chats": "Chats",
-  "incoming": "Incoming",
+  "incoming": "My jobs",
   "outgoing": "Outgoing",
   "initiateConversation": "Initiate a conversation about this job.",
   "typeAMessage": "Type a message...",
@@ -467,5 +467,6 @@
   "all": "All",
   "readMore": "Read more",
   "seeLess": "See less",
-  "suggested": "Suggested"
+  "suggested": "Suggested",
+  "swipeUpToBegin": "Swipe up to begin."
 }
