@@ -298,5 +298,12 @@
   "readMore": "Pročitaj više",
   "seeLess": "Prikaži manje",
   "suggested": "Predloženo",
-  "swipeUpToBegin": "Povuci gore da započneš."
+  "swipeUpToBegin": "Povuci gore da započneš.",
+  "imFollowing": "Pratim",
+  "filter": "Filter",
+  "urgency": "Hitnost",
+  "notUrgent": "Nije hitno",
+  "local": "Lokalno",
+  "empty": "Prazno",
+  "select": "Odaberi"
 }

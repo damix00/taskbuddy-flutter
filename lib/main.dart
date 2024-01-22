@@ -31,6 +31,7 @@ import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
+import 'package:taskbuddy/state/providers/home_screen.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 import 'package:taskbuddy/screens/signin/login/login_screen.dart';
@@ -58,7 +59,8 @@ void main() {
         ChangeNotifierProvider(create: (context) => PreferencesModel()),
         ChangeNotifierProvider(create: (context) => AuthModel()),
         ChangeNotifierProvider(create: (context) => TagModel()),
-        ChangeNotifierProvider(create: (context) => MessagesModel())
+        ChangeNotifierProvider(create: (context) => MessagesModel()),
+        ChangeNotifierProvider(create: (context) => HomeScreenModel())
       ],
       child: const App(),
     )

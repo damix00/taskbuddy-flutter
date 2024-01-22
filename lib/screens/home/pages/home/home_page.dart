@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/misc_cache.dart';
+import 'package:taskbuddy/screens/home/pages/home/filter_dialog.dart';
 import 'package:taskbuddy/screens/home/pages/home/first_time.dart';
+import 'package:taskbuddy/state/providers/home_screen.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/screens/posts/post.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
@@ -15,10 +18,55 @@ class HomePageAppbar extends StatelessWidget {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        AppbarTitle(l10n.suggested)
+        Consumer<HomeScreenModel>(
+          builder: (context, model, child) {
+            return DropdownButton(
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: Theme.of(context).colorScheme.onSurfaceVariant
+              ),
+              items: [
+                DropdownMenuItem(
+                  value: HomeScreenType.suggested,
+                  child: AppbarTitle(l10n.suggested),
+                ),
+                DropdownMenuItem(
+                  value: HomeScreenType.following,
+                  child: AppbarTitle(l10n.imFollowing),
+                ),
+              ],
+              onChanged: (value) {
+                model.type = value as HomeScreenType;
+              },
+              value: model.type,
+            );
+          }
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.filter_alt_outlined,
+            color: Theme.of(context).colorScheme.onBackground
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const Dialog(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  surfaceTintColor: Colors.transparent,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    child: FilterDialog()
+                  )
+                );
+              }
+            );
+          },
+        )
       ],
     );
   }

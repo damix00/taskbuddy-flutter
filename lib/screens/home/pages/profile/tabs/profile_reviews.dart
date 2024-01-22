@@ -83,6 +83,11 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
 
         if (index == 0) {
           return DropdownButton(
+            icon: Icon(
+              Icons.arrow_drop_down,
+              color: Theme.of(context).colorScheme.onSurfaceVariant
+            ),
+            style: Theme.of(context).textTheme.labelMedium,
             padding: const EdgeInsets.symmetric(
               horizontal: Sizing.horizontalPadding,
               vertical: Sizing.horizontalPadding / 2

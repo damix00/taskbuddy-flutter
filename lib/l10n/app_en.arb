@@ -468,5 +468,12 @@
   "readMore": "Read more",
   "seeLess": "See less",
   "suggested": "Suggested",
-  "swipeUpToBegin": "Swipe up to begin."
+  "swipeUpToBegin": "Swipe up to begin.",
+  "imFollowing": "Following",
+  "filter": "Filter",
+  "urgency": "Urgency",
+  "notUrgent": "Not urgent",
+  "local": "Local",
+  "empty": "Empty",
+  "select": "Select"
 }
