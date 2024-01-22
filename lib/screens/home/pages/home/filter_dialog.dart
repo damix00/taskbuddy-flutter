@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
-import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/content/tag_picker.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/ui/tag_widget.dart';
@@ -18,7 +16,7 @@ class FilterDialog extends StatelessWidget {
     return BlurParent(
       noBlurColor: Theme.of(context).colorScheme.surface,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -115,14 +113,11 @@ class FilterDialog extends StatelessWidget {
                                       child: Stack(
                                         children: [
                                           SingleChildScrollView(
-                                            child: BlurParent(
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: 8,
-                                                  vertical: 16
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                                              child: BlurParent(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(16),
                                                   child: TagPicker(
                                                     selectable: true,
                                                     selectedTags: model.filteredTags,
