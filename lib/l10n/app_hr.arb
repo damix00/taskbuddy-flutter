@@ -300,10 +300,11 @@
   "suggested": "Predloženo",
   "swipeUpToBegin": "Povuci gore da započneš.",
   "imFollowing": "Pratim",
-  "filter": "Filter",
+  "filter": "Filtriraj",
   "urgency": "Hitnost",
   "notUrgent": "Nije hitno",
   "local": "Lokalno",
   "empty": "Prazno",
-  "select": "Odaberi"
+  "select": "Odaberi",
+  "clear": "Očisti"
 }

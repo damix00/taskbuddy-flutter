@@ -475,5 +475,6 @@
   "notUrgent": "Not urgent",
   "local": "Local",
   "empty": "Empty",
-  "select": "Select"
+  "select": "Select",
+  "clear": "Clear"
 }

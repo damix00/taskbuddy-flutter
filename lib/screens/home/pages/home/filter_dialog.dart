@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/content/tag_picker.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/ui/tag_widget.dart';
@@ -27,55 +28,73 @@ class FilterDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Center(
-                        child: Text(
-                          l10n.filter, 
-                          style: Theme.of(context).textTheme.titleMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      const SizedBox(height: 24,),
-                      DropdownMenu(
-                        label: Text(l10n.urgency),
-                        textStyle: Theme.of(context).textTheme.bodyMedium,
-                        initialSelection: model.urgencyType,
-                        dropdownMenuEntries: [
-                          DropdownMenuEntry(
-                            value: UrgencyType.all,
-                            label: l10n.all,
+                      Row(
+                        children: [
+                          Text(
+                            l10n.filter, 
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
                           ),
-                          DropdownMenuEntry(
-                            value: UrgencyType.urgent,
-                            label: l10n.urgentText,
-                          ),
-                          DropdownMenuEntry(
-                            value: UrgencyType.notUrgent,
-                            label: l10n.notUrgent,
+                          const Spacer(),
+                          Touchable(
+                            child: Text(l10n.clear),
+                            onTap: () {
+                              model.filteredTags = [];
+                              model.urgencyType = UrgencyType.all;
+                              model.postLocationType = PostLocationType.all;
+                            },
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16,),
-                      DropdownMenu(
-                        label: Text(l10n.location),
-                        textStyle: Theme.of(context).textTheme.bodyMedium,
-                        initialSelection: model.postLocationType,
-                        dropdownMenuEntries: [
-                          DropdownMenuEntry(
-                            value: PostLocationType.all,
-                            label: l10n.all,
+                      const SizedBox(height: 24,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          DropdownMenu(
+                            label: Text(l10n.urgency),
+                            textStyle: Theme.of(context).textTheme.bodyMedium,
+                            initialSelection: model.urgencyType,
+                            width: 140,
+                            dropdownMenuEntries: [
+                              DropdownMenuEntry(
+                                value: UrgencyType.all,
+                                label: l10n.all,
+                              ),
+                              DropdownMenuEntry(
+                                value: UrgencyType.urgent,
+                                label: l10n.urgentText,
+                              ),
+                              DropdownMenuEntry(
+                                value: UrgencyType.notUrgent,
+                                label: l10n.notUrgent,
+                              ),
+                            ],
                           ),
-                          DropdownMenuEntry(
-                            value: PostLocationType.local,
-                            label: l10n.local,
-                          ),
-                          DropdownMenuEntry(
-                            value: PostLocationType.remote,
-                            label: l10n.remote,
+                          DropdownMenu(
+                            width: 140,
+                            label: Text(l10n.location),
+                            textStyle: Theme.of(context).textTheme.bodyMedium,
+                            initialSelection: model.postLocationType,
+                            dropdownMenuEntries: [
+                              DropdownMenuEntry(
+                                value: PostLocationType.all,
+                                label: l10n.all,
+                              ),
+                              DropdownMenuEntry(
+                                value: PostLocationType.local,
+                                label: l10n.local,
+                              ),
+                              DropdownMenuEntry(
+                                value: PostLocationType.remote,
+                                label: l10n.remote,
+                              ),
+                            ],
                           ),
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 12.0, bottom: 4),
+                        padding: const EdgeInsets.only(top: 4, bottom: 4),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -88,66 +107,73 @@ class FilterDialog extends StatelessWidget {
                               ),
                             ),
                             if (model.filteredTags.isNotEmpty)
-                              IconButton(
-                                icon: Icon(
+                              Touchable(
+                                child: Icon(
                                   Icons.clear,
                                   color: Theme.of(context).colorScheme.onBackground
                                 ),
-                                onPressed: () {
+                                onTap: () {
                                   model.filteredTags = [];
                                 },
                               ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.add,
-                                color: Theme.of(context).colorScheme.onBackground
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 12,
+                                top: 12,
+                                bottom: 12
                               ),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Dialog(
-                                      backgroundColor: Colors.transparent,
-                                      shadowColor: Colors.transparent,
-                                      surfaceTintColor: Colors.transparent,
-                                      child: Stack(
-                                        children: [
-                                          SingleChildScrollView(
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.all(Radius.circular(16)),
-                                              child: BlurParent(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(16),
-                                                  child: TagPicker(
-                                                    selectable: true,
-                                                    selectedTags: model.filteredTags,
-                                                    onSelect: (tags) {
-                                                      model.filteredTags = tags;
-                                                    },
-                                                  )
+                              child: Touchable(
+                                child: Icon(
+                                  Icons.add,
+                                  color: Theme.of(context).colorScheme.onBackground
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                        backgroundColor: Colors.transparent,
+                                        shadowColor: Colors.transparent,
+                                        surfaceTintColor: Colors.transparent,
+                                        child: Stack(
+                                          children: [
+                                            SingleChildScrollView(
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.all(Radius.circular(16)),
+                                                child: BlurParent(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(16),
+                                                    child: TagPicker(
+                                                      selectable: true,
+                                                      selectedTags: model.filteredTags,
+                                                      onSelect: (tags) {
+                                                        model.filteredTags = tags;
+                                                      },
+                                                    )
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Positioned(
-                                            top: 0,
-                                            right: 0,
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.close,
-                                                color: Theme.of(context).colorScheme.onSurfaceVariant
+                                            Positioned(
+                                              top: 0,
+                                              right: 0,
+                                              child: IconButton(
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  color: Theme.of(context).colorScheme.onSurfaceVariant
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
                                               ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    );
-                                  }
-                                );
-                              },
+                                            )
+                                          ],
+                                        )
+                                      );
+                                    }
+                                  );
+                                },
+                              ),
                             )
                           ],
                         ),
