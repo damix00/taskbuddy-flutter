@@ -30,6 +30,7 @@ class HomePageAppbar extends StatelessWidget {
         Consumer<HomeScreenModel>(
           builder: (context, model, child) {
             return DropdownButton(
+              underline: Container(),
               icon: Icon(
                 Icons.arrow_drop_down,
                 color: Theme.of(context).colorScheme.onSurfaceVariant

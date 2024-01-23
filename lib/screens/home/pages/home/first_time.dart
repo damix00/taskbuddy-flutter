@@ -33,13 +33,17 @@ class FirstTime extends StatelessWidget {
               children: [
                 Text(
                   l10n.welcome__s1_title,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Colors.white
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   l10n.welcome__s1_desc,
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.white
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -49,7 +53,10 @@ class FirstTime extends StatelessWidget {
                 bottom: 24,
               ),
               child: Text(
-                l10n.swipeUpToBegin
+                l10n.swipeUpToBegin,
+                style: const TextStyle(
+                  color: Colors.white
+                )
               ),
             )
           ],
