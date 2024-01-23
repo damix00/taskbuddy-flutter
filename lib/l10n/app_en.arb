@@ -476,5 +476,6 @@
   "local": "Local",
   "empty": "Empty",
   "select": "Select",
-  "clear": "Clear"
+  "clear": "Clear",
+  "noPostsFoundDesc": "We couldn''t find any posts. Try changing your filters."
 }

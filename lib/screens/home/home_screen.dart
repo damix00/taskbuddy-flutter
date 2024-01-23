@@ -271,6 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       extendBodyBehindAppBar: 4 != _currentIndex,
       extendBody: true,
+      backgroundColor: 0 == _currentIndex ? Theme.of(context).colorScheme.inverseSurface : Theme.of(context).colorScheme.background,
       bottomNavigationBar: CustomBottomNavbar(
         items: [
           BottomNavbarItem(icon: Icons.home_outlined, activeIcon: Icons.home),
@@ -330,6 +331,7 @@ class _HomeAppbarHandlerState extends State<_HomeAppbarHandler> {
   @override
   Widget build(BuildContext context) {
     return HomescreenAppbar(
+      transparent: 0 == widget.currentIndex,
       forceDisableBlur: 4 == widget.currentIndex,
       child: [
         const HomePageAppbar(),

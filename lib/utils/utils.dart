@@ -114,11 +114,11 @@ class Utils {
     return lookupMimeType(file.path)!.contains('video');
   }
 
-  static String listToString(List<String> list) {
+  static String listToString(List<dynamic> list) {
     String result = '[';
 
     for (int i = 0; i < list.length; i++) {
-      result += list[i];
+      result += list[i].toString();
 
       if (i != list.length - 1) {
         result += ', ';
@@ -127,6 +127,6 @@ class Utils {
 
     result += ']';
 
-    return result;
-  }
+    return result;  }
+
 }

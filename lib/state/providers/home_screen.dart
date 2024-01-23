@@ -1,53 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:taskbuddy/api/responses/sessions/session_response.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
 
-enum HomeScreenType {
-  suggested, following
-}
-
-enum PostLocationType {
-  all, local, remote
-}
-
-enum UrgencyType {
-  all, urgent, notUrgent
-}
-
 class HomeScreenModel extends ChangeNotifier {
-  String _sessionUuid = '';
   List<Tag> _filteredTags = [];
-  HomeScreenType _type = HomeScreenType.suggested;
-  PostLocationType _postLocationType = PostLocationType.all;
-  UrgencyType _urgencyType = UrgencyType.all;
+  int _type = SessionType.ALL;
+  int _postLocationType = LocationType.ALL;
+  int _urgencyType = UrgencyType.ALL;
   
-  String get sessionUuid => _sessionUuid;
   List<Tag> get filteredTags => _filteredTags;
-  HomeScreenType get type => _type;
-  PostLocationType get postLocationType => _postLocationType;
-  UrgencyType get urgencyType => _urgencyType;
+  int get type => _type;
+  int get postLocationType => _postLocationType;
+  int get urgencyType => _urgencyType;
   
-  set sessionUuid(String value) {
-    _sessionUuid = value;
-    notifyListeners();
-  }
-
   set filteredTags(List<Tag> value) {
     _filteredTags = value;
     notifyListeners();
   }
 
-  set type(HomeScreenType value) {
+  set type(int value) {
     _type = value;
     notifyListeners();
   }
 
-  set postLocationType(PostLocationType value) {
+  set postLocationType(int value) {
     _postLocationType = value;
     notifyListeners();
   }
 
-  set urgencyType(UrgencyType value) {
+  set urgencyType(int value) {
     _urgencyType = value;
+    notifyListeners();
+  }
+
+  void setData(int type, int postLocationType, int urgencyType, List<Tag> tags) {
+    _type = type;
+    _postLocationType = postLocationType;
+    _urgencyType = urgencyType;
+    _filteredTags = tags;
     notifyListeners();
   }
 }

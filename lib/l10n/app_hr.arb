@@ -306,5 +306,6 @@
   "local": "Lokalno",
   "empty": "Prazno",
   "select": "Odaberi",
-  "clear": "Očisti"
+  "clear": "Očisti",
+  "noPostsFoundDesc": "Nismo mogli pronaći nijednu objavu. Pokušajte promijeniti filtre."
 }
