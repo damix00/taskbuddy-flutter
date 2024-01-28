@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:taskbuddy/api/responses/reviews/review_response.dart';
-import 'package:taskbuddy/screens/profile_screen.dart';
+import 'package:taskbuddy/screens/profile/profile_screen.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/expandable.dart';

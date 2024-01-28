@@ -15,7 +15,6 @@ class DialogAction {
     required this.onPressed,
     this.isDestructiveAction = false,
   });
-
 }
 
 class CustomDialog extends StatelessWidget {

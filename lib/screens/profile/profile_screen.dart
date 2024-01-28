@@ -3,14 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
+import 'package:taskbuddy/widgets/overlays/dialog/report_dialog.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
+import 'package:taskbuddy/widgets/overlays/dialog/dialog.dart';
+import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
 import 'package:taskbuddy/widgets/screens/profile/profile_layout.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/not_found.dart';
+import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -92,7 +96,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: BlurAppbar.appBar(
-        child: AppbarTitle("@${_account?.username ?? widget.username ?? l10n.username}"),
+        child: Row(
+          children: [
+            AppbarTitle("@${_account?.username ?? widget.username ?? l10n.username}"),
+            const Spacer(),
+            if (!_isMe)
+              IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: () {
+                  CrossPlatformBottomSheet.showModal(
+                    context,
+                    [
+                      BottomSheetButton(
+                        title: l10n.report,
+                        icon: Icons.flag_outlined,
+                        onTap: (c) {
+                          // Show text input dialog
+                          showDialog(
+                            useSafeArea: false,
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                surfaceTintColor: Colors.transparent,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                  child: ReportDialog(
+                                    UUID: widget.account!.UUID,
+                                    type: ReportType.user,
+                                  )
+                                )
+                              );
+                            }
+                          );
+                        }
+                      ),
+                      BottomSheetButton(
+                        title: l10n.block,
+                        icon: Icons.block_outlined,
+                        onTap: (c) {
+                          // Show confirmation dialog
+                          CustomDialog.show(
+                            context,
+                            title: l10n.block,
+                            description: l10n.blockDesc,
+                            actions: [
+                              DialogAction(
+                                text: l10n.cancel,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                }
+                              ),
+                              DialogAction(
+                                text: l10n.block,
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+
+                                  String token = (await AccountCache.getToken())!;
+
+                                  LoadingOverlay.showLoader(context);
+
+                                  bool res = await Api.v1.accounts.block(token, widget.account!.UUID);
+
+                                  if (!res) {
+                                    SnackbarPresets.error(
+                                      context,
+                                      l10n.somethingWentWrong,
+                                    );
+
+                                    return;
+                                  }
+
+                                  SnackbarPresets.show(
+                                    context,
+                                    text: l10n.successfullyBlocked
+                                  );
+
+                                  LoadingOverlay.hideLoader(context);
+                                }
+                              )
+                            ]
+                          );
+                        }
+                      ),
+                    ]
+                  );
+                },
+              )
+          ],
+        ),
       ),
       body: _loading
         ? const Center(

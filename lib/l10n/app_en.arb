@@ -477,5 +477,11 @@
   "empty": "Empty",
   "select": "Select",
   "clear": "Clear",
-  "noPostsFoundDesc": "We couldn''t find any posts. Try changing your filters."
+  "noPostsFoundDesc": "We couldn''t find any posts. Try changing your filters.",
+  "report": "Report",
+  "reportDesc": "Tell us why you want to report this content.",
+  "reportPlaceholder": "e.g. \"This post is spam.\"",
+  "block": "Block",
+  "blockDesc": "Are you sure you want to block this user?",
+  "successfullyBlocked": "Successfully blocked!"
 }

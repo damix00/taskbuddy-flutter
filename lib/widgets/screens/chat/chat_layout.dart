@@ -20,6 +20,7 @@ import 'package:taskbuddy/widgets/screens/chat/menu/menu_sheet.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/bubble_overlay.dart';
 import 'package:taskbuddy/widgets/screens/chat/overlay/chat_screen_overlay.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 
 class ChatLayout extends StatefulWidget {
   final ChannelResponse channel;
@@ -198,6 +199,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   }
 
   Future<void> _sendMessage(String message) async {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     if (message.isNotEmpty) {
       _textController.clear();
       FocusScope.of(context).unfocus();
@@ -235,6 +238,10 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
           _sending.remove(message);
           widget.channel.lastMessages.add(result.data!);
         });
+      }
+
+      else {
+        SnackbarPresets.error(context, l10n.somethingWentWrong);
       }
     }
   }

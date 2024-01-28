@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/profile_screen.dart';
+import 'package:taskbuddy/screens/profile/profile_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';

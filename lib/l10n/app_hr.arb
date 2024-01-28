@@ -307,5 +307,11 @@
   "empty": "Prazno",
   "select": "Odaberi",
   "clear": "Očisti",
-  "noPostsFoundDesc": "Nismo mogli pronaći nijednu objavu. Pokušajte promijeniti filtre."
+  "noPostsFoundDesc": "Nismo mogli pronaći nijednu objavu. Pokušajte promijeniti filtre.",
+  "report": "Prijavi",
+  "reportDesc": "Recite nam zašto prijavljujete ovaj sadržaj.",
+  "reportPlaceholder": "npr. \"Ova je objava neprimjerena.\"",
+  "block": "Blokiraj",
+  "blockDesc": "Jeste li sigurni da želite blokirati ovog korisnika?",
+  "successfullyBlocked": "Uspješno blokirano!"
 }
