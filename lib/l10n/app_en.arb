@@ -483,5 +483,6 @@
   "reportPlaceholder": "e.g. \"This post is spam.\"",
   "block": "Block",
   "blockDesc": "Are you sure you want to block this user?",
-  "successfullyBlocked": "Successfully blocked!"
+  "successfullyBlocked": "Successfully blocked!",
+  "deviceDefault": "Device default"
 }

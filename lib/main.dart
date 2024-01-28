@@ -27,6 +27,7 @@ import 'package:taskbuddy/screens/post_screen.dart';
 import 'package:taskbuddy/screens/settings/account/account_settings.dart';
 import 'package:taskbuddy/screens/settings/appearance/appearance_settings.dart';
 import 'package:taskbuddy/screens/settings/appearance/appearance_theme.dart';
+import 'package:taskbuddy/screens/settings/application/language_settings.dart';
 import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
@@ -189,6 +190,7 @@ class _AppState extends State<App> {
       child: Consumer<PreferencesModel>(
         builder: (context, value, child) {
           return MaterialApp(
+            locale: value.preferredLanguage != '' ? Locale(value.preferredLanguage) : null,
             navigatorKey: NavigationState.navigatorKey,
             debugShowCheckedModeBanner: false,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -307,6 +309,7 @@ class _AppState extends State<App> {
               '/settings/account': (context) => const AccountSettings(),
               '/settings/appearance': (context) => const AppearanceSettings(),
               '/settings/appearance/theme': (context) => const AppearanceThemeSetting(),
+              '/settings/language': (context) => const LanguageSettings(),
               '/create-post': (context) => const CreatePostScreen(),
               '/create-post/location': (context) => const CreatePostLocation(),
               '/create-post/title': (context) => const CreatePostTitle(),
@@ -321,6 +324,14 @@ class _AppState extends State<App> {
               '/bookmarks': (context) => const BookmarksScreen(),
             },
             localeListResolutionCallback: (__, supportedLocales) {
+              log("Preferred lang: ${value.preferredLanguage}");
+
+              // If the preferred language is set, return it
+              if (value.preferredLanguage != '') {
+                // If the preferred language is set, return it
+                return Locale(value.preferredLanguage);
+              }
+
               // If the locale is supported, return it
               for (Locale supportedLocale in supportedLocales) {
                 if (Platform.localeName.split('_')[0].toLowerCase() == supportedLocale.languageCode) {

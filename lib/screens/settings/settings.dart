@@ -8,7 +8,6 @@ import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
-import 'package:app_settings/app_settings.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -75,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
                   title: l10n.language,
                   icon: Icons.translate_outlined,
                   onTap: () {
-                    AppSettings.openAppSettings(type: AppSettingsType.appLocale);
+                    Navigator.of(context).pushNamed('/settings/language');
                   },
                   value: Platform.localeName.split('_')[0].toUpperCase(),
                 ),

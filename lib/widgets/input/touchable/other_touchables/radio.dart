@@ -12,7 +12,7 @@ class RadioItem {
 }
 
 class RadioButtons extends StatelessWidget {
-  final Function onChanged;
+  final Function(int) onChanged;
   final int selected;
   final List<RadioItem> items;
 
@@ -28,46 +28,67 @@ class RadioButtons extends StatelessWidget {
     return Column(
       children: [
         ...items.map((e) {
-          return Touchable(
-            onTap: () => onChanged(items.indexOf(e)),
-            child: Container(
-              width: double.infinity,
-              color: Theme.of(context).colorScheme.background,
-              padding: EdgeInsets.symmetric(
-                vertical: e.subtitle != null ? 4 : 0
-              ),
-              child: Row(
-                children: [
-                  Radio(
-                    value: items.indexOf(e),
-                    groupValue: selected,
-                    onChanged: (value) => onChanged(value),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          e.title,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        if (e.subtitle != null)
-                          Text(
-                            e.subtitle!,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          int index = items.indexOf(e);
+          
+          return RadioButtonItem(
+            onChanged: onChanged,
+            selected: selected,
+            item: e,
+            index: index,
           );
         })
       ],
+    );
+  }
+}
+
+class RadioButtonItem extends StatelessWidget {
+  final Function(int) onChanged;
+  final int selected;
+  final RadioItem item;
+  final int index;
+
+  const RadioButtonItem({
+    Key? key,
+    required this.onChanged,
+    required this.selected,
+    required this.item,
+    required this.index,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Touchable(
+      onTap: () => onChanged(index),
+      child: Container(
+        width: double.infinity,
+        color: Theme.of(context).colorScheme.background,
+        child: Row(
+          children: [
+            Radio(
+              value: index,
+              groupValue: selected,
+              onChanged: (value) => onChanged(value!),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.title,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  if (item.subtitle != null)
+                    Text(
+                      item.subtitle!,
+                      style: Theme.of(context).textTheme.labelMedium
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

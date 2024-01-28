@@ -313,5 +313,6 @@
   "reportPlaceholder": "npr. \"Ova je objava neprimjerena.\"",
   "block": "Blokiraj",
   "blockDesc": "Jeste li sigurni da želite blokirati ovog korisnika?",
-  "successfullyBlocked": "Uspješno blokirano!"
+  "successfullyBlocked": "Uspješno blokirano!",
+  "deviceDefault": "Zadano za uređaj"
 }

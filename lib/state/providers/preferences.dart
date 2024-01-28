@@ -6,10 +6,12 @@ class PreferencesModel extends ChangeNotifier {
   bool _uiBlurEnabled = true; // Default value for UI blur preference
   ThemeMode _themeMode = ThemeMode.system; // Default value for theme mode preference
   bool _hapticFeedback = true; // Default value for haptic feedback preference
+  String _preferredLanguage = ''; // Default value for preferred language
 
   bool get uiBlurEnabled => _uiBlurEnabled; // Getter method for accessing the UI blur preference
   ThemeMode get themeMode => _themeMode; // Getter for theme mode (light, dark, system)
   bool get hapticFeedback => _hapticFeedback; // Getter for haptic feedback preference
+  String get preferredLanguage => _preferredLanguage; // Getter for preferred language
 
   // Method to set the UI blur preference value
   Future<void> setUiBlurEnabled(bool value) async {
@@ -37,12 +39,21 @@ class PreferencesModel extends ChangeNotifier {
     await prefs.setBool('hapticFeedback', value);
   }
 
+  Future<void> setPreferredLanguage(String value) async {
+    _preferredLanguage = value;
+    notifyListeners();
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('preferredLanguage', value);
+  }
+
   // Method to initialize the model with stored preference values
   Future<void> init() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _uiBlurEnabled = prefs.getBool('uiBlurEnabled') ?? true; // Get stored value or use default
     _themeMode = ThemeMode.values[prefs.getInt('themeMode') ?? 0]; // Get stored value or use default
     _hapticFeedback = prefs.getBool('hapticFeedback') ?? true;
+    _preferredLanguage = prefs.getString('preferredLanguage') ?? '';
     notifyListeners(); // Notify listeners of the initial values
   }
 }
