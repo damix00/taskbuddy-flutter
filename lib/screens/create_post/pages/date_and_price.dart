@@ -89,33 +89,29 @@ class _PageContentState extends State<_PageContent> {
             spacing: Sizing.inputSpacing,
             runSpacing: Sizing.inputSpacing,
             children: [
-              Expanded(
-                child: DatePicker(
-                  label: l10n.startDate,
-                  value: _startDate,
-                  maxDate: _endDate,
-                  onChanged: (value) {
-                    setState(() {
-                      _startDate = value;
-                      CreatePostState.startDate = value;
-                    });
-                  }
-                ),
+              DatePicker(
+                label: l10n.startDate,
+                value: _startDate,
+                maxDate: _endDate,
+                onChanged: (value) {
+                  setState(() {
+                    _startDate = value;
+                    CreatePostState.startDate = value;
+                  });
+                }
               ),
-              Expanded(
-                child: DatePicker(
-                  label: l10n.endDate,
-                  value: _endDate,
-                  minDate: _startDate,
-                  // 7 days if urgent, 1 year if not
-                  maxDate: _startDate.add(Duration(days: CreatePostState.isUrgent ? 7 : 365)),
-                  onChanged: (value) {
-                    setState(() {
-                      _endDate = value;
-                      CreatePostState.endDate = value;
-                    });
-                  }
-                ),
+              DatePicker(
+                label: l10n.endDate,
+                value: _endDate,
+                minDate: _startDate,
+                // 7 days if urgent, 1 year if not
+                maxDate: _startDate.add(Duration(days: CreatePostState.isUrgent ? 7 : 365)),
+                onChanged: (value) {
+                  setState(() {
+                    _endDate = value;
+                    CreatePostState.endDate = value;
+                  });
+                }
               ),
             ],
           ),
