@@ -490,5 +490,6 @@
   "friendsPageDesc": "Your friends are listed here. Friends are people you follow and who follow you back.",
   "noFriends": "You have no friends yet :(",
   "interestsPageDesc": "Your interests are listed here. Interests are used to show you the most relevant content.",
-  "noInterests": "We haven''t collected any interests yet. Continue using the app to see your interests."
+  "noInterests": "We haven''t collected any interests yet. Continue using the app to see your interests.",
+  "successfullyReported": "Successfully reported! Thank you for helping us keep TaskBuddy safe."
 }

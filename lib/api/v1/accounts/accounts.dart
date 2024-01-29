@@ -313,4 +313,32 @@ class Accounts {
 
     return reviews;
   }
+
+  Future<bool> report(String token, String UUID, String reason) async {
+    try {
+      var response = await Requests.fetchEndpoint(
+        "${ApiOptions.path}/accounts/${Uri.encodeComponent(UUID)}/report",
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+        data: {
+          "reason": reason,
+        }
+      );
+
+      if (response == null) {
+        return false;
+      }
+
+      if (response.timedOut || response.response?.statusCode != 200) {
+        return false;
+      }
+
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
 }

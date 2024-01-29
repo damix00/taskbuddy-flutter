@@ -124,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: ClipRRect(
                                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                                   child: ReportDialog(
-                                    UUID: widget.account!.UUID,
+                                    UUID: widget.account?.UUID ?? widget.UUID!,
                                     type: ReportType.user,
                                   )
                                 )

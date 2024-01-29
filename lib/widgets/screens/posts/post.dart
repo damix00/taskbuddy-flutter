@@ -15,6 +15,7 @@ import 'package:taskbuddy/utils/haptic_feedback.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
+import 'package:taskbuddy/widgets/overlays/dialog/report_dialog.dart';
 import 'package:taskbuddy/widgets/screens/compose_message/compose_message.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_description.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
@@ -53,7 +54,30 @@ class _PostLayoutState extends State<PostLayout> {
     AppLocalizations l10n = AppLocalizations.of(context)!;
     String token = (await AccountCache.getToken())!;
 
-    List<BottomSheetButton> buttons = [];
+    List<BottomSheetButton> buttons = [
+      BottomSheetButton(
+        title: l10n.report,
+        icon: Icons.flag_outlined,
+        onTap: (c) {
+          showDialog(
+            useSafeArea: false,
+            context: context,
+            builder: (ctx) => Dialog(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: ReportDialog(
+                  UUID: _post.UUID,
+                  type: ReportType.post,
+                )
+              )
+            )
+          );
+        },
+      ),
+    ];
 
     if (_post.user.isMe) {
       buttons.add(BottomSheetButton(

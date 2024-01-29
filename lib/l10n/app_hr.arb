@@ -320,5 +320,6 @@
   "friendsPageDesc": "Ovdje su navedeni vaši prijatelji. Prijatelji su ljudi koje pratite i koji vas prate natrag.",
   "noFriends": "Za sad nemate prijatelja :(",
   "interestsPageDesc": "Ovdje su navedeni vaši interesi. Interesi se koriste za prikazivanje relevantnih poslova u vašem feedu.",
-  "noInterests": "Još nismo prikupili nijedan interes. Nastavite koristiti aplikaciju da biste vidjeli svoje interese."
+  "noInterests": "Još nismo prikupili nijedan interes. Nastavite koristiti aplikaciju da biste vidjeli svoje interese.",
+  "successfullyReported": "Uspješno prijavljeno! Hvala Vam što nam pomažete održavati TaskBuddy sigurnim."
 }

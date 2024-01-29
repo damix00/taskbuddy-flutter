@@ -186,4 +186,27 @@ class Posts {
       return ApiResponse(status: 500, message: "", ok: false);
     }
   }
+
+  Future<bool> reportPost(String token, String postUuid, String report) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/posts/${Uri.encodeComponent(postUuid)}/report",
+      method: "POST",
+      data: {
+        "reason": report,
+      },
+      headers: {
+        "Authorization": "Bearer $token",
+      }
+    );
+
+    if (response == null) {
+      return false;
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
 }
