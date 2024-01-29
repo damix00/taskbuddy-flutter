@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:taskbuddy/api/responses/reviews/review_response.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/profile/profile_screen.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/expandable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/overlays/dialog/report_dialog.dart';
+import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 
 class ReviewAccountData extends StatelessWidget {
   final ReviewResponse review;
@@ -67,24 +70,73 @@ class Review extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Touchable(
-          onTap: () {
-            Navigator.of(context).push(
-              CupertinoPageRoute(
-                builder: (context) => ProfileScreen(
-                  UUID: review.user.UUID,
-                  username: review.user.username,
-                )
-              )
-            );
-          },
-          child: ReviewAccountData(
-            review: review,
-            otherUsername: otherUsername
-          ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Touchable(
+              onTap: () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (context) => ProfileScreen(
+                      UUID: review.user.UUID,
+                      username: review.user.username,
+                    )
+                  )
+                );
+              },
+              child: ReviewAccountData(
+                review: review,
+                otherUsername: otherUsername
+              ),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              onPressed: () async {
+                CrossPlatformBottomSheet.showModal(
+                  context,
+                  [
+                    BottomSheetButton(
+                      title: l10n.report,
+                      icon: Icons.flag_outlined,
+                      onTap: (c) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                            shadowColor: Colors.transparent,
+                            backgroundColor: Colors.transparent,
+                            surfaceTintColor: Colors.transparent,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: ReportDialog(
+                                UUID: review.UUID,
+                                type: ReportType.review,
+                              ),
+                            ),
+                          )
+                        );
+                      }
+                    ),
+                    if (review.user.isMe)
+                      BottomSheetButton(
+                        title: l10n.deleteText,
+                        icon: Icons.delete_outline,
+                        onTap: (c) {
+                        }
+                      )
+                  ]
+                );
+              }
+            )
+          ],
         ),
         const SizedBox(height: 8),
         RatingBarIndicator(
