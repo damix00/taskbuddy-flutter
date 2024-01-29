@@ -30,6 +30,8 @@ import 'package:taskbuddy/screens/settings/appearance/appearance_theme.dart';
 import 'package:taskbuddy/screens/settings/application/language_settings.dart';
 import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/screens/settings/social/blocked.dart';
+import 'package:taskbuddy/screens/settings/social/friends.dart';
+import 'package:taskbuddy/screens/settings/social/interests.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
@@ -314,6 +316,8 @@ class _AppState extends State<App> {
               '/settings/appearance/theme': (context) => const AppearanceThemeSetting(),
               '/settings/language': (context) => const LanguageSettings(),
               '/settings/social/blocked': (context) => const BlockedUsers(),
+              '/settings/social/friends': (context) => const FriendsScreen(),
+              '/settings/social/interests': (context) => const InterestsScreen(),
               '/create-post': (context) => const CreatePostScreen(),
               '/create-post/location': (context) => const CreatePostLocation(),
               '/create-post/title': (context) => const CreatePostTitle(),

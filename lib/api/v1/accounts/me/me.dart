@@ -60,4 +60,80 @@ class MeRoute {
 
     return blockedUsers;
   }
+
+  Future<List<PublicAccountResponse>> getFriends(String authToken, {
+    int offset = 0,
+  }) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/accounts/me/friends?offset=$offset",
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer $authToken",
+      },
+    );
+
+    if (response == null) {
+      return [];
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return [];
+    }
+
+    List<PublicAccountResponse> friends = [];
+
+    for (var friend in response.response!.data["friends"]) {
+      friends.add(PublicAccountResponse.fromJson(friend));
+    }
+
+    return friends;
+  }
+
+  Future<List<int>> getInterests(String token, {
+    int offset = 0
+  }) async {
+        var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/accounts/me/interests?offset=$offset",
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response == null) {
+      return [];
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return [];
+    }
+
+    List<int> interests = [];
+
+    for (var id in response.response!.data["interests"]) {
+      interests.add(int.parse(id.toString()));
+    }
+
+    return interests;
+  }
+
+  Future<bool> deleteInterest(String token, int id) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/accounts/me/interests/$id",
+      method: "DELETE",
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response == null) {
+      return false;
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
 }

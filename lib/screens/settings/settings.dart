@@ -83,7 +83,13 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
             SettingsSection(
               title: l10n.social,
               children: [
-                SettingsNavigation(title: l10n.friends, icon: Icons.group_outlined, onTap: () {}),
+                SettingsNavigation(
+                  title: l10n.friends,
+                  icon: Icons.group_outlined,
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/settings/social/friends');
+                  }
+                ),
                 SettingsNavigation(
                   title: l10n.blockedUsers,
                   icon: Icons.block_outlined,
@@ -91,7 +97,14 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
                     Navigator.of(context).pushNamed('/settings/social/blocked');
                   }
                 ),
-                SettingsNavigation(title: l10n.interests, subtitle: l10n.interestsDesc, icon: Icons.interests_outlined, onTap: () {}),
+                SettingsNavigation(
+                  title: l10n.interests,
+                  subtitle: l10n.interestsDesc,
+                  icon: Icons.interests_outlined,
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/settings/social/interests');
+                  }
+                ),
               ]
             ),
             SettingsSection(

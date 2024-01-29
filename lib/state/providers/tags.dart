@@ -66,4 +66,14 @@ class TagModel extends ChangeNotifier {
 
     isLoading = false;
   }
+
+  String getCategoryName(int id, Locale locale) {
+    for (var category in categories) {
+      if (category.id == id) {
+        return category.translations[locale.languageCode] ?? category.translations['en'] ?? '';
+      }
+    }
+
+    return '';
+  }
 }
