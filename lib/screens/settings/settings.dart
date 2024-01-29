@@ -84,7 +84,13 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
               title: l10n.social,
               children: [
                 SettingsNavigation(title: l10n.friends, icon: Icons.group_outlined, onTap: () {}),
-                SettingsNavigation(title: l10n.blockedUsers, icon: Icons.block_outlined, onTap: () {}),
+                SettingsNavigation(
+                  title: l10n.blockedUsers,
+                  icon: Icons.block_outlined,
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/settings/social/blocked');
+                  }
+                ),
                 SettingsNavigation(title: l10n.interests, subtitle: l10n.interestsDesc, icon: Icons.interests_outlined, onTap: () {}),
               ]
             ),

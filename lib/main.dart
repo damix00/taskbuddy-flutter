@@ -29,6 +29,7 @@ import 'package:taskbuddy/screens/settings/appearance/appearance_settings.dart';
 import 'package:taskbuddy/screens/settings/appearance/appearance_theme.dart';
 import 'package:taskbuddy/screens/settings/application/language_settings.dart';
 import 'package:taskbuddy/screens/settings/settings.dart';
+import 'package:taskbuddy/screens/settings/social/blocked.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
@@ -53,6 +54,8 @@ void main() {
   // Add a custom splash screen so we can manually remove it
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  ErrorWidget.builder = (details) => Container(); // Hide the error widget
 
   runApp(
     MultiProvider(
@@ -310,6 +313,7 @@ class _AppState extends State<App> {
               '/settings/appearance': (context) => const AppearanceSettings(),
               '/settings/appearance/theme': (context) => const AppearanceThemeSetting(),
               '/settings/language': (context) => const LanguageSettings(),
+              '/settings/social/blocked': (context) => const BlockedUsers(),
               '/create-post': (context) => const CreatePostScreen(),
               '/create-post/location': (context) => const CreatePostLocation(),
               '/create-post/title': (context) => const CreatePostTitle(),

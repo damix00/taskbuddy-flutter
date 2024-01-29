@@ -484,5 +484,7 @@
   "block": "Block",
   "blockDesc": "Are you sure you want to block this user?",
   "successfullyBlocked": "Successfully blocked!",
-  "deviceDefault": "Device default"
+  "deviceDefault": "Device default",
+  "unblock": "Unblock",
+  "cannotViewProfile": "You cannot view this profile."
 }

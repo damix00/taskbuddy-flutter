@@ -23,8 +23,9 @@ class ProfileScreen extends StatefulWidget {
   final String? UUID;
   final String? username;
   final PublicAccountResponse? account;
+  final bool blocked;
 
-  const ProfileScreen({Key? key, this.UUID, this.username, this.account}) : super(key: key);
+  const ProfileScreen({Key? key, this.UUID, this.username, this.account, this.blocked = false}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -132,54 +133,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           );
                         }
                       ),
-                      BottomSheetButton(
-                        title: l10n.block,
-                        icon: Icons.block_outlined,
-                        onTap: (c) {
-                          // Show confirmation dialog
-                          CustomDialog.show(
-                            context,
-                            title: l10n.block,
-                            description: l10n.blockDesc,
-                            actions: [
-                              DialogAction(
-                                text: l10n.cancel,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                }
-                              ),
-                              DialogAction(
-                                text: l10n.block,
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
+                      if (!widget.blocked)
+                        BottomSheetButton(
+                          title: l10n.block,
+                          icon: Icons.block_outlined,
+                          onTap: (c) {
+                            // Show confirmation dialog
+                            CustomDialog.show(
+                              context,
+                              title: l10n.block,
+                              description: l10n.blockDesc,
+                              actions: [
+                                DialogAction(
+                                  text: l10n.cancel,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }
+                                ),
+                                DialogAction(
+                                  text: l10n.block,
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
 
-                                  String token = (await AccountCache.getToken())!;
+                                    String token = (await AccountCache.getToken())!;
 
-                                  LoadingOverlay.showLoader(context);
+                                    LoadingOverlay.showLoader(context);
 
-                                  bool res = await Api.v1.accounts.block(token, widget.account!.UUID);
+                                    bool res = await Api.v1.accounts.block(token, widget.account!.UUID);
 
-                                  if (!res) {
-                                    SnackbarPresets.error(
+                                    if (!res) {
+                                      SnackbarPresets.error(
+                                        context,
+                                        l10n.somethingWentWrong,
+                                      );
+
+                                      return;
+                                    }
+
+                                    SnackbarPresets.show(
                                       context,
-                                      l10n.somethingWentWrong,
+                                      text: l10n.successfullyBlocked
                                     );
 
-                                    return;
+                                    LoadingOverlay.hideLoader(context);
                                   }
-
-                                  SnackbarPresets.show(
-                                    context,
-                                    text: l10n.successfullyBlocked
-                                  );
-
-                                  LoadingOverlay.hideLoader(context);
-                                }
-                              )
-                            ]
-                          );
-                        }
-                      ),
+                                )
+                              ]
+                            );
+                          }
+                        ),
                     ]
                   );
                 },
@@ -193,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         : _notFound
           ? const NotFound()
-          : _ProfileScreenContent(account: _account!, isMe: _isMe,),
+          : _ProfileScreenContent(account: _account!, isMe: _isMe, blocked: widget.blocked,),
     );
   }
 }
@@ -201,8 +203,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 class _ProfileScreenContent extends StatefulWidget {
   final PublicAccountResponse account;
   final bool isMe;
+  final bool blocked;
 
-  const _ProfileScreenContent({Key? key, required this.account, required this.isMe}) : super(key: key);
+  const _ProfileScreenContent({Key? key, required this.account, required this.isMe, this.blocked = false}) : super(key: key);
 
   @override
   State<_ProfileScreenContent> createState() => _ProfileScreenContentState();
@@ -214,6 +217,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
     return ProfileLayout(
+      blocked: widget.blocked,
       profilePicture: widget.account.profile.profilePicture,
       fullName: "${widget.account.firstName} ${widget.account.lastName}",
       followers: Utils.formatNumber(widget.account.profile.followers),
@@ -238,49 +242,50 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       UUID: widget.account.UUID,
       username: widget.account.username,
       actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
-          child: SlimButton(
-            type: ButtonType.outlined,
-            child: Text(
-              widget.isMe ? l10n.editProfile : (widget.account.isFollowing ? AppLocalizations.of(context)!.unfollow : AppLocalizations.of(context)!.follow),
-            ),
-            onPressed: () async {
-              if (widget.isMe) {
-                Navigator.of(context).pushNamed('/profile/edit');
-                return;
-              }
+        if (!widget.blocked)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
+            child: SlimButton(
+              type: ButtonType.outlined,
+              child: Text(
+                widget.isMe ? l10n.editProfile : (widget.account.isFollowing ? AppLocalizations.of(context)!.unfollow : AppLocalizations.of(context)!.follow),
+              ),
+              onPressed: () async {
+                if (widget.isMe) {
+                  Navigator.of(context).pushNamed('/profile/edit');
+                  return;
+                }
 
-              String token = (await AccountCache.getToken())!;
+                String token = (await AccountCache.getToken())!;
 
-              bool res = false;
+                bool res = false;
 
-              if (widget.account.isFollowing) {
-                res = await Api.v1.accounts.unfollow(token, widget.account.UUID);
-              } else {
-                res = await Api.v1.accounts.follow(token, widget.account.UUID);
-              }
+                if (widget.account.isFollowing) {
+                  res = await Api.v1.accounts.unfollow(token, widget.account.UUID);
+                } else {
+                  res = await Api.v1.accounts.follow(token, widget.account.UUID);
+                }
 
-              if (!res) {
-                SnackbarPresets.error(
+                if (!res) {
+                  SnackbarPresets.error(
+                    context,
+                    l10n.somethingWentWrong,
+                  );
+
+                  return;
+                }
+
+                SnackbarPresets.show(
                   context,
-                  l10n.somethingWentWrong,
+                  text: widget.account.isFollowing ? l10n.successfullyUnfollowed : l10n.successfullyFollowed
                 );
 
-                return;
-              }
-
-              SnackbarPresets.show(
-                context,
-                text: widget.account.isFollowing ? l10n.successfullyUnfollowed : l10n.successfullyFollowed
-              );
-
-              setState(() {
-                widget.account.isFollowing = !widget.account.isFollowing;
-              });
-            },
-          ),
-        )
+                setState(() {
+                  widget.account.isFollowing = !widget.account.isFollowing;
+                });
+              },
+            ),
+          )
       ]
     );
   }

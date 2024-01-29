@@ -28,6 +28,7 @@ class ProfileLayout extends StatefulWidget {
   final String locationText;
   final bool isMe;
   final String username;
+  final bool blocked;
 
   const ProfileLayout(
       {required this.profilePicture,
@@ -44,6 +45,7 @@ class ProfileLayout extends StatefulWidget {
       required this.employeeCancelRate,
       required this.locationText,
       required this.username,
+      this.blocked = false,
       this.isMe = false,
       this.UUID,
       Key? key})
@@ -84,32 +86,36 @@ class _ProfileLayoutState extends State<ProfileLayout> {
           }
         },
         child: NestedScrollView(
-          body: Column(
-            children: [
-              TabBar(
-                tabs: [
-                  Tab(
-                    text: AppLocalizations.of(context)!.listings,
-                  ),
-                  Tab(
-                    text: AppLocalizations.of(context)!.reviews,
-                  ),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    ProfilePosts(
-                      isMe: widget.isMe,
-                      controller: _postsController,
-                      UUID: widget.UUID,
+          body: widget.blocked
+            ? Center(
+                child: Text(AppLocalizations.of(context)!.cannotViewProfile),
+              )
+            : Column(
+              children: [
+                TabBar(
+                  tabs: [
+                    Tab(
+                      text: AppLocalizations.of(context)!.listings,
                     ),
-                    ProfileReviews(isMe: widget.isMe, UUID: widget.UUID, username: widget.username, controller: _reviewsController)
+                    Tab(
+                      text: AppLocalizations.of(context)!.reviews,
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      ProfilePosts(
+                        isMe: widget.isMe,
+                        controller: _postsController,
+                        UUID: widget.UUID,
+                      ),
+                      ProfileReviews(isMe: widget.isMe, UUID: widget.UUID, username: widget.username, controller: _reviewsController)
+                    ],
+                  ),
+                ),
+              ],
+            ),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverList(

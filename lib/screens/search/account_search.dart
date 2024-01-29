@@ -4,13 +4,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/profile/profile_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
-import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
-import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:taskbuddy/widgets/ui/tiles/account_tile.dart';
 
 class SearchResultsAccounts extends StatefulWidget {
   final String query;
@@ -92,9 +90,45 @@ class _SearchResultsAccountsState extends State<SearchResultsAccounts> with Auto
                 _load();
               }
 
+              var account = _accounts[index];
+
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: Sizing.horizontalPadding / 2, horizontal: Sizing.horizontalPadding),
-                child: _SearchResultsAccount(account: _accounts[index]),
+                child: AccountTile(
+                  account: _accounts[index],
+                  trailing: FeedSlimButton(
+                    onPressed: () async {
+                      String token = (await AccountCache.getToken())!;
+
+                      bool res = false;
+
+                      if (account.isFollowing) {
+                        res = await Api.v1.accounts.unfollow(token, account.UUID);
+
+                        if (res) {
+                          SnackbarPresets.show(context, text: l10n.successfullyUnfollowed);
+                        }
+                      } else {
+                        res = await Api.v1.accounts.follow(token, account.UUID);
+
+                        if (res) {
+                          SnackbarPresets.show(context, text: l10n.successfullyFollowed);
+                        }
+                      }
+
+                      if (res) {
+                        setState(() {
+                          account.isFollowing = !account.isFollowing;
+                        });
+                      }
+
+                      else {
+                        SnackbarPresets.error(context, l10n.somethingWentWrong);
+                      }
+                    },
+                    child: account.isFollowing ? Text(l10n.unfollow) : Text(l10n.follow),
+                  ),
+                ),
               );
             },
           ),
@@ -105,107 +139,4 @@ class _SearchResultsAccountsState extends State<SearchResultsAccounts> with Auto
   
   @override
   bool get wantKeepAlive => true;
-}
-
-class _SearchResultsAccount extends StatefulWidget {
-  final PublicAccountResponse account;
-
-  const _SearchResultsAccount({Key? key, required this.account}) : super(key: key);
-
-  @override
-  State<_SearchResultsAccount> createState() => _SearchResultsAccountState();
-}
-
-class _SearchResultsAccountState extends State<_SearchResultsAccount> {
-  late PublicAccountResponse _account;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _account = widget.account;
-  }
-
-  void _openAccount() {
-    Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) => ProfileScreen(
-          UUID: _account.UUID,
-          username: _account.username,
-          account: _account,
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    AppLocalizations l10n = AppLocalizations.of(context)!;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Touchable(
-          onTap: _openAccount,
-          child: SizedBox(
-            width: 36,
-            height: 36,
-            child: ProfilePictureDisplay(size: 36, iconSize: 20, profilePicture: _account.profile.profilePicture)
-          ),
-        ),
-        const SizedBox(width: 12,),
-        Expanded(
-          child: Touchable(
-            onTap: _openAccount,
-            child: Text(
-              "@${_account.username}",
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ),
-        ),
-
-        if (_account.verified)
-          const SizedBox(width: 4,),
-        if (_account.verified)
-          const Icon(Icons.verified, size: 16, color: Colors.blue,),
-
-        if (!_account.isMe)
-          FeedSlimButton(
-            onPressed: () async {
-              String token = (await AccountCache.getToken())!;
-
-              bool res = false;
-
-              if (_account.isFollowing) {
-                res = await Api.v1.accounts.unfollow(token, _account.UUID);
-
-                if (res) {
-                  SnackbarPresets.show(context, text: l10n.successfullyUnfollowed);
-                }
-              } else {
-                res = await Api.v1.accounts.follow(token, _account.UUID);
-
-                if (res) {
-                  SnackbarPresets.show(context, text: l10n.successfullyFollowed);
-                }
-              }
-
-              if (res) {
-                setState(() {
-                  _account.isFollowing = !_account.isFollowing;
-                });
-              }
-
-              else {
-                SnackbarPresets.error(context, l10n.somethingWentWrong);
-              }
-            },
-            child: _account.isFollowing ? Text(l10n.unfollow) : Text(l10n.follow),
-          )
-      ],
-    );
-  }
 }

@@ -314,5 +314,7 @@
   "block": "Blokiraj",
   "blockDesc": "Jeste li sigurni da želite blokirati ovog korisnika?",
   "successfullyBlocked": "Uspješno blokirano!",
-  "deviceDefault": "Zadano za uređaj"
+  "deviceDefault": "Zadano za uređaj",
+  "unblock": "Odblokiraj",
+  "cannotViewProfile": "Ne možete vidjeti profil ovog korisnika."
 }
