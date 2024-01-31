@@ -12,7 +12,7 @@ class ChatInput extends StatelessWidget {
     Key? key,
     required this.onSend,
     required this.controller,
-    required this.onMorePressed
+    required this.onMorePressed,
   }) : super(key: key);
 
   @override

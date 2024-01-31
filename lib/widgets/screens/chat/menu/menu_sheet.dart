@@ -1,11 +1,15 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/state/remote_config.dart';
+import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
+import 'package:taskbuddy/widgets/screens/chat/input/attachments.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/sheet_action.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/sheet_divider.dart';
@@ -14,8 +18,14 @@ import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 class MenuSheet extends StatelessWidget {
   final ChannelResponse channel;
   final Function(MessageResponse) onMessage;
+  final Function(CurrentAttachment) onAttachment;
 
-  const MenuSheet({Key? key, required this.channel, required this.onMessage}) : super(key: key);
+  const MenuSheet({
+    Key? key,
+    required this.channel,
+    required this.onMessage,
+    required this.onAttachment
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +61,41 @@ class MenuSheet extends StatelessWidget {
                 ),
               ),
               SheetAction(
-                onPressed: () {},
+                onPressed: () async {
+                  var picker = ImagePicker();
+
+                  var files = await picker.pickMultipleMedia();
+
+                  for (var file in files) {
+                    onAttachment(
+                      CurrentAttachment(
+                        file,
+                        Utils.isVideo(file) ? CurrentAttachmentType.VIDEO : CurrentAttachmentType.IMAGE,
+                      )
+                    );
+                  }
+                },
                 label: l10n.media,
                 icon: Icons.image_outlined,
               ),
               SheetAction(
-                onPressed: () {},
+                onPressed: () async {
+                  var result = await FilePicker.platform.pickFiles(
+                    type: FileType.custom,
+                    allowedExtensions: ['pdf', 'doc', 'docx', 'txt', 'rtf', 'odt', 'ppt', 'pptx', 'csv', 'xls', 'xlsx'],
+                  );
+
+                  if (result == null) return;
+
+                  for (var file in result.files) {
+                    onAttachment(
+                      CurrentAttachment(
+                        XFile(file.path!),
+                        CurrentAttachmentType.FILE,
+                      )
+                    );
+                  }
+                },
                 label: l10n.files,
                 icon: Icons.insert_drive_file_outlined,
               ),

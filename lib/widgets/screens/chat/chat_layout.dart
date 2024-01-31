@@ -13,7 +13,8 @@ import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/state/static/messages_state.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
-import 'package:taskbuddy/widgets/screens/chat/chat_input.dart';
+import 'package:taskbuddy/widgets/screens/chat/input/attachments.dart';
+import 'package:taskbuddy/widgets/screens/chat/input/chat_input.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_list.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_post_info.dart';
 import 'package:taskbuddy/widgets/screens/chat/menu/menu_sheet.dart';
@@ -52,6 +53,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   int _messageY = 0;
 
   MessageResponse? _currentMessage;
+  List<CurrentAttachment> _currentAttachments = [];
 
   Future<void> _markAsSeen() async {
     String token = (await AccountCache.getToken())!;
@@ -438,7 +440,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                 // Padding
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: MediaQuery.of(context).padding.bottom + 44 + 12 + 16,
+                    height: MediaQuery.of(context).padding.bottom + 44 + 12 + 16 + (_currentAttachments.isNotEmpty ? 116 : 0)
                   )
                 ),
               ],
@@ -454,34 +456,52 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                   noBlurColor: Theme.of(context).colorScheme.background,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 12),
-                    child: Container(
-                      height: MediaQuery.of(context).padding.bottom + 44 + 12,
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.bottom + 12,
-                        left: 16,
-                        right: 16,
-                      ),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(32)),
-                        child: BlurParent(
-                          child: ChatInput(
-                            controller: _textController,
-                            onSend: _sendMessage,
-                            onMorePressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                builder: (context,) {
-                                  return MenuSheet(
-                                    channel: channel,
-                                    onMessage: _addMessage
-                                  );
-                                }
-                              );
+                    child: Column(
+                      children: [
+                        if (_currentAttachments.isNotEmpty)
+                          AttachmentsDiplay(
+                            attachments: _currentAttachments,
+                            onAttachmentsChanged: (attachments) {
+                              setState(() {
+                                _currentAttachments = attachments;
+                              });
                             },
                           ),
+                        Container(
+                          height: MediaQuery.of(context).padding.bottom + 44 + 12,
+                          padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).padding.bottom + 12,
+                            left: 16,
+                            right: 16,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(Radius.circular(32)),
+                            child: BlurParent(
+                              child: ChatInput(
+                                controller: _textController,
+                                onSend: _sendMessage,
+                                onMorePressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context,) {
+                                      return MenuSheet(
+                                        channel: channel,
+                                        onMessage: _addMessage,
+                                        onAttachment: (attachment) {
+                                          setState(() {
+                                            _currentAttachments.add(attachment);
+                                          });
+                                        },
+                                      );
+                                    }
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 )
