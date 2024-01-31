@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/reviews/review_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/profile/profile_screen.dart';
@@ -10,6 +11,8 @@ import 'package:taskbuddy/widgets/input/with_state/expandable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/overlays/dialog/report_dialog.dart';
+import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 
 class ReviewAccountData extends StatelessWidget {
@@ -65,8 +68,14 @@ class ReviewAccountData extends StatelessWidget {
 class Review extends StatelessWidget {
   final ReviewResponse review;
   final String otherUsername;
+  final VoidCallback? onDeleted;
 
-  const Review({ Key? key, required this.review, required this.otherUsername }) : super(key: key);
+  const Review({
+    Key? key,
+    required this.review,
+    required this.otherUsername,
+    this.onDeleted
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +138,25 @@ class Review extends StatelessWidget {
                       BottomSheetButton(
                         title: l10n.deleteText,
                         icon: Icons.delete_outline,
-                        onTap: (c) {
+                        onTap: (c) async {
+                          LoadingOverlay.showLoader(context);
+
+                          bool res = await Api.v1.reviews.deleteReview(
+                            (await AccountCache.getToken())!,
+                            review.UUID
+                          );
+
+                          LoadingOverlay.hideLoader(context);
+
+                          if (!res) {
+                            SnackbarPresets.error(
+                              context,
+                              l10n.somethingWentWrong
+                            );
+                          } else {
+                            onDeleted?.call();
+                            SnackbarPresets.show(context, text: l10n.successfullyDeleted);
+                          }
                         }
                       )
                   ]

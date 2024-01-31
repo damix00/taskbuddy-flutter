@@ -153,6 +153,11 @@ class _ProfilePostsState extends State<ProfileReviews> with AutomaticKeepAliveCl
           child: Review(
             review: _reviews[index],
             otherUsername: widget.username,
+            onDeleted: () {
+              setState(() {
+                _reviews.removeAt(index);
+              });
+            },
           ),
         );
       },

@@ -225,13 +225,13 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       listings: Utils.formatNumber(widget.account.profile.posts),
       jobsDone: Utils.formatNumber(widget.account.profile.completedEmployee + widget.account.profile.completedEmployer),
       bio: widget.account.profile.bio,
-      employerRating: widget.account.profile.posts > 0 ? widget.account.profile.ratingEmployer / widget.account.profile.posts : 0,
+      employerRating: widget.account.profile.ratingEmployer,
       employerCancelRate: widget.account.profile.cancelledEmployer > 0 && widget.account.profile.completedEmployer == 0 
         ? 100
         : widget.account.profile.cancelledEmployer > 0 && widget.account.profile.completedEmployer > 0
           ? (widget.account.profile.cancelledEmployer / widget.account.profile.completedEmployer) * 100
           : 0,
-      employeeRating: widget.account.profile.posts > 0 ? widget.account.profile.ratingEmployee / widget.account.profile.posts : 0,
+      employeeRating: widget.account.profile.ratingEmployee,
       employeeCancelRate: widget.account.profile.cancelledEmployee > 0 && widget.account.profile.completedEmployee == 0 
         ? 100
         : widget.account.profile.cancelledEmployee > 0 && widget.account.profile.completedEmployee > 0
@@ -241,6 +241,24 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       isMe: widget.isMe,
       UUID: widget.account.UUID,
       username: widget.account.username,
+      refresh: () async {
+        String token = (await AccountCache.getToken())!;
+
+        var account = await Api.v1.accounts.fetchAccount(token, widget.account.UUID);
+
+        if (!account.ok) {
+          SnackbarPresets.error(
+            context,
+            l10n.somethingWentWrong,
+          );
+
+          return;
+        }
+
+        setState(() {
+          widget.account.profile = account.data!.profile;
+        });
+      },
       actions: [
         if (!widget.blocked)
           Padding(

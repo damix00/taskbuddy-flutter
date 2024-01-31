@@ -24,8 +24,7 @@ class MenuSheet extends StatelessWidget {
 
     bool showEmployerOptions = channel.isPostCreator && (
       channel.status == ChannelStatus.PENDING ||
-      channel.status == ChannelStatus.CANCELLED ||
-      channel.status == ChannelStatus.ACCEPTED
+      channel.status == ChannelStatus.CANCELLED
     );
 
     return ClipRRect(

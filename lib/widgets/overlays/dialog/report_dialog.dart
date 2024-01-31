@@ -97,6 +97,8 @@ class _ReportDialogState extends State<ReportDialog> {
                         res = await Api.v1.accounts.report(token, widget.UUID, _report);
                       } else if (widget.type == ReportType.post) {
                         res = await Api.v1.posts.reportPost(token, widget.UUID, _report);
+                      } else if (widget.type == ReportType.review) {
+                        res = await Api.v1.reviews.reportReview(token, widget.UUID, _report);
                       }
 
                       LoadingOverlay.hideLoader(context);

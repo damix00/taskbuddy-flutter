@@ -29,6 +29,7 @@ class ProfileLayout extends StatefulWidget {
   final bool isMe;
   final String username;
   final bool blocked;
+  final VoidCallback? refresh;
 
   const ProfileLayout(
       {required this.profilePicture,
@@ -48,6 +49,7 @@ class ProfileLayout extends StatefulWidget {
       this.blocked = false,
       this.isMe = false,
       this.UUID,
+      this.refresh,
       Key? key})
       : super(key: key);
 
@@ -71,6 +73,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
 
           _postsController.refresh!();
           _reviewsController.refresh!();
+          widget.refresh?.call();
 
           if (widget.isMe) {
             var data = await Api.v1.accounts.me(token);
