@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/socket/socket.dart';
+import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/settings/items/button.dart';
 import 'package:taskbuddy/screens/settings/items/navigation.dart';
 import 'package:taskbuddy/screens/settings/section.dart';
@@ -67,6 +69,10 @@ class AccountSettings extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
+                  String token = (await AccountCache.getToken())!;
+
+                  await Api.v1.accounts.meRoute.logout(token);
+
                   await Provider.of<AuthModel>(context, listen: false).logout();
                   Provider.of<MessagesModel>(context, listen: false).clear();
 

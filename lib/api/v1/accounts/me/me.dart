@@ -35,6 +35,26 @@ class MeRoute {
     return true;
   }
 
+  Future<bool> logout(String token) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/accounts/me/logout",
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response == null) {
+      return false;
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
+
   Future<List<PublicAccountResponse>> getBlockedUsers(String authToken, {
     int offset = 0,
   }) async {
