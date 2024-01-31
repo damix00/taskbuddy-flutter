@@ -139,11 +139,12 @@ class AccountResponse {
     }
 
     return ApiResponse(
-        status: 200,
-        message: json?["message"] ?? "OK",
-        ok: true,
-        data: AccountResponse.fromJson(json),
-        response: response.response,
-        timedOut: response.timedOut);
+      status: 200,
+      message: json?["message"] ?? "OK",
+      ok: true,
+      data: AccountResponse.fromJson(json),
+      response: response.response,
+      timedOut: response.timedOut
+    );
   }
 }

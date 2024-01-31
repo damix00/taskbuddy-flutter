@@ -502,5 +502,13 @@
       }
     }
   },
-  "attachments": "Attachments"
+  "attachments": "Attachments",
+  "forgotPasswordDesc": "Enter your E-Mail address below and we will send you a one-time password to your phone number.",
+  "resetPassword": "Reset password",
+  "resetPasswordDesc": "Enter your new password below.",
+  "sendCode": "Send code",
+  "codeSent": "Code sent!",
+  "enterCode": "Enter code",
+  "enterCodeDesc": "We''ve sent a code to your phone number. Please enter it below to reset your password.",
+  "invalidCode": "Invalid code."
 }

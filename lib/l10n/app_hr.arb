@@ -323,5 +323,13 @@
   "noInterests": "Još nismo prikupili nijedan interes. Nastavite koristiti aplikaciju da biste vidjeli svoje interese.",
   "successfullyReported": "Uspješno prijavljeno! Hvala Vam što nam pomažete održavati TaskBuddy sigurnim.",
   "tooManyAttachments": "Možete dodati najviše {max} datoteka.",
-  "attachments": "Datoteke"
+  "attachments": "Datoteke",
+  "forgotPasswordDesc": "Unesite svoju E-Mail adresu u nastavku i poslat ćemo vam jednokratnu lozinku na vaš broj mobitela.",
+  "resetPassword": "Resetiraj lozinku",
+  "resetPasswordDesc": "Unesite novu lozinku u nastavku.",
+  "sendCode": "Pošalji kod",
+  "codeSent": "Kod je poslan!",
+  "enterCode": "Unesite kod",
+  "enterCodeDesc": "Poslali smo vam SMS s kodom za resetiranje lozinke. Unesite ga u nastavku.",
+  "invalidCode": "Neispravan kod."
 }

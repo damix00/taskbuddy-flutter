@@ -21,10 +21,12 @@ class InputTitle extends StatelessWidget {
     return Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
       Text('$title ', style: Theme.of(context).textTheme.titleMedium),
       if (optional)
-        Text('${AppLocalizations.of(context)!.optional} ',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                )),
+        Text(
+          '${AppLocalizations.of(context)!.optional} ',
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          )
+        ),
       if (tooltipText != null)
         Tooltip(
           padding: const EdgeInsets.symmetric(horizontal: 16),

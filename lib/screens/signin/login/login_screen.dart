@@ -156,7 +156,12 @@ class _LoginFormState extends State<_LoginForm> {
           const SizedBox(
             height: 12,
           ),
-          LinkText(text: l10n.forgotPassword, onTap: () {}),
+          LinkText(
+            text: l10n.forgotPassword,
+            onTap: () {
+              Navigator.pushNamed(context, '/forgot-password');
+            }
+          ),
           const SizedBox(
             height: 6,
           ),

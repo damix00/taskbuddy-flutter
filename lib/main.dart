@@ -32,6 +32,9 @@ import 'package:taskbuddy/screens/settings/settings.dart';
 import 'package:taskbuddy/screens/settings/social/blocked.dart';
 import 'package:taskbuddy/screens/settings/social/friends.dart';
 import 'package:taskbuddy/screens/settings/social/interests.dart';
+import 'package:taskbuddy/screens/signin/login/forgot_pasword/enter_code_screen.dart';
+import 'package:taskbuddy/screens/signin/login/forgot_pasword/forgot_password_screen.dart';
+import 'package:taskbuddy/screens/signin/login/forgot_pasword/reset_password_screen.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_details_page.dart';
 import 'package:taskbuddy/screens/signin/register/pages/profile_finish_page.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
@@ -306,6 +309,9 @@ class _AppState extends State<App> {
             routes: {
               '/welcome': (context) => const WelcomeScreen(),
               '/login': (context) => const LoginScreen(),
+              '/forgot-password': (context) => const ForgotPasswordScreen(),
+              '/forgot-password/enter-code': (context) => const EnterCodeScreen(),
+              '/forgot-password/reset': (context) => const ResetPasswordScreen(),
               '/register': (context) => const RegisterScreen(),
               '/register/creds': (context) => const CredentialsPage(),
               '/register/profile/details': (context) => const ProfileDetailsPage(),

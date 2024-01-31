@@ -4,11 +4,13 @@ import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/api/v1/accounts/me/posts/posts.dart';
 import 'package:taskbuddy/api/v1/accounts/me/profile/profile.dart';
 import 'package:taskbuddy/api/v1/accounts/me/reviews/reviews.dart';
+import 'package:taskbuddy/api/v1/accounts/me/security/forgot_password.dart';
 
 class MeRoute {
   ProfileRoute get profile => ProfileRoute();
   MyPostsRoute get posts => MyPostsRoute();
   Reviews get reviews => Reviews();
+  ForgotPassword get forgotPassword => ForgotPassword();
 
   Future<bool> updateFCMToken(String authToken, String fcmToken) async {
     var response = await Requests.fetchEndpoint(
