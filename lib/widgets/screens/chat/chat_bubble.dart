@@ -214,29 +214,31 @@ class ChatBubble extends StatelessWidget {
                         MessageAttachments(
                           attachments: messageResponse!.attachments
                         ),
-                      Flexible(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: isMe
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.surface,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.7,
-                          ),
-                          child: Text(
-                            deleted ? l10n.messageDeleted : message,
-                            style: TextStyle(
+                      
+                      if (message.isNotEmpty)
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
                               color: isMe
-                                ? Theme.of(context).colorScheme.onPrimary
-                                : Theme.of(context).colorScheme.onSurface,
-                              fontStyle: deleted ? FontStyle.italic : FontStyle.normal,
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.surface,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.7,
+                            ),
+                            child: Text(
+                              deleted ? l10n.messageDeleted : message,
+                              style: TextStyle(
+                                color: isMe
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface,
+                                fontStyle: deleted ? FontStyle.italic : FontStyle.normal,
+                              ),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   )
             ],

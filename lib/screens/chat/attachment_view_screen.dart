@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:native_video_view/native_video_view.dart';
 
 class AttachmentViewScreen extends StatelessWidget {

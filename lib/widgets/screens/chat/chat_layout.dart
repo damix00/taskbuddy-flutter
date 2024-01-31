@@ -204,7 +204,7 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
   Future<void> _sendMessage(String message) async {
     AppLocalizations l10n = AppLocalizations.of(context)!;
 
-    if (message.isNotEmpty) {
+    if (message.isNotEmpty || _currentAttachments.isNotEmpty) {
       _textController.clear();
       FocusScope.of(context).unfocus();
 
