@@ -208,4 +208,44 @@ class Posts {
 
     return true;
   }
+  
+  Future<bool> reservePost(String token, String postUuid) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/posts/${Uri.encodeComponent(postUuid)}/reserve",
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer $token",
+      }
+    );
+
+    if (response == null) {
+      return false;
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> unreservePost(String token, String postUuid) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/posts/${Uri.encodeComponent(postUuid)}/reserve",
+      method: "DELETE",
+      headers: {
+        "Authorization": "Bearer $token",
+      }
+    );
+
+    if (response == null) {
+      return false;
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
 }

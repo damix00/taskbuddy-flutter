@@ -15,7 +15,9 @@ import 'package:taskbuddy/utils/haptic_feedback.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
+import 'package:taskbuddy/widgets/overlays/dialog/dialog.dart';
 import 'package:taskbuddy/widgets/overlays/dialog/report_dialog.dart';
+import 'package:taskbuddy/widgets/overlays/loading_overlay.dart';
 import 'package:taskbuddy/widgets/screens/compose_message/compose_message.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_description.dart';
 import 'package:taskbuddy/widgets/screens/posts/post_price.dart';
@@ -85,20 +87,99 @@ class _PostLayoutState extends State<PostLayout> {
         icon: Icons.delete_outline,
         onTap: (c) async {
           try {
-            var res = await Api.v1.posts.deletePost(token, _post.UUID);
-            if (res) {
-              SnackbarPresets.show(context, text: l10n.successfullyDeleted);
-              Navigator.of(context).pop();
-            }
-            else {
-              SnackbarPresets.show(context, text: l10n.somethingWentWrong);
-            }
+            // Show yes/no dialog
+            CustomDialog.show(
+              context,
+              title: l10n.deletePost,
+              description: l10n.deletePostDesc,
+              actions: [
+                DialogAction(
+                  text: l10n.cancel,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }
+                ),
+                DialogAction(
+                  text: l10n.deleteText,
+                  onPressed: () async {
+                    LoadingOverlay.showLoader(context);
+
+                    var res = await Api.v1.posts.deletePost(token, _post.UUID);
+
+                    LoadingOverlay.hideLoader(context);
+                    
+                    if (res) {
+                      SnackbarPresets.show(context, text: l10n.successfullyDeleted);
+                    }
+                    else {
+                      SnackbarPresets.show(context, text: l10n.somethingWentWrong);
+                    }
+                    
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }
+                ),
+              ]
+            );
           } catch (e) {
             SnackbarPresets.show(context, text: l10n.somethingWentWrong);
             dev.log(e.toString());
           }
         },
       ));
+
+      buttons.add(
+        BottomSheetButton(
+          title: _post.isReserved ? l10n.unreserve : l10n.reserve,
+          icon: _post.isReserved ? Icons.remove_done : Icons.done_all,
+          onTap: (c) {
+            CustomDialog.show(
+              context,
+              title: _post.isReserved ? l10n.unreserve : l10n.reserve,
+              description: _post.isReserved ? l10n.unreserveDesc : l10n.reserveDesc,
+              actions: [
+                DialogAction(
+                  text: l10n.cancel,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }
+                ),
+                DialogAction(
+                  text: _post.isReserved ? l10n.unreserve : l10n.reserve,
+                  onPressed: () async {
+                    bool res = false;
+
+                    LoadingOverlay.showLoader(context);
+
+                    if (_post.isReserved) {
+                      res = await Api.v1.posts.unreservePost(token, _post.UUID);
+                    }
+                    else {
+                      res = await Api.v1.posts.reservePost(token, _post.UUID);
+                    }
+
+                    LoadingOverlay.hideLoader(context);
+
+                    if (res) {
+                      SnackbarPresets.show(context, text: l10n.success);
+                    }
+                    else {
+                      SnackbarPresets.show(context, text: l10n.somethingWentWrong);
+                    }
+
+                    setState(() {
+                      _post.isReserved = !_post.isReserved;
+                      widget.post.isReserved = !_post.isReserved;
+                    });
+                    
+                    Navigator.of(context).pop();
+                  }
+                ),
+              ]
+            );
+          },
+        )
+      );
     }
 
     CrossPlatformBottomSheet.showModal(

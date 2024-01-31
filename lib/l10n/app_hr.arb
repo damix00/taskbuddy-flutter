@@ -331,5 +331,10 @@
   "codeSent": "Kod je poslan!",
   "enterCode": "Unesite kod",
   "enterCodeDesc": "Poslali smo vam SMS s kodom za resetiranje lozinke. Unesite ga u nastavku.",
-  "invalidCode": "Neispravan kod."
+  "invalidCode": "Neispravan kod.",
+  "reserve": "Rezerviraj",
+  "unreserve": "Otkaži rezervaciju",
+  "reserveDesc": "Jeste li sigurni da želite rezervirati ovaj posao?",
+  "unreserveDesc": "Jeste li sigurni da želite otkazati rezervaciju ovog posla?",
+  "success": "Uspjeh"
 }

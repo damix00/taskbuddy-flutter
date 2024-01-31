@@ -510,5 +510,12 @@
   "codeSent": "Code sent!",
   "enterCode": "Enter code",
   "enterCodeDesc": "We''ve sent a code to your phone number. Please enter it below to reset your password.",
-  "invalidCode": "Invalid code."
+  "invalidCode": "Invalid code.",
+  "reserve": "Reserve",
+  "unreserve": "Unreserve",
+  "reserveDesc": "Are you sure you want to reserve this job?",
+  "unreserveDesc": "Are you sure you want to unreserve this job?",
+  "deletePost": "Delete post",
+  "deletePostDesc": "Are you sure you want to delete this post?",
+  "success": "Success"
 }
