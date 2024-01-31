@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
-import 'package:taskbuddy/screens/chat_screen.dart';
+import 'package:taskbuddy/screens/chat/chat_screen.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';

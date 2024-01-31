@@ -10,6 +10,7 @@ import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_inputs/search_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
+import 'package:taskbuddy/widgets/transitions/fade_in.dart';
 import 'package:taskbuddy/widgets/ui/feedback/custom_refresh.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/post_card/post_card.dart';
@@ -121,7 +122,7 @@ class _SearchPageState extends State<SearchPage> {
                     enabled: false,
                     onTap: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
+                        FadeInPageRoute(
                           builder: (context) => const SearchScreen()
                         ),
                       );

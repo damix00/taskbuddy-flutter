@@ -7,6 +7,7 @@ import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dar
 enum CurrentAttachmentType {
   IMAGE,
   VIDEO,
+  AUDIO,
   FILE
 }
 

@@ -2,6 +2,9 @@ import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/requests.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
+import 'package:dio/dio.dart' as diolib;
+import 'package:taskbuddy/utils/utils.dart';
+import 'package:taskbuddy/widgets/screens/chat/input/attachments.dart';
 
 class Messages {
   Future<ApiResponse<MessageResponse?>> sendMessage(
@@ -9,16 +12,30 @@ class Messages {
     {
       required String channelUUID,
       required String message,
+      List<CurrentAttachment> attachments = const [],
     }
   ) async {
+    var files = <String, dynamic>{};
+
+    for (int i = 0; i < attachments.length; i++) {
+      files[i.toString()] = await diolib.MultipartFile.fromFile(
+        attachments[i].file.path,
+        filename: attachments[i].file.path.split('/').last,
+      );
+    }
+
     var response = await Requests.fetchEndpoint(
       "${ApiOptions.path}/channels/${Uri.encodeComponent(channelUUID)}/messages/send",
       method: "POST",
       headers: {
         'Authorization': 'Bearer $token'
       },
+      files: files,
       data: {
         'content': message,
+        'attachment_types': Utils.listToString(
+          attachments.map((e) => e.type.index).toList()
+        )
       }
     );
 

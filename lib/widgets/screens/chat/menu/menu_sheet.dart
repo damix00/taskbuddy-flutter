@@ -74,6 +74,8 @@ class MenuSheet extends StatelessWidget {
                       )
                     );
                   }
+
+                  Navigator.pop(context);
                 },
                 label: l10n.media,
                 icon: Icons.image_outlined,
@@ -95,6 +97,8 @@ class MenuSheet extends StatelessWidget {
                       )
                     );
                   }
+
+                  Navigator.pop(context);
                 },
                 label: l10n.files,
                 icon: Icons.insert_drive_file_outlined,

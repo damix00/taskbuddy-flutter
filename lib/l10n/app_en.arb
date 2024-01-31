@@ -491,5 +491,16 @@
   "noFriends": "You have no friends yet :(",
   "interestsPageDesc": "Your interests are listed here. Interests are used to show you the most relevant content.",
   "noInterests": "We haven''t collected any interests yet. Continue using the app to see your interests.",
-  "successfullyReported": "Successfully reported! Thank you for helping us keep TaskBuddy safe."
+  "successfullyReported": "Successfully reported! Thank you for helping us keep TaskBuddy safe.",
+  "tooManyAttachments": "You can only add {max} attachments.",
+  "@tooManyAttachments": {
+    "description": "This is the error message when the user tries to add too many attachments.",
+    "placeholders": {
+      "max": {
+        "type": "num",
+        "example": "5"
+      }
+    }
+  },
+  "attachments": "Attachments"
 }

@@ -60,7 +60,6 @@ class Posts {
       files[i.toString()] = await diolib.MultipartFile.fromFile(
         media[i].path,
         filename: media[i].path.split('/').last,
-        // contentType:
       );
     }
 

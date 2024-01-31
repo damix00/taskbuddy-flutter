@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/chat_screen.dart';
+import 'package:taskbuddy/screens/chat/chat_screen.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';

@@ -10,6 +10,7 @@ import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/api/socket/socket.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
+import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/state/static/messages_state.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/screens/chat/chat_bubble.dart';
@@ -207,8 +208,11 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
       _textController.clear();
       FocusScope.of(context).unfocus();
 
+      List<CurrentAttachment> attachments = _currentAttachments.toList();
+
       setState(() {
         _sending.add(message);
+        _currentAttachments = [];
       });
 
       // Scroll to bottom
@@ -227,7 +231,8 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
       var result = await Api.v1.channels.messages.sendMessage(
         token,
         channelUUID: channel.uuid,
-        message: message
+        message: message,
+        attachments: attachments
       );
 
       if (result.ok) {
@@ -489,8 +494,16 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
                                         channel: channel,
                                         onMessage: _addMessage,
                                         onAttachment: (attachment) {
+                                          _currentAttachments.add(attachment);
+
+                                          if (_currentAttachments.length > RemoteConfigData.maxAttachments) {
+                                            // Remove the last attachment
+                                            _currentAttachments.removeLast();
+
+                                            SnackbarPresets.error(context, l10n.tooManyAttachments(RemoteConfigData.maxAttachments));
+                                          }
+
                                           setState(() {
-                                            _currentAttachments.add(attachment);
                                           });
                                         },
                                       );

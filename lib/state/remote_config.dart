@@ -1,4 +1,5 @@
-import 'dart:developer';
+import 'dart:developer' as dev; 
+import 'dart:math';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
@@ -11,6 +12,8 @@ class RemoteConfigData {
 
   static int minMedia = 1;
   static int maxMedia = 25;
+
+  static int maxAttachments = 10;
 
   static Future<void> init() async {
     var remoteConfig = FirebaseRemoteConfig.instance;
@@ -26,8 +29,13 @@ class RemoteConfigData {
 
       minMedia = remoteConfig.getInt('min_media');
       maxMedia = remoteConfig.getInt('max_media');
+
+      dev.log(remoteConfig.getAll().toString());
+      dev.log(remoteConfig.getInt('max_attachments').toString());
+
+      maxAttachments = max(10, remoteConfig.getInt('max_attachments'));
     } catch (e) {
-      log('Error fetching remote config: $e');
+      dev.log('Error fetching remote config: $e');
     }
   }
 }

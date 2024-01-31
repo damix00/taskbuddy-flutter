@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/api/socket/socket.dart';
-import 'package:taskbuddy/screens/chat_screen.dart';
+import 'package:taskbuddy/screens/chat/chat_screen.dart';
 import 'package:taskbuddy/screens/home/pages/chats/incoming_chats.dart';
 import 'package:taskbuddy/screens/home/pages/chats/outgoing_chats.dart';
 import 'package:taskbuddy/state/providers/messages.dart';

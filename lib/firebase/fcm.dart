@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/chat_screen.dart';
+import 'package:taskbuddy/screens/chat/chat_screen.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/state/static/messages_state.dart';
 import 'package:taskbuddy/state/static/navigation_state.dart';

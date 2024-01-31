@@ -1,10 +1,140 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
+import 'package:taskbuddy/screens/chat/attachment_view_screen.dart';
 import 'package:taskbuddy/utils/dates.dart';
+import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/screens/chat/request_messages/request_message.dart';
+import 'package:taskbuddy/widgets/transitions/fade_in.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class MessageAttachments extends StatelessWidget {
+  final List<MessageAttachment> attachments;
+
+  const MessageAttachments({
+    Key? key,
+    required this.attachments
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.7,
+        child: GridView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: attachments.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8
+          ),
+          itemBuilder: (context, index) {
+            if (attachments[index].type == MessageAttachment.IMAGE) {
+              return Touchable(
+                onTap: () {
+                  Navigator.of(context).push(
+                    FadeInPageRoute(
+                      builder: (context) => AttachmentViewScreen(
+                        attachments: attachments,
+                        index: index
+                      )
+                    )
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Hero(
+                    tag: attachments[index].url,
+                    child: CachedNetworkImage(
+                      imageUrl: attachments[index].url,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            else if (attachments[index].type == MessageAttachment.VIDEO) {
+              return Touchable(
+                onTap: () {
+                  Navigator.of(context).push(
+                    FadeInPageRoute(
+                      builder: (context) => AttachmentViewScreen(
+                        attachments: attachments,
+                        index: index
+                      )
+                    )
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
+                    children: [
+                      Container(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      Positioned.fill(
+                        child: Icon(
+                          Icons.play_arrow_outlined,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          size: 48,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            return Touchable(
+              onTap: () async {
+                // Open link in browser
+                await launchUrl(
+                  Uri.parse(attachments[index].url),
+                  mode: LaunchMode.externalApplication
+                );
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Icon(
+                      Icons.insert_drive_file_outlined,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      size: 32,
+                    ),
+                  ),
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: Icon(
+                      Icons.open_in_browser_outlined,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      size: 20
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
 
 class ChatBubble extends StatelessWidget {
   final String message;
@@ -76,29 +206,39 @@ class ChatBubble extends StatelessWidget {
                       channel: channelResponse!,
                     ),
                   )
-                : Flexible(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: isMe
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.7,
-                    ),
-                    child: Text(
-                      deleted ? l10n.messageDeleted : message,
-                      style: TextStyle(
-                        color: isMe
-                          ? Theme.of(context).colorScheme.onPrimary
-                          : Theme.of(context).colorScheme.onSurface,
-                        fontStyle: deleted ? FontStyle.italic : FontStyle.normal,
+                : Column(
+                    crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (messageResponse!.attachments.isNotEmpty)
+                        MessageAttachments(
+                          attachments: messageResponse!.attachments
+                        ),
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: isMe
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.surface,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.7,
+                          ),
+                          child: Text(
+                            deleted ? l10n.messageDeleted : message,
+                            style: TextStyle(
+                              color: isMe
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.onSurface,
+                              fontStyle: deleted ? FontStyle.italic : FontStyle.normal,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                )
+                    ],
+                  )
             ],
           ),
           showSeen && seen && isMe ? Padding(
