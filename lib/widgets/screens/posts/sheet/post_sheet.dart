@@ -79,9 +79,10 @@ class PostSheet extends StatelessWidget {
             ],
           ),
         ),
-        if (!post.isRemote)
+        if (!post.isRemote && post.locationLat != 1000)
           CustomDivider(color: Theme.of(context).colorScheme.outline, padding: dividerPadding,),
-        PostLocationDisplay(post: post),
+        if (!post.isRemote && post.locationLat != 1000)
+          PostLocationDisplay(post: post),
         SizedBox(height: paddingBottom)
       ]
     );

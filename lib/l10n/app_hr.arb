@@ -204,6 +204,7 @@
   "shares": "Dijeljenja",
   "bookmarks": "Spremljenih",
   "reserved": "Rezervirano",
+  "reservedDesc": "Ako je posao označen kao rezerviran, drugi korisnici više vam ne mogu slati poruke o ovom poslu.",
   "deleteText": "Obriši",
   "successfullyDeleted": "Uspješno obrisano!",
   "search": "Pretraga",
@@ -336,5 +337,8 @@
   "unreserve": "Otkaži rezervaciju",
   "reserveDesc": "Jeste li sigurni da želite rezervirati ovaj posao?",
   "unreserveDesc": "Jeste li sigurni da želite otkazati rezervaciju ovog posla?",
-  "success": "Uspjeh"
+  "deletePost": "Obriši objavu",
+  "deletePostDesc": "Jeste li sigurni da želite obrisati ovu objavu?",
+  "success": "Uspjeh!",
+  "editPost": "Uredi objavu"
 }

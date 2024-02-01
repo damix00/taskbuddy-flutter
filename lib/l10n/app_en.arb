@@ -314,6 +314,7 @@
   "shares": "Shares",
   "bookmarks": "Bookmarks",
   "reserved": "Reserved",
+  "reservedDesc": "If a job is marked as reserved, other users cannot message you anymore about this job.",
   "deleteText": "Delete",
   "successfullyDeleted": "Successfully deleted!",
   "search": "Search",
@@ -517,5 +518,6 @@
   "unreserveDesc": "Are you sure you want to unreserve this job?",
   "deletePost": "Delete post",
   "deletePostDesc": "Are you sure you want to delete this post?",
-  "success": "Success"
+  "success": "Success!",
+  "editPost": "Edit post"
 }

@@ -3,7 +3,7 @@ import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/post_screen.dart';
+import 'package:taskbuddy/screens/post/post_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/ui/post_card/post_card.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
@@ -97,7 +97,17 @@ class _ProfilePostsState extends State<ProfilePosts> with AutomaticKeepAliveClie
 
         return Touchable(
           onTap: () {
-            Navigator.of(context).pushNamed('/post', arguments: PostScreenArguments(post: PostResultsResponse.fromPostResponse(_posts[index])));
+            Navigator.of(context).pushNamed(
+              '/post',
+              arguments: PostScreenArguments(
+                post: PostResultsResponse.fromPostResponse(_posts[index]),
+                onUpdate: (PostResultsResponse post) {
+                  setState(() {
+                    _posts[index].update(post);
+                  });
+                }
+              )
+            );
           },
           child: PostCard(post: PostResultsResponse.fromPostResponse(_posts[index])),
         );

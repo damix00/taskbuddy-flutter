@@ -10,6 +10,7 @@ import 'package:taskbuddy/api/responses/posts/post_only_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/chat/chat_screen.dart';
+import 'package:taskbuddy/screens/post/edit_post_screen.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/utils/haptic_feedback.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
@@ -34,8 +35,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostLayout extends StatefulWidget {
   final PostResultsResponse post;
+  final Function(PostResultsResponse)? onUpdate;
 
-  const PostLayout({ Key? key, required this.post }) : super(key: key);
+  const PostLayout({ Key? key, required this.post, this.onUpdate }) : super(key: key);
 
   @override
   State<PostLayout> createState() => _PostLayoutState();
@@ -82,6 +84,34 @@ class _PostLayoutState extends State<PostLayout> {
     ];
 
     if (_post.user.isMe) {
+      buttons.add(
+        BottomSheetButton(
+          title: l10n.edit,
+          icon: Icons.edit_outlined,
+          onTap: (c) {
+            Navigator.of(context).pushNamed(
+              '/post/edit',
+              arguments: EditPostArguments(
+                _post,
+                (data) {
+                  setState(() {
+                    _post.title = data.title;
+                    _post.description = data.description;
+                    _post.locationLat = data.location?.latitude ?? 1000;
+                    _post.locationLon = data.location?.longitude ?? 1000;
+                    _post.locationText = data.locationName ?? "";
+                    _post.isUrgent = data.urgent;
+                    _post.isReserved = data.reserved;
+                  });
+
+                  widget.onUpdate?.call(_post);
+                }
+              )
+            );
+          },
+        )
+      );
+      
       buttons.add(BottomSheetButton(
         title: l10n.deleteText,
         icon: Icons.delete_outline,
@@ -112,7 +142,7 @@ class _PostLayoutState extends State<PostLayout> {
                       SnackbarPresets.show(context, text: l10n.successfullyDeleted);
                     }
                     else {
-                      SnackbarPresets.show(context, text: l10n.somethingWentWrong);
+                      SnackbarPresets.error(context, l10n.somethingWentWrong);
                     }
                     
                     Navigator.of(context).pop();
@@ -164,13 +194,17 @@ class _PostLayoutState extends State<PostLayout> {
                       SnackbarPresets.show(context, text: l10n.success);
                     }
                     else {
-                      SnackbarPresets.show(context, text: l10n.somethingWentWrong);
+                      SnackbarPresets.error(context, l10n.somethingWentWrong);
                     }
 
                     setState(() {
-                      _post.isReserved = !_post.isReserved;
-                      widget.post.isReserved = !_post.isReserved;
+                      bool value = !_post.isReserved;
+
+                      _post.isReserved = value;
+                      widget.post.isReserved = value;
                     });
+
+                    widget.onUpdate?.call(_post);
                     
                     Navigator.of(context).pop();
                   }
@@ -197,6 +231,8 @@ class _PostLayoutState extends State<PostLayout> {
 
       _post.isLiked = !_post.isLiked;
     });
+
+    widget.onUpdate?.call(_post);
 
     String token = (await AccountCache.getToken())!;
 
@@ -234,6 +270,8 @@ class _PostLayoutState extends State<PostLayout> {
 
       _post.isBookmarked = !_post.isBookmarked;
     });
+
+    widget.onUpdate?.call(_post);
 
     String token = (await AccountCache.getToken())!;
 

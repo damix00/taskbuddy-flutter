@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/post_screen.dart';
+import 'package:taskbuddy/screens/post/post_screen.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/ui/feedback/custom_refresh.dart';
@@ -25,7 +24,7 @@ class BookmarksScreen extends StatelessWidget {
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,
-      body: _ScreenContent(),
+      body: const _ScreenContent(),
     );
   }
 }
@@ -102,7 +101,17 @@ class _ScreenContentState extends State<_ScreenContent> {
     
           return Touchable(
             onTap: () {
-              Navigator.of(context).pushNamed('/post', arguments: PostScreenArguments(post: _posts[index]));
+              Navigator.of(context).pushNamed(
+                '/post',
+                arguments: PostScreenArguments(
+                  post: _posts[index],
+                  onUpdate: (PostResultsResponse post) {
+                    setState(() {
+                      _posts[index] = post;
+                    });
+                  }
+                )
+              );
             },
             child: PostCard(
               post: _posts[index],

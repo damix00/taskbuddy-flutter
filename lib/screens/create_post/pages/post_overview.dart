@@ -7,7 +7,7 @@ import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/create_post/title_desc.dart';
 import 'package:taskbuddy/screens/create_post/value_display.dart';
-import 'package:taskbuddy/screens/post_screen.dart';
+import 'package:taskbuddy/screens/post/post_screen.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';

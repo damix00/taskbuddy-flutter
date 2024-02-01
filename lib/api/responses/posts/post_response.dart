@@ -1,21 +1,22 @@
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 
 class PostResponse {
-  final PublicAccountResponse user;
-  final String UUID;
-  final String title;
-  final String description;
-  final PostType jobType;
-  final double price;
-  final String locationText;
-  final double locationLat;
-  final double locationLon;
-  final List<int> tags;
-  final List<String> media;
-  final DateTime createdAt;
-  final DateTime startDate;
-  final DateTime endDate;
+  PublicAccountResponse user;
+  String UUID;
+  String title;
+  String description;
+  PostType jobType;
+  double price;
+  String locationText;
+  double locationLat;
+  double locationLon;
+  List<int> tags;
+  List<String> media;
+  DateTime createdAt;
+  DateTime startDate;
+  DateTime endDate;
   int status;
   int likes;
   int comments;
@@ -91,5 +92,23 @@ class PostResponse {
       isReserved: json['reserved'] ?? false,
       status: json['status'] ?? 0
     );
+  }
+
+  void update(PostResultsResponse response) {
+    this.title = response.title;
+    this.description = response.description;
+    this.jobType = response.jobType;
+    this.price = response.price;
+    this.locationText = response.locationText;
+    this.locationLat = response.locationLat;
+    this.locationLon = response.locationLon;
+    this.tags = response.tags;
+    this.media = response.media;
+    this.startDate = response.startDate;
+    this.endDate = response.endDate;
+    this.isRemote = response.isRemote;
+    this.isUrgent = response.isUrgent;
+    this.isReserved = response.isReserved;
+    this.status = response.status;
   }
 }

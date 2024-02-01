@@ -6,8 +6,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostScreenArguments {
   final PostResultsResponse post;
+  final Function(PostResultsResponse)? onUpdate;
 
-  PostScreenArguments({ required this.post });
+  PostScreenArguments({ required this.post, this.onUpdate });
 }
 
 class PostScreen extends StatelessWidget {
@@ -26,7 +27,10 @@ class PostScreen extends StatelessWidget {
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        child: PostLayout(post: args.post),
+        child: PostLayout(
+          post: args.post,
+          onUpdate: args.onUpdate,
+        ),
       ),
       extendBodyBehindAppBar: true,
       extendBody: true,

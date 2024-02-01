@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/post_screen.dart';
+import 'package:taskbuddy/screens/post/post_screen.dart';
 import 'package:taskbuddy/screens/search/search_screen.dart';
 import 'package:taskbuddy/state/static/location_state.dart';
 import 'package:taskbuddy/utils/utils.dart';
@@ -208,7 +208,12 @@ class _NearbyPosts extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: Sizing.horizontalPadding / 2, horizontal: Sizing.horizontalPadding),
           child: Touchable(
             onTap: () {
-              Navigator.of(context).pushNamed('/post', arguments: PostScreenArguments(post: posts[index]));
+              Navigator.of(context).pushNamed(
+                '/post',
+                arguments: PostScreenArguments(
+                  post: posts[index],
+                )
+              );
             },
             child: PostCard(post: posts[index], padding: false,)
           ),

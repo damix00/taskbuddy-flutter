@@ -248,4 +248,42 @@ class Posts {
 
     return true;
   }
+
+  Future<bool> updatePost(String token, {
+    required String uuid,
+    required String title,
+    required String description,
+    double? locationLat,
+    double? locationLon,
+    String? locationName,
+    required bool isUrgent,
+    required bool isReserved,
+  }) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/posts/${Uri.encodeComponent(uuid)}",
+      method: "PATCH",
+      data: {
+        'title': title,
+        'description': description,
+        'lat': locationLat,
+        'lon': locationLon,
+        'location_text': locationName,
+        'urgent': isUrgent,
+        'reserved': isReserved,
+      },
+      headers: {
+        "Authorization": "Bearer $token",
+      }
+    );
+
+    if (response == null) {
+      return false;
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
 }

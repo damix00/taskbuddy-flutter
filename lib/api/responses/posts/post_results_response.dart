@@ -55,20 +55,20 @@ class PostResultsUser {
 }
 
 class PostResultsResponse {
-  final PostResultsUser user;
-  final String UUID;
-  final String title;
-  final String description;
-  final PostType jobType;
-  final double price;
-  final String locationText;
-  final double locationLat;
-  final double locationLon;
-  final List<int> tags;
-  final List<String> media;
-  final DateTime createdAt;
-  final DateTime startDate;
-  final DateTime endDate;
+  PostResultsUser user;
+  String UUID;
+  String title;
+  String description;
+  PostType jobType;
+  double price;
+  String locationText;
+  double locationLat;
+  double locationLon;
+  List<int> tags;
+  List<String> media;
+  DateTime createdAt;
+  DateTime startDate;
+  DateTime endDate;
   int likes;
   int comments;
   int shares;
