@@ -344,5 +344,7 @@
   "editPost": "Uredi objavu",
   "loginSessions": "Prijavljeni uređaji",
   "logOutEverywhere": "Odjavite se sa svih uređaja",
-  "deleteAccount": "Obriši račun"
+  "deleteAccount": "Obriši račun",
+  "logOutEverywhereConfirmation": "Jeste li sigurni da se želite odjaviti sa svih uređaja?",
+  "deleteAccountConfirmation": "Jeste li sigurni da želite izbrisati svoj račun? Ova radnja je nepovratna."
 }

@@ -523,5 +523,7 @@
   "editPost": "Edit post",
   "loginSessions": "Login sessions",
   "logOutEverywhere": "Log out of all devices",
-  "deleteAccount": "Delete account"
+  "deleteAccount": "Delete account",
+  "logOutEverywhereConfirmation": "Are you sure you want to log out of all devices?",
+  "deleteAccountConfirmation": "Are you sure you want to delete your account? This action is irreversible."
 }
