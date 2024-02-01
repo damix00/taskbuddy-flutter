@@ -525,5 +525,10 @@
   "logOutEverywhere": "Log out of all devices",
   "deleteAccount": "Delete account",
   "logOutEverywhereConfirmation": "Are you sure you want to log out of all devices?",
-  "deleteAccountConfirmation": "Are you sure you want to delete your account? This action is irreversible."
+  "deleteAccountConfirmation": "Are you sure you want to delete your account? This action is irreversible.",
+  "changePassword": "Change password",
+  "currentPassword": "Current password",
+  "newPassword": "New password",
+  "confirmNewPassword": "Confirm new password",
+  "passwordsAreTheSame": "Your new password must be different from your old password."
 }

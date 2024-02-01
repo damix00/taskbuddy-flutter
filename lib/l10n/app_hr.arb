@@ -346,5 +346,10 @@
   "logOutEverywhere": "Odjavite se sa svih uređaja",
   "deleteAccount": "Obriši račun",
   "logOutEverywhereConfirmation": "Jeste li sigurni da se želite odjaviti sa svih uređaja?",
-  "deleteAccountConfirmation": "Jeste li sigurni da želite izbrisati svoj račun? Ova radnja je nepovratna."
+  "deleteAccountConfirmation": "Jeste li sigurni da želite izbrisati svoj račun? Ova radnja je nepovratna.",
+  "changePassword": "Promijeni lozinku",
+  "currentPassword": "Trenutna lozinka",
+  "newPassword": "Nova lozinka",
+  "confirmNewPassword": "Potvrdi novu lozinku",
+  "passwordsAreTheSame": "Nova lozinka mora biti različita od stare lozinke."
 }

@@ -11,6 +11,7 @@ import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/utils/utils.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:taskbuddy/widgets/overlays/dialog/dialog.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
@@ -28,8 +29,29 @@ class _AccountInfo extends StatelessWidget {
           SettingsNavigation(
             title: l10n.email,
             icon: Icons.email_outlined,
-            onTap: () {},
+            onTap: () {
+              // Open dialog that shows email
+              CustomDialog.show(
+                context,
+                title: l10n.email,
+                description: value.email,
+                actions: [
+                  DialogAction(
+                    text: "OK",
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                ]
+              );
+            },
             value: value.email,
+          ),
+          SettingsNavigation(
+            onTap: () {
+              // Open change password screen
+              Navigator.of(context).pushNamed("/settings/account/change-password");
+            },
+            icon: Icons.password_outlined,
+            title: l10n.changePassword
           )
         ]
       )

@@ -26,4 +26,28 @@ class Security {
 
     return true;
   }
+
+  Future<bool> changePassword(String token, String currentPassword, String newPassword) async {
+    var response = await Requests.fetchEndpoint(
+      "${ApiOptions.path}/accounts/me/security/change-password",
+      method: "POST",
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+      data: {
+        "current_password": currentPassword,
+        "new_password": newPassword
+      }
+    );
+
+    if (response == null) {
+      return false;
+    }
+
+    if (response.timedOut || response.response?.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
 }

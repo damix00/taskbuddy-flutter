@@ -26,6 +26,7 @@ import 'package:taskbuddy/screens/home/pages/profile/edit/profile_edit.dart';
 import 'package:taskbuddy/screens/post/edit_post_screen.dart';
 import 'package:taskbuddy/screens/post/post_screen.dart';
 import 'package:taskbuddy/screens/settings/account/account_settings.dart';
+import 'package:taskbuddy/screens/settings/account/change_password_screen.dart';
 import 'package:taskbuddy/screens/settings/account/login_sessions_screen.dart';
 import 'package:taskbuddy/screens/settings/account/privacy_and_security.dart';
 import 'package:taskbuddy/screens/settings/appearance/appearance_settings.dart';
@@ -323,6 +324,7 @@ class _AppState extends State<App> {
               '/settings/account': (context) => const AccountSettings(),
               '/settings/account/privacy-and-security': (context) => const PrivacyAndSecurityScreen(),
               '/settings/account/login-sessions': (context) => const LoginSessionsScreen(),
+              '/settings/account/change-password': (context) => const ChangePasswordScreen(),
               '/settings/appearance': (context) => const AppearanceSettings(),
               '/settings/appearance/theme': (context) => const AppearanceThemeSetting(),
               '/settings/language': (context) => const LanguageSettings(),

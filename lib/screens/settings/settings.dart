@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/screens/settings/items/navigation.dart';
 import 'package:taskbuddy/screens/settings/section.dart';
@@ -74,7 +75,14 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
                 SettingsNavigation(title: l10n.appearanceAndAccessibility, icon: Icons.color_lens_outlined, onTap: () {
                   Navigator.of(context).pushNamed('/settings/appearance');
                 }),
-                SettingsNavigation(title: l10n.notifications, icon: Icons.notifications_outlined, onTap: () {}),
+                if (Platform.isAndroid)
+                  SettingsNavigation(
+                    title: l10n.notifications,
+                    icon: Icons.notifications_outlined,
+                    onTap: () {
+                      AppSettings.openAppSettings(type: AppSettingsType.notification);
+                    }
+                  ),
                 SettingsNavigation(
                   title: l10n.language,
                   icon: Icons.translate_outlined,
