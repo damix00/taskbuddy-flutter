@@ -59,8 +59,13 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
                 SettingsNavigation(title: l10n.account, icon: Icons.person_outline, onTap: () {
                   Navigator.of(context).pushNamed('/settings/account');
                 }),
-                SettingsNavigation(title: l10n.privacy, icon: Icons.lock_outline, onTap: () {}),
-                SettingsNavigation(title: l10n.security, icon: Icons.security_outlined, onTap: () {}),
+                SettingsNavigation(
+                  title: l10n.privacyAndSecurity,
+                  icon: Icons.lock_outline,
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/settings/account/privacy-and-security');
+                  }
+                ),
               ]
             ),
             SettingsSection(

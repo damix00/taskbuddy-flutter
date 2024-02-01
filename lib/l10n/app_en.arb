@@ -156,6 +156,7 @@
   "account": "Account",
   "privacy": "Privacy",
   "security": "Security",
+  "privacyAndSecurity": "Privacy & Security",
   "appearance": "Appearance",
   "appearanceAndAccessibility": "Appearance & Accessibility",
   "language": "Language",
@@ -519,5 +520,8 @@
   "deletePost": "Delete post",
   "deletePostDesc": "Are you sure you want to delete this post?",
   "success": "Success!",
-  "editPost": "Edit post"
+  "editPost": "Edit post",
+  "loginSessions": "Login sessions",
+  "logOutEverywhere": "Log out of all devices",
+  "deleteAccount": "Delete account"
 }

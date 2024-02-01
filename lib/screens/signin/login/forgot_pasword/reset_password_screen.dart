@@ -138,7 +138,7 @@ class _PageContentState extends State<_PageContent> {
                       _loading = true;
                     });
 
-                    var data = await Api.v1.accounts.meRoute.forgotPassword.resetPassword(
+                    var data = await Api.v1.accounts.meRoute.security.forgotPassword.resetPassword(
                       ForgotPasswordState.email,
                       ForgotPasswordState.otp,
                       _password

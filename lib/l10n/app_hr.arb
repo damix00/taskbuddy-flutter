@@ -81,6 +81,7 @@
   "account": "Račun",
   "privacy": "Privatnost",
   "security": "Sigurnost",
+  "privacyAndSecurity": "Privatnost i sigurnost",
   "appearance": "Izgled",
   "appearanceAndAccessibility": "Izgled i pristupačnost",
   "language": "Jezik",
@@ -340,5 +341,8 @@
   "deletePost": "Obriši objavu",
   "deletePostDesc": "Jeste li sigurni da želite obrisati ovu objavu?",
   "success": "Uspjeh!",
-  "editPost": "Uredi objavu"
+  "editPost": "Uredi objavu",
+  "loginSessions": "Prijavljeni uređaji",
+  "logOutEverywhere": "Odjavite se sa svih uređaja",
+  "deleteAccount": "Obriši račun"
 }

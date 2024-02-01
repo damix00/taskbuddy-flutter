@@ -99,7 +99,7 @@ class _PageContentState extends State<_PageContent> {
                         _loading = true;
                       });
 
-                      bool success = await Api.v1.accounts.meRoute.forgotPassword.sendCode(_email);
+                      bool success = await Api.v1.accounts.meRoute.security.forgotPassword.sendCode(_email);
 
                       setState(() {
                         _loading = false;
