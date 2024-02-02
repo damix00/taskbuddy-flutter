@@ -123,7 +123,17 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
             SettingsSection(
               title: l10n.other,
               children: [
-                SettingsNavigation(title: l10n.openSourceLicenses, icon: Icons.code, onTap: () {})
+                SettingsNavigation(
+                  title: l10n.openSourceLicenses,
+                  icon: Icons.code,
+                  onTap: () {
+                    showLicensePage(
+                      context: context,
+                      applicationName: 'TaskBuddy',
+                      applicationVersion: '1.0.0',
+                    );
+                  }
+                )
               ]
             ),
             SizedBox(height: MediaQuery.of(context).padding.bottom),
