@@ -9,7 +9,7 @@ class Security {
 
   Future<bool> deleteAccount(String token) async {
     var response = await Requests.fetchEndpoint(
-      "${ApiOptions.path}/accounts/me/security/sessions/delete-account",
+      "${ApiOptions.path}/accounts/me/security/delete-account",
       method: "POST",
       headers: {
         'Authorization': 'Bearer $token'

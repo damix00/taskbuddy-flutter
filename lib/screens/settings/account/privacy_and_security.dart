@@ -147,6 +147,8 @@ class _PageContent extends StatelessWidget {
                                 context,
                                 l10n.somethingWentWrong
                               );
+
+                              return;
                             }
   
                             await Provider.of<AuthModel>(context, listen: false).logout();

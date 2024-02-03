@@ -64,6 +64,7 @@ class AccountCache {
 
   // Set the token in the storage
   static Future<void> setToken(String value) async {
+    _cache['token'] = value; // Cache the token value
     await _writeKey('token', value); // Write the token value
   }
 

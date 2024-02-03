@@ -14,10 +14,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MessageAttachments extends StatelessWidget {
   final List<MessageAttachment> attachments;
+  final bool isMe;
 
   const MessageAttachments({
     Key? key,
-    required this.attachments
+    required this.attachments,
+    this.isMe = false
   }) : super(key: key);
 
   @override

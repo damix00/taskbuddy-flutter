@@ -134,11 +134,15 @@ class __OptionalFormState extends State<_OptionalForm> {
                 );
 
                 if (response.ok) {
+                  await AccountCache.clear();
+
                   // Save the data
                   await AccountCache.saveAccountResponse(response.data!);
                   await AccountCache.saveProfile(response.data!.profile!);
 
                   await Initializers.initCache(context); // Initialize the cache
+
+                  await Future.delayed(const Duration(seconds: 1)); // Wait for server to process
 
                   Utils.restartLoggedIn(context);
                 }
