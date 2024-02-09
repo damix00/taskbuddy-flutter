@@ -59,12 +59,12 @@ class _ProfileAppbarState extends State<ProfileAppbar> {
                   ),
 
                   // Support
-                  BottomSheetButton(
-                    title: l10n.helpAndSupport,
-                    icon: Icons.help_outline,
-                    onTap: (v) {
-                    }
-                  ),
+                  // BottomSheetButton(
+                  //   title: l10n.helpAndSupport,
+                  //   icon: Icons.help_outline,
+                  //   onTap: (v) {
+                  //   }
+                  // ),
 
                   // Saved
                   BottomSheetButton(
@@ -76,12 +76,12 @@ class _ProfileAppbarState extends State<ProfileAppbar> {
                   ),
 
                   // History
-                  BottomSheetButton(
-                    title: l10n.history,
-                    icon: Icons.history,
-                    onTap: (v) {
-                    }
-                  ),
+                  // BottomSheetButton(
+                  //   title: l10n.history,
+                  //   icon: Icons.history,
+                  //   onTap: (v) {
+                  //   }
+                  // ),
 
                   // Share
                   BottomSheetButton(
