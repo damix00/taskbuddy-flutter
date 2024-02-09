@@ -92,7 +92,7 @@
   "firstName": "First name",
   "lastName": "Last name",
   "username": "Username",
-  "usernameTooltip": "This is your unique identifier, and it can be changed later if needed. Choose a name that represents you best.\nYou can change your username only once every 30 days.",
+  "usernameTooltip": "This is your unique identifier, and it can be changed later if needed. Choose a name that represents you best.",
   "usernameTooShort": "Username must be at least {minLength} characters long.",
   "@usernameTooShort": {
     "description": "This is the error message when the username is too short.",

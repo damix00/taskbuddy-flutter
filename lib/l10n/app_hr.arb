@@ -44,7 +44,7 @@
   "firstName": "Ime",
   "lastName": "Prezime",
   "username": "Korisničko ime",
-  "usernameTooltip": "Ovo je tvoj jedinstveni identifikator, a može se promijeniti kasnije ako je potrebno. Odaberite ime koje vas najbolje predstavlja.\nKorisničko ime možete promijeniti samo jednom u 30 dana.",
+  "usernameTooltip": "Ovo je tvoj jedinstveni identifikator, a može se promijeniti kasnije ako je potrebno. Odaberite ime koje vas najbolje predstavlja.",
   "usernameTooShort": "Korisničko ime mora imati najmanje {minLength} znakova.",
   "usernameTooLong": "Korisničko ime ne može imati više od {maxLength} znakova.",
   "usernameTaken": "Korisničko ime je već zauzeto.",
