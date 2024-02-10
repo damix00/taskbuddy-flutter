@@ -35,7 +35,7 @@ class PostSheet extends StatelessWidget {
         const SizedBox(height: 8),
         PostJobType(post: post),
         const SizedBox(height: 8),
-        PostTitle(post: post),
+        PostTitle(post: post, limitLines: false,),
         const SizedBox(height: 2),
         PostDescription(post: post, limitLines: false,),
         const SizedBox(height: 8),

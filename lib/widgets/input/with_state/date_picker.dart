@@ -120,7 +120,10 @@ class DatePicker extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.calendar_today_outlined),
+                Icon(
+                  Icons.calendar_today_outlined,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant
+                ),
                 const SizedBox(width: 8,),
                 Text(
                   // Date, Month, Year, HH:MM
