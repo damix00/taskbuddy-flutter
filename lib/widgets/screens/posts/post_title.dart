@@ -13,7 +13,7 @@ class PostTitle extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
+        padding: EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + (limitLines ? Sizing.interactionsWidth : 0)),
         child: Text(
           post.title,
           style: Theme.of(context).textTheme.bodyLarge,

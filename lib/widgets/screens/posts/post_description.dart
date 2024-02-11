@@ -13,7 +13,7 @@ class PostDescription extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
+        padding: EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + (limitLines ? Sizing.interactionsWidth : 0)),
         child: Text(
           limitLines ? post.description.replaceAll("\n", " ") : post.description,
           style: Theme.of(context).textTheme.labelMedium,

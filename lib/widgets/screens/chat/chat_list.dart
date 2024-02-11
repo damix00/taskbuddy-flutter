@@ -55,7 +55,6 @@ class ChatList extends StatelessWidget {
         bool showPfp = index == lastMessages.length - 1 ||
           lastMessages[index + 1].sender == null ||
           lastMessages[index + 1].sender!.UUID != lastMessages[index].sender!.UUID;
-
         
         var message = lastMessages[index];
 
@@ -70,23 +69,27 @@ class ChatList extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
-              GestureDetector(
-                onLongPress: () {
-                  onSelected(bubbleKey, message);
-                },
-                child: Opacity(
-                  opacity: currentMessage == message ? 0 : 1,
-                  child: ChatBubble(
-                    key: bubbleKey,
-                    message: message.message,
-                    isMe: message.sender!.isMe,
-                    profilePicture: message.sender!.profilePicture,
-                    showSeen: showSeen,
-                    showProfilePicture: showPfp,
-                    deleted: message.deleted,
-                    messageRequest: message.request,
-                    messageResponse: message,
-                    channelResponse: channel,
+              Align(
+                alignment: lastMessages[index].sender!.isMe ? Alignment.centerRight : Alignment.centerLeft,
+                child: GestureDetector(
+                  onLongPress: () {
+                    onSelected(bubbleKey, message);
+                  },
+                  child: Opacity(
+                    opacity: currentMessage == message ? 0 : 1,
+                    child: ChatBubble(
+                      key: bubbleKey,
+                      message: message.message,
+                      isMe: message.sender!.isMe,
+                      profilePicture: message.sender!.profilePicture,
+                      seen: message.seen,
+                      showSeen: showSeen,
+                      showProfilePicture: showPfp,
+                      deleted: message.deleted,
+                      messageRequest: message.request,
+                      messageResponse: message,
+                      channelResponse: channel,
+                    ),
                   ),
                 ),
               ),

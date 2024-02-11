@@ -162,7 +162,6 @@ class _AppState extends State<App> {
     // Re-render the UI
     setState(() {});
 
-
     try {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform
