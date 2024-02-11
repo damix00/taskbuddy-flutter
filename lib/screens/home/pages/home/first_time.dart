@@ -20,46 +20,51 @@ class FirstTime extends StatelessWidget {
         )
       ),
       child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 24,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  l10n.welcome__s1_title,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Colors.white
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.welcome__s1_desc,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.white
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 24,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 24,
               ),
-              child: Text(
-                l10n.swipeUpToBegin,
-                style: const TextStyle(
-                  color: Colors.white
-                )
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    l10n.welcome__s1_title,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Colors.white
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.welcome__s1_desc,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.white
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 24,
+                ),
+                child: Text(
+                  l10n.swipeUpToBegin,
+                  style: const TextStyle(
+                    color: Colors.white
+                  )
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

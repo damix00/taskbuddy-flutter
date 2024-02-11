@@ -217,7 +217,7 @@ class ChatBubble extends StatelessWidget {
                           attachments: messageResponse!.attachments
                         ),
                       
-                      if (message.isNotEmpty)
+                      if (message.isNotEmpty || deleted)
                         Flexible(
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
