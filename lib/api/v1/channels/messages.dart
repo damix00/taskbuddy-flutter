@@ -36,7 +36,8 @@ class Messages {
         'attachment_types': Utils.listToString(
           attachments.map((e) => e.type.index).toList()
         )
-      }
+      },
+      timeout: const Duration(days: 1)
     );
 
     if (response == null ||

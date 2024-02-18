@@ -25,7 +25,7 @@ class MessageAttachments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: isMe ? TextDirection.rtl : TextDirection.ltr,
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.7,
         child: GridView.builder(
