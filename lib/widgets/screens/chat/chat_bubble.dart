@@ -19,7 +19,7 @@ class MessageAttachments extends StatelessWidget {
   const MessageAttachments({
     Key? key,
     required this.attachments,
-    this.isMe = false
+    required this.isMe,
   }) : super(key: key);
 
   @override
@@ -214,7 +214,8 @@ class ChatBubble extends StatelessWidget {
                     children: [
                       if (messageResponse!.attachments.isNotEmpty)
                         MessageAttachments(
-                          attachments: messageResponse!.attachments
+                          attachments: messageResponse!.attachments,
+                          isMe: isMe,
                         ),
                       
                       if (message.isNotEmpty || deleted)

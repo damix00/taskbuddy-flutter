@@ -4,7 +4,13 @@ import 'package:taskbuddy/api/options.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
 import 'package:dio/dio.dart' as diolib;
 
-final dio = diolib.Dio();
+final dio = diolib.Dio(
+  diolib.BaseOptions(
+    baseUrl: ApiOptions.path,
+    connectTimeout: const Duration(hours: 1),
+    receiveTimeout: const Duration(hours: 1),
+  ),
+);
 
 class Requests {
   static Future<Response?> fetchEndpoint(String endpoint,
