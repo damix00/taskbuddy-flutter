@@ -150,10 +150,7 @@ class _WelcomeButtons extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/register');
             },
-            child: Text(
-              AppLocalizations.of(context)!.registerBtn,
-              style: const TextStyle(color: Colors.black),
-            )
+            child: ButtonText(AppLocalizations.of(context)!.registerBtn)
           ),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom + 16,
