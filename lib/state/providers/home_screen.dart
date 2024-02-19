@@ -40,4 +40,8 @@ class HomeScreenModel extends ChangeNotifier {
     _filteredTags = tags;
     notifyListeners();
   }
+
+  void refresh() {
+    notifyListeners();
+  }
 }

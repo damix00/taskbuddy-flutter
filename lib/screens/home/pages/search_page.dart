@@ -49,7 +49,7 @@ class _SearchPageState extends State<SearchPage> {
   List<PostResultsResponse> _posts = [];
 
   Future<void> _load() async {
-    await LocationState.updateLocation();
+    await LocationState.updateLocation(context);
 
     bool canGetLocation = await Utils.canGetLocation();
 

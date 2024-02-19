@@ -11,10 +11,15 @@ import 'package:taskbuddy/cache/misc_cache.dart';
 import 'package:taskbuddy/screens/home/pages/home/filter_dialog.dart';
 import 'package:taskbuddy/screens/home/pages/home/first_time.dart';
 import 'package:taskbuddy/state/providers/home_screen.dart';
+import 'package:taskbuddy/state/providers/location.dart';
 import 'package:taskbuddy/state/static/location_state.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:taskbuddy/widgets/screens/posts/post.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
+
+class HomePageController {
+  void Function()? onHomeIconTap;
+}
 
 class HomePageAppbar extends StatelessWidget {
   const HomePageAppbar({Key? key}) : super(key: key);
@@ -80,7 +85,9 @@ class HomePageAppbar extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final HomePageController? controller;
+
+  const HomePage({Key? key, this.controller}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -90,6 +97,9 @@ class _HomePageState extends State<HomePage> {
   bool _loading = true;
   bool _firstTime = false;
   bool _finished = false;
+
+  bool _initiated = false;
+  final _pageController = PageController();
 
   int _sessionId = 0;
   List<PostResultsResponse> _posts = [];
@@ -152,22 +162,49 @@ class _HomePageState extends State<HomePage> {
     await MiscCache.setFirstTimeScroll(true);
   }
 
+  void _onHomeIconTap() {
+    if (_loading) {
+      return;
+    }
+
+    if (_pageController.page == 0) {
+      HomeScreenModel model = Provider.of<HomeScreenModel>(context, listen: false);
+      
+      model.refresh();
+    }
+
+    else if (_pageController.page != null) {
+      _pageController.animateToPage(0, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
-    HomeScreenModel model = Provider.of<HomeScreenModel>(context, listen: false);
-    model.addListener(() {
-      _init();
-    });
-
+    if (widget.controller != null) {
+      widget.controller!.onHomeIconTap = _onHomeIconTap;
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       _firstTime = await MiscCache.getFirstTimeScroll();
       
       setState(() {});
 
-      _init();
+      LocationModel locationModel = Provider.of<LocationModel>(context, listen: false);
+      locationModel.addListener(() {
+        if (locationModel.loaded && !_initiated) {
+          _initiated = true;
+
+          // Listen for changes in filters
+          HomeScreenModel model = Provider.of<HomeScreenModel>(context, listen: false);
+          model.addListener(() {
+            _init();
+          });
+
+          _init();
+        }
+      });
     });
   }
 
@@ -177,6 +214,7 @@ class _HomePageState extends State<HomePage> {
 
     return PageView.builder(
       scrollDirection: Axis.vertical,
+      controller: _pageController,
       itemCount: _posts.length + (_loading ? 1 : 0) + (_firstTime ? 0 : 1) + ((_posts.isEmpty && !_loading && _finished) ? 1 : 0),
       itemBuilder: (context, index) {
         if (!_firstTime && index == 0) {

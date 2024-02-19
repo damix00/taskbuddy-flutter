@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _authFetched = false;
   StreamSubscription<ConnectivityResult>? _subscription;
   bool _called = false;
+  final _homePageController = HomePageController();
 
   void updateRequiredActions(AccountResponseRequiredActions? requiredActions) {
     if (_setActions) {
@@ -208,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _askPermissions();
 
-    LocationState.setInterval();
+    LocationState.setInterval(context);
 
     var connectivityResult = await (Connectivity().checkConnectivity());
 
@@ -256,17 +257,25 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  var pages = [
-    const HomePage(),
-    const SearchPage(),
-    Container(),
-    const ChatsPage(),
-    const ProfilePage(),
-  ];
+  List<Widget> getPages() {
+    return [
+      HomePage(controller: _homePageController),
+      const SearchPage(),
+      Container(),
+      const ChatsPage(),
+      const ProfilePage(),
+    ];
+  }
+
+  List<Widget> pages = [];
 
   @override
   Widget build(BuildContext context) {
     Utils.overrideColors(); // Override the status bar color
+
+    if (pages.isEmpty) {
+      pages = getPages();
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: 4 != _currentIndex,
@@ -292,16 +301,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         currentIndex: _currentIndex,
         onSelected: (index) {
-          setState(() {
-            if (index == 2) {
-              // If the index is 2, then the user tapped the middle button (add)
-              // So we don't want to change the current index
-              // Instead, we want to open the create post page
-              Navigator.of(context).pushNamed('/create-post');
-            } else {
+          if (index == 0 && _currentIndex == 0) {
+            _homePageController.onHomeIconTap?.call();
+          }
+          if (index == 2) {
+            // If the index is 2, then the user tapped the middle button (add)
+            // So we don't want to change the current index
+            // Instead, we want to open the create post page
+            Navigator.of(context).pushNamed('/create-post');
+          } else {
+            setState(() {
               _currentIndex = index;
-            }
-          });
+            });
+          }
         },
       ),
       appBar: PreferredSize(
