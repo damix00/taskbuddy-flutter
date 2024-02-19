@@ -178,6 +178,22 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _startLoad() {
+    LocationModel locationModel = Provider.of<LocationModel>(context, listen: false);
+
+    if (locationModel.loaded && !_initiated) {
+      _initiated = true;
+
+      // Listen for changes in filters
+      HomeScreenModel model = Provider.of<HomeScreenModel>(context, listen: false);
+      model.addListener(() {
+        _init();
+      });
+
+      _init();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -193,18 +209,10 @@ class _HomePageState extends State<HomePage> {
 
       LocationModel locationModel = Provider.of<LocationModel>(context, listen: false);
       locationModel.addListener(() {
-        if (locationModel.loaded && !_initiated) {
-          _initiated = true;
-
-          // Listen for changes in filters
-          HomeScreenModel model = Provider.of<HomeScreenModel>(context, listen: false);
-          model.addListener(() {
-            _init();
-          });
-
-          _init();
-        }
+        _startLoad();
       });
+
+      _startLoad();
     });
   }
 
