@@ -30,9 +30,6 @@ class RemoteConfigData {
       minMedia = remoteConfig.getInt('min_media');
       maxMedia = remoteConfig.getInt('max_media');
 
-      dev.log(remoteConfig.getAll().toString());
-      dev.log(remoteConfig.getInt('max_attachments').toString());
-
       maxAttachments = max(10, remoteConfig.getInt('max_attachments'));
     } catch (e) {
       dev.log('Error fetching remote config: $e');

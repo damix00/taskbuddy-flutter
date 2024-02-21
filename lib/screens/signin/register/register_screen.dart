@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ import 'package:taskbuddy/widgets/screens/register/screen_title.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_text/styled_text.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:taskbuddy/widgets/ui/visual/markdown.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -73,13 +72,44 @@ class _ScreenBottomState extends State<_ScreenBottom> {
             });
           },
           child: StyledText(
-            text: l10n.termsAndConditions("https://google.com"),
+            text: l10n.termsAndConditionsAgree,
             tags: {
               'link': StyledTextActionTag((_, attrs) async {
-                await launchUrl(Uri.parse(attrs['href']!),
-                    mode: Platform.isAndroid
-                        ? LaunchMode.inAppWebView
-                        : LaunchMode.externalApplication);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          l10n.termsAndConditions,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        content: ScrollbarSingleChildScrollView(
+                          child: FutureBuilder(
+                            future: DefaultAssetBundle.of(context).loadString('assets/terms.md'),
+                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                              if (snapshot.hasData) {
+                                return Markdown(
+                                  data: snapshot.data!,
+                                );
+                              } else {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text("OK"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.inversePrimary,

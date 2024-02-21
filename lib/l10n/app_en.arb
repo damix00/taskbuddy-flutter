@@ -66,16 +66,8 @@
   },
   "registerDesc": "Embrace collaboration and convenience - sign up for TaskBuddy today!",
   "continueText": "Continue",
-  "termsAndConditions": "I agree with the <link href=\"{url}\">Terms and Conditions</link>.",
-  "@termsAndConditions": {
-    "description": "This is the text for the terms and conditions checkbox.",
-    "placeholders": {
-      "url": {
-        "type": "String",
-        "example": "https://www.google.com/"
-      }
-    }
-  },
+  "termsAndConditionsAgree": "I agree with the <link>Terms and Conditions</link>.",
+  "termsAndConditions": "Terms and Conditions",
   "registerCredentialsAppbar": "Account setup",
   "registerCredentialsTitle": "Account credentials",
   "registerCredentialsDesc": "Your secure gateway: choose your E-Mail and password.",
