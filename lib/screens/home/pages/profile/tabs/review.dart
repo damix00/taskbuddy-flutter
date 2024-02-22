@@ -42,23 +42,34 @@ class ReviewAccountData extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(review.postTitle, style: Theme.of(context).textTheme.labelMedium),
-            Text(
-              "${review.user.firstName} ${review.user.lastName}",
-              style: Theme.of(context).textTheme.bodyLarge
-            ),
-            Text(
-              "${review.type == ReviewType.EMPLOYER
-                ? l10n.hiredUser(otherUsername)
-                : l10n.workedForUser(otherUsername)
-              } · ${Dates.formatDate(review.createdAt, showTime: false)}",
-              style: Theme.of(context).textTheme.labelSmall
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "\"${review.postTitle}\"",
+                style: Theme.of(context).textTheme.labelMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "${review.user.firstName} ${review.user.lastName}",
+                style: Theme.of(context).textTheme.bodyLarge,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "${review.type == ReviewType.EMPLOYER
+                  ? l10n.hiredUser(otherUsername)
+                  : l10n.workedForUser(otherUsername)
+                } · ${Dates.formatDate(review.createdAt, showTime: false)}",
+                style: Theme.of(context).textTheme.labelSmall,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         )
       ],
     );
@@ -88,20 +99,22 @@ class Review extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Touchable(
-              onTap: () {
-                Navigator.of(context).push(
-                  CupertinoPageRoute(
-                    builder: (context) => ProfileScreen(
-                      UUID: review.user.UUID,
-                      username: review.user.username,
+            Expanded(
+              child: Touchable(
+                onTap: () {
+                  Navigator.of(context).push(
+                    CupertinoPageRoute(
+                      builder: (context) => ProfileScreen(
+                        UUID: review.user.UUID,
+                        username: review.user.username,
+                      )
                     )
-                  )
-                );
-              },
-              child: ReviewAccountData(
-                review: review,
-                otherUsername: otherUsername
+                  );
+                },
+                child: ReviewAccountData(
+                  review: review,
+                  otherUsername: otherUsername
+                ),
               ),
             ),
             IconButton(
