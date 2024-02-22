@@ -86,7 +86,7 @@ class __DetailsFormState extends State<_DetailsForm> {
                 child: TextInput(
                   controller: _firstNameController,
                   label: l10n.firstName,
-                  hint: 'Mathew',
+                  hint: 'Đuro',
                   keyboardType: TextInputType.name,
                   textInputAction: TextInputAction.next,
                   validator: (v) {
@@ -103,7 +103,7 @@ class __DetailsFormState extends State<_DetailsForm> {
                 child: TextInput(
                   controller: _lastNameController,
                   label: l10n.lastName,
-                  hint: 'Pizey',
+                  hint: 'Perić',
                   keyboardType: TextInputType.name,
                   textInputAction: TextInputAction.next,
                   validator: (v) {
