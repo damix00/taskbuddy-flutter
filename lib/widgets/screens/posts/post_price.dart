@@ -12,7 +12,7 @@ class PostPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
-
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
       child: SingleChildScrollView(
@@ -25,24 +25,24 @@ class PostPrice extends StatelessWidget {
                 fontWeight: FontWeight.bold
               ),
             ),
-            if (post.status == PostStatus.RESERVED || post.status == PostStatus.COMPLETED)
+            if (post.status == PostStatus.RESERVED || post.status == PostStatus.COMPLETED || post.isReserved)
               Text(
                 ' • ',
                 style: Theme.of(context).textTheme.labelMedium,
-              ),
-            if (post.status == PostStatus.RESERVED)
-              Text(
-                l10n.reserved,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                  fontWeight: FontWeight.bold
-                ),
               ),
             if (post.status == PostStatus.COMPLETED)
               Text(
                 l10n.completed,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Colors.green,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            if ((post.status == PostStatus.RESERVED || post.isReserved) && post.status != PostStatus.COMPLETED)
+              Text(
+                l10n.reserved,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.error,
                   fontWeight: FontWeight.bold
                 ),
               ),
