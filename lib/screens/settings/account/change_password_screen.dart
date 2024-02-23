@@ -80,6 +80,7 @@ class __ChangePasswordFormState extends State<_ChangePasswordForm> {
                       onChanged: (value) {
                         _currentPassword = value;
                       },
+                      textInputAction: TextInputAction.next,
                     ),
                     const SizedBox(height: Sizing.inputSpacing),
                     TextInput(
@@ -100,6 +101,7 @@ class __ChangePasswordFormState extends State<_ChangePasswordForm> {
                         _newPassword = value;
                       },
                       label: l10n.newPassword,
+                      textInputAction: TextInputAction.next,
                     ),
                     const SizedBox(height: Sizing.inputSpacing),
                     TextInput(
@@ -120,6 +122,7 @@ class __ChangePasswordFormState extends State<_ChangePasswordForm> {
                       onChanged: (value) {
                         _confirmNewPassword = value;
                       },
+                      textInputAction: TextInputAction.done,
                     ),
                     const SizedBox(height: Sizing.formSpacing),
                   ],
