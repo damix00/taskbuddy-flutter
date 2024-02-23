@@ -522,5 +522,6 @@
   "currentPassword": "Current password",
   "newPassword": "New password",
   "confirmNewPassword": "Confirm new password",
-  "passwordsAreTheSame": "Your new password must be different from your old password."
+  "passwordsAreTheSame": "Your new password must be different from your old password.",
+  "noBlockedUsers": "You have no blocked users."
 }

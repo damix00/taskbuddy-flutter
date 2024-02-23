@@ -65,10 +65,25 @@ class _BlockedUsersState extends State<BlockedUsers> {
       ),
       extendBodyBehindAppBar: true,
       body: ListView.builder(
-        itemCount: _blockedUsers.length + (_loading ? 1 : 0),
+        itemCount: _blockedUsers.length + (_loading ? 1 : 0) + ((_blockedUsers.isEmpty && !_loading) ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == _blockedUsers.length && _loading) {
             return const CrossPlatformLoader();
+          }
+
+          if (_blockedUsers.isEmpty && !_loading) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                left: Sizing.horizontalPadding,
+                right: Sizing.horizontalPadding,
+                top: Sizing.horizontalPadding,
+              ),
+              child: Text(
+                l10n.noBlockedUsers,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+            );
           }
 
           return Padding(

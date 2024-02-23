@@ -65,6 +65,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
       ),
       extendBodyBehindAppBar: true,
       body: ListView.builder(
+        // length of the list + 1 for the loading indicator + 1 for the description + 1 for the no friends message
         itemCount: _friends.length + (_loading ? 1 : 0) + 1 + ((_friends.isEmpty && !_loading) ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == 0) {

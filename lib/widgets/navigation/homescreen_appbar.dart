@@ -20,7 +20,7 @@ class HomescreenAppbar extends StatelessWidget {
       height: MediaQuery.of(context).padding.top + Sizing.appbarHeight,
       forceDisableBlur: forceDisableBlur,
       blurColor: transparent ? Theme.of(context).colorScheme.inverseSurface.withOpacity(0.75) : null,
-      noBlurColor: transparent ? Theme.of(context).colorScheme.inverseSurface : null,
+      noBlurColor: transparent ? Theme.of(context).colorScheme.surface : null,
       child: Padding(
         padding: EdgeInsets.only(left: 16, right: 16, top: MediaQuery.of(context).padding.top),
         child: child,

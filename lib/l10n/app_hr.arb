@@ -352,5 +352,6 @@
   "currentPassword": "Trenutna lozinka",
   "newPassword": "Nova lozinka",
   "confirmNewPassword": "Potvrdi novu lozinku",
-  "passwordsAreTheSame": "Nova lozinka mora biti različita od stare lozinke."
+  "passwordsAreTheSame": "Nova lozinka mora biti različita od stare lozinke.",
+  "noBlockedUsers": "Nemate blokiranih korisnika."
 }
