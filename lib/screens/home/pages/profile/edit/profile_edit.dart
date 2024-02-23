@@ -155,6 +155,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     _location = (value.lat != null && value.lon != null && value.lat != 1000 && value.lon != 1000) ? LatLng(value.lat!.toDouble(), value.lon!.toDouble()) : null;
                     _locationName = value.locationText;
                     _bio = value.bio;
+                    _username = value.username;
+                    _lastName = value.lastName;
+                    _firstName = value.firstName;
                   }
 
                   return ProfileEditForm(

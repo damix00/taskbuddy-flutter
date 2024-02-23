@@ -256,7 +256,7 @@ class _AppState extends State<App> {
                 brightness: Brightness.dark,
                 primary: Constants.primaryColorLight,
                 inversePrimary: Colors.blue, // This is the link color
-                secondary: const Color.fromARGB(255, 89, 65, 150),
+                secondary: Color(0xFF594196),
                 inverseSurface: Colors.white,
                 surface: const Color.fromARGB(255, 236, 236, 236),
                 surfaceVariant: const Color.fromARGB(255, 224, 224, 224).withOpacity(0.6),
