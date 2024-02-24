@@ -71,8 +71,8 @@ class _ProfileLayoutState extends State<ProfileLayout> {
 
           if (token == null) return;
 
-          _postsController.refresh!();
-          _reviewsController.refresh!();
+          _postsController.refresh?.call();
+          _reviewsController.refresh?.call();
           widget.refresh?.call();
 
           if (widget.isMe) {

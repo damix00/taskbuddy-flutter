@@ -212,6 +212,7 @@ class _ProfileScreenContent extends StatefulWidget {
 }
 
 class _ProfileScreenContentState extends State<_ProfileScreenContent> {
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
