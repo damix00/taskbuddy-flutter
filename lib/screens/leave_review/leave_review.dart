@@ -136,6 +136,7 @@ class _ReviewScreenContentState extends State<_ReviewScreenContent> {
                     initialRating: 0,
                     minRating: 1,
                     allowHalfRating: true,
+                    unratedColor: Theme.of(context).colorScheme.onSurfaceVariant,
                     itemBuilder: (context, index) => Icon(
                       Icons.star,
                       color: Theme.of(context).colorScheme.primary,
