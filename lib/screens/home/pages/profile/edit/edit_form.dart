@@ -183,7 +183,6 @@ class __ProfileEditFormState extends State<ProfileEditForm> {
             const SizedBox(height: Sizing.horizontalPadding,),
             // Location
             LocationDisplay(
-              tooltipText: l10n.locationTooltipProfile,
               optional: true,
               mapController: _mapController,
               location: _lat == null || _lon == null ? null : LatLng(_lat!, _lon!),
