@@ -39,7 +39,7 @@ class ChatPostInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
+              Flexible(
                 child: Text(
                   post.title,
                   style: Theme.of(context).textTheme.titleSmall,
