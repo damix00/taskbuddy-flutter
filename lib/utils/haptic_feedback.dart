@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 
+// Haptic feedback utilities
+// Used to provide haptic feedback to the user, if enabled
 class HapticFeedbackUtils {
   static bool canVibrate(BuildContext context) {
     PreferencesModel prefs = Provider.of<PreferencesModel>(context, listen: false);

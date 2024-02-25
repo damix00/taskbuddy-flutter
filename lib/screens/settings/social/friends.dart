@@ -103,6 +103,10 @@ class _FriendsScreenState extends State<FriendsScreen> {
             );
           }
 
+          if (index == _friends.length - 1 && _hasMore && !_loading) {
+            _loadFriends();
+          }
+
           return Padding(
             padding: const EdgeInsets.only(
               left: Sizing.horizontalPadding,
@@ -127,10 +131,6 @@ class _FriendsScreenState extends State<FriendsScreen> {
 
                   if (!res) {
                     return;
-                  }
-
-                  if (index == _friends.length - 1 && _hasMore && !_loading) {
-                    _loadFriends();
                   }
 
                   setState(() {

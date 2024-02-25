@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Utility widget to create a section in the settings
 class SettingsSection extends StatelessWidget {
   final String title;
   final List<Widget> children;

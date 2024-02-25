@@ -10,6 +10,8 @@ import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/ui/tiles/account_tile.dart';
 
+// Blocked users screen
+// Shows the users that the user has blocked
 class BlockedUsers extends StatefulWidget {
   const BlockedUsers({Key? key}) : super(key: key);
 
@@ -86,6 +88,10 @@ class _BlockedUsersState extends State<BlockedUsers> {
             );
           }
 
+          if (index == _blockedUsers.length - 1 && _hasMore && !_loading) {
+            _loadBlockedUsers();
+          }
+
           return Padding(
             padding: const EdgeInsets.only(
               left: Sizing.horizontalPadding,
@@ -110,10 +116,6 @@ class _BlockedUsersState extends State<BlockedUsers> {
 
                   if (!res) {
                     return;
-                  }
-
-                  if (index == _blockedUsers.length - 1 && _hasMore && !_loading) {
-                    _loadBlockedUsers();
                   }
 
                   setState(() {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
+// This is a widget for the title of an input field
 class InputTitle extends StatelessWidget {
   final String title;
   final bool optional;

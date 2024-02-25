@@ -5,6 +5,7 @@ import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 
+// This model contains the state for the messages screen
 class MessagesModel extends ChangeNotifier {
   int _incomingOffset = 0;
   int _outgoingOffset = 0;

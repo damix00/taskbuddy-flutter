@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 
+// Bottom navbar item model
 class BottomNavbarItem {
   final Widget? child;
   final IconData? icon;
@@ -14,6 +15,8 @@ class BottomNavbarItem {
   });
 }
 
+// Custom bottom navbar widget
+// Also has a blur effect if enabled
 class CustomBottomNavbar extends StatelessWidget {
   final List<BottomNavbarItem> items;
   final int currentIndex;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Anything wrapped in this widget will not be clickable
 class Unclickable extends StatelessWidget {
   final Widget child;
   final bool enabled;

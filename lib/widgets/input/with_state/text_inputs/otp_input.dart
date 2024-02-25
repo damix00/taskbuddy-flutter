@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// This is a simple OTP input field
+// It's a text field that only accepts numbers and has a maximum length
 class OTPInput extends StatefulWidget {
   final int length;
   final double space;

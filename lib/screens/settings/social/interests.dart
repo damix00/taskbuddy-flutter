@@ -8,6 +8,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
+// Interests screen
+// Shows the interests that the app has collected from the user
 class InterestsScreen extends StatefulWidget {
   const InterestsScreen({Key? key}) : super(key: key);
 

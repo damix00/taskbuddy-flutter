@@ -32,6 +32,7 @@ class Tag {
   }
 }
 
+// Provider for the tags and categories
 class TagModel extends ChangeNotifier {
   bool _isLoading = true;
 

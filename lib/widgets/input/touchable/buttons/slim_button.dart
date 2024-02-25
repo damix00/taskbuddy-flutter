@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
+// This is just a button with a smaller height, used more for social functions
 class SlimButton extends StatelessWidget {
   final Widget child;
   final ButtonType type;
@@ -23,6 +24,7 @@ class SlimButton extends StatelessWidget {
   }
 }
 
+// This is an even smaller button, used for feed actions
 class FeedSlimButton extends StatelessWidget {
   final Widget child;
   final VoidCallback onPressed;

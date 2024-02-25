@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/api/responses/sessions/session_response.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
 
+// This model contains the state for the home screen
+// It contains the filters that are applied to the posts
 class HomeScreenModel extends ChangeNotifier {
   List<Tag> _filteredTags = [];
   int _type = SessionType.ALL;

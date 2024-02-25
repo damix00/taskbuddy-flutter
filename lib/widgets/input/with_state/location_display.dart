@@ -11,6 +11,7 @@ import 'package:taskbuddy/widgets/ui/platforms/bottom_sheet.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// Location data model
 class LocationData {
   LatLng location;
   String locationName;
@@ -21,6 +22,8 @@ class LocationData {
   });
 }
 
+// Location information widget
+// This widget displays the information of a selected location
 class LocationInformation extends StatelessWidget {
   final Function(LatLng?, String? name) onLocationChanged;
   final LatLng? location;
@@ -57,6 +60,7 @@ class LocationInformation extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Location name
                 Flexible(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +74,7 @@ class LocationInformation extends StatelessWidget {
                       ),
                       const SizedBox(height: 2,),
                       Text(
-                        l10n.pinnedLocation,
+                        l10n.pinnedLocation, // "Pinned location" text
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -78,6 +82,7 @@ class LocationInformation extends StatelessWidget {
                 ),
                 // Edit icon
                 if (showEditButton)
+                  // Show the edit button, which opens a new screen to edit the location
                   Touchable(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

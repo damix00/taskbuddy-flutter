@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_inputs/input_title.dart';
 
+// Text input widget
+// This is a text input component that can be used to get text input from the user
 class TextInput extends StatelessWidget {
   final String? label;
   final String hint;

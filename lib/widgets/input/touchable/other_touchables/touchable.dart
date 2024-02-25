@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 import 'package:taskbuddy/utils/utils.dart';
 
+// Touchable component
+// A component that listens to tap events
 class Touchable extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
@@ -37,26 +39,33 @@ class _TouchableState extends State<Touchable> {
   Widget build(BuildContext context) {
     return Consumer<PreferencesModel>(
       builder: (context, value, child) {
+        // We are using a listener to listen to the tap events
+        // GestureDetector is not used because it's slow
+        // This means we have to implement the touch events ourselves
         return Listener(
           behavior: HitTestBehavior.opaque, // Used to make the empty space clickable
-          onPointerDown: (e) {
+          onPointerDown: (e) { // When the button is pressed down
             setState(() {
               if (!widget.enableAnimation) return;
               _opacity = 0.5;
               _duration = Duration.zero;
             });
 
+            // Save the start position
             _startPosition = e.position;
 
+            // Reset the flag
             _shouldCallTap = true;
           },
           onPointerUp: (e) {
+            // If the button is not enabled, don't do anything
             if (!widget.enableAnimation) return;
             setState(() {
               _opacity = 1;
               _duration = const Duration(milliseconds: 100);
             });
 
+            // If the button is not enabled, don't do anything
             if (_shouldCallTap && widget.onTap != null) {
               if (value.hapticFeedback) {
                 HapticFeedback.lightImpact(); // Vibrate if enabled

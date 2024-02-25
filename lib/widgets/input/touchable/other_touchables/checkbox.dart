@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
+// Checkbox component with a label
 class TBCheckbox extends StatelessWidget {
   final bool value;
   final Function(bool) onChanged;
@@ -18,14 +19,14 @@ class TBCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Touchable(
+    return Touchable( // Listen to tap events
       onTap: () {
         onChanged(!value);
       },
       child: Row(
         mainAxisAlignment: mainAxisAlignment,
         children: [
-          Container(
+          Container( // Checkbox style
             decoration: BoxDecoration(
               color: value ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.background,
               border: Border.all(
@@ -44,10 +45,10 @@ class TBCheckbox extends StatelessWidget {
                   )
                 : null,
           ),
-          const SizedBox(
+          const SizedBox( // Spacing
             width: 16,
           ),
-          Expanded(child: child),
+          Expanded(child: child), // Label, takes up the remaining space
         ],
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
+// Search input widget
+// This is a text input with a search icon
 class SearchInput extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText;

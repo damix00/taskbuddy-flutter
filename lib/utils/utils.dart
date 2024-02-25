@@ -12,8 +12,10 @@ import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
 import 'package:mime/mime.dart';
 
 class Utils {
+  // This will change default Android status bar and navigation bar colors
   static void overrideColors() {
     if (Platform.isAndroid) {
+      // Select the correct brightness for the system bars
       Brightness brightness =
           SchedulerBinding.instance.platformDispatcher.platformBrightness ==
                   Brightness.dark
@@ -26,7 +28,7 @@ class Utils {
           systemNavigationBarDividerColor: Colors.transparent,
           systemNavigationBarIconBrightness: brightness,
           statusBarColor: Colors.black.withOpacity(0.002),
-          statusBarIconBrightness: brightness));
+          statusBarIconBrightness: brightness)); // Status bar icons' color
 
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
           overlays: [SystemUiOverlay.top]);
@@ -48,6 +50,7 @@ class Utils {
     return number.toString();
   }
 
+  // This will return a list that repeats the input list n times
   static T repeatList<T>(List<T> list, int times) {
     List<T> result = [];
 
@@ -58,6 +61,7 @@ class Utils {
     return result as T;
   }
 
+  // Navigate to a page without animation
   static void navigateWithoutAnim(BuildContext context, Widget page) {
     Navigator.of(context).pushAndRemoveUntil(
       PageRouteBuilder(
@@ -69,18 +73,22 @@ class Utils {
     );
   }
 
+  // Restart the app, logged out
   static void restartLoggedOut(BuildContext context) {
     navigateWithoutAnim(context, const WelcomeScreen());
   }
 
+  // Restart the app, logged in
   static void restartLoggedIn(BuildContext context) {
     navigateWithoutAnim(context, const HomeScreen());
   }
 
+  // Distance between two coordinates (pixels)
   static num dist(Offset a, Offset b) {
     return sqrt(pow(a.dx - b.dx, 2) + pow(a.dy - b.dy, 2));
   }
 
+  // Returns if it's possible to get the location
   static Future<bool> canGetLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -100,6 +108,7 @@ class Utils {
     return true;
   }
 
+  // Get the current location
   static Future<LatLng?> getCurrentLocation() async {
     if (!await canGetLocation()) {
       return null;
@@ -110,10 +119,12 @@ class Utils {
     return LatLng(loc.latitude, loc.longitude);
   }
 
+  // Check if the file is a video
   static bool isVideo(XFile file) {
     return lookupMimeType(file.path)!.contains('video');
   }
 
+  // Convert a list to a string (e.g. [1, 2, 3] -> '[1, 2, 3]')
   static String listToString(List<dynamic> list) {
     String result = '[';
 

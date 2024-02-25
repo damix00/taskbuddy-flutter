@@ -11,6 +11,8 @@ import 'package:taskbuddy/widgets/ui/platforms/loader.dart';
 import 'package:taskbuddy/widgets/ui/post_card/post_card.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
+// Bookmarks screen
+// Shows the posts that the user has bookmarked
 class BookmarksScreen extends StatelessWidget {
   const BookmarksScreen({Key? key}) : super(key: key);
 
@@ -36,6 +38,7 @@ class _ScreenContent extends StatefulWidget {
   State<_ScreenContent> createState() => _ScreenContentState();
 }
 
+// Screen content
 class _ScreenContentState extends State<_ScreenContent> {
   List<PostResultsResponse> _posts = [];
   bool _loading = true;

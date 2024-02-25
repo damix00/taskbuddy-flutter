@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
+// Appbar for the homescreen
 class HomescreenAppbar extends StatelessWidget {
   final Widget child;
   final bool forceDisableBlur;

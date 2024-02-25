@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/auth.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 
+// Initializers
 class Initializers {
   static Future<void> initCache(BuildContext context) async {
     PreferencesModel prefs =

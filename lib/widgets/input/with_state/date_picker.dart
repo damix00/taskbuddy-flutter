@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/utils/dates.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
+// Date picker widget
+// A date picker is used to select a date and time
 class DatePicker extends StatelessWidget {
   final String label;
   final DateTime value;
@@ -43,10 +45,12 @@ class DatePicker extends StatelessWidget {
     );
   }
 
+  // Handle click event
   void _handleClick(BuildContext context) async {
     var _minDate = minDate ?? DateTime.now();
     var _maxDate = maxDate ?? DateTime.now().add(const Duration(days: 365)); // 1 year from now
 
+    // Android date picker
     if (Platform.isAndroid) {
       // Date and time picker
       var date = await showDatePicker(
@@ -74,8 +78,8 @@ class DatePicker extends StatelessWidget {
       }
     }
 
+    // iOS date picker
     else {
-      // iOS date picker
       _showCupertinoDialog(
           context,
           child: CupertinoDatePicker(
@@ -107,6 +111,7 @@ class DatePicker extends StatelessWidget {
           onTap: () {
             _handleClick(context); 
           },
+          // Style the date picker
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(

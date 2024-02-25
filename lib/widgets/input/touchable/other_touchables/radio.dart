@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
+// Radio item model
 class RadioItem {
   final String title;
   final String? subtitle;
@@ -11,6 +12,8 @@ class RadioItem {
   });
 }
 
+// Radio buttons component, a list of radio buttons
+// Radio buttons are used to select one option from a list
 class RadioButtons extends StatelessWidget {
   final Function(int) onChanged;
   final int selected;
@@ -42,6 +45,7 @@ class RadioButtons extends StatelessWidget {
   }
 }
 
+// Radio button item component
 class RadioButtonItem extends StatelessWidget {
   final Function(int) onChanged;
   final int selected;

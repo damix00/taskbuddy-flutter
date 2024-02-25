@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
+// Link text component
+// Text that is clickable and looks like a link
 class LinkText extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;

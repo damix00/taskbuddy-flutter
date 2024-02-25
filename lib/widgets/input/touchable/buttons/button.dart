@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
+// Button types
 enum ButtonType { primary, outlined }
 
+// Button component
 class Button extends StatelessWidget {
   final Widget child;
   final Function onPressed;
@@ -64,6 +66,8 @@ class Button extends StatelessWidget {
   }
 }
 
+// Button text component
+// This is used to style the text inside the button
 class ButtonText extends StatelessWidget {
   final String text;
 

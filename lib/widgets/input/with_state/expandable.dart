@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// This is a text component that can be expanded to show more text
+// For example, a long description can be collapsed to show only a few lines
+
 class Expandable extends StatefulWidget {
   final String text;
   final TextStyle? style;

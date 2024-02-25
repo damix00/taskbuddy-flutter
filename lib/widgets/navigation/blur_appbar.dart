@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 
+// Appbar that has a blur effect (if enabled in settings)
 class BlurAppbar extends StatelessWidget {
   final Widget? child;
   final bool showLeading;

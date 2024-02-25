@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 
+// A widget that blurs the background of its child
 class BlurParent extends StatefulWidget {
   final Widget child;
   final double? height;
@@ -24,6 +25,7 @@ class BlurParent extends StatefulWidget {
   State<BlurParent> createState() => _BlurParentState();
 }
 
+// The state of the blur parent
 class _BlurParentState extends State<BlurParent> {
   @override
   Widget build(BuildContext context) {

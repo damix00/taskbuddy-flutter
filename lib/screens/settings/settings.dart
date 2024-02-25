@@ -12,6 +12,7 @@ import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/state/providers/preferences.dart';
 
+// Settings screen
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
