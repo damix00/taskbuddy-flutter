@@ -9,6 +9,8 @@ import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/widgets/ui/platforms/scrollbar_scroll_view.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
+import 'package:provider/provider.dart';
+import 'package:taskbuddy/state/providers/preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -83,13 +85,17 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
                       AppSettings.openAppSettings(type: AppSettingsType.notification);
                     }
                   ),
-                SettingsNavigation(
-                  title: l10n.language,
-                  icon: Icons.translate_outlined,
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/settings/language');
-                  },
-                  value: Platform.localeName.split('_')[0].toUpperCase(),
+                Consumer<PreferencesModel>(
+                  builder: (context, value, child) {
+                    return SettingsNavigation(
+                      title: l10n.language,
+                      icon: Icons.translate_outlined,
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/settings/language');
+                      },
+                      value: value.preferredLanguage == "" ? Platform.localeName.split('_')[0].toUpperCase() : value.preferredLanguage.toUpperCase(),
+                    );
+                  }
                 ),
               ]
             ),
