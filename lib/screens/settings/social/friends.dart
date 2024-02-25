@@ -39,7 +39,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
     _offset += response.length;
 
     setState(() {
-      _friends = response;
+      _friends.addAll(response);
       _loading = false;
     });
   }

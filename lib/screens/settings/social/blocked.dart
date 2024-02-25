@@ -41,7 +41,7 @@ class _BlockedUsersState extends State<BlockedUsers> {
     _offset += response.length;
 
     setState(() {
-      _blockedUsers = response;
+      _blockedUsers.addAll(response);
       _loading = false;
     });
   }
