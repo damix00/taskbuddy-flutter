@@ -387,14 +387,14 @@ class _ChatLayoutState extends State<ChatLayout> with WidgetsBindingObserver {
 
     return WillPopScope(
       onWillPop: () async {
-        MessagesState.currentChannel = "";
-
         if (_currentMessage != null) {
           setState(() {
             _currentMessage = null;
           });
           return false;
         }
+
+        MessagesState.currentChannel = "";
 
         return true;
       },
