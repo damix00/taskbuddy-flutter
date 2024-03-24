@@ -84,7 +84,8 @@ class Posts {
       files: files,
       headers: {
         "Authorization": "Bearer $token",
-      }
+      },
+      timeout: const Duration(days: 1)
     );
 
     if (response == null) {

@@ -10,6 +10,8 @@
 
     <application
         android:label="TaskBuddy"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">

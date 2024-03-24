@@ -37,7 +37,7 @@ class _ProfileAppbarState extends State<ProfileAppbar> {
                   '@${auth.username}',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                auth.isPrivate ? const _PrivateProfileIcon() : Container()
+                if (auth.isPrivate) const _PrivateProfileIcon()
               ],
             ),
             const Spacer(),

@@ -134,7 +134,9 @@ class AppbarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.titleSmall
+      style: Theme.of(context).textTheme.titleSmall,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

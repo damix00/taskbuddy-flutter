@@ -76,7 +76,8 @@ class _PriceNegotiateRequestState extends State<PriceNegotiateRequest> {
     var price = jsonDecode(widget.message.request!.data!)["price"];
 
     return RequestMessageBase(
-      title: l10n.negotiatePriceMessage("€$price"),
+      title: l10n.negotiatePriceMessage,
+      subtitle: "€$price",
       body: l10n.negotiatePriceDesc,
       status: widget.message.request!.status,
       actions: [

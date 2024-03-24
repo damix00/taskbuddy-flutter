@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:styled_text/styled_text.dart';
 import 'package:taskbuddy/api/responses/chats/message_response.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RequestMessageBase extends StatelessWidget {
   final String title;
+  final String? subtitle;
   final String body;
   final List<Widget> actions;
   final List<Widget> finishedActions;
@@ -13,6 +13,7 @@ class RequestMessageBase extends StatelessWidget {
   const RequestMessageBase({
     Key? key,
     required this.title,
+    this.subtitle,
     required this.body,
     this.actions = const [],
     this.finishedActions = const [],
@@ -56,18 +57,17 @@ class RequestMessageBase extends StatelessWidget {
                   : Theme.of(context).colorScheme.primary
               )
             ),
-          StyledText(
-            text: title,
-            tags: {
-              "primary": StyledTextTag(
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  fontWeight: FontWeight.w900,
-                  color: Theme.of(context).colorScheme.primary
-                )
-              ),
-            },
+          Text(
+            title,
             style: Theme.of(context).textTheme.titleSmall
           ),
+          if (subtitle != null)
+            Text(
+              subtitle!,
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+              )
+            ),
           const SizedBox(height: 4),
           Text(
             body,

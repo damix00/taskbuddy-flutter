@@ -56,20 +56,29 @@ class _SearchResultsAccountState extends State<AccountTile> {
         ),
         const SizedBox(width: 12,),
         Expanded(
-          child: Touchable(
-            onTap: _openAccount,
-            child: Text(
-              "@${_account.username}",
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
+          child: Row(
+            children: [
+              Flexible(
+                child: Touchable(
+                  onTap: _openAccount,
+                  child: Text(
+                    "@${_account.username}",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ),
+              if (_account.verified)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: const Icon(Icons.verified, size: 16, color: Colors.blue,)
+                ),
+            ],
           ),
         ),
 
-        if (_account.verified)
-          const SizedBox(width: 4,),
-        if (_account.verified)
-          const Icon(Icons.verified, size: 16, color: Colors.blue,),
+
+        const SizedBox(width: 12,),
 
         if (widget.trailing != null)
           widget.trailing!

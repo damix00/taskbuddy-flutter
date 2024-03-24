@@ -99,8 +99,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: BlurAppbar.appBar(
         child: Row(
           children: [
-            AppbarTitle("@${_account?.username ?? widget.username ?? l10n.username}"),
-            const Spacer(),
+            Expanded(
+              child: Row(
+                children: [
+                  Flexible(child: AppbarTitle("@${_account?.username ?? widget.username ?? l10n.username}")),
+                  if (_account?.verified ?? false) Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: const Icon(Icons.verified, color: Colors.blue),
+                  ),
+                ],
+              ),
+            ),
             if (!_isMe)
               IconButton(
                 icon: const Icon(Icons.more_vert),

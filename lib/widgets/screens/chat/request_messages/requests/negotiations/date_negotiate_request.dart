@@ -77,7 +77,8 @@ class _DateNegotiationRequestState extends State<DateNegotiateRequest> {
     var date = jsonDecode(widget.message.request!.data!)["date"];
 
     return RequestMessageBase(
-      title: l10n.negotiateDateMessage(Dates.formatDate(DateTime.parse(date))),
+      title: l10n.negotiateDateMessage,
+      subtitle: Dates.formatDate(DateTime.parse(date)),
       body: l10n.negotiateDateDesc,
       status: widget.message.request!.status,
       actions: [
