@@ -138,6 +138,6 @@ class Utils {
 
     result += ']';
 
-    return result;  }
-
+    return result;
+  }
 }

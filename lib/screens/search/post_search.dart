@@ -176,10 +176,22 @@ class _PostDisplayState extends State<_PostDisplay> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodyMedium
                       ),
-                      Text(
-                        "@${widget.post.user.username}",
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.labelSmall
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "@${widget.post.user.username}",
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.labelSmall
+                            ),
+                          ),
+                          if (widget.post.user.verified)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4),
+                              child: const Icon(Icons.verified, size: 16, color: Colors.blue,)
+                            ),
+                        ],
                       ),
                     ],
                   ),

@@ -43,6 +43,8 @@ class ChannelResponse {
 
   PublicAccountResponse get otherUserAccount => otherUser == "recipient" ? channelRecipient : channelCreator;
 
+  PublicAccountResponse get postCreator => isPostCreator ? channelCreator : channelRecipient;
+
   factory ChannelResponse.fromJson(Map<String, dynamic> json) {
     return ChannelResponse(
       uuid: json['uuid'],

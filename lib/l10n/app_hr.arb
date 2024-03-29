@@ -353,5 +353,9 @@
   "newPassword": "Nova lozinka",
   "confirmNewPassword": "Potvrdi novu lozinku",
   "passwordsAreTheSame": "Nova lozinka mora biti različita od stare lozinke.",
-  "noBlockedUsers": "Nemate blokiranih korisnika."
+  "noBlockedUsers": "Nemate blokiranih korisnika.",
+  "aboutThisChat": "O ovom razgovoru",
+  "negotiatedPrice": "Pregovorena cijena",
+  "negotiatedDate": "Dogovoreni datum",
+  "remoteText": "Ovaj posao obavlja se udaljeno."
 }

@@ -1,4 +1,5 @@
 import 'package:taskbuddy/api/responses/account/public_account_response.dart';
+import 'package:taskbuddy/api/responses/posts/post_only_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 
@@ -149,6 +150,36 @@ class PostResultsResponse {
   factory PostResultsResponse.fromPostResponse(PostResponse response) {
     return PostResultsResponse(
       user: PostResultsUser.fromAccountResponse(response.user),
+      UUID: response.UUID,
+      title: response.title,
+      description: response.description,
+      jobType: response.jobType,
+      price: response.price,
+      locationText: response.locationText,
+      locationLat: response.locationLat,
+      locationLon: response.locationLon,
+      tags: response.tags,
+      media: response.media,
+      createdAt: response.createdAt,
+      startDate: response.startDate,
+      endDate: response.endDate,
+      likes: response.likes,
+      comments: response.comments,
+      shares: response.shares,
+      bookmarks: response.bookmarks,
+      impressions: response.impressions,
+      isRemote: response.isRemote,
+      isUrgent: response.isUrgent,
+      isLiked: response.isLiked,
+      isBookmarked: response.isBookmarked,
+      isReserved: response.isReserved,
+      status: response.status
+    );
+  }
+
+  factory PostResultsResponse.fromPostOnlyResponse(PostOnlyResponse response, PublicAccountResponse user) {
+    return PostResultsResponse(
+      user: PostResultsUser.fromAccountResponse(user),
       UUID: response.UUID,
       title: response.title,
       description: response.description,

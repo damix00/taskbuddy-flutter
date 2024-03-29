@@ -19,8 +19,12 @@ class _RequiredActionsMap extends StatelessWidget {
       return Container();
     }
 
-    if (auth.requiredActions!.verifyEmail) {
-      return UpdateApp(errorCode: ErrorCodes.unsupportedRequiredAction);
+    if (auth.requiredActions!.updateApp || auth.requiredActions!.verifyEmail) {
+      return UpdateApp(
+        errorCode: auth.requiredActions!.updateApp
+            ? ErrorCodes.outdatedVersion
+            : ErrorCodes.unsupportedRequiredAction
+      );
     }
 
     if (auth.requiredActions!.verifyPhoneNumber) {

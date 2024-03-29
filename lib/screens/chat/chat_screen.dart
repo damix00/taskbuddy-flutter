@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
-import 'package:taskbuddy/screens/profile/profile_screen.dart';
+import 'package:taskbuddy/screens/chat/about_chat_screen.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
@@ -145,8 +145,8 @@ class _ChatScreenState extends State<ChatScreen> {
           : Touchable(
           onTap: () => {
             Navigator.of(context).push(
-              CupertinoPageRoute(builder: (context) => ProfileScreen(
-                account: _channel!.otherUserAccount
+              CupertinoPageRoute(builder: (context) => AboutChatScreen(
+                channel: _channel!
               ))
             )
           },

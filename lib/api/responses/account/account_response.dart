@@ -46,10 +46,12 @@ class AccountResponseUser {
 class AccountResponseRequiredActions {
   final bool verifyPhoneNumber;
   final bool verifyEmail;
+  final bool updateApp;
 
   AccountResponseRequiredActions({
     required this.verifyPhoneNumber,
     required this.verifyEmail,
+    this.updateApp = false,
   });
 
   // Factory method to create an AccountResponseRequiredActions from JSON data
@@ -57,6 +59,7 @@ class AccountResponseRequiredActions {
     return AccountResponseRequiredActions(
       verifyPhoneNumber: json['verify_phone_number'],
       verifyEmail: json['verify_email'],
+      updateApp: json['update_app'] ?? false,
     );
   }
 
