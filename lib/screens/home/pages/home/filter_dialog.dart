@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/responses/sessions/session_response.dart';
-import 'package:taskbuddy/state/providers/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
@@ -10,8 +8,31 @@ import 'package:taskbuddy/widgets/input/with_state/content/tag_picker.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
 import 'package:taskbuddy/widgets/ui/tag_widget.dart';
 
+class FilterResponse {
+  final int urgencyType;
+  final int postLocationType;
+  final List<Tag> filteredTags;
+
+  FilterResponse({
+    required this.urgencyType,
+    required this.postLocationType,
+    required this.filteredTags,
+  });
+}
+
 class FilterDialog extends StatefulWidget {
-  const FilterDialog({Key? key}) : super(key: key);
+  final Function(FilterResponse) onFilter;
+  final int urgencyType;
+  final int postLocationType;
+  final List<Tag> filteredTags;
+
+  const FilterDialog({
+    required this.urgencyType,
+    required this.postLocationType,
+    required this.filteredTags,
+    required this.onFilter,
+    Key? key
+  }) : super(key: key);
 
   @override
   State<FilterDialog> createState() => _FilterDialogState();
@@ -25,10 +46,10 @@ class _FilterDialogState extends State<FilterDialog> {
   @override
   void initState() {
     super.initState();
-    HomeScreenModel model = Provider.of<HomeScreenModel>(context, listen: false);
-    _urgencyType = model.urgencyType;
-    _postLocationType = model.postLocationType;
-    _filteredTags = model.filteredTags;
+
+    _urgencyType = widget.urgencyType;
+    _postLocationType = widget.postLocationType;
+    _filteredTags = widget.filteredTags;
   }
 
   @override
@@ -240,14 +261,11 @@ class _FilterDialogState extends State<FilterDialog> {
             Button(
               child: const ButtonText('OK'),
               onPressed: () {
-                HomeScreenModel model = Provider.of<HomeScreenModel>(context, listen: false);
-
-                model.setData(
-                  model.type,
-                  _postLocationType,
-                  _urgencyType,
-                  _filteredTags,
-                );
+                widget.onFilter(FilterResponse(
+                  urgencyType: _urgencyType,
+                  postLocationType: _postLocationType,
+                  filteredTags: _filteredTags,
+                ));
 
                 Navigator.pop(context);
               },

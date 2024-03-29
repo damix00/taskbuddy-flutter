@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/cache/search_history_cache.dart';
+import 'package:taskbuddy/screens/search/search_filters.dart';
 import 'package:taskbuddy/screens/search/search_results_screen.dart';
+import 'package:taskbuddy/state/providers/search_filters.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_inputs/search_input.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,40 +27,47 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
       appBar: BlurAppbar.appBar(
-        child: Hero(
-          tag: 'search',
-          child: Material(
-            child: SearchInput(
-              hintText: l10n.search,
-              fillColor: Theme.of(context).colorScheme.surface,
-              borderRadius: 0,
-              enabled: true,
-              showIcon: false,
-              onSearch: () async {
-                if (_value.isEmpty) {
-                  return;
-                }
-
-                var history = await SearchHistoryCache.getHistory();
-
-                if (!history.contains(_value)) {
-                  history.add(_value);
-                  await SearchHistoryCache.setHistory(history);
-                }
-
-                Navigator.of(context).push(
-                  CupertinoPageRoute(
-                    builder: (context) => SearchResultsScreen(query: _value)
-                  )
-                );
-              },
-              onChanged: (String value) {
-                setState(() {
-                  _value = value;
-                });
-              },
+        child: Row(
+          children: [
+            Expanded(
+              child: Hero(
+                tag: 'search',
+                child: Material(
+                  child: SearchInput(
+                    hintText: l10n.search,
+                    fillColor: Theme.of(context).colorScheme.surface,
+                    borderRadius: 0,
+                    enabled: true,
+                    showIcon: false,
+                    onSearch: () async {
+                      if (_value.isEmpty) {
+                        return;
+                      }
+            
+                      var history = await SearchHistoryCache.getHistory();
+            
+                      if (!history.contains(_value)) {
+                        history.add(_value);
+                        await SearchHistoryCache.setHistory(history);
+                      }
+            
+                      Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (context) => SearchResultsScreen(query: _value)
+                        )
+                      );
+                    },
+                    onChanged: (String value) {
+                      setState(() {
+                        _value = value;
+                      });
+                    },
+                  ),
+                )
+              ),
             ),
-          )
+            const SearchFilters()
+          ],
         )
       ),
       body: const _SearchHistory()
@@ -141,5 +151,13 @@ class _SearchHistoryState extends State<_SearchHistory> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    SearchFilterModel model = Provider.of<SearchFilterModel>(context, listen: false);
+    model.clear();
+
+    super.dispose();
   }
 }

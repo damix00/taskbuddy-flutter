@@ -63,16 +63,29 @@ class HomePageAppbar extends StatelessWidget {
             color: Theme.of(context).colorScheme.onBackground
           ),
           onPressed: () {
+            HomeScreenModel model = Provider.of<HomeScreenModel>(context, listen: false);
             showDialog(
               context: context,
               builder: (context) {
-                return const Dialog(
+                return Dialog(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   surfaceTintColor: Colors.transparent,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    child: FilterDialog()
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    child: FilterDialog(
+                      filteredTags: model.filteredTags,
+                      postLocationType: model.postLocationType,
+                      urgencyType: model.urgencyType,
+                      onFilter: (data) {
+                        model.setData(
+                          model.type,
+                          data.postLocationType,
+                          data.urgencyType,
+                          data.filteredTags,
+                        );
+                      },
+                    )
                   )
                 );
               }

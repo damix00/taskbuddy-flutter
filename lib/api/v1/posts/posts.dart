@@ -5,6 +5,7 @@ import 'package:taskbuddy/api/responses/posts/post_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/api/responses/posts/post_tags_response.dart';
 import 'package:taskbuddy/api/responses/responses.dart';
+import 'package:taskbuddy/api/responses/sessions/session_response.dart';
 import 'package:taskbuddy/api/v1/posts/interactions.dart';
 import 'package:taskbuddy/state/static/create_post_state.dart';
 import 'package:dio/dio.dart' as diolib;
@@ -156,10 +157,16 @@ class Posts {
     }
   }
 
-  Future<ApiResponse<List<PostResultsResponse>?>> searchPosts(String token, String query, int offset) async {
+  Future<ApiResponse<List<PostResultsResponse>?>> searchPosts(String token, String query, int offset, {
+    List<int> tags = const [],
+    int urgency = UrgencyType.ALL,
+    int location = LocationType.ALL,
+  }) async {
     try {
       var response = await Requests.fetchEndpoint(
-        "${ApiOptions.path}/search?query=${Uri.encodeComponent(query)}&offset=${Uri.encodeComponent(offset.toString())}&type=post",
+        "${ApiOptions.path}/search?query=${Uri.encodeComponent(query)}&offset=${Uri.encodeComponent(offset.toString())}&type=post&tags=${
+          Uri.encodeComponent(Utils.listToString(tags.map((e) => e.toString()).toList()))
+        }&urgency=${urgency}&location=${location}",
         method: "GET",
         headers: {
           "Authorization": "Bearer $token",

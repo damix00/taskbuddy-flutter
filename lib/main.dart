@@ -50,6 +50,7 @@ import 'package:taskbuddy/screens/signin/login/login_screen.dart';
 import 'package:taskbuddy/screens/signin/register/pages/credentials_page.dart';
 import 'package:taskbuddy/screens/signin/register/register_screen.dart';
 import 'package:taskbuddy/screens/signin/welcome/welcome_screen.dart';
+import 'package:taskbuddy/state/providers/search_filters.dart';
 import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/state/remote_config.dart';
 import 'package:taskbuddy/state/static/navigation_state.dart';
@@ -75,7 +76,8 @@ void main() {
         ChangeNotifierProvider(create: (context) => TagModel()),
         ChangeNotifierProvider(create: (context) => MessagesModel()),
         ChangeNotifierProvider(create: (context) => HomeScreenModel()),
-        ChangeNotifierProvider(create: (context) => LocationModel())
+        ChangeNotifierProvider(create: (context) => LocationModel()),
+        ChangeNotifierProvider(create: (_) => SearchFilterModel())
       ],
       child: const App(),
     )

@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
 import 'package:taskbuddy/api/responses/posts/post_results_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/post/post_screen.dart';
 import 'package:taskbuddy/screens/profile/profile_screen.dart';
+import 'package:taskbuddy/state/providers/search_filters.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/slim_button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
@@ -32,7 +34,16 @@ class _PostSearchState extends State<PostSearch> with AutomaticKeepAliveClientMi
   Future<void> _search() async {
     String token = (await AccountCache.getToken())!;
 
-    var response = await Api.v1.posts.searchPosts(token, widget.query, _offset);
+    SearchFilterModel model = Provider.of<SearchFilterModel>(context, listen: false);
+
+    var response = await Api.v1.posts.searchPosts(
+      token,
+      widget.query,
+      _offset,
+      urgency: model.urgencyType,
+      location: model.postLocationType,
+      tags: model.filteredTags.map((e) => e.id).toList()
+    );
 
     if (!response.ok) {
       setState(() {
@@ -58,6 +69,18 @@ class _PostSearchState extends State<PostSearch> with AutomaticKeepAliveClientMi
   void initState() {
     super.initState();
 
+    SearchFilterModel model = Provider.of<SearchFilterModel>(context, listen: false);
+    model.addListener(() {
+      setState(() {
+        _results.clear();
+        _offset = 0;
+        _hasMore = true;
+        _loading = true;
+      });
+
+      _search();
+    });
+
     _search();
   }
 
@@ -72,6 +95,7 @@ class _PostSearchState extends State<PostSearch> with AutomaticKeepAliveClientMi
         const SliverToBoxAdapter(
           child: SizedBox(height: Sizing.horizontalPadding),
         ),
+        
         if (_loading)
           const SliverToBoxAdapter(
             child: CrossPlatformLoader(),
