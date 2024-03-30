@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:taskbuddy/utils/haptic_feedback.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 
 // Button types
@@ -35,7 +35,7 @@ class Button extends StatelessWidget {
       disabled: loading || disabled,
       onTap: () {
         if (disabled) return;
-        HapticFeedback.lightImpact();
+        HapticFeedbackUtils.lightImpact(context);
         onPressed();
       },
       child: Container(

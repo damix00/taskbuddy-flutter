@@ -31,6 +31,7 @@ class PostMedia extends StatelessWidget {
                     fit: BoxFit.contain,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
+                    fadeInDuration: const Duration(milliseconds: 0),
                   ),
                 );
               },

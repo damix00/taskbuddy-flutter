@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
+import 'package:flutter/services.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
@@ -43,8 +46,23 @@ class PostLayout extends StatefulWidget {
   State<PostLayout> createState() => _PostLayoutState();
 }
 
-class _PostLayoutState extends State<PostLayout> {
+class _LikeHeart {
+  final double x;
+  final double y;
+  final AnimationController controller;
+
+  _LikeHeart({
+    required this.x,
+    required this.y,
+    required this.controller
+  });
+}
+
+class _PostLayoutState extends State<PostLayout> with TickerProviderStateMixin {
   int _page = 0;
+  List<_LikeHeart> _hearts = [];
+
+  double _lastX = 0, _lastY = 0;
 
   late PostResultsResponse _post;
 
@@ -309,7 +327,7 @@ class _PostLayoutState extends State<PostLayout> {
       Navigator.of(context).push(
         CupertinoPageRoute(
           builder: (context) => ChatScreen(
-            channel: channel
+            channel: channel.clone()
           ),
         ),
       );
@@ -336,6 +354,52 @@ class _PostLayoutState extends State<PostLayout> {
     );
   }
 
+  void _addHeart(double x, double y) {
+    AnimationController controller = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
+
+    // Spring animation
+    // This is the animation that will make the heart grow and shrink
+    final SpringDescription _kSpring = SpringDescription.withDampingRatio(
+      mass: 1.0,
+      stiffness: 100.0,
+      ratio: 0.2,
+    );
+
+    final SpringSimulation _springSimulation = SpringSimulation(
+      _kSpring,
+      0.0, // Starting value of the animation
+      1.0, // Ending value of the animation
+      0.0, // Velocity of the animation
+    );
+
+    controller.animateWith(_springSimulation);
+
+    // Remove the heart after 1s and play reverse animation
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        // Future.delayed(const Duration(milliseconds: 500), () {
+          controller.reverse();
+        // });
+      }
+      else if (status == AnimationStatus.dismissed) {
+        setState(() {
+          _hearts.removeWhere((element) => element.controller == controller);
+        });
+      }
+    });
+
+    setState(() {
+      _hearts.add(_LikeHeart(
+        x: x,
+        y: y,
+        controller: controller
+      ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
@@ -344,147 +408,175 @@ class _PostLayoutState extends State<PostLayout> {
     // On the bottom, the post media (images, videos, etc)
     // On the top, the post information (title, description, etc)
     // On the top of the post information, the post interactions (like, bookmark, etc)
-    return Stack(
-      children: [
-        GestureDetector(
-          onLongPress: _openOptionsMenu,
-          // When the screen is double tapped, like the post
-          onDoubleTap: () {
-            HapticFeedbackUtils.mediumImpact(context);
-            if (_post.isLiked) {
-              return;
-            }
-            
-            _onLiked();
-          },
-          // Media
-          child: PostMedia(
-            post: widget.post,
-            onPageChanged: (page) {
-              setState(() {
-                _page = page;
-              });
-            },
-          ),
-        ),
-        // Post information
-        Stack(
+    return Listener(
+      onPointerDown: (event) {
+        _lastX = event.position.dx;
+        _lastY = event.position.dy;
+      },
+      child: GestureDetector(
+        onLongPress: _openOptionsMenu,
+        // When the screen is double tapped, like the post
+        onDoubleTap: () {
+          HapticFeedbackUtils.mediumImpact(context);
+          _addHeart(_lastX, _lastY);
+    
+          if (_post.isLiked) {
+            return;
+          }
+    
+          _onLiked();
+        },
+        child: Stack(
           children: [
-            // A gradient so it's easier to read the post information
-            Positioned(
-              bottom: 0,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.4,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Theme.of(context).colorScheme.inverseSurface.withOpacity(0),
-                      Theme.of(context).colorScheme.inverseSurface.withOpacity(1),
-                    ]
-                  )
-                ),
-              ),
+            PostMedia(
+              post: widget.post,
+              onPageChanged: (page) {
+                setState(() {
+                  _page = page;
+                });
+              },
             ),
-            Positioned(
-              bottom: MediaQuery.of(context).padding.bottom,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Page indicator (dots)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: Sizing.horizontalPadding),
-                    child: PageViewDotIndicator(
-                      currentItem: _page,
-                      count: widget.post.media.length,
-                      unselectedColor: Theme.of(context).colorScheme.surface,
-                      selectedColor: Theme.of(context).colorScheme.primary,
+            // Post information
+            Stack(
+              children: [
+                // A gradient so it's easier to read the post information
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Theme.of(context).colorScheme.inverseSurface.withOpacity(0),
+                          Theme.of(context).colorScheme.inverseSurface.withOpacity(1),
+                        ]
+                      )
                     ),
                   ),
-                  // Post tags (categories)
-                  PostTags(post: _post),
-                  const SizedBox(height: 12),
-                  // Post author (user)
-                  PostAuthor(post: _post),
-                  const SizedBox(height: 8),
-                  // Post price
-                  PostPrice(post: _post),
-                  const SizedBox(height: 4),
-                  // Post title
-                  PostTitle(post: _post),
-                  const SizedBox(height: 2),
-                  // Post description
-                  PostDescription(post: _post),
-                  const SizedBox(height: 8),
-                  // Tap to read more button (opens a bottom sheet)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
-                    child: Touchable(
-                      child: Text(
-                        l10n.tapToReadMore,
-                        style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        )
-                      ),
-                      onTap: () {
-                        showModalBottomSheet(
-                          enableDrag: true,
-                          backgroundColor: Theme.of(context).colorScheme.surface,
-                          context: context,
-                          constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * 0.4
-                          ),
-                          builder: (ctx) => PostSheet(
-                            post: widget.post,
-                            paddingBottom: MediaQuery.of(context).padding.bottom,
-                            sendMessage: _sendMessage,
-                          )
-                        );
-                      },
-                    ),
-                  ),
-                  if (!_post.user.isMe)
-                    const SizedBox(height: 12),
-
-                  if (!_post.user.isMe)
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
-                        child: SlimButton(
-                          disabled: _post.endDate.isBefore(DateTime.now()) || _post.status == PostStatus.RESERVED || _post.status == PostStatus.CLOSED,
-                          onPressed: _sendMessage,
-                          type: ButtonType.outlined,
-                          child: Text(
-                            l10n.sendAMessage,
-                              style: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontSize: 12
-                            )
-                          ),
+                ),
+                Positioned(
+                  bottom: MediaQuery.of(context).padding.bottom,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Page indicator (dots)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: Sizing.horizontalPadding),
+                        child: PageViewDotIndicator(
+                          currentItem: _page,
+                          count: widget.post.media.length,
+                          unselectedColor: Theme.of(context).colorScheme.surface,
+                          selectedColor: Theme.of(context).colorScheme.primary,
                         ),
                       ),
+                      // Post tags (categories)
+                      PostTags(post: _post),
+                      const SizedBox(height: 12),
+                      // Post author (user)
+                      PostAuthor(post: _post),
+                      const SizedBox(height: 8),
+                      // Post price
+                      PostPrice(post: _post),
+                      const SizedBox(height: 4),
+                      // Post title
+                      PostTitle(post: _post),
+                      const SizedBox(height: 2),
+                      // Post description
+                      PostDescription(post: _post),
+                      const SizedBox(height: 8),
+                      // Tap to read more button (opens a bottom sheet)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: Sizing.horizontalPadding),
+                        child: Touchable(
+                          child: Text(
+                            l10n.tapToReadMore,
+                            style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                              fontWeight: FontWeight.w600,
+                            )
+                          ),
+                          onTap: () {
+                            showModalBottomSheet(
+                              enableDrag: true,
+                              backgroundColor: Theme.of(context).colorScheme.surface,
+                              context: context,
+                              constraints: BoxConstraints(
+                                maxHeight: MediaQuery.of(context).size.height * 0.4
+                              ),
+                              builder: (ctx) => PostSheet(
+                                post: widget.post,
+                                paddingBottom: MediaQuery.of(context).padding.bottom,
+                                sendMessage: _sendMessage,
+                              )
+                            );
+                          },
+                        ),
+                      ),
+                      if (!_post.user.isMe)
+                        const SizedBox(height: 12),
+      
+                      if (!_post.user.isMe)
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: Sizing.horizontalPadding, right: Sizing.horizontalPadding + Sizing.interactionsWidth),
+                            child: SlimButton(
+                              disabled: _post.endDate.isBefore(DateTime.now()) || _post.status == PostStatus.RESERVED || _post.status == PostStatus.CLOSED,
+                              onPressed: _sendMessage,
+                              type: ButtonType.outlined,
+                              child: Text(
+                                l10n.sendAMessage,
+                                  style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onBackground,
+                                  fontSize: 12
+                                )
+                              ),
+                            ),
+                          ),
+                        ),
+                      
+                      const SizedBox(height: Sizing.horizontalPadding),
+                    ],
+                  )
+                ),
+                Positioned(
+                  bottom: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding,
+                  right: 0,
+                  child: PostInteractions(
+                    post: _post,
+                    onLiked: _onLiked,
+                    onBookmarked: _onBookmarked,
+                    onMore: _openOptionsMenu
+                  )
+                ),
+              ],
+            ),
+            // Like hearts
+            ..._hearts.map((e) => Positioned(
+              left: e.x - 100,
+              top: e.y - 100,
+              child: AnimatedBuilder(
+                animation: e.controller,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: e.controller.value,
+                    child: Transform.scale(
+                      scale: e.controller.value,
+                      child: const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 200,
+                      ),
                     ),
-                  
-                  const SizedBox(height: Sizing.horizontalPadding),
-                ],
-              )
-            ),
-            Positioned(
-              bottom: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding,
-              right: 0,
-              child: PostInteractions(
-                post: _post,
-                onLiked: _onLiked,
-                onBookmarked: _onBookmarked,
-                onMore: _openOptionsMenu
-              )
-            ),
+                  );
+                },
+              ),
+            )).toList(),
           ],
         ),
-      ],
+      ),
     );
   }
 }

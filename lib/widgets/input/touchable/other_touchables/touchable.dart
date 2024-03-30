@@ -67,9 +67,6 @@ class _TouchableState extends State<Touchable> {
 
             // If the button is not enabled, don't do anything
             if (_shouldCallTap && widget.onTap != null) {
-              if (value.hapticFeedback) {
-                HapticFeedback.lightImpact(); // Vibrate if enabled
-              }
               widget.onTap?.call();
             }
           },

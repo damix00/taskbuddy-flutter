@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 
 class Constants {
-  static const Color primaryColor = Color.fromARGB(255, 31, 184, 255);
+  static const Color primaryColor = Color(0xFF1FB8FF);
   static const Color primaryColorLight = Color(0xFF136FE7);
   static const Color secondaryColor = Color(0xFF2C3F77);
   static const Color bgColor = Color(0xff201A31);
