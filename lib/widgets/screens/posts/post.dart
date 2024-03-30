@@ -4,8 +4,6 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
-import 'package:flutter/services.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:taskbuddy/api/api.dart';
@@ -360,29 +358,17 @@ class _PostLayoutState extends State<PostLayout> with TickerProviderStateMixin {
       vsync: this,
     );
 
-    // Spring animation
-    // This is the animation that will make the heart grow and shrink
-    final SpringDescription _kSpring = SpringDescription.withDampingRatio(
-      mass: 1.0,
-      stiffness: 100.0,
-      ratio: 0.2,
-    );
+    // Add a curve to the animation
+    controller.drive(CurveTween(curve: Curves.easeInOut));
 
-    final SpringSimulation _springSimulation = SpringSimulation(
-      _kSpring,
-      0.0, // Starting value of the animation
-      1.0, // Ending value of the animation
-      0.0, // Velocity of the animation
-    );
-
-    controller.animateWith(_springSimulation);
+    controller.forward();
 
     // Remove the heart after 1s and play reverse animation
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        // Future.delayed(const Duration(milliseconds: 500), () {
+        Future.delayed(const Duration(milliseconds: 1000), () {
           controller.reverse();
-        // });
+        });
       }
       else if (status == AnimationStatus.dismissed) {
         setState(() {
