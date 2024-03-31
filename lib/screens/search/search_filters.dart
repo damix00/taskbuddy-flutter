@@ -31,11 +31,15 @@ class SearchFilters extends StatelessWidget {
                         filteredTags: model.filteredTags,
                         postLocationType: model.postLocationType,
                         urgencyType: model.urgencyType,
+                        minPrice: model.minPrice,
+                        maxPrice: model.maxPrice,
                         onFilter: (data) {
                           model.setData(
                             data.postLocationType,
                             data.urgencyType,
                             data.filteredTags,
+                            minPrice: data.minPrice,
+                            maxPrice: data.maxPrice
                           );
                         },
                       )

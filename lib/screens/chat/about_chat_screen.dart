@@ -50,6 +50,32 @@ class AboutChatContent extends StatelessWidget {
     AppLocalizations l10n = AppLocalizations.of(context)!;
     double padding = MediaQuery.of(context).padding.top;
 
+    String status;
+    Color? statusColor;
+
+    switch (channel.status) {
+      case ChannelStatus.PENDING:
+        status = l10n.pending;
+        break;
+      case ChannelStatus.ACCEPTED:
+        status = l10n.accepted;
+        statusColor = Theme.of(context).colorScheme.primary;
+        break;
+      case ChannelStatus.REJECTED:
+        status = l10n.rejected;
+        statusColor = Theme.of(context).colorScheme.error;
+        break;
+      case ChannelStatus.COMPLETED:
+        status = l10n.completed;
+        statusColor = Colors.green;
+        break;
+      case ChannelStatus.CANCELLED:
+        status = l10n.cancelled;
+        break;
+      default:
+        status = l10n.pending;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -102,10 +128,23 @@ class AboutChatContent extends StatelessWidget {
           style: Theme.of(context).textTheme.displaySmall
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
             Dates.formatDate(channel.negotiatedDate),
             style: Theme.of(context).textTheme.bodyMedium
+          ),
+        ),
+        Text(
+          l10n.jobStatus,
+          style: Theme.of(context).textTheme.displaySmall
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            status,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: statusColor
+            )
           ),
         ),
         const CustomDivider(padding: Sizing.horizontalPadding,),

@@ -7,11 +7,13 @@ class InputTitle extends StatelessWidget {
   final String title;
   final bool optional;
   final String? tooltipText;
+  final double? fontSize;
 
   const InputTitle({
     required this.title,
     this.optional = false,
     this.tooltipText,
+    this.fontSize,
     Key? key,
   }) : super(key: key);
 
@@ -20,12 +22,13 @@ class InputTitle extends StatelessWidget {
     final GlobalKey<TooltipState> tooltipKey = GlobalKey<TooltipState>();
 
     return Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
-      Text('$title ', style: Theme.of(context).textTheme.titleMedium),
+      Text('$title ', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: fontSize)),
       if (optional)
         Text(
           '${AppLocalizations.of(context)!.optional} ',
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
+            fontSize: fontSize
           )
         ),
       if (tooltipText != null)

@@ -77,12 +77,16 @@ class HomePageAppbar extends StatelessWidget {
                       filteredTags: model.filteredTags,
                       postLocationType: model.postLocationType,
                       urgencyType: model.urgencyType,
+                      minPrice: model.minPrice,
+                      maxPrice: model.maxPrice,
                       onFilter: (data) {
                         model.setData(
                           model.type,
                           data.postLocationType,
                           data.urgencyType,
                           data.filteredTags,
+                          minPrice: data.minPrice,
+                          maxPrice: data.maxPrice
                         );
                       },
                     )
@@ -136,6 +140,8 @@ class _HomePageState extends State<HomePage> {
       location: model.postLocationType,
       urgency: model.urgencyType,
       tags: model.filteredTags.map((e) => e.id).toList(),
+      minPrice: model.minPrice,
+      maxPrice: model.maxPrice
     );
 
     if (!data.ok) {

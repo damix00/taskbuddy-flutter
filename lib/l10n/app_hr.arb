@@ -357,5 +357,9 @@
   "aboutThisChat": "O ovom razgovoru",
   "negotiatedPrice": "Pregovorena cijena",
   "negotiatedDate": "Dogovoreni datum",
-  "remoteText": "Ovaj posao obavlja se udaljeno."
+  "remoteText": "Ovaj posao obavlja se udaljeno.",
+  "minPrice": "Minimalna cijena",
+  "maxPrice": "Maksimalna cijena",
+  "any": "Bilo koje",
+  "jobStatus": "Status posla"
 }

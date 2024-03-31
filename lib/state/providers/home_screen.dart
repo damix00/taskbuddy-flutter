@@ -9,11 +9,14 @@ class HomeScreenModel extends ChangeNotifier {
   int _type = SessionType.ALL;
   int _postLocationType = LocationType.ALL;
   int _urgencyType = UrgencyType.ALL;
+  int? _minPrice, _maxPrice;
   
   List<Tag> get filteredTags => _filteredTags;
   int get type => _type;
   int get postLocationType => _postLocationType;
   int get urgencyType => _urgencyType;
+  int? get minPrice => _minPrice;
+  int? get maxPrice => _maxPrice;
   
   set filteredTags(List<Tag> value) {
     _filteredTags = value;
@@ -35,11 +38,23 @@ class HomeScreenModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setData(int type, int postLocationType, int urgencyType, List<Tag> tags) {
+  set minPrice(int? value) {
+    _minPrice = value;
+    notifyListeners();
+  }
+
+  set maxPrice(int? value) {
+    _maxPrice = value;
+    notifyListeners();
+  }
+
+  void setData(int type, int postLocationType, int urgencyType, List<Tag> tags, {int? minPrice, int? maxPrice}) {
     _type = type;
     _postLocationType = postLocationType;
     _urgencyType = urgencyType;
     _filteredTags = tags;
+    _minPrice = minPrice;
+    _maxPrice = maxPrice;
     notifyListeners();
   }
 

@@ -366,7 +366,7 @@ class _PostLayoutState extends State<PostLayout> with TickerProviderStateMixin {
     // Remove the heart after 1s and play reverse animation
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Future.delayed(const Duration(milliseconds: 1000), () {
+        Future.delayed(const Duration(milliseconds: 500), () {
           controller.reverse();
         });
       }

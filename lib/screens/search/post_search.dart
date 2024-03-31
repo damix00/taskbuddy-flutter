@@ -42,7 +42,9 @@ class _PostSearchState extends State<PostSearch> with AutomaticKeepAliveClientMi
       _offset,
       urgency: model.urgencyType,
       location: model.postLocationType,
-      tags: model.filteredTags.map((e) => e.id).toList()
+      tags: model.filteredTags.map((e) => e.id).toList(),
+      minPrice: model.minPrice,
+      maxPrice: model.maxPrice
     );
 
     if (!response.ok) {

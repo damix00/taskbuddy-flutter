@@ -5,18 +5,25 @@ import 'package:taskbuddy/state/providers/tags.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/content/tag_picker.dart';
+import 'package:taskbuddy/widgets/input/with_state/text_inputs/text_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_parent.dart';
+import 'package:taskbuddy/widgets/ui/sizing.dart';
 import 'package:taskbuddy/widgets/ui/tag_widget.dart';
+import 'package:taskbuddy/widgets/ui/visual/divider.dart';
 
 class FilterResponse {
   final int urgencyType;
   final int postLocationType;
+  final int? minPrice;
+  final int? maxPrice;
   final List<Tag> filteredTags;
 
   FilterResponse({
     required this.urgencyType,
     required this.postLocationType,
     required this.filteredTags,
+    this.minPrice,
+    this.maxPrice,
   });
 }
 
@@ -24,6 +31,8 @@ class FilterDialog extends StatefulWidget {
   final Function(FilterResponse) onFilter;
   final int urgencyType;
   final int postLocationType;
+  final int? minPrice;
+  final int? maxPrice;
   final List<Tag> filteredTags;
 
   const FilterDialog({
@@ -31,6 +40,8 @@ class FilterDialog extends StatefulWidget {
     required this.postLocationType,
     required this.filteredTags,
     required this.onFilter,
+    this.minPrice,
+    this.maxPrice,
     Key? key
   }) : super(key: key);
 
@@ -39,8 +50,13 @@ class FilterDialog extends StatefulWidget {
 }
 
 class _FilterDialogState extends State<FilterDialog> {
+  var _minController = TextEditingController();
+  var _maxController = TextEditingController();
+
   int _urgencyType = UrgencyType.ALL;
   int _postLocationType = LocationType.ALL;
+  int? _minPrice;
+  int? _maxPrice;
   List<Tag> _filteredTags = [];
 
   @override
@@ -50,6 +66,16 @@ class _FilterDialogState extends State<FilterDialog> {
     _urgencyType = widget.urgencyType;
     _postLocationType = widget.postLocationType;
     _filteredTags = widget.filteredTags;
+    _minPrice = widget.minPrice;
+    _maxPrice = widget.maxPrice;
+
+    if (_minPrice != null) {
+      _minController.text = _minPrice.toString();
+    }
+
+    if (_maxPrice != null) {
+      _maxController.text = _maxPrice.toString();
+    }
   }
 
   @override
@@ -57,13 +83,13 @@ class _FilterDialogState extends State<FilterDialog> {
     AppLocalizations l10n = AppLocalizations.of(context)!;
     return BlurParent(
       noBlurColor: Theme.of(context).colorScheme.surface,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SingleChildScrollView(
-              child: Column(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -82,7 +108,11 @@ class _FilterDialogState extends State<FilterDialog> {
                             _filteredTags = [];
                             _urgencyType = UrgencyType.ALL;
                             _postLocationType = LocationType.ALL;
+                            _minPrice = null;
+                            _maxPrice = null;
                           });
+                          _minController.clear();
+                          _maxController.clear();
                         },
                       ),
                     ],
@@ -140,10 +170,20 @@ class _FilterDialogState extends State<FilterDialog> {
                       ),
                     ],
                   ),
+                  
                   Padding(
-                    padding: const EdgeInsets.only(top: 4, bottom: 4),
+                    padding: const EdgeInsets.only(top: 12),
+                    child: CustomDivider(
+                      padding: 0,
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.25),
+                    ),
+                  ),
+        
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
@@ -229,12 +269,13 @@ class _FilterDialogState extends State<FilterDialog> {
                       ],
                     ),
                   ),
+        
                   if (_filteredTags.isEmpty)
                     Text(
                       l10n.all,
                       style: Theme.of(context).textTheme.labelMedium
                     ),
-
+        
                   if (_filteredTags.isNotEmpty)
                     SizedBox(
                       height: 30,
@@ -254,23 +295,68 @@ class _FilterDialogState extends State<FilterDialog> {
                         },
                       ),
                     ),
+                  
+                  CustomDivider(
+                    padding: Sizing.horizontalPadding,
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.25),
+                  ),
+        
+                  // Min and Max Price
+                  Wrap(
+                    spacing: 16,
+                    runSpacing: 8,
+                    children: [
+                      TextInput(
+                        controller: _minController,
+                        label: l10n.minPrice,
+                        optional: true,
+                        hint: '0',
+                        labelTextSize: Theme.of(context).textTheme.titleSmall!.fontSize,
+                        keyboardType: TextInputType.number,
+                        onChanged: (v) {
+                          if (v.isNotEmpty) {
+                            _minPrice = int.parse(v);
+                          } else {
+                            _minPrice = null;
+                          }
+                        },
+                      ),
+                      TextInput(
+                        controller: _maxController,
+                        label: l10n.maxPrice,
+                        optional: true,
+                        hint: '100',
+                        labelTextSize: Theme.of(context).textTheme.titleSmall!.fontSize,
+                        keyboardType: TextInputType.number,
+                        onChanged: (v) {
+                          if (v.isNotEmpty) {
+                            _maxPrice = int.parse(v);
+                          } else {
+                            _maxPrice = null;
+                          }
+                        },
+                      ),
+                    ],
+                  )
                 ],
               ),
-            ),
-            const SizedBox(height: 24,),
-            Button(
-              child: const ButtonText('OK'),
-              onPressed: () {
-                widget.onFilter(FilterResponse(
-                  urgencyType: _urgencyType,
-                  postLocationType: _postLocationType,
-                  filteredTags: _filteredTags,
-                ));
-
-                Navigator.pop(context);
-              },
-            )
-          ],
+              const SizedBox(height: 24,),
+              Button(
+                child: const ButtonText('OK'),
+                onPressed: () {
+                  widget.onFilter(FilterResponse(
+                    urgencyType: _urgencyType,
+                    postLocationType: _postLocationType,
+                    filteredTags: _filteredTags,
+                    minPrice: _minPrice,
+                    maxPrice: _maxPrice,
+                  ));
+        
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

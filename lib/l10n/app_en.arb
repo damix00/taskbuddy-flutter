@@ -509,5 +509,9 @@
   "aboutThisChat": "About this chat",
   "negotiatedPrice": "Negotiated price",
   "negotiatedDate": "Negotiated date",
-  "remoteText": "This job is remote."
+  "remoteText": "This job is remote.",
+  "minPrice": "Minimum price",
+  "maxPrice": "Maximum price",
+  "any": "Any",
+  "jobStatus": "Job status"
 }

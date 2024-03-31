@@ -15,6 +15,8 @@ class Sessions {
       int type = SessionType.ALL,
       double? lat,
       double? lon,
+      int? minPrice,
+      int? maxPrice,
     }
   ) async {
     var response = await Requests.fetchEndpoint(
@@ -30,6 +32,8 @@ class Sessions {
         'type': type,
         'lat': lat,
         'lon': lon,
+        'min_price': minPrice,
+        'max_price': maxPrice,
       }
     );
 

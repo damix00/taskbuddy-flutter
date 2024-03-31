@@ -20,6 +20,7 @@ class TextInput extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final int? maxLength;
+  final double? labelTextSize;
   final String? initialValue;
   final Widget? prefix;
   final String? prefixText;
@@ -44,6 +45,7 @@ class TextInput extends StatelessWidget {
     this.validator,
     this.prefix,
     this.prefixText,
+    this.labelTextSize,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,7 @@ class TextInput extends StatelessWidget {
         // Add a row with the label and the optional text
         // If the tooltip text is specified, add a tooltip icon
         if (label != null) 
-          InputTitle(title: label!, optional: optional, tooltipText: tooltipText),
+          InputTitle(title: label!, optional: optional, tooltipText: tooltipText, fontSize: labelTextSize,),
         if (label != null) 
           const SizedBox(height: 8),
         TextFormField(
