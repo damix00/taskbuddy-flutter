@@ -513,5 +513,7 @@
   "minPrice": "Minimum price",
   "maxPrice": "Maximum price",
   "any": "Any",
-  "jobStatus": "Job status"
+  "jobStatus": "Job status",
+  "endDateBeforeStart": "End date must be after start date.",
+  "endDateTooFar": "End date is too far in the future."
 }

@@ -7,6 +7,7 @@ import 'package:taskbuddy/utils/validators.dart';
 import 'package:taskbuddy/widgets/input/touchable/buttons/button.dart';
 import 'package:taskbuddy/widgets/input/with_state/date_picker.dart';
 import 'package:taskbuddy/widgets/input/with_state/text_inputs/text_input.dart';
+import 'package:taskbuddy/widgets/ui/feedback/snackbars.dart';
 import 'package:taskbuddy/widgets/ui/sizing.dart';
 
 class CreatePostDatePrice extends StatefulWidget {
@@ -31,6 +32,31 @@ class _CreatePostDatePriceState extends State<CreatePostDatePrice> {
           Button(
             child: ButtonText(l10n.continueText),
             onPressed: () {
+              if (CreatePostState.startDate == null) {
+                SnackbarPresets.error(context, l10n.emptyField(l10n.startDate));
+                return;
+              }
+
+              if (CreatePostState.endDate == null) {
+                SnackbarPresets.error(context, l10n.emptyField(l10n.endDate));
+                return;
+              }
+
+              if (CreatePostState.endDate!.difference(CreatePostState.startDate!).inDays > 365) {
+                SnackbarPresets.error(context, l10n.endDateTooFar);
+                return;
+              }
+
+              if (CreatePostState.isUrgent && CreatePostState.endDate!.difference(CreatePostState.startDate!).inDays > 7) {
+                SnackbarPresets.error(context, l10n.endDateTooFar);
+                return;
+              }
+
+              if (CreatePostState.endDate!.isBefore(CreatePostState.startDate!)) {
+                SnackbarPresets.error(context, l10n.endDateBeforeStart);
+                return;
+              }
+
               if (_formKey.currentState!.validate()) {
                 Navigator.of(context).pushNamed('/create-post/tags');
               }
@@ -92,7 +118,6 @@ class _PageContentState extends State<_PageContent> {
               DatePicker(
                 label: l10n.startDate,
                 value: _startDate,
-                maxDate: _endDate,
                 onChanged: (value) {
                   setState(() {
                     _startDate = value;
@@ -101,10 +126,9 @@ class _PageContentState extends State<_PageContent> {
                 }
               ),
               DatePicker(
+                // max is 7 days if urgent, 1 year if not
                 label: l10n.endDate,
                 value: _endDate,
-                minDate: _startDate,
-                // 7 days if urgent, 1 year if not
                 maxDate: _startDate.add(Duration(days: CreatePostState.isUrgent ? 7 : 365)),
                 onChanged: (value) {
                   setState(() {

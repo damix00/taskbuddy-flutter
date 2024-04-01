@@ -106,7 +106,7 @@ class _TouchableState extends State<Touchable> {
           //   widget.onLongPress?.call();
           // },
           child: AnimatedScale(
-            scale: _opacity == 1 ? 1 : 0.98,
+            scale: widget.disabled ? 1 : (_opacity == 1 ? 1 : 0.98),
             duration: const Duration(milliseconds: 100),
             child: AnimatedOpacity(
               opacity: widget.disabled ? 0.5 : _opacity,

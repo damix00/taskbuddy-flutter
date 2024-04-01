@@ -361,5 +361,7 @@
   "minPrice": "Minimalna cijena",
   "maxPrice": "Maksimalna cijena",
   "any": "Bilo koje",
-  "jobStatus": "Status posla"
+  "jobStatus": "Status posla",
+  "endDateBeforeStart": "Završni datum mora biti nakon početnog datuma.",
+  "endDateTooFar": "Završni datum je predaleko u budućnosti."
 }
