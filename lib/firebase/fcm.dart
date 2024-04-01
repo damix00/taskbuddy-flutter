@@ -13,6 +13,7 @@ import 'package:taskbuddy/state/providers/messages.dart';
 import 'package:taskbuddy/state/static/messages_state.dart';
 import 'package:taskbuddy/state/static/navigation_state.dart';
 import 'package:taskbuddy/widgets/ui/notification.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FirebaseMessagingApi {
   static Future<void> checkInitialNotification() async {
@@ -28,14 +29,25 @@ class FirebaseMessagingApi {
 
     if (initialMessage != null) {
       // If the initial message is not null, then the user tapped on a notification
-      // So open the chat
-      NavigationState.navigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (context) => ChatScreen(
-            channelUuid: initialMessage.data['channel_uuid']!,
+      // So open the chat (if exists)
+
+      if (initialMessage.data['channel_uuid'] != null) {
+        NavigationState.navigatorKey.currentState!.push(
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              channelUuid: initialMessage.data['channel_uuid']!,
+            )
           )
-        )
-      );
+        );
+      }
+
+      else if (initialMessage.data['url'] != null) {
+        // Open the url if exists
+        await launchUrl(
+          Uri.parse(initialMessage.data['url']!),
+          mode: LaunchMode.externalApplication
+        );
+      }
     }
   }
   

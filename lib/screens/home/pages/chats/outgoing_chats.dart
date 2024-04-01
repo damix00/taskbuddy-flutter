@@ -67,7 +67,7 @@ class _OutgoingChatsState extends State<OutgoingChats> with AutomaticKeepAliveCl
                       bottom: index == model.outgoingMessages.length - 1 ? padding.bottom : 0,
                     ),
                     child: ChannelTile(
-                      channel: channel,
+                      channel: channel.clone(),
                     ),
                   );
                 },

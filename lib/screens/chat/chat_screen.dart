@@ -6,6 +6,7 @@ import 'package:taskbuddy/api/responses/chats/channel_response.dart';
 import 'package:taskbuddy/cache/account_cache.dart';
 import 'package:taskbuddy/screens/chat/about_chat_screen.dart';
 import 'package:taskbuddy/state/providers/messages.dart';
+import 'package:taskbuddy/state/static/messages_state.dart';
 import 'package:taskbuddy/widgets/input/touchable/other_touchables/touchable.dart';
 import 'package:taskbuddy/widgets/input/with_state/pfp_input.dart';
 import 'package:taskbuddy/widgets/navigation/blur_appbar.dart';
@@ -105,7 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     if (data.ok) {
       setState(() {
-        _channel = data.data;
+        _channel = data.data?.clone();
         _loading = false;
       });
     }
@@ -117,13 +118,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _channel = widget.channel;
 
+    MessagesState.currentChannel = widget.channelUuid ?? _channel!.uuid;
+
     // Assert that either channel or channelUuid is not null
     assert(widget.channelUuid != null || widget.channel != null);
 
     if (_channel == null) {
       MessagesModel model = Provider.of<MessagesModel>(context, listen: false);
 
-      _channel = model.getChannelByUuid(widget.channelUuid!);
+      _channel = model.getChannelByUuid(widget.channelUuid!)?.clone();
 
       if (_channel == null) {
         _loading = true;
