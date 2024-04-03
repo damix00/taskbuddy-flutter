@@ -165,6 +165,7 @@ class __OptionalFormState extends State<_OptionalForm> {
               }
             },
           ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + Sizing.horizontalPadding),
         ],
       ),
     );

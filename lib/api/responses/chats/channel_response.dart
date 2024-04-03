@@ -80,14 +80,20 @@ class ChannelResponse {
   }
 
   ChannelResponse clone() {
+    List<MessageResponse> list = [];
+
+    for (var message in lastMessages) {
+      list.add(message.clone());
+    }
+
     return ChannelResponse(
       uuid: uuid,
-      post: post,
+      post: post.clone(),
       channelCreator: channelCreator,
       channelRecipient: channelRecipient,
       createdAt: createdAt,
       lastMessageTime: lastMessageTime,
-      lastMessages: lastMessages.map((message) => message.clone()).toList(),
+      lastMessages: list,
       otherUser: otherUser,
       negotiatedPrice: negotiatedPrice,
       negotiatedDate: negotiatedDate,

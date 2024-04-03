@@ -33,12 +33,11 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
 
     var channel = await Api.v1.channels.getChannelFromPost(token, postUUID: widget.post.UUID);
 
-    
     if (channel.ok && channel.data != null) {
       Navigator.of(context).pushReplacement(
         CupertinoPageRoute(
           builder: (context) => ChatScreen(
-            channel: channel.data!
+            channel: channel.data!.clone()
           ),
         ),
       );

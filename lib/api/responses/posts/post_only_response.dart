@@ -131,4 +131,33 @@ class PostOnlyResponse {
       "status": status,
     });
   }
+
+  PostOnlyResponse clone() {
+    return PostOnlyResponse(
+      UUID: UUID,
+      title: title,
+      description: description,
+      jobType: jobType,
+      price: price,
+      locationText: locationText,
+      locationLat: locationLat,
+      locationLon: locationLon,
+      tags: tags, 
+      media: media,
+      createdAt: createdAt,
+      startDate: startDate,
+      endDate: endDate,
+      likes: likes,
+      comments: comments,
+      shares: shares,
+      bookmarks: bookmarks,
+      impressions: impressions,
+      isRemote: isRemote,
+      isUrgent: isUrgent,
+      isLiked: isLiked,
+      isBookmarked: isBookmarked,
+      isReserved: isReserved,
+      status: status,
+    );
+  }
 }

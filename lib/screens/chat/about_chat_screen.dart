@@ -48,7 +48,8 @@ class AboutChatContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppLocalizations l10n = AppLocalizations.of(context)!;
-    double padding = MediaQuery.of(context).padding.top;
+    double paddingTop = MediaQuery.of(context).padding.top;
+    double paddingBottom = MediaQuery.of(context).padding.bottom;
 
     String status;
     Color? statusColor;
@@ -79,7 +80,7 @@ class AboutChatContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: padding + Sizing.horizontalPadding),
+        SizedBox(height: paddingTop + Sizing.horizontalPadding),
         Text(
           l10n.account,
           style: Theme.of(context).textTheme.displaySmall
@@ -149,6 +150,7 @@ class AboutChatContent extends StatelessWidget {
         ),
         const CustomDivider(padding: Sizing.horizontalPadding,),
         AboutChatLocation(channel: channel),
+        SizedBox(height: paddingBottom + Sizing.horizontalPadding),
       ],
     );
   }
