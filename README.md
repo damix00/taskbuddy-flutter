@@ -2,7 +2,9 @@
 
 TaskBuddy is a mobile app designed to help users post and manage errands/jobs in an easy and efficient way. Whether you need something done or want to help others, TaskBuddy connects people in need with those willing to assist.
 
-🏆 1st Place Winner in the national computer science competition in the Software Development category in Croatia, 2024
+🏆 1st Place Winner in the national computer science competition in the Software Development category in Croatia, 2024.
+
+You can also check out the backend [here](https://github.com/damix00/taskbuddy-backend).
 
 ## Features
 
